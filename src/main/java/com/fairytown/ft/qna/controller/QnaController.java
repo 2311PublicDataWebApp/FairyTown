@@ -29,31 +29,32 @@ public class QnaController {
 			return "qna/register";
 		}
 
-		// 게시물 등록
-		@RequestMapping(value = "/qna/insert.ft", method = RequestMethod.POST)
-		public String insertQna(@ModelAttribute QnaVO qna
-		        , Model model
-		        , HttpServletRequest request
-		        , HttpSession session) {
-		    try {
-		        String qaWriter = null;
-		        qaWriter = (String) session.getAttribute("memberId");
-		        if (session != null && qaWriter != null && !"".equals(qaWriter)) {
-		            qna.setQaWriter(qaWriter);
-		        } else {
-		            model.addAttribute("msg", "로그인이 필요합니다.");
-		            return "common/errorPage";
-		        }
-		        int result = qService.insertQna(qna);
-		        if (result > 0) {
-		            return "redirect:/qna/list.ft";
-		        } else {
-		            model.addAttribute("msg", "게시물 등록이 완료되지 못했습니다.");
-		            return "common/errorPage";
-		        }
-		    } catch (Exception e) {
-		        model.addAttribute("msg", e.getMessage());
-		        return "common/errorPage";
-		    }
-		}
+//		// 게시물 등록
+//		@RequestMapping(value = "/qna/insert.ft", method = RequestMethod.POST)
+//		public String insertQna(@ModelAttribute QnaVO qna
+//		        , Model model
+//		        , HttpServletRequest request
+//		        , HttpSession session) {
+//		    try {
+//		        String qaWriter = null;
+//		        qaWriter = (String) session.getAttribute("memberId");
+//		        if (session != null && qaWriter != null && !"".equals(qaWriter)) {
+//		            qna.setQaWriter(qaWriter);
+//		        } else {
+//		            model.addAttribute("msg", "로그인이 필요합니다.");
+//		            return "common/errorPage";
+//		        }
+////		        int result = qService.insertQna(qna);
+////		        if (result > 0) {
+////		            return "redirect:/qna/list.ft";
+////		        } else {
+////		            model.addAttribute("msg", "게시물 등록이 완료되지 못했습니다.");
+////		            return "common/errorPage";
+////	        }
+////		    } catch (Exception e) {
+////		        model.addAttribute("msg", e.getMessage());
+////		        return "common/errorPage";
+////		    }
+//		}
 }
+

@@ -42,6 +42,12 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 }
 
+apply plugin: 'java'
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs << "-parameters"
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
 }
