@@ -9,10 +9,10 @@
 <body>
 	<h2>Login page</h2>
 	
-		<form action="/login" method="post" name="loginForm">
-		<input type="text" name="userId" placeholder="ID를 입력하세요">
-		<input type="password" name="userPw"  placeholder="PW를 입력하세요">
-		<input type="submit" name="login" value="login">
+		<form action="/user/login.ft" method="post" name="loginForm">
+			<input type="text" name="userId" placeholder="ID를 입력하세요">
+			<input type="password" name="userPw"  placeholder="PW를 입력하세요">
+			<input type="submit" name="login" value="login">
 		
 		</form>
 	
