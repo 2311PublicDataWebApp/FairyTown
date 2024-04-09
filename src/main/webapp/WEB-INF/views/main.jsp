@@ -15,8 +15,8 @@
 			${userId }
 			<c:if test="${userId eq null }">
 				<form action="/user/login.ft" method="post" name="loginForm">
-					<input type="text" name="username" placeholder="ID를 입력하세요">
-					<input type="password" name="password"  placeholder="PW를 입력하세요">
+					<input type="text" name="userId" placeholder="ID를 입력하세요">
+					<input type="password" name="userPw"  placeholder="PW를 입력하세요">
 					<input type="submit" name="login" value="login">
 						
 				</form>

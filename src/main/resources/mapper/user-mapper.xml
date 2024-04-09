@@ -3,12 +3,12 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-  <mapper namespace="UserMapper">
+  <mapper namespace="com.fairytown.ft.user.store.UserStore">
   
   
 	<select id="checkUserLogin" resultType="UserVO">
 		SELECT * FROM USER_TBL 
-		WHERE USER_ID = #{userId } AND USER_PW = #{userPw }
+		WHERE USER_ID = #{userId }
 	</select>
   
   

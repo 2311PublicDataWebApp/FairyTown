@@ -1,11 +1,13 @@
 package com.fairytown.ft.user.store;
 
-import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.annotations.Mapper;
+
 import com.fairytown.ft.user.domain.vo.UserVO;
 
-
+@Mapper
 public interface UserStore {
 
-	UserVO checkuserLogin(SqlSession session, UserVO uOne);
+	//로그인
+	UserVO checkUserLogin(String userId);
 
 }
