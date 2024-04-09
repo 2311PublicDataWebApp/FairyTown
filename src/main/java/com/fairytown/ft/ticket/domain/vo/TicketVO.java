@@ -11,6 +11,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TicketVO {
+
     private String ticketNumber;
     private String ticketName;
     private String ticketDetail;
@@ -20,4 +21,5 @@ public class TicketVO {
     private int ticketAdult;
     private int ticketTeen;
     private int ticketChild;
+
 }

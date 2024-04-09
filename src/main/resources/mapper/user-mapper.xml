@@ -5,8 +5,7 @@
   
   <mapper namespace="com.fairytown.ft.user.store.UserStore">
   
-  
-	<select id="checkUserLogin" resultType="UserVO">
+  <select id="checkUserLogin" resultType="UserVO">
 		SELECT * FROM USER_TBL 
 		WHERE USER_ID = #{userId }
 	</select>

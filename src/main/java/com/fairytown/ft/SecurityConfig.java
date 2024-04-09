@@ -8,15 +8,19 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
+
 	@Bean
     public PasswordEncoder passwordEncoder() {
         // 비밀번호 인코더를 제공하지 않고 비밀번호를 평문으로 저장
         return NoOpPasswordEncoder.getInstance();
     }
+	
 	
 	 @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
