@@ -5,10 +5,23 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
+	
+	
+	
+	
+	//비밀번호 암호화 코드
+	//비밀번호 평문 저장 금지
+	@Bean
+	public BCryptPasswordEncoder bCryptPasswordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+	
+	
 
 	 @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
