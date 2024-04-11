@@ -139,17 +139,6 @@ var myEditor;
 ClassicEditor
     .create( document.querySelector( '#noticeContent' ), {  
     	
-    	fontFamily: {
-            options: [
-                'default',
-                'Ubuntu, Arial, sans-serif',
-                'Ubuntu Mono, Courier New, Courier, monospace'
-            ]
-        },
-        toolbar: [
-            'heading', 'bulletedList', 'numberedList', 'fontFamily', 'undo', 'redo'
-        ],
-    	
         ckfinder: {
             uploadUrl: '/ck/fileupload' // 업로드 URL 지정
         },
@@ -164,60 +153,52 @@ ClassicEditor
     } )
     .then( editor => {
         console.log( 'Editor was initialized', editor );
-        myEditor = editor; // myEditor를 ClassicEditor에서 반환된 editor로 설정
-        
+    	var matches = [], queries = {};
+    	var id, list, start;
+    	var regExp = /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/;
+
+    	// Take One Second for the Content Loading
+    	setTimeout(function() {
+    		
+    		editor.on('paste', function(e) {
+    			matches = e.data.dataValue.match(regExp);
+    			if ( !matches || matches[5] === 'channel' || (matches[5] !== 'watch' && matches[5].length !== 11) ) {
+    				return;
+    			}
+
+    			id = matches[5];
+    			queries = window.XE.URI(matches[0].replace(/amp\;/g, '')).search(true);
+    			list = queries.list ? '?list=' + queries.list : '';
+    			start = queries.t ? '?start=' + queries.t : '';
+    			
+    			if ( matches[5] === 'watch' ) {
+    				id = queries.v;
+    			}
+
+    			e.data.dataValue = 
+    				'<div class="youtube_converted">' +
+    					'<img src="https://img.youtube.com/vi/'+ id +'/mqdefault.jpg" />' +
+    					'<iframe src="https://www.youtube.com/embed/'+ id + list + start +'" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>' +
+    				'</div>' +
+    				'<p>&nbsp;</p>';
+    		});
+    	}, 1200);
         // 아래 코드에서 'youtube_converted' 클래스를 추가합니다.
-        editor.editing.view.change(writer => {
-            const conversion = editor.conversion;
-            conversion.for('editingDowncast').add(dispatcher => {
-                dispatcher.on('insert', (evt, data, conversionApi) => {
-                    if (data.item.name === 'iframe') {
-                        writer.addClass('youtube_converted').on(data.item);
-                    }
-                });
-            });
-        });
+//         editor.editing.view.change(writer => {
+//             const conversion = editor.conversion;
+//             conversion.for('editingDowncast').add(dispatcher => {
+//                 dispatcher.on('insert', (evt, data, conversionApi) => {
+//                     if (data.item.name === 'iframe') {
+//                         writer.addClass('youtube_converted').on(data.item);
+//                     }
+//                 });
+//             });
+//         });
     } )
     .catch( error => {
         console.error( error );
     } );
 
-/* jQuery(document).ready(function($) {
-    var matches = [], queries = {};
-    var id, list, start;
-    var regExp = /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/;
-
-    // Take One Second for the Content Loading
-    setTimeout(function() {
-        if(myEditor) { // myEditor가 정의되었는지 확인
-            myEditor.model.document.on('change:data', (evt, data) => {
-                const changes = evt.source;
-                const modifiedData = changes._sourceElement.$.outerHTML;
-
-                matches = modifiedData.match(regExp);
-                if (matches && matches.length > 5) {
-                    id = matches[5];
-                    queries = window.XE.URI(matches[0].replace(/amp\;/g, '')).search(true);
-                    list = queries.list ? '?list=' + queries.list : '';
-                    start = queries.t ? '?start=' + queries.t : '';
-
-                    if (matches[5] === 'watch') {
-                        id = queries.v;
-                    }
-
-                    const embeddedHTML =
-                        '<div class="youtube_converted">' +
-                        '<img src="https://img.youtube.com/vi/'+ id +'/mqdefault.jpg" />' +
-                        '<iframe src="https://www.youtube.com/embed/'+ id + list + start +'" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>' +
-                        '</div>' +
-                        '<p>&nbsp;</p>';
-
-                    myEditor.setData(modifiedData.replace(matches[0], embeddedHTML));
-                }
-            });
-        }
-    }, 1200);
-}); */
 </script>
 
 

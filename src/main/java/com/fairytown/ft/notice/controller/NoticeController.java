@@ -1,5 +1,10 @@
 package com.fairytown.ft.notice.controller;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +16,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fairytown.ft.notice.domain.vo.NoticePageInfo;
 import com.fairytown.ft.notice.domain.vo.NoticeVO;
 import com.fairytown.ft.notice.service.NoticeService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+
+
+
 
 @Controller
 public class NoticeController {
@@ -69,6 +78,7 @@ public class NoticeController {
 //				mv.setViewName("redirect:/notice/detail?noticeNo="+notice.getNoticeNo());
 				// 공지사항 등록이 성공한 경우
 			    // 등록된 공지사항의 ID를 가져옴
+
 		    // 상세 페이지로 이동하기 위해 공지사항 ID를 사용하여 URL을 생성
 			    String redirectUrl = "/notice/detail?noticeNo=" + (noticeNo + 1);
 			    
@@ -184,4 +194,118 @@ public class NoticeController {
 	}
 	
 	
+	// ===================
+	// 공지사항 리스트
+	// ===================
+	@GetMapping("/notice/list")
+    public ModelAndView ShowNoticeList(ModelAndView mv,
+            @RequestParam(value="page", 
+            required=false, defaultValue="1") Integer currentPage) {
+		try {
+			int totalCount = nService.getTotalCount();
+			NoticePageInfo pi = this.getPageInfo(currentPage, totalCount);
+			List<NoticeVO> nList = nService.selectNoticeList(pi);
+			mv.addObject("nList", nList);
+			mv.addObject("pi", pi);
+			mv.setViewName("notice/list");
+		} catch (Exception e) {
+			// TODO: handle exception
+			mv.addObject("msg", e.getMessage());
+			mv.setViewName("common/errorPage");
+		}
+		return mv;
+    };
+    
+    // ===================
+ 	// 공지사항 검색
+ 	// ===================
+ 	@GetMapping(value="/notice/search")
+ 	public ModelAndView searchNoticeList(ModelAndView mv
+ 			, @RequestParam("searchCondition") String searchCondition
+ 			, @RequestParam("searchKeyword") String searchKeyword
+ 			, @RequestParam(value="page", required=false, defaultValue="1") Integer currentPage) {
+ 		
+ 		Map<String, String> paramMap = new HashMap<String, String>();
+ 		paramMap.put("searchCondition", searchCondition);
+ 		paramMap.put("searchKeyword", searchKeyword);
+ 		int totalCount = nService.getTotalCount(paramMap);
+ 		NoticePageInfo pi = this.getPageInfo(currentPage, totalCount);
+ 		List<NoticeVO> searchList = nService.searchNoticesByKeyword(pi, paramMap);
+ 		mv.addObject("sList", searchList);
+ 		mv.addObject("pi", pi);
+ 		mv.addObject("searchCondition", searchCondition);
+ 		mv.addObject("searchKeyword", searchKeyword);
+ 		mv.setViewName("notice/search");
+ 		return mv;
+ 	}
+    
+    // ===================
+ 	// 페이징 처리
+ 	// ===================
+    private NoticePageInfo getPageInfo(Integer currentPage, int totalCount) {
+		NoticePageInfo pi = null;
+		int boardLimit = 10; // 한 페이지당 보여줄 게시물의 갯수
+		int naviLimit = 5; 	 // 한 페이지당 보여줄 범위의 갯수
+		int naviTotalCount;  // 범위의 총 갯수
+		int startNavi;
+		int endNavi;
+		
+		naviTotalCount = (int)((double) totalCount / boardLimit + 0.9);
+		startNavi = (((int)((double) currentPage / naviLimit + 0.9)) - 1) * naviLimit + 1;
+		endNavi = startNavi + naviLimit - 1;
+		if (endNavi > naviTotalCount) {
+			endNavi = naviTotalCount;
+		}
+		pi = new NoticePageInfo(currentPage, totalCount, naviTotalCount, boardLimit, naviLimit, startNavi,
+				endNavi);
+		return pi;
+	}
+    
+    // ===================
+ 	// 파일 저장
+ 	// ===================
+    private Map<String, Object> saveFile(MultipartFile uploadFile, HttpServletRequest request) throws Exception {
+		// 파일 이름
+		String fileName = uploadFile.getOriginalFilename();
+		// 저장 경로
+		String projectPath 	 = request.getSession().getServletContext().getRealPath("resources");
+		String saveDirectory = projectPath + "\\nuploadFiles";
+		File sDir 			 = new File(saveDirectory);
+		if (!sDir.exists()) {
+			sDir.mkdir(); 
+		}
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss"); 
+		String strResult = sdf.format(new Date(System.currentTimeMillis())); 
+		String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
+		String fileRename = strResult + "." + ext;
+
+		
+		String savePath 	 = saveDirectory + "\\" + fileRename;
+		File file = new File(savePath);
+		
+		uploadFile.transferTo(file);
+		
+		long fileLength = uploadFile.getSize();
+		Map<String, Object> infoMap = new HashMap<String, Object>();
+		infoMap.put("fileName"	, fileName);
+		infoMap.put("fileRename", fileRename);
+		infoMap.put("filePath"	, savePath);
+		infoMap.put("fileSize"	, fileLength);
+		return infoMap;
+	}
+    
+    // ===================
+ 	// 파일 삭제
+ 	// ===================
+    private void deleteFile(HttpServletRequest request, String fileName) {
+		// TODO Auto-generated method stub
+		String rPath = request.getSession().getServletContext().getRealPath("resources");
+		String delFilePath = rPath + "\\nuploadFiles\\" + fileName;
+		File delFile = new File(delFilePath);
+		if (delFile.exists()) {
+			delFile.delete();
+		}
+		
+	}
 }
