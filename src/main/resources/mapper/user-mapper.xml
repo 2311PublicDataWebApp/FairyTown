@@ -5,10 +5,53 @@
   
   <mapper namespace="com.fairytown.ft.user.store.UserStore">
   
-  <select id="checkUserLogin" resultType="UserVO">
+ 	<select id="checkUserLogin" resultType="UserVO">
 		SELECT * FROM USER_TBL 
 		WHERE USER_ID = #{userId }
 	</select>
+	
+	<select id="insertDuplication" resultType="UserVO">
+		SELECT * FROM USER_TBL
+		WHERE USER_ID = #{userId}
+		AND USER_EMAIL = #{userEmail}
+	</select>
+	
+	<select id="userFindByEmail" resultType="UserVO">
+		SELECT * FROM USER_TBL
+		WHERE USER_EMAIL = #{userEmail}
+	</select>
+	
+	<select id="userFindByEmailAndId" resultType="UserVO">
+		SELECT * FROM USER_TBL
+		WHERE USER_EMAIL = #{userEmail}
+		AND USER_ID = #{userId}
+	</select>
+	
+	<update id="pwModify">
+		UPDATE USER_TBL
+		SET USER_PW = #{userPw}
+		WHERE USER_ID = #{userId}
+	</update>
+	
+	<insert id="insertUser">
+		INSERT INTO USER_TBL
+		VALUES(
+			#{userId},
+			#{userPw},
+			#{userEmail},
+			#{userPhone},
+			#{loginSt},
+			#{userBirthDate},
+			#{userSt},
+			#{zipCode},
+			#{userAddress},
+			#{detailAddress},
+			#{userAdmin},
+			DEFAULT,
+			#{uName}
+		)
+	
+	</insert>
   
   
   
