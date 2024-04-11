@@ -18,9 +18,17 @@
 	</resultMap>
 	
 	<!-- 공지사항을 삽입하는 SQL 쿼리 -->
-	<insert id="insertNotice">
-		INSERT INTO NOTICE_TBL VALUES(SEQ_NOTICE_NO.NEXTVAL, #{userId }, #{noticeSubject }, #{noticeContent }, DEFAULT, DEFAULT, #{noticeFileName }, #{noticeFileRename }, #{noticeFilePath }, #{noticeFileLength })
+	<!-- 글 작성 후 작성한 글 상세보기로 리다이렉트 하기 위한 SQL 쿼리 -->
+	<insert id="insertNotice" parameterType="NoticeVO" useGeneratedKeys="true" keyProperty="noticeNo">
+    <selectKey keyProperty="noticeNo" order="BEFORE" resultType="int">
+        SELECT SEQ_NOTICE_NO.NEXTVAL FROM DUAL
+    </selectKey>
+    insert into NOTICE_TBL
+	VALUES(SEQ_NOTICE_NO.NEXTVAL, #{userId }, #{noticeSubject }, #{noticeContent }, DEFAULT, DEFAULT, #{noticeFileName }, #{noticeFileRename }, #{noticeFilePath }, #{noticeFileLength })
 	</insert>
+	<!-- <insert id="insertNotice">
+		INSERT INTO NOTICE_TBL VALUES(SEQ_NOTICE_NO.NEXTVAL, #{userId }, #{noticeSubject }, #{noticeContent }, DEFAULT, DEFAULT, #{noticeFileName }, #{noticeFileRename }, #{noticeFilePath }, #{noticeFileLength })
+	</insert> -->
 	
 	<!-- 공지사항을 수정하는 SQL 쿼리 -->
 	<update id="updateNotice">
@@ -84,4 +92,22 @@
 		</if>
 		ORDER BY NOTICE_NO DESC
 	</select>
+	
+	<!-- 글 작성 후 작성한 글 상세보기로 리다이렉트 하기 위한 SQL 쿼리 -->
+	<!-- <insert id="insertNotice" parameterType="NoticeVO" useGeneratedKeys="true" keyProperty="noticeNo">
+    <selectKey keyProperty="noticeNo" order="BEFORE" resultType="int">
+        SELECT SEQ_NOTICE_NO.NEXTVAL FROM DUAL
+    </selectKey>
+    insert into NOTICE_TBL
+	VALUES(SEQ_NOTICE_NO.NEXTVAL, #{userId }, #{noticeSubject }, #{noticeContent }, DEFAULT, DEFAULT, #{noticeFileName }, #{noticeFileRename }, #{noticeFilePath }, #{noticeFileLength })
+	</insert> -->
+	
+	<!-- <insert id="insertUser" parameterType="NoticeVO" >
+	<selectKey order="BEFORE" keyProperty="noticeNo" resultType="int">
+		SELECT users_seq.nextval from dual
+	</selectKey>
+	insert into users(no,user_code,name,email,pwd,hp,start_date,point)
+	values(#{no},#{userCode},#{name},#{email},#{pwd},#{hp},sysdate,#{point}) 
+	</insert> -->
+	
 </mapper>

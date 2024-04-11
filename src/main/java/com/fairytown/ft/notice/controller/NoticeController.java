@@ -56,7 +56,7 @@ public class NoticeController {
 			// 사용자 ID를 고정 값으로 설정하거나 무시
 //	        notice.setUserId("anonymous");
 			
-			 // 사용자 ID를 "khuser"로 고정
+			 // 사용자 ID를 "khuser"로 고정 중
 	        notice.setUserId("khuser01");
 			
 			
@@ -74,16 +74,16 @@ public class NoticeController {
 			}
 			int result = nService.insertNotice(notice);
 			if (result > 0) {
-				mv.setViewName("redirect:/notice/list");
+				int noticeNo = notice.getNoticeNo(); // 등록된 공지사항의 번호를 가져옴. 혹은 등록 후에 생성된 ID를 가져오는 방법에 따라 달라질 수 있음.
+//				mv.setViewName("redirect:/notice/detail?noticeNo="+notice.getNoticeNo());
 				// 공지사항 등록이 성공한 경우
 			    // 등록된 공지사항의 ID를 가져옴
-			    int noticeId = notice.getNoticeNo(); // 혹은 등록 후에 생성된 ID를 가져오는 방법에 따라 달라질 수 있습니다.
 
 		    // 상세 페이지로 이동하기 위해 공지사항 ID를 사용하여 URL을 생성
-//			    String redirectUrl = "/notice/detail?" + "noticeNo" + = noticeNo;
+			    String redirectUrl = "/notice/detail?noticeNo=" + (noticeNo + 1);
 			    
-		    // 생성된 URL로 리다이렉트합니다.
-//			    mv.setViewName("redirect:" + redirectUrl);
+		    // 생성된 URL로 리다이렉트
+			    mv.setViewName("redirect:" + redirectUrl);
 
 			} else {
 				mv.addObject("msg", "공지사항 등록 실패.");
