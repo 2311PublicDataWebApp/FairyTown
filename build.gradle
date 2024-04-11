@@ -42,7 +42,10 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
-
+	// Apache Commons IO
+    implementation 'commons-io:commons-io:2.11.0'
+    // JSON in Java
+    implementation 'org.json:json:20210307'
 }
 
 
@@ -50,7 +53,7 @@ apply plugin: 'java'
 
 tasks.withType(JavaCompile) {
     options.compilerArgs << "-parameters"
-
+}
 
 
 tasks.named('test') {

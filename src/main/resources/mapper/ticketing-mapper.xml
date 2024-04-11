@@ -4,15 +4,30 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="TicketingMapper">
-	 <resultMap type="com.fairytown.ft.ticketing.domain.vo.TicketingVO" id="TicketingResultMap">
-		
+	<resultMap type="com.fairytown.ft.ticketing.domain.vo.TicketingVO" id="TicketingResultMap">
+	    <id property="ticketingCode" column="TICKETING_CODE"/>
+	    <result property="ticketNo" column="TICKET_NO"/>
+	    <result property="userId" column="USER_ID"/>
+	    <result property="reservationDate" column="RESERVATION_DATE"/>
+	    <result property="purchaseDate" column="PURCHASE_DATE"/>
+	    <result property="adult" column="ADULT"/>
+	    <result property="teenager" column="TEENAGER"/>
+	    <result property="child" column="CHILD"/>
+	    <result property="purchasePrice" column="PURCHASE_PRICE"/>
+	    <result property="purchaseSuccess" column="PURCHASE_SUCCESS"/>
+	    <result property="impUid" column="IMP_UID"/>
+	    <result property="merchantUid" column="MERCHANT_UID"/>
 	</resultMap>
-	<select id=""></select>
-  
-  
-  
-  
-  
-  
+	<insert id="ticktingRegister">
+		INSERT INTO TICKETING_TBL (
+			TICKETING_CODE, TICKET_NUMBER, USER_ID, RESERVATION_DATE, PURCHASE_DATE, ADULT, TEENAGER, CHILD, PURCHASE_PRICE, PURCHASE_SUCCESS, IMP_UID, MERCHANT_UID
+			) VALUES (
+			SEQ_TICKETING_CODE.NEXTVAL, #{ticketNumber}, #{userId}, #{reservationDate}, DEFAULT, #{adult}, #{teenager}, #{child}, #{purchasePrice}, #{purchaseSuccess}, #{impUid}, #{merchantUid}
+		)
+	</insert>
+	<select id="ticketingListSelect" resultMap="TicketingResultMap">
+		SELECT * FROM TICKETING_TBL 
+		WHERE USER_ID = #{userId }
+	</select>
   
   </mapper>

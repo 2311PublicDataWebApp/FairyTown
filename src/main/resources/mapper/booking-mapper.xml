@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="BookingMapper">
+	<resultMap type="com.fairytown.ft.booking.domain.vo.BookingVO" id="BookingResultMap">
+	    <id property="bookingNumber" column="BOOKING_NUMBER"/>
+	    <result property="userId" column="USER_ID"/>
+	    <result property="ticketCode" column="TICKET_CODE"/>
+	    <result property="rideId" column="RIDE_ID"/>
+	    <result property="bookingDate" column="BOOKING_DATE"/>
+	    <result property="bookingTime" column="BOOKING_TIME"/>
+	    <result property="bookingPeople" column="BOOKING_PEOPLE"/>
+	</resultMap>
+</mapper>
