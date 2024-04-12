@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+	<mapper namespace="CartMapper">
+		<insert id="insertCart">
+			INSERT INTO CART_TBL
+			VALUES (SEQ_CART_NO.NEXTVAL, #{cartUserId}, #{cartGoodsCode}, null, null, #{cartStock}, DEFAULT)
+		</insert>
+		<!-- 카트 리스트 -->
+		<select id="selectCartList" resultType="CartVO">
+			 SELECT
+			     *
+			 FROM CART_TBL C
+			     INNER JOIN GOODS_TBL G
+			         ON C.CART_GOODS_CODE = G.GOODS_CODE  
+<!-- 			 WHERE C.CART_USER_ID = #{userId} -->
+		</select>
+		<select id="selectOrderList" resultType="CartVO">
+			 SELECT
+			     *
+			 FROM CART_TBL C
+			     INNER JOIN GOODS_TBL G
+			         ON C.CART_GOODS_CODE = G.GOODS_CODE
+			 WHERE C.CART_NUM = #{cartNum}
+<!-- 			 WHERE C.CART_USER_ID = #{userId} -->
+		</select>
+		<select id="selectCartCount" resultType="_int">
+			SELECT COUNT(*) FROM
+			CART_TBL
+			<if test="userId != null">
+				WHERE CART_UESR_ID = #{userId }
+			</if>
+			ORDER BY CART_DATE DESC
+		</select>
+		<!-- 카트 삭제 -->
+		<delete id="deleteCart">
+			DELETE FROM CART_TBL WHERE CART_NUM = #{cartNum}
+		</delete>
+	</mapper>

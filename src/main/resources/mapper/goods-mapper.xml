@@ -3,13 +3,58 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-  <mapper namespace="GoodsMapper">
-  
-  
-  
-  
-  
-  
-  
-  
-  </mapper>
+	<mapper namespace="GoodsMapper">
+		<insert id="insertGoods">
+			INSERT INTO GOODS_TBL VALUES(SEQ_GOODS_NO.NEXTVAL, #{goodsName }, #{goodsPrice }, #{goodsStock }, DEFAULT, #{goodsContent }, #{goodsFilename}, #{goodsFileRename}, #{goodsFilePath}, #{goodsFileLength})
+		</insert>
+		<select id="selectTotalCount" resultType="_int">
+			SELECT COUNT(*) FROM GOODS_TBL
+		</select>
+		<select id="selectGoodsList" resultType="GoodsVO">
+			SELECT * FROM GOODS_TBL ORDER BY GOODS_CODE DESC
+		</select>
+		<select id="searchTotalCount" resultType="_int">
+			SELECT COUNT(*) FROM GOODS_TBL
+			<if test="searchCondition =='all'">		
+				WHERE GOODS_CODE LIKE '%'||#{searchKeyword}||'%'
+				OR GOODS_NAME LIKE '%'||#{searchKeyword}||'%'
+				OR GOODS_CONTENT LIKE '%'||#{searchKeyword}||'%'
+			</if>
+			<if test="searchCondition == 'goodsCode'">		
+				WHERE GOODS_CODE LIKE '%'||#{searchKeyword}||'%'
+			</if>
+			<if test="searchCondition == 'goodsName'">		
+				WHERE GOODS_NAME LIKE '%'||#{searchKeyword}||'%'
+			</if>
+			<if test="searchCondition == 'goodsContent'">		
+				WHERE GOODS_CONTENT LIKE '%'||#{searchKeyword}||'%'
+			</if>
+		</select>
+		<select id="selectGoodsByKeyword" resultType="GoodsVO">
+			SELECT * FROM GOODS_TBL
+			<if test="searchCondition =='all'">		
+				WHERE GOODS_CODE LIKE '%'||#{searchKeyword}||'%'
+				OR GOODS_NAME LIKE '%'||#{searchKeyword}||'%'
+				OR GOODS_CONTENT LIKE '%'||#{searchKeyword}||'%'
+			</if>
+			<if test="searchCondition == 'goodsCode'">		
+				WHERE GOODS_CODE LIKE '%'||#{searchKeyword}||'%'
+			</if>
+			<if test="searchCondition == 'goodsName'">		
+				WHERE GOODS_NAME LIKE '%'||#{searchKeyword}||'%'
+			</if>
+			<if test="searchCondition == 'goodsContent'">	
+				WHERE GOODS_CONTENT LIKE '%'||#{searchKeyword}||'%'
+			</if>
+			ORDER BY GOODS_CODE DESC
+		</select>
+		<select id="selectByGoodsCode" resultType="GoodsVO">
+			SELECT * FROM GOODS_TBL WHERE GOODS_CODE = #{goodsCode }
+		</select>
+		<update id="updateGoods">
+			UPDATE GOODS_TBL SET GOODS_NAME = #{goodsName }, GOODS_CONTENT = #{goodsContent }, GOODS_STOCK = #{goodsStock }, GOODS_PRICE = #{goodsPrice }, GOODS_FILENAME = #{goodsFilename }, GOODS_FILERENAME = #{goodsFileRename }, GOODS_FILEPATH = #{goodsFilePath }, GOODS_FILELENGTH = #{goodsFileLength }  WHERE GOODS_CODE = #{goodsCode }
+		</update>
+		<delete id="deleteGoods">
+			DELETE FROM GOODS_TBL WHERE GOODS_CODE = #{goodsCode }
+		</delete>
+	</mapper>
