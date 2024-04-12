@@ -18,8 +18,11 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
         <style>
+        	.body {
+        		position: releative;
+        	}
             .container {
-/*                 position: fixed; */
+/*                 position: fixed; 
 /*                 top: 0; */
             }
             .body{
@@ -131,7 +134,120 @@
 		    margin-bottom: 0;
 		    list-style: none;
 			}
-        </style>
+			
+			.dropdown{
+			  position : relative;
+			  display : inline-block;
+			}
+			
+			.dropbtn_icon{
+			  font-family : 'Material Icons';
+			}
+			.dropbtn{
+			  border : 1px solid rgb(37, 37, 37);
+			  border-radius : 4px;
+			  background-color: #f5f5f5;
+			  font-weight: 400;
+			  color : rgb(37, 37, 37);
+			  padding : 12px;
+			  width :200px;
+			  text-align: left;
+			  cursor : pointer;
+			  font-size : 12px;
+			}
+			.dropdown-content{
+			  display : none;
+			  position : absolute;
+			  z-index : 1; /*다른 요소들보다 앞에 배치*/
+			  font-weight: 700;
+			  background-color: #f9f9f9;
+			  min-width : 200px;
+			}
+			
+			.dropdown-content a{
+			  display : block;
+			  text-decoration : none;
+			  color : rgb(37, 37, 37);
+			  font-size: 15px;
+			  padding : 12px 20px;
+			}
+			
+			.dropdown-content a:hover{
+			  background-color : #ececec
+			}
+			
+			.dropdown:hover .dropdown-content {
+			  display: block;
+			}
+			[class*="btn-"] {
+				position: relative;
+				display: inline-block;
+				width: 100%;
+				color: #fff;
+				font-size: 16px;
+				line-height: 45px;
+				margin-right:3em;
+				max-width: 100px;
+				text-decoration: none;
+				text-transform: uppercase;
+				vertical-align: middle;
+			}
+			/**
+			 * ===========================
+			 * @class : btn-2
+			 * ===========================
+			 */
+			.btn-2 {
+				color: #white;
+ 				background-color: #ACE0F8;
+/* 				border: 1px solid ; */
+				box-shadow: 0 2px 0 #e8e8e8, 2px 4px 6px ;
+				font-weight: bold;
+				letter-spacing: 1px;
+				-webkit-transition: all .15s linear;
+				transition: all .15s linear;
+			}
+			.btn-2:hover {
+				background: #FAC0CF;;
+				border: 1px solid #fff;
+				box-shadow: 1px 1px 2px #fff;
+				color: ;
+				text-shadow: -1px -1px 0 #c2211c;
+			}
+			/* 헤더 */
+			body {
+			  padding: 16px;
+			}
+			
+			a {
+			  text-decoration: none;
+			}
+			
+			.underline {
+			  line-height: 1.2;
+			  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+			  font-size: 20px;
+			  font-weight: 700;
+			  background-image: linear-gradient(transparent calc(100% - 3px), #000 3px);
+			  background-repeat: no-repeat;
+			  background-size: 0% 100%;
+			  transition: background-size 0.8s;
+			  color: #000;
+			  cursor: pointer;
+			}
+			@media (min-width: 1000px) {
+			  .underline {
+			    font-size: 5em;
+			  }
+			}
+			.underline.yellow {
+			  background-image: linear-gradient(transparent 60%, #F8CD07 40%);
+			}
+			.underline:hover {
+			  background-size: 100% 100%;
+			}
+					
+        	</style>
         <link href="../resources/css/headerandFooter" rel="stylesheet">
     </head>
 
@@ -155,54 +271,73 @@
                 d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z" />
         </symbol>
     </svg>
+	    <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle" >
+	   		<div class="dropup-center dropup">
+<!-- 				  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" src="../resources/dist/img/close.png" style="width: 200px; height: 150px; margin-top: -200px; margin-right: 20px;"> -->
+				    <img class="dropdown-toggle"  data-bs-toggle="dropdown" aria-expanded="false"  src="../resources/dist/img/close.png" style="width: 200px; height: 150px; margin-top: -200px; margin-right: 20px;"></img>
+<!-- 				  </button> -->
+				
+				  <ul class="dropdown-menu" style="width: 200px; height: 430px; background-color: #B9E0FD; border: 0px;">
+				    <img src="../resources/dist/img/opening.png" style="width: 280px; height: 210px; margin-top: -110px; margin-right: 20px; position: absolute;" />
+				    <li><a class="dropdown-item"  href="#" style="height: 100px; margin-top: 40px; width: 90%; margin-left: 10px; background-color: #FDC3D2; border-radius: 15px; margin-bottom: 10px; ">Action</a></li>
+				    <li><a class="dropdown-item" href="#" style="height: 100px; width: 90%; margin-left: 10px; background-color: #FDC3D2; border-radius: 15px; margin-bottom: 10px;">Action two</a></li>
+				    <li><a class="dropdown-item" href="#" style="height: 100px; width: 90%; margin-left: 10px; background-color: #FDC3D2; border-radius: 15px; margin-bottom: 10px;">Action three</a></li>
+				    <img src="../resources/dist/img/clouds.png" style="width: 550px; height: 430px; margin-top: -70px; margin-left: -180px; position: absolute;" />
+				  </ul>
+				</div>
+			</div>
+<!--     	<div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle" > -->
+<!-- <!--     	<img src="../resources/dist/img/star8.png" style="width: 200px; height: 200px; margin-top: -400px; margin-left: 50px;"></img> --> -->
+<!--     	<img src="../resources/dist/img/close.png" style="width: 200px; height: 150px; margin-top: -200px; margin-right: 20px;"></img> -->
+<!--     	</div> -->
 
-    <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
-        <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button"
-            aria-expanded="false" data-bs-toggle="dropdown" aria-label="Toggle theme (auto)">
-            <svg class="bi my-1 theme-icon-active" width="1em" height="1em">
-                <use href="#circle-half"></use>
-            </svg>
-            <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="bd-theme-text">
-            <li>
-                <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light"
-                    aria-pressed="false">
-                    <svg class="bi me-2 opacity-50" width="1em" height="1em">
-                        <use href="#sun-fill"></use>
-                    </svg>
-                    Light
-                    <svg class="bi ms-auto d-none" width="1em" height="1em">
-                        <use href="#check2"></use>
-                    </svg>
-                </button>
-            </li>
-            <li>
-                <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark"
-                    aria-pressed="false">
-                    <svg class="bi me-2 opacity-50" width="1em" height="1em">
-                        <use href="#moon-stars-fill"></use>
-                    </svg>
-                    Dark
-                    <svg class="bi ms-auto d-none" width="1em" height="1em">
-                        <use href="#check2"></use>
-                    </svg>
-                </button>
-            </li>
-            <li>
-                <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto"
-                    aria-pressed="true">
-                    <svg class="bi me-2 opacity-50" width="1em" height="1em">
-                        <use href="#circle-half"></use>
-                    </svg>
-                    Auto
-                    <svg class="bi ms-auto d-none" width="1em" height="1em">
-                        <use href="#check2"></use>
-                    </svg>
-                </button>
-            </li>
-        </ul>
-    </div>
+<!--     <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle"> -->
+<!--         <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" -->
+<!--             aria-expanded="false" data-bs-toggle="dropdown" aria-label="Toggle theme (auto)"> -->
+<!--             <svg class="bi my-1 theme-icon-active" width="1em" height="1em"> -->
+<!--                 <use href="#circle-half"></use> -->
+<!--             </svg> -->
+<!--             <span class="visually-hidden" id="bd-theme-text">Toggle theme</span> -->
+<!--         </button> -->
+<!--         <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="bd-theme-text"> -->
+<!--             <li> -->
+<!--                 <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" -->
+<!--                     aria-pressed="false"> -->
+<!--                     <svg class="bi me-2 opacity-50" width="1em" height="1em"> -->
+<!--                         <use href="#sun-fill"></use> -->
+<!--                     </svg> -->
+<!--                     Light -->
+<!--                     <svg class="bi ms-auto d-none" width="1em" height="1em"> -->
+<!--                         <use href="#check2"></use> -->
+<!--                     </svg> -->
+<!--                 </button> -->
+<!--             </li> -->
+<!--             <li> -->
+<!--                 <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" -->
+<!--                     aria-pressed="false"> -->
+<!--                     <svg class="bi me-2 opacity-50" width="1em" height="1em"> -->
+<!--                         <use href="#moon-stars-fill"></use> -->
+<!--                     </svg> -->
+<!--                     Dark -->
+<!--                     <svg class="bi ms-auto d-none" width="1em" height="1em"> -->
+<!--                         <use href="#check2"></use> -->
+<!--                     </svg> -->
+<!--                 </button> -->
+<!--             </li> -->
+<!--             <li> -->
+<!--                 <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto" -->
+<!--                     aria-pressed="true"> -->
+<!--                     <svg class="bi me-2 opacity-50" width="1em" height="1em"> -->
+<!--                         <use href="#circle-half"></use> -->
+<!--                     </svg> -->
+<!--                     Auto -->
+<!--                     <svg class="bi ms-auto d-none" width="1em" height="1em"> -->
+<!--                         <use href="#check2"></use> -->
+<!--                     </svg> -->
+<!--                 </button> -->
+<!--             </li> -->
+<!--         </ul> -->
+<!--     </div> -->
 
 
     <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
@@ -239,31 +374,44 @@
     <main>
 
     </main>
-    <div class="navsquare" style="width: 2000px; height: 100px; background-color: white; position: fixed; top: 0; margin-left: -20px; font-size: 20px;''"> 
+    <div class="navsquare" style="width: 2000px; height: 100px; background-color: white; position: fixed; top: 0; margin-left: -20px; font-size: 20px;  z-index:5;"> 
     <div class="container" style=" margin-top: 20px;">
         <header
             class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
             <div class="col-md-3 mb-2 mb-md-0">
                 <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
-                    <svg class="bi" width="40" height="32" role="img" aria-label="Bootstrap">
-                        <use xlink:href="#bootstrap" />
-                    </svg>
+                   <img src="../resources/dist/img/mainLogo.png" style="width: 180px; position: absolute; margin-top: -100px; margin-left: -80px;"/>
                 </a>
             </div>
 
-            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="#" class="nav-link px-2" style="margin-right: 40px; color: #C96AAC;">즐길거리</a></li>
-                <li><a href="#" class="nav-link px-2" style="margin-right: 40px; color: #BA83BD;">굿즈샵</a></li>
-                <li><a href="#" class="nav-link px-2" style="margin-right: 40px; color: #A996CE;">예매하기</a></li>
-                <li><a href="#" class="nav-link px-2" style="margin-right: 40px; color: #93ADDE;">리뷰</a></li>
-                <li><a href="#" class="nav-link px-2" style="margin-right: 40px; color: #5DCCFA;">고객센터</a></li>
+            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0" style="margin-right: 100px;">
+                <li><a href="ride/list.ft" class="yellow underline" style="margin-right: 40px; color: #C96AAC; font-size: 20px;" >즐길거리</a></li>
+                <li><a href="goods/list.ft" class="yellow underline" style="margin-right: 40px; color: #BA83BD; font-size: 20px;" >굿즈샵</a></li>
+                <li><a href="ticket/list.ft" class="yellow underline" style="margin-right: 40px; color: #A996CE; font-size: 20px;" >예매하기</a></li>
+                <li><a href="review/list.ft" class="yellow underline" style="margin-right: 40px; color: #93ADDE; font-size: 20px;" >리뷰</a></li>
+<!--                 <li><a href="#" class="nav-link px-2" style="margin-right: 40px; color: #5DCCFA;">고객센터</a></li> -->
+				<li class="dropdown">
+				      <button class="nav-link px-2" style="margin-top: -9px;"> 
+				        <span class="yellow underline" style="margin-right: 40px;  color: #5DCCFA; font-size: 20px;">고객센터</span>
+				      </button>
+				      <div class="dropdown-content">
+				        <a href="notice/list.ft" style="color: #497BC2;">공지사항</a>
+				        <a href="#" style="color: #5DCCFA;">자주 묻는 질문</a>
+				        <a href="#" style="color: #497BC2;">1대1 문의</a>
+				      </div>
+				    </li>
                 
             </ul>
 
-            <div class="col-md-3 text-end">
-                <button type="button" class="btn btn-outline-primary me-2" style="background-color: #ACE0F8; color: #3C94D4; border: 0;">로그인</button>
-                <button type="button" class="btn btn-primary" style="background-color: #FAC0CF; color: #F38686; border: 0;">회원가입</button>
-            </div>
+<!--             <div class="col-md-3 text-end"> -->
+<!--                 <button type="button" onclick = "location.href = '#'" class="btn btn-outline-primary me-2" style="background-color: #ACE0F8; color: #3C94D4; border: 0;">로그인</button> -->
+<!--                 <button type="button" onclick = "location.href = '#'" class="btn btn-primary" style="background-color: #FAC0CF; color: #F38686; border: 0;">회원가입</button> -->
+<!--             </div> -->
+				<!-- Start of Button 2 -->
+					<a href="/user/login.ft" class="btn-2" style="border-radius: 10px; text-align: center; margin-right: -20px; margin-top: -15px; ">로그인</a>
+					<a href="/user/register.ft" class="btn-2" style="border-radius: 10px; text-align: center; margin-top: -15px; margin-right: -20px;">회원가입</a>
+<!-- 					background-color: #FAC0CF; -->
+					<!-- End of Button 2 -->
         </header>
     </div>
     </div>
