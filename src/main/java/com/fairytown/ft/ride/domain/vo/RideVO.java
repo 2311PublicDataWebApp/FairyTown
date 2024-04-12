@@ -4,27 +4,27 @@ import java.sql.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter @Setter
 @ToString 
 @AllArgsConstructor
+@RequiredArgsConstructor
 public class RideVO {
 	private int rideId;
 	private String rideName;
 	private String rideDescription;
 	private int rideCount;
-	private String rideClose;
-	private int rideX;
-	private int rideY;
+	private String rideStatus;
 	private Date rideDate;
 	private String rideLimit;
-	private int rideImgNo;
-	private String rideImgName;
-	private String rideImgRename;
-	private String rideImgFilePath;
-	private int rideImgFilelength;
-	private String rideImgThumbnail;
-	
+	private String rideX;
+	private String rideY;
+	private String rideImgNo;
+	private Date closeDate;
+	private String closeReason;
+	private int closeNo;
+
 }

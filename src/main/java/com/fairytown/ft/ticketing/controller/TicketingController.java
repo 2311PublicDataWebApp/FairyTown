@@ -25,7 +25,8 @@ public class TicketingController {
 			// 임시 아이디 할당
 			user.setUserId("testuser01");
 			// 임시 티켓 할당
-			TicketVO ticketOne = new TicketVO("01", "종일권", "티켓 설명", "ING.PNG", 35000, null, 35000, 30000, 25000);
+			//에러 나서 임시 변환 2024-04-11 김혜연
+			TicketVO ticketOne = new TicketVO(null, null, null, null, 0, 0, 0, 0, null, null, null, 0, null, null);
 			model.addAttribute("user", user);
 			model.addAttribute("ticketOne", ticketOne);
 			return "ticketing/regist";

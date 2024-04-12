@@ -42,7 +42,7 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
-
+	implementation 'org.apache.commons:commons-lang3'
 }
 
 
@@ -50,7 +50,7 @@ apply plugin: 'java'
 
 tasks.withType(JavaCompile) {
     options.compilerArgs << "-parameters"
-
+}
 
 
 tasks.named('test') {

@@ -5,12 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.fairytown.ft.user.domain.vo.UserVO;
-import com.fairytown.ft.user.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -46,8 +45,6 @@ public class UserController {
 		@PostMapping("/user/register.ft")
 		public ModelAndView userRegister(ModelAndView mv) {
 			try {
-				
-				
 				mv.setViewName("user/register");			
 			} catch (Exception e) {
 				mv.addObject("msg", e.getMessage());
@@ -56,6 +53,7 @@ public class UserController {
 			return mv;
 		}
 	
+		
 	
-	
+
 }
