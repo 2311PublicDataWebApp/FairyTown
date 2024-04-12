@@ -102,7 +102,7 @@ public class UserController {
 	
 		@GetMapping("/user/login.ft")
 		public String login() {
-		    return "redirect:/";
+		    return "user/login";
 		}
 		// 로그아웃
 		@PostMapping("/user/logout.ft")
