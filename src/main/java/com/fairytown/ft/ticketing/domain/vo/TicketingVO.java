@@ -1,15 +1,19 @@
 package com.fairytown.ft.ticketing.domain.vo;
 
+import java.sql.Date;
+
+import com.fairytown.ft.ticket.domain.vo.TicketVO;
+
 import lombok.*;
 
-import java.sql.Date;
+
 
 @Getter @Setter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class TicketingVO {
-    private String ticketCode;
+    private String ticketingCode;
     private String ticketNumber;
     private String userId;
     private Date reservationDate;
@@ -19,4 +23,8 @@ public class TicketingVO {
     private int child;
     private int purchasePrice;
     private String purchaseSuccess;
+    private String impUid;
+    private String merchantUid;
+    
+    private TicketVO ticket;
 }
