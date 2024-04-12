@@ -11,20 +11,19 @@ import lombok.ToString;
 @ToString 
 @AllArgsConstructor
 public class RideVO {
+	// 임시 수정본
 	private int rideId;
-	private String rideName;
-	private String rideDescription;
-	private int rideCount;
-	private String rideClose;
-	private int rideX;
-	private int rideY;
-	private Date rideDate;
-	private String rideLimit;
-	private int rideImgNo;
-	private String rideImgName;
-	private String rideImgRename;
-	private String rideImgFilePath;
-	private int rideImgFilelength;
-	private String rideImgThumbnail;
-	
+    private String rideName;
+    private String rideDescription;
+    private int rideCount;
+    private String rideStatus;
+    private Date rideDate;
+    private String rideLimit;
+    private String rideX;
+    private String rideY;
+    private String rideImgNo;
+    private Date closeDate;
+    private String closeReason;
+    private int closeNo;
+	// 임시 수정본
 }

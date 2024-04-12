@@ -21,4 +21,18 @@ public interface TicketingService {
 	 */
 	List<TicketingVO> ticketingListSelect(UserVO user);
 
+	/**
+	 * 티켓 변경 로직
+	 * @param ticketingCode
+	 * @return tingOne
+	 */
+	TicketingVO sendTicketingCode(String ticketingCode);
+
+	/**
+	 * 티켓 결제 취소
+	 * @param ticketingCode
+	 * @return result
+	 */
+	int ticketingCancle(String ticketingCode);
+
 }

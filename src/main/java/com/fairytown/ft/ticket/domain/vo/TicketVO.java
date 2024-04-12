@@ -13,7 +13,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TicketVO {
-	// 임시 수정본 S
+	// 임시 수정본
 	private String ticketNo;
 	private String ticketName;
 	private String ticketDetail;
@@ -28,5 +28,5 @@ public class TicketVO {
 	private int ticketImgFileLength;
 	private Date ticketDate;
 	private String ticketStatus;
-	// 임시 수정본 E
+	// 임시 수정본
 }

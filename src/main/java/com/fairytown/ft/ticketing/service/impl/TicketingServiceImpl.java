@@ -32,5 +32,17 @@ public class TicketingServiceImpl implements TicketingService {
 		List<TicketingVO> tingList = tingStore.ticketingListSelect(session, user);
 		return tingList;
 	}
+	// 티켓 변경 로직
+	@Override
+	public TicketingVO sendTicketingCode(String ticketingCode) {
+		TicketingVO tingOne = tingStore.sendTicketingCode(session, ticketingCode);
+		return tingOne;
+	}
+	// 티켓 결제 취소
+	@Override
+	public int ticketingCancle(String ticketingCode) {
+		int result = tingStore.ticketingCancle(session, ticketingCode);
+		return result;
+	}
 
 }

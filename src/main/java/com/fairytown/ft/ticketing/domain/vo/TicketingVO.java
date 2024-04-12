@@ -2,6 +2,8 @@ package com.fairytown.ft.ticketing.domain.vo;
 
 import java.sql.Date;
 
+import com.fairytown.ft.ticket.domain.vo.TicketVO;
+
 import lombok.*;
 
 
@@ -23,4 +25,6 @@ public class TicketingVO {
     private String purchaseSuccess;
     private String impUid;
     private String merchantUid;
+    
+    private TicketVO ticket;
 }

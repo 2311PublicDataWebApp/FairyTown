@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.fairytown.ft.ticket.domain.vo.TicketVO;
 import com.fairytown.ft.ticketing.domain.vo.TicketingVO;
 import com.fairytown.ft.ticketing.store.TicketingStore;
 import com.fairytown.ft.user.domain.vo.UserVO;
@@ -23,10 +24,27 @@ public class TicketingStoreImpl implements TicketingStore{
 	// 결제 내역 조회
 	@Override
 	public List<TicketingVO> ticketingListSelect(SqlSession session, UserVO user) {
+		// 1. 티켓 예약 정보 조회
 		List<TicketingVO> tingList = session.selectList("TicketingMapper.ticketingListSelect", user);
-		// 티켓 예약 정보에 있는 티켓 번호로 티켓 정보 조회해야합니다.
-//		List<TicketVO> tList = session.selectList("", tingList);
+		// 2. 티켓 정보 조회   티켓 매퍼에 resultmap 없어서 진행불가 
+//	    for (TicketingVO ting : tingList) {
+//	        TicketVO ticket = session.selectOne("TicketMapper.ticketSelectById", ting.getTicketNumber());
+//	        ting.setTicket(ticket);
+//	    }
 		return tingList;
+	}
+	// 티켓 변경 로직
+	@Override
+	public TicketingVO sendTicketingCode(SqlSession session, String ticketingCode) {
+		TicketingVO tingOne = session.selectOne("TicketingMapper.sendTicketingCode", ticketingCode);
+		return tingOne;
+	}
+
+	// 티켓 결제 취소
+	@Override
+	public int ticketingCancle(SqlSession session, String ticketingCode) {
+		int result = session.update("TicketingMapper.ticketingCancle", ticketingCode);
+		return result;
 	}
 
 }

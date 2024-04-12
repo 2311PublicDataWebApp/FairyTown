@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,8 @@ import com.fairytown.ft.ticket.domain.vo.TicketVO;
 import com.fairytown.ft.ticketing.domain.vo.TicketingVO;
 import com.fairytown.ft.ticketing.service.TicketingService;
 import com.fairytown.ft.user.domain.vo.UserVO;
+
+import jakarta.servlet.http.HttpSession;
 
 
 
@@ -34,7 +38,7 @@ public class TicketingController {
 			user.setUserId("khuser01");
 			if(ticketOne.getTicketNo() == null) {
 				// 임시 티켓 할당 -> 1번티켓 조회해주세요
-				ticketOne = new TicketVO("1", "종일권", "티켓 설명", "ING.PNG", 300, 200, 100, 0, null, null, null, 0, null, null);				
+				ticketOne = new TicketVO("1", "종일권", "티켓 설명", "ING.PNG", 300, 200, 100, 0, null, null, null, 0, null, null);
 			}
 			model.addAttribute("user", user);
 			model.addAttribute("ticketOne", ticketOne);
@@ -108,6 +112,26 @@ public class TicketingController {
 		} catch (Exception e) {
 			model.addAttribute("msg", e.getMessage());
 			return "common/errorPage";
+		}
+	}
+	// 놀이기구 예약할 티켓 변경 로직
+	@PostMapping("/ticketing/sendCode.ft")
+	public ResponseEntity<String> sendTicketingCode(@RequestParam("ticketingCode") String ticketingCode, HttpSession session) {
+		TicketingVO tingOne = tingService.sendTicketingCode(ticketingCode);
+		session.setAttribute("tingOne", tingOne);
+		return ResponseEntity.ok(ticketingCode + "티켓 변경\n해당 날짜로 예약하실 수 있습니다!");
+	}
+	// 티켓 결제 취소
+	@PostMapping("/ticketing/cancle.ft")
+	public ResponseEntity<String> ticketingCancle(Model model, @RequestParam("ticketingCode") String ticketingCode) {
+		try {
+			int result = tingService.ticketingCancle(ticketingCode);
+			if(result > 0) {
+				return ResponseEntity.ok(ticketingCode + "티켓 취소 성공\n환불은 4일 이내로 처리됩니다.");
+			}
+			return ResponseEntity.ok("취소 실패\n관리자에게 문의하세요");
+		} catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("예외 발생: " + e.getMessage());
 		}
 	}
 }

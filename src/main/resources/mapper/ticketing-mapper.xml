@@ -29,5 +29,13 @@
 		SELECT * FROM TICKETING_TBL 
 		WHERE USER_ID = #{userId }
 	</select>
-  
+  	<select id="sendTicketingCode" resultMap="TicketingResultMap">
+  		SELECT * FROM TICKETING_TBL 
+		WHERE TICKETING_CODE = #{ticketingCode }
+  	</select>
+  	<update id="ticketingCancle">
+  		UPDATE TICKETING_TBL 
+  		SET PURCHASE_SUCCESS = 'C'
+		WHERE TICKETING_CODE = #{ticketingCode}
+  	</update>
   </mapper>

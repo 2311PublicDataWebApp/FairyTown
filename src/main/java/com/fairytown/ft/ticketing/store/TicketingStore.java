@@ -26,4 +26,20 @@ public interface TicketingStore {
 	 */
 	List<TicketingVO> ticketingListSelect(SqlSession session, UserVO user);
 
+	/**
+	 * 티켓 변경 로직
+	 * @param session
+	 * @param ticketingCode
+	 * @return tingOne
+	 */
+	TicketingVO sendTicketingCode(SqlSession session, String ticketingCode);
+
+	/**
+	 * 티켓 결제 취소
+	 * @param session
+	 * @param ticketingCode
+	 * @return result
+	 */
+	int ticketingCancle(SqlSession session, String ticketingCode);
+
 }
