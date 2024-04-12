@@ -84,8 +84,8 @@
 			        if (data.success) {
 			            // 새 창 열기
 			        	var popupWindow = window.open('', 'popupWindow', 'width=400,height=200');
-			            newWindow.document.write("<h1>찾아낸 아이디</h1>");
-			            newWindow.document.write("<p>" + data.message + "</p>");
+			            newWindow.document.write("<h1>아이디 찾기</h1>");
+			            newWindow.document.write("<p>결과 : " + data.message + "</p>");
 			        } else {
 			            alert("아이디를 찾을 수 없습니다.");
 			        }

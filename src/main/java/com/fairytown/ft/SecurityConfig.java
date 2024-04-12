@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.fairytown.ft.user.config.CustomAuthenticationSuccessHandler;
+
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
@@ -23,26 +25,26 @@ public class SecurityConfig {
     }
 	
 	
-	 @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-	 	http.csrf((auth) -> auth.disable());
-        http
-            .authorizeHttpRequests((auth) -> auth
-            		.requestMatchers("/admin").hasRole("ADMIN") // /admin 들어왔을 때 admin인지 체크
-					//.requestMatchers("/user/**").hasRole("USER") // /user/** 들어왔을 때 user인지 체크
-            		.anyRequest().permitAll()
-        );
-			http.formLogin((auth)->auth
-					.loginPage("/user/login.ft")
-					.usernameParameter("userId")
-					.passwordParameter("userPw")
-					.loginProcessingUrl("/user/login.ft")
-					.defaultSuccessUrl("/")
-					.failureUrl("/common/error.ft")
-					.permitAll()
-			);
-        return http.build();
-    }
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+	    http.csrf((auth) -> auth.disable());
+	    http
+	        .authorizeHttpRequests((auth) -> auth
+	            .requestMatchers("/admin").hasRole("ADMIN")
+	            .anyRequest().permitAll()
+	        );
+	    http.formLogin((auth) -> auth
+	        .loginPage("/user/login.ft")
+	        .usernameParameter("userId")
+	        .passwordParameter("userPw")
+	        .loginProcessingUrl("/user/login.ft")
+	        .defaultSuccessUrl("/", true)
+	        .failureUrl("/common/error.ft")
+	        .successHandler(new CustomAuthenticationSuccessHandler()) // 여기에 커스텀 핸들러 추가
+	        .permitAll()
+	    );
+	    return http.build();
+	}
 	 
 
 	 

@@ -32,6 +32,15 @@
 		SET USER_PW = #{userPw}
 		WHERE USER_ID = #{userId}
 	</update>
+	<update id="userUpdate">
+		UPDATE USER_TBL
+		SET USER_PW = #{userPw},
+		ZIP_CODE = #{zipCode},
+		USER_ADDRESS = #{userAddress},
+		DETAIL_ADDRESS = #{detailAddress}
+		WHERE USER_ID = #{userId}
+		
+	</update>
 	
 	<insert id="insertUser">
 		INSERT INTO USER_TBL

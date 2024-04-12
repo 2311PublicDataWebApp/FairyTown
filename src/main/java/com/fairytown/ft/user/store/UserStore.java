@@ -25,4 +25,7 @@ public interface UserStore {
 	//비밀번호 변경
 	int pwModify(UserVO user);
 
+	//회원 정보 수정
+	int userUpdate(UserVO user);
+
 }

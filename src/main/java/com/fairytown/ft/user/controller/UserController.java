@@ -2,9 +2,11 @@ package com.fairytown.ft.user.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,6 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fairytown.ft.user.domain.vo.UserVO;
 import com.fairytown.ft.user.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
@@ -21,24 +25,92 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserController {
 
-	@Autowired
-    private PasswordEncoder passwordEncoder;
+		@Autowired
+    	private PasswordEncoder passwordEncoder;
 	
-	private final UserService uService;
+		private final UserService uService;
+	
+		//회원탈퇴 페이지 조회
+		@GetMapping("/user/quit.ft")
+		public ModelAndView showQuitForm(ModelAndView mv) {
+			mv.setViewName("user/quit");
+			return mv;
+		}
+		
+		//회원 정보수정 페이지 조회
+		@GetMapping("/user/modify.ft")
+		public ModelAndView showModifyForm(ModelAndView mv,
+				HttpServletRequest request) {
+			try {
+				HttpSession session = request.getSession();
+				UserVO uOne = (UserVO) session.getAttribute("user");
+				UserVO user = uService.selectUser(uOne.getUserId());
+				mv.addObject("user", user);
+				mv.setViewName("user/modify");
+			} catch (Exception e) {
+				mv.addObject("msg", e.getMessage());
+				mv.setViewName("common/errorPage");
+			}
+			
+			return mv;
+		}
+		//회원 정보수정 기능
+		@PostMapping("/user/modify.ft")
+		public ModelAndView userModify(ModelAndView mv,
+				UserVO user,
+				HttpServletRequest request) {
+			try {
+				HttpSession session = request.getSession();
+				UserVO uOne = (UserVO) session.getAttribute("user");
+				String encodedPassword = passwordEncoder.encode(user.getUserPw());
+	            user.setUserPw(encodedPassword);
+	            user.setUserId(uOne.getUserId());
+	            int result = uService.userUpdate(user);
+	            if(result > 0) {
+	            	mv.setViewName("redirect:/user/mypage.ft");
+	            } else {
+	            	mv.addObject("msg", "정보수정에 실패했습니다.");
+					mv.setViewName("common/errorPage");
+	            }
+	            
+			} catch (Exception e) {
+				mv.addObject("msg", e.getMessage());
+				mv.setViewName("common/errorPage");
+			}
+			
+			return mv;
+		}
+		
+		//마이페이지
+		@GetMapping("/user/mypage.ft")
+		public ModelAndView showMypage(ModelAndView mv,
+				HttpServletRequest request) {
+			try {
+				HttpSession session = request.getSession();
+				UserVO uOne = (UserVO) session.getAttribute("user");
+				UserVO user = uService.selectUser(uOne.getUserId());
+				mv.addObject("user", user);
+				mv.setViewName("user/mypage");
+			} catch (Exception e) {
+				mv.addObject("msg", e.getMessage());
+				mv.setViewName("common/errorPage");
+			}
+			
+			return mv;
+		}
+	
 	
 		@GetMapping("/user/login.ft")
-	    public String login(){
-	        return "user/login";
-	    }
-		//로그인 실패
-		@GetMapping("/common/error.ft")
-	    public String denied(){
-	        return "common/errorPage";
-	    }
+		public String login() {
+		    return "redirect:/";
+		}
 		// 로그아웃
-		@GetMapping("/user/logout.ft")
-		public String userLogout(jakarta.servlet.http.HttpSession session, Model model) {
-			session.invalidate();
+		@PostMapping("/user/logout.ft")
+		public String userLogout(HttpServletRequest request, HttpServletResponse response) {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	        if (auth != null){    
+	            new SecurityContextLogoutHandler().logout(request, response, auth);
+	        }
 			return "redirect:/";
 		}
 	

@@ -61,4 +61,15 @@ public class UserService implements UserDetailsService {
 		return result;
 	}
 
+	//회원 정보수정
+	public int userUpdate(UserVO user) {
+		int result = uStore.userUpdate(user);
+		return result;
+	}
+
+	//회원 정보 조회
+	public UserVO selectUser(String userId) {
+		UserVO user = uStore.checkUserLogin(userId);
+		return user;
+	}
 }

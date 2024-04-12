@@ -13,25 +13,23 @@
 
 		<div class="container">
 			${userId }
-			<c:if test="${userId eq null }">
+			<c:if test="${user eq null }">
 				<form action="/user/login.ft" method="post" name="loginForm">
 					<input type="text" name="userId" placeholder="ID를 입력하세요">
 					<input type="password" name="userPw"  placeholder="PW를 입력하세요">
 					<input type="submit" name="login" value="login">
-						
 				</form>
 			</c:if>
-			<c:if test="${userId ne null }">
-				<button type="button" onclick="userLogout();">로그아웃</button>				
+			<c:if test="${user ne null }">
+				<form action="/user/logout.ft" method="post">
+					<button type="submit">로그아웃</button>							
+				</form>
 			</c:if>
 		</div>
 <%-- 		<jsp:include page="./inc/footer.jsp"></jsp:include> --%>
 		<script>
 			function userLogin() {
 				location.href="/user/login.ft";
-			}
-			function userLogout() {
-				location.href="/user/logout.ft";
 			}
 		</script>
 
