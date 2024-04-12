@@ -13,20 +13,18 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TicketVO {
-	// 임시 수정본
 	private String ticketNo;
-	private String ticketName;
-	private String ticketDetail;
-	private String ticketCard;
-	private int ticketAdult;
-	private int ticketTeen;
-	private int ticketChild;
-	private int ticketImgNo;
-	private String ticketImgName;
-	private String ticketImgRename;
-	private String ticketImgFilePath;
-	private int ticketImgFileLength;
-	private Date ticketDate;
-	private String ticketStatus;
-	// 임시 수정본
+	private String 	ticketName;
+	private String 	ticketDetail;
+	private String 	ticketCard;
+	private int 	ticketAdult;
+	private int 	ticketTeen;
+	private int 	ticketChild;
+	private int 	ticketImgNo;
+	private String 	ticketImgName;
+	private String 	ticketImgRename;
+	private String 	ticketImgFilepath;
+	private long 	ticketImgFilelength;
+	private Date 	ticketDate;
+	private String 	ticketStatus;
 }

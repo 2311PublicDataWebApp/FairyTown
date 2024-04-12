@@ -146,6 +146,7 @@ public class UserController {
 						mv.setViewName("common/errorPage");
 					}					
 				}		
+				mv.setViewName("user/register");			
 			} catch (Exception e) {
 				mv.addObject("msg", e.getMessage());
 				mv.setViewName("common/errorPage");

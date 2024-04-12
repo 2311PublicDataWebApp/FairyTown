@@ -14,13 +14,13 @@ div{margin-left:43%;
 </head>
 <body>
 	<!-- 공통 / 헤더 -->
-	<jsp:include page="../inc/header.jsp"></jsp:include>
+<%-- 	<jsp:include page="../inc/header.jsp"></jsp:include> --%>
 
 		<div class="msgbox">
 			<h1>어? 이상한데?</h1>
 			<h2 style="color:red;">어???뭔가 잘못됐는데???</h2>
-			<h3>오류가 발생하였습니다.${msg }</h3>
-			<h1><a href="goBack();">뒤로가기</a></h1>
+			<h3>오류가 발생하였습니다.<br>${msg }</h3>
+			<h1><input type="reset" value="뒤로가기" onClick="goBack();"></h1>
 		</div>
 		
 		<script>
@@ -30,6 +30,6 @@ div{margin-left:43%;
 		</script>
 
 	<!-- 공통 / 풋터 -->
-	<jsp:include page="../inc/footer.jsp"></jsp:include>
+<%-- 	<jsp:include page="../inc/footer.jsp"></jsp:include> --%>
 </body>
 </html>

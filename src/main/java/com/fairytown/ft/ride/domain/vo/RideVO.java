@@ -4,26 +4,27 @@ import java.sql.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter @Setter
 @ToString 
 @AllArgsConstructor
+@RequiredArgsConstructor
 public class RideVO {
 	// 임시 수정본
 	private int rideId;
-    private String rideName;
-    private String rideDescription;
-    private int rideCount;
-    private String rideStatus;
-    private Date rideDate;
-    private String rideLimit;
-    private String rideX;
-    private String rideY;
-    private String rideImgNo;
-    private Date closeDate;
-    private String closeReason;
-    private int closeNo;
-	// 임시 수정본
+	private String rideName;
+	private String rideDescription;
+	private int rideCount;
+	private String rideStatus;
+	private Date rideDate;
+	private String rideLimit;
+	private String rideX;
+	private String rideY;
+	private String rideImgNo;
+	private Date closeDate;
+	private String closeReason;
+	private int closeNo;
 }

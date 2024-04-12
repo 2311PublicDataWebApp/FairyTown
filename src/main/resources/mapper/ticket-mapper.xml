@@ -2,12 +2,95 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fairytown.ft.ticket.store.TicketStore">
+
+ 	<select id="selectTotalCount" resultType="_int">
+		SELECT COUNT(*) FROM TICKET_TBL
+	</select>
+	
+	<select id="searchTotalCount" resultType="_int">
+		SELECT COUNT(*) FROM TICKET_TBL
+		
+		<if test="searchCondition =='all'">		
+			WHERE TICKET_NAME LIKE '%'||#{searchKeyword}||'%'
+			OR TICKET_STATUS LIKE '%'||#{searchKeyword}||'%'
+		</if>
+		<if test="searchCondition == 'ticketName'">		
+			WHERE TICKET_NAME LIKE '%'||#{searchKeyword}||'%'
+		</if>
+		<if test="searchCondition == 'ticketStatus'">		
+			WHERE TICKET_STATUS LIKE '%'||#{searchKeyword}||'%'
+		</if>
+	</select>
+	
+	<select id="selectTicketList" resultMap="ticketResultMap">
+		SELECT * FROM TICKET_TBL ORDER BY TICKET_NO DESC
+	</select>
+	
+	<select id="selectByTicketNo" resultMap="ticketResultMap">
+		SELECT * FROM TICKET_TBL WHERE TICKET_NO = #{ticketNo }
+	</select>
+	
+	<select id="selectTicketByKeyword" resultMap="ticketResultMap">
+		SELECT * FROM TICKET_TBL
+		<if test="searchCondition =='all'">		
+			WHERE TICKET_NAME LIKE '%'||#{searchKeyword}||'%'
+			OR TICKET_STATUS LIKE '%'||#{searchKeyword}||'%'
+		</if>
+		<if test="searchCondition == 'ticketName'">		
+			WHERE TICKET_NAME LIKE '%'||#{searchKeyword}||'%'
+		</if>
+		<if test="searchCondition == 'ticketStatus'">		
+			WHERE TICKET_STATUS LIKE '%'||#{searchKeyword}||'%'
+		</if>
+		ORDER BY TICKET_DATE DESC
+	</select>
+	
+	<insert id="insertTicket">
+		INSERT INTO TICKET_TBL 
+		VALUES(4, #{ticketName }, 
+		#{ticketDetail }, #{ticketCard }, #{ticketAdult}, 
+		#{ticketTeen}, #{ticketChild}, SEQ_TICKET_IMG_NO.NEXTVAL,
+		 #{ticketImgName }, #{ticketImgRename }, 
+		#{ticketImgFilepath }, #{ticketImgFilelength },DEFAULT,DEFAULT)
+	</insert>
+	
+	<update id="modifyTicket">
+		UPDATE TICKET_TBL 
+		SET 
+		TICKET_NAME = #{ticketName }, 
+		TICKET_DETAIL = #{ticketDetail }, 
+		TICKET_CARD = #{ticketCard}, 
+		TICKET_ADULT = #{ticketAdult }, 
+		TICKET_TEEN = #{ticketTeen }, 
+		TICKET_CHILD = #{ticketChild }, 
+		TICKET_IMG_NAME = #{ticketImgName },
+		 TICKET_IMG_RENAME = #{ticketImgRename }, 
+		 TICKET_IMG_FILEPATH = #{ticketImgFilepath }, 
+		 TICKET_IMG_FILELENGTH = #{ticketImgFilelength }  
+		 TICKET_STATUS = #{ticketStatus }  
+		 WHERE TICKET_NO = #{ticketNo }
+	</update>
+	<delete id="deleteTicket">
+		DELETE FROM TICKET_TBL WHERE TICKET_NO = #{ticketNo }
+	</delete>
   
-  <mapper namespace="TicketMapper">
-  
-  
-  
-  
+    <resultMap type="TicketVO" id="ticketResultMap">
+		<id 	property="ticketNo" 		column="TICKET_NO"/>
+		<result property="ticketName" 	column="TICKET_NAME"/>
+		<result property="ticketDetail" 	column="TICKET_DETAIL"/>
+		<result property="ticketCard" 	column="TICKET_CARD"/>
+		<result property="ticketAdult" 		column="TICKET_ADULT"/>
+		<result property="ticketTeen" 		column="TICKET_TEEN"/>
+		<result property="ticketChild" 	column="TICKET_CHILD"/>
+		<result property="ticketImgNo" column="TICKET_IMG_NO"/>
+		<result property="ticketImgName" 	column="TICKET_IMG_NAME"/>
+		<result property="ticketImgRename" column="TICKET_IMG_RENAME"/>
+		<result property="ticketImgFilepath" column="TICKET_IMG_FILEPATH"/>
+		<result property="ticketImgFilelength" column="TICKET_IMG_FILELENGTH"/>
+		<result property="ticketDate" column="TICKET_DATE"/>
+		<result property="ticketStatus" column="TICKET_STATUS"/>
+	</resultMap>
   
   
   

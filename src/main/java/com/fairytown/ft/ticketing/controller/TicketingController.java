@@ -40,6 +40,8 @@ public class TicketingController {
 				// 임시 티켓 할당 -> 1번티켓 조회해주세요
 				ticketOne = new TicketVO("1", "종일권", "티켓 설명", "ING.PNG", 300, 200, 100, 0, null, null, null, 0, null, null);
 			}
+			user.setUserId("testuser01");
+			// 임시 티켓 할당
 			model.addAttribute("user", user);
 			model.addAttribute("ticketOne", ticketOne);
 			return "ticketing/regist";
