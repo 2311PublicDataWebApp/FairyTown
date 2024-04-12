@@ -32,7 +32,7 @@
             <c:forEach items="${sList }" var="notice" varStatus="i">            
                 <tr>
                     <td>${notice.noticeNo }</td>
-                    <td><a href="/notice/detail?noticeNo=${notice.noticeNo }">
+                    <td><a href="/notice/detail.ft?noticeNo=${notice.noticeNo }">
                     ${notice.noticeSubject }
                     </a></td>
                     <td>${notice.userId }</td>
@@ -44,7 +44,7 @@
             	<c:if test="${memberId ne 'admin' }">
 		        	<div class="d-flex flex-wrap justify-content-center align-items-center pb-5">
 	                    <div class="d-flex col-md-12 justify-content-start">
-	                        <form class="row g-1" action="/notice/search" method="get">
+	                        <form class="row g-1" action="/notice/search.ft" method="get">
 	                            <div class="col-auto">
 	                                <select class="form-select" name="searchCondition">
 	                                <c:if test="${searchCondition eq 'all' }" >selected</c:if>
@@ -67,7 +67,7 @@
 		         <c:if test="${memberId eq 'admin' }">
 		         	<div class="d-flex flex-wrap justify-content-center align-items-center pb-5">
 	                    <div class="d-flex col-md-6 justify-content-start">
-	                        <form class="row g-1" action="/notice/search" method="get">
+	                        <form class="row g-1" action="/notice/search.ft" method="get">
 	                            <div class="col-auto">
 	                                <select class="form-select" name="searchCondition">
 	                                <c:if test="${searchCondition eq 'all' }" >selected</c:if>
@@ -99,14 +99,14 @@
 										<c:if test="${pi.startNavi ne '1' }">
 				<%-- 							<a href="/notice/list.do?page=${pi.startNavi - 1 }">[이전]</a> --%>
 											<li class="page-item">
-						                       <a class="page-link rounded-circle" href="/notice/search?page=${pi.startNavi - 1 }&searchCondition=${searchCondition}&searchKeyword=${searchKeyword}" aria-label="Previous">
+						                       <a class="page-link rounded-circle" href="/notice/search.ft?page=${pi.startNavi - 1 }&searchCondition=${searchCondition}&searchKeyword=${searchKeyword}" aria-label="Previous">
 						                           <span aria-hidden="true">&laquo;</span>
 						                       </a>
 											</li>
 										</c:if>
 										<c:forEach begin="${pi.startNavi }" end="${pi.endNavi }" var="p">
 											 <li class="page-item">
-			                                     <a class="page-link rounded-circle mx-2" href="/notice/search?page=${p }&searchCondition=${searchCondition}&searchKeyword=${searchKeyword}" style="border: none; color: #313131;">
+			                                     <a class="page-link rounded-circle mx-2" href="/notice/search.ft?page=${p }&searchCondition=${searchCondition}&searchKeyword=${searchKeyword}" style="border: none; color: #313131;">
 			                                         ${p }
 			                                     </a>
 		                                 	</li>
@@ -114,7 +114,7 @@
 										</c:forEach>
 										<c:if test="${pi.endNavi ne pi.naviTotalCount }">
 											<li class="page-item">
-			                                     <a class="page-link rounded-circle" href="/notice/search?page=${pi.endNavi + 1 }&searchCondition=${searchCondition}&searchKeyword=${searchKeyword}" aria-label="Next">
+			                                     <a class="page-link rounded-circle" href="/notice/search.ft?page=${pi.endNavi + 1 }&searchCondition=${searchCondition}&searchKeyword=${searchKeyword}" aria-label="Next">
 			                                         <span aria-hidden="true">&raquo;</span>
 			                                     </a>
 		                                 	</li>

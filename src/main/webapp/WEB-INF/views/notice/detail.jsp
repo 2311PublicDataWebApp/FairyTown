@@ -16,6 +16,7 @@
 }
 
 </style>
+<script async charset="utf-8" src="//cdn.embedly.com/widgets/platform.js"></script>
 </head>
 <body>
 	<%-- <jsp:include page="../inc/header.jsp"></jsp:include> --%>
@@ -58,24 +59,24 @@
 								</c:if>
 								<br>
 								<!-- Default Table -->
-								<table class="table table-striped">
-									<tbody>
-										<div class="titArea d-flex align-items-center justify-content-between">
-    <div class="label pr-3">
-        <p class="mb-0">공지&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-    </div>
-    <div class="flex-grow-1">
-        <p class="tit mb-0" style="word-wrap: break-word; font-size: 24px; font-weight: bold;">
-            ${notice.noticeSubject }
-        </p>
-    </div>
-    <div>
-        <p class="date mb-0">
-            ${notice.noticeDate }
-        </p>
-    </div>
-</div>
-
+							<!-- 	<table class="table table-striped"> -->
+								<table class="">
+										<tbody>
+											<div class="titArea d-flex align-items-center justify-content-between">
+								    <div class="label pr-3">
+								        <p class="mb-0">공지&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+								    </div>
+								    <div class="flex-grow-1">
+								        <p class="tit mb-0" style="word-wrap: break-word; font-size: 24px; font-weight: bold;">
+								            ${notice.noticeSubject }
+								        </p>
+								    </div>
+								    <div>
+								        <p class="date mb-0">
+								            ${notice.noticeDate }
+								        </p>
+								    </div>
+									</div>
 										</tr>
 										<c:if test="${notice.noticeFileRename ne null }">
 											<tr>
@@ -90,14 +91,7 @@
 											<!-- escapeXml 속성을 "false"로 설정하여 HTML 태그가 escape 되지않고 그대로 출력됨  -->
 											<td><c:out value="${notice.noticeContent}"
 													escapeXml="false" /> <br>
-												<figure class="media">
-													<iframe width="560" height="315"
-														src="https://www.youtube.com/embed/xU8mQMLx0tk"
-														frameborder="0"
-														allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-														allowfullscreen></iframe>
-												</figure>  
-												
+													
 												<!-- 상세보기 페이지의 내용 -->
 												    <div class="content">
 												        <!-- 동영상 플레이어 -->
@@ -181,28 +175,37 @@
                 // 동영상 주소가 없는 경우 예외 처리
                 console.error("동영상 주소가 없습니다.");
             }
+            document.querySelectorAll( 'oembed[url]' ).forEach( element => {
+                // Create the <a href="..." class="embedly-card"></a> element that Embedly uses
+                // to discover the media.
+                const anchor = document.createElement( 'a' );
+
+                anchor.setAttribute( 'href', element.getAttribute( 'url' ) );
+                anchor.className = 'embedly-card';
+
+                element.appendChild( anchor );
+            } );
         };
     </script>
 
 
 
 
-	<%-- 		<jsp:include page="../inc/footer.jsp"></jsp:include>--%>
 	<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 	<script type="text/javascript">
 			function showModifyPage() {
 				var noticeNo = "${notice.noticeNo }";
-				location.href = "/notice/modify?noticeNo=" + noticeNo;
+				location.href = "/notice/modify.ft?noticeNo=" + noticeNo;
 			}
 			
 			function deleteNotice(noticeNo) {
 				if (confirm("삭제하시겠습니까?")) {
-					location.href = "/notice/delete?noticeNo=" + noticeNo;
+					location.href = "/notice/delete.ft?noticeNo=" + noticeNo;
 				}
 			}
 			
 			function showNoticeList() {
-				location.href = "/notice/list";
+				location.href = "/notice/list.ft";
 			}
 			
 			
@@ -214,7 +217,7 @@
         	function getReplyList() {
         		var refNoticeNo = $("#refNoticeNo").val();
         		$.ajax({
-        			url: "/notice/reply/list",
+        			url: "/notice/reply/list.ft",
         			data: {"refNoticeNo": refNoticeNo},
         			type: "GET",
         			success: function(result) {
@@ -226,7 +229,7 @@
         				var replyContent;
         				var rCreateDate;
         				var btnArea;
-        				var sessionId = "${memberId}";
+        				var sessionId = "${userId}";
         				if(result.length > 0) {
         					for(var i in result) {
         						var replyWriterVal = result[i].replyWriter;
@@ -260,7 +263,7 @@
         		var inputTag = $(obj).parent().prev().prev();
         		var replyContent = inputTag.val();
         		$.ajax({
-        			url: "/notice/reply/update",
+        			url: "/notice/reply/update.ft",
         			data: { "replyNo" : replyNo,
         					"replyContent" : replyContent },
         			type: "POST",
@@ -298,7 +301,7 @@
         	function removeReply(replyNo) {
         		
         		$.ajax({
-        			url: "/notice/reply/delete",
+        			url: "/notice/reply/delete.ft",
         			data: { "replyNo" : replyNo },
         			type: "POST",
         			success: function(result) {
@@ -307,7 +310,7 @@
         				getReplyList();
         			},
         			error: function() {
-        				alert("Ajax 통신 실패! 관리자에게 문의하세요~")
+        				alert("Ajax 통신 실패! 관리자에게 문의하세요.")
         			}
         		})
         	}
@@ -317,7 +320,7 @@
         		var refNoticeNo = $("#refNoticeNo").val();
         		var replyContent = $("#replyContent").val();
         		$.ajax({
-        			url: "/notice/reply/add",
+        			url: "/notice/reply/add.ft",
         			data: { "refNoticeNo" : refNoticeNo, "replyContent" : replyContent },
         			type: "POST",
         			success: function(result) {

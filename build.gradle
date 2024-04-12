@@ -46,6 +46,10 @@ dependencies {
     implementation 'commons-io:commons-io:2.11.0'
     // JSON in Java
     implementation 'org.json:json:20210307'
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+    // GSON
+    implementation 'com.google.code.gson:gson:2.8.8' 
+       
 }
 
 
@@ -53,9 +57,7 @@ apply plugin: 'java'
 
 tasks.withType(JavaCompile) {
     options.compilerArgs << "-parameters"
-
-
-
+}
 tasks.named('test') {
 	useJUnitPlatform()
 }

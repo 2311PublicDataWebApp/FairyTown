@@ -35,7 +35,7 @@ public class NoticeController {
 	// ===================
 	// 공지사항 작성 페이지
 	// ===================
-	@GetMapping("/notice/insert")
+	@GetMapping("/notice/insert.ft")
 	public String showWriteForm() {
 		return "notice/write";
 	}
@@ -43,7 +43,7 @@ public class NoticeController {
 	// ===================
 	// 공지사항 작성
 	// ===================
-	@PostMapping("/notice/insert")
+	@PostMapping("/notice/insert.ft")
 	public ModelAndView insertNotice(ModelAndView mv
 			, @ModelAttribute NoticeVO notice
 			, HttpSession session
@@ -80,7 +80,7 @@ public class NoticeController {
 			    // 등록된 공지사항의 ID를 가져옴
 
 		    // 상세 페이지로 이동하기 위해 공지사항 ID를 사용하여 URL을 생성
-			    String redirectUrl = "/notice/detail?noticeNo=" + (noticeNo + 1);
+			    String redirectUrl = "/notice/detail.ft?noticeNo=" + (noticeNo + 1);
 			    
 		    // 생성된 URL로 리다이렉트
 			    mv.setViewName("redirect:" + redirectUrl);
@@ -98,9 +98,9 @@ public class NoticeController {
 	}
 	
 	// ===================
- 	// 공지사항 상세조회
+ 	// 공지사항 상세보기
  	// ===================
-    @GetMapping("/notice/detail")
+    @GetMapping("/notice/detail.ft")
     public ModelAndView showNoticeDetail(ModelAndView mv, @RequestParam("noticeNo") int noticeNo) {
 		try {
 			NoticeVO notice = nService.selectByNoticeNo(noticeNo);
@@ -120,13 +120,13 @@ public class NoticeController {
     // ===================
  	// 공지사항 수정 페이지
  	// ===================
-    @GetMapping("/notice/modify")
+    @GetMapping("/notice/modify.ft")
     public ModelAndView showModifyForm(ModelAndView mv, int noticeNo) {
 		try {
 			NoticeVO notice = nService.selectByNoticeNo(noticeNo);
 			if (notice != null) {
 				mv.addObject("notice", notice);
-				mv.setViewName("notice/modify");
+				mv.setViewName("notice/modify.ft");
 			} else {
 				mv.addObject("msg", "데이터 불러오기 실패.");
 				mv.setViewName("common/errorPage");
@@ -141,7 +141,7 @@ public class NoticeController {
     // ===================
  	// 공지사항 수정
  	// ===================
-    @PostMapping("/notice/modify")
+    @PostMapping("/notice/modify,ft")
     public ModelAndView updateNotice(ModelAndView mv, @ModelAttribute NoticeVO notice,
 			@RequestParam(value = "reloadFile", required = false) MultipartFile reloadFile, HttpServletRequest request,
 			int noticeNo) {
@@ -162,7 +162,7 @@ public class NoticeController {
 			}
 			int result = nService.updateNotice(notice);
 			if (result > 0) {
-				mv.setViewName("redirect:/notice/detail?noticeNo=" + notice.getNoticeNo());
+				mv.setViewName("redirect:/notice/detail.ft?noticeNo=" + notice.getNoticeNo());
 			} else {
 				mv.addObject("msg", "데이터가 존재하지 않습니다.");
 				mv.setViewName("common/errorPage");
@@ -177,12 +177,12 @@ public class NoticeController {
     // ===================
  	// 공지사항 삭제
  	// ===================
-    @GetMapping("/notice/delete")
+    @GetMapping("/notice/delete.ft")
     public ModelAndView deleteNotice(ModelAndView mv, int noticeNo) {
 		try {
 			int result = nService.deleteNotice(noticeNo);
 			if (result > 0) {
-				mv.setViewName("redirect:/notice/list");
+				mv.setViewName("redirect:/notice/list.ft");
 			} else {
 				mv.addObject("msg", "데이터가 존재하지 않습니다.").setViewName("common/errorPage");
 			}
@@ -197,7 +197,7 @@ public class NoticeController {
 	// ===================
 	// 공지사항 리스트
 	// ===================
-	@GetMapping("/notice/list")
+	@GetMapping("/notice/list.ft")
     public ModelAndView ShowNoticeList(ModelAndView mv,
             @RequestParam(value="page", 
             required=false, defaultValue="1") Integer currentPage) {
@@ -219,7 +219,7 @@ public class NoticeController {
     // ===================
  	// 공지사항 검색
  	// ===================
- 	@GetMapping(value="/notice/search")
+ 	@GetMapping(value="/notice/search.ft")
  	public ModelAndView searchNoticeList(ModelAndView mv
  			, @RequestParam("searchCondition") String searchCondition
  			, @RequestParam("searchKeyword") String searchKeyword

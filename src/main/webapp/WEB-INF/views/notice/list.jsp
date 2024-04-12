@@ -6,13 +6,12 @@
     <head>
         <meta charset="UTF-8">
         <title>공지사항 목록</title>
-<!--     	<link rel="stylesheet" href="../resources/css/main.css"> -->
-    	<style>
-    		#notice-list {
-    			width: 1200px;
-    			margin: auto;
-    		}
-    	</style>
+	    	<style>
+	    		#notice-list {
+	    			width: 1200px;
+	    			margin: auto;
+	    		}
+	    	</style>
     </head>
     <body>
 	<!-- 공통 / 헤더 -->
@@ -36,7 +35,7 @@
 		                <tr>
 		                    <td>${notice.noticeNo }</td>
 		                    <td>공지</td>
-		                    <td><a href="/notice/detail?noticeNo=${notice.noticeNo }">
+		                    <td><a href="/notice/detail.ft?noticeNo=${notice.noticeNo }">
 		                    ${notice.noticeSubject }
 		                    </a></td>
 		                    <td>${notice.noticeDate }</td>
@@ -48,7 +47,7 @@
 		        <c:if test="${memberId ne 'admin' }">
 		        	<div class="d-flex flex-wrap justify-content-center align-items-center pb-5">
 	                    <div class="d-flex col-md-12 justify-content-start">
-	                        <form class="row g-1" action="/notice/search" method="get">
+	                        <form class="row g-1" action="/notice/search.ft" method="get">
 	                            <div class="col-auto">
 	                                <select class="form-select" name="searchCondition">
 	                                <option value="all" selected>전체</option>
@@ -71,7 +70,7 @@
                 <c:if test="${memberId eq 'admin' }">
                 	<div class="d-flex flex-wrap justify-content-center align-items-center pb-5">
                     <div class="d-flex col-md-6 justify-content-start">
-                        <form class="row g-1" action="/notice/search" method="get">
+                        <form class="row g-1" action="/notice/search.ft" method="get">
                             <div class="col-auto">
                                 <select class="form-select" name="searchCondition">
                                 <option value="all" selected>전체</option>
@@ -96,7 +95,6 @@
 			</div>
                 </c:if>
                 
-                
 		        <div class="row mt-3 mb-5" style="margin-top:300px;">
 							<div class="col-md-12">
 								<nav aria-label="Page navigation example">					
@@ -104,14 +102,14 @@
 										<c:if test="${pi.startNavi ne '1' }">
 				<%-- 							<a href="/notice/list.do?page=${pi.startNavi - 1 }">[이전]</a> --%>
 											<li class="page-item">
-						                       <a class="page-link rounded-circle" href="/notice/list?page=${pi.startNavi - 1 }" aria-label="Previous">
+						                       <a class="page-link rounded-circle" href="/notice/list.ft?page=${pi.startNavi - 1 }" aria-label="Previous">
 						                           <span aria-hidden="true">&laquo;</span>
 						                       </a>
 											</li>
 										</c:if>
 										<c:forEach begin="${pi.startNavi }" end="${pi.endNavi }" var="p">
 											 <li class="page-item">
-			                                     <a class="page-link rounded-circle mx-2" href="/notice/list?page=${p }" style="border: none; color: #313131;">
+			                                     <a class="page-link rounded-circle mx-2" href="/notice/list.ft?page=${p }" style="border: none; color: #313131;">
 			                                         ${p }
 			                                     </a>
 		                                 	</li>
@@ -119,7 +117,7 @@
 										</c:forEach>
 										<c:if test="${pi.endNavi ne pi.naviTotalCount }">
 											<li class="page-item">
-			                                     <a class="page-link rounded-circle" href="/notice/list?page=${pi.endNavi + 1 }" aria-label="Next">
+			                                     <a class="page-link rounded-circle" href="/notice/list.ft?page=${pi.endNavi + 1 }" aria-label="Next">
 			                                         <span aria-hidden="true">&raquo;</span>
 			                                     </a>
 		                                 	</li>
@@ -130,11 +128,10 @@
 							</div>
 						</div>
 	    	</div>
-        <%-- <jsp:include page="../inc/footer.jsp"></jsp:include> --%>
         <script>
 			function showInsertForm() {
 				// 공지사항 글쓰기 페이지 이동
-				location.href="/notice/insert";
+				location.href="/notice/insert.ft";
 			}
 		</script>
     <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>

@@ -20,7 +20,7 @@
 		<h1><b>공지사항 수정</b></h1>
 		<br><br><br>
 		<!-- General Form Elements -->
-              <form action="/notice/modify" method="post" enctype="multipart/form-data">
+              <form action="/notice/modify.ft" method="post" enctype="multipart/form-data">
               <input type="hidden" name="noticeNo" 		 value="${notice.noticeNo }">
               <input type="hidden" name="noticeFileName" 	 value="${notice.noticeFileName }">
 			  <input type="hidden" name="noticeFileRename" value="${notice.noticeFileRename }">
@@ -57,7 +57,7 @@
 		<%-- <jsp:include page="../inc/footer.jsp"></jsp:include> --%>
 		<script type="text/javascript">
 			function showNoticeList() {
-				location.href = "/notice/list";
+				location.href = "/notice/list.ft";
 			}
 		</script>
 	</body>
