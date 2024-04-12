@@ -1,5 +1,6 @@
 package com.fairytown.ft.user.domain.vo;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.Collections;
@@ -11,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import lombok.Data;
 
 @Data
-public class UserVO implements UserDetails{
+public class UserVO implements UserDetails, Serializable{
 	private String	userId;
 	private String	userPw;
 	private String	userEmail;
@@ -24,7 +25,7 @@ public class UserVO implements UserDetails{
 	private String	detailAddress;
 	private String	userAdmin;
 	private Date	userDate;
-	private String	uName;
+	private String	realName;
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
