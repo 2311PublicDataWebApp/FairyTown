@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+	<mapper namespace="OrderMapper">
+		<insert id="insertOrder">
+			INSERT INTO GOODS_ORDER_TBL VALUES(#{goodsOrderCode }, DEFAULT , #{goodsOrderName }, #{goodsOrderPhone }, #{goodsOrderPostcode }, #{goodsOrderAddress }, #{goodsSum })
+		</insert>
+		<insert id="insertOrderDetail">
+			INSERT INTO GOODS_ORDER_DETAIL_TBL VALUES(#{goodsCode}, #{goodsOrderCode }, #{goodsOrderUserId }, #{goodsOrderCnt })
+		</insert>
+		<select id="selectByOrderCode" resultType="OrderVO">
+			SELECT * 
+			FROM GOODS_ORDER_DETAIL_TBL D
+					 INNER JOIN GOODS_ORDER_TBL O ON D.GOODS_ORDER_CODE = O.GOODS_ORDER_CODE  
+					 INNER JOIN GOODS_TBL G ON D.GOODS_CODE = G.GOODS_CODE  
+			WHERE D.GOODS_ORDER_CODE = #{goodsOrderCode }
+		</select>
+	</mapper>

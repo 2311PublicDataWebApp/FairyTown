@@ -8,6 +8,12 @@
 			INSERT INTO CART_TBL
 			VALUES (SEQ_CART_NO.NEXTVAL, #{cartUserId}, #{cartGoodsCode}, null, null, #{cartStock}, DEFAULT)
 		</insert>
+		<update id="addCnt">
+			UPDATE CART_TBL SET CART_STOCK = #{cartStock} WHERE CART_USER_ID = #{cartUserId} AND CART_GOODS_CODE = #{cartGoodsCode}
+		</update>
+		<update id="MinusCnt">
+			UPDATE CART_TBL SET CART_STOCK = #{cartStock} WHERE CART_NUM = #{cartNum}
+		</update>
 		<!-- 카트 리스트 -->
 		<select id="selectCartList" resultType="CartVO">
 			 SELECT
@@ -15,7 +21,13 @@
 			 FROM CART_TBL C
 			     INNER JOIN GOODS_TBL G
 			         ON C.CART_GOODS_CODE = G.GOODS_CODE  
-<!-- 			 WHERE C.CART_USER_ID = #{userId} -->
+			 WHERE C.CART_USER_ID = #{cartUserId}
+		</select>
+		<select id="findByUserIdAndGoodsCode" resultType="CartVO">
+			 SELECT
+			     *
+			 FROM CART_TBL 
+			 WHERE CART_USER_ID = #{cartUserId} AND CART_GOODS_CODE = #{cartGoodsCode}
 		</select>
 		<select id="selectOrderList" resultType="CartVO">
 			 SELECT
@@ -30,7 +42,7 @@
 			SELECT COUNT(*) FROM
 			CART_TBL
 			<if test="userId != null">
-				WHERE CART_UESR_ID = #{userId }
+				WHERE CART_USER_ID = #{cartUserId }
 			</if>
 			ORDER BY CART_DATE DESC
 		</select>

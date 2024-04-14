@@ -57,8 +57,8 @@ public class GoodsServiceImpl implements GoodsService {
 
 	@Override
 	public GoodsVO selectByGoodsCode(Integer goodsCode) {
-		GoodsVO notice = gStore.selectByGoodsCode(session, goodsCode);
-		return notice;
+		GoodsVO goods = gStore.selectByGoodsCode(session, goodsCode);
+		return goods;
 	}
 
 	@Override

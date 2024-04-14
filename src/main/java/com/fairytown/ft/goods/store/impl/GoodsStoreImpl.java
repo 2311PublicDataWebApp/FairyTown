@@ -49,8 +49,8 @@ public class GoodsStoreImpl implements GoodsStore{
 
 	@Override
 	public GoodsVO selectByGoodsCode(SqlSession session, Integer goodsCode) {
-		GoodsVO notice = session.selectOne("GoodsMapper.selectByGoodsCode", goodsCode);
-		return notice;
+		GoodsVO goods = session.selectOne("GoodsMapper.selectByGoodsCode", goodsCode);
+		return goods;
 	}
 
 	@Override

@@ -35,7 +35,7 @@
 							 	<input type="hidden" id="check-delete-cart" name="check-delete-cart">
                             </form>
 						  	<button type="button" class="selectDelete_btn" onclick="getDeleteCart();">선택 삭제</button> 
-                            <form action="/goods/order.ft" method="post" name="orderCartForm">							
+                            <form action="/goods/orderInfo.ft" method="post" name="orderCartForm">							
 								 <div class="orderBtn">
 								 	<input type="hidden" id="check-order-cart" name="check-order-cart">
 								 </div>
@@ -54,7 +54,11 @@
 								<td>${cart.cartGoodsCode }</td>
 								<td><a href="/goods/detail.ft?goodsCode=${cart.cartGoodsCode }">${cart.goodsName }</a></td>
 								<td><fmt:formatNumber value="${cart.goodsPrice }" pattern="###,###,###"/>원</td>
-								<td><input class="numBox" type="number" cmin="1" max="${cart.cartStock}" value="${cart.cartStock }" /></td>
+								<td>
+									<button type="button" onClick="Minus()">-</button>
+										<input class="numBox" type="number" cmin="1" max="${cart.cartStock}" value="${cart.cartStock }" />
+									<button type="button" onClick="Plus()">+</button>
+								</td>
 								<td><fmt:formatNumber pattern="###,###,###" value="${cart.goodsPrice * cart.cartStock}" />원</td>
 								<%-- <td>
 									<div class="delete">
@@ -138,6 +142,29 @@
 		function showInsertForm() {
 			// 공지사항 글쓰기 페이지 이동
 			location.href="/goods/insert.ft";
+		}
+		function Minus() {
+			var cartStock = $(".numBox").val();
+			var cartNum = $(".cartNum").val();
+			if(cartStock == 0) {
+		        alert("최소 갯수입니다.");
+		    } else{
+		        $.ajax({
+		            type: "post",
+		            url: '/goods/cartCntMinus.ft',
+		            data: {"cartStock" : cartStock, "cartNum" : cartNum},
+		            success: function(result) {
+        				alert("서비스 결과: " + result);
+        			},
+        			error: function() {
+        				alert("Ajax 통신 실패! 관리자에게 문의바랍니다.")
+        			}
+		        
+			    });
+			}
+		}
+		function plus() {
+			
 		}
 		</script>
 		<script src="../assets/dist/js/bootstrap.bundle.min.js"></script>

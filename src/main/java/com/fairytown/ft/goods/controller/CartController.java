@@ -1,4 +1,4 @@
-package com.fairytown.ft.cart.controller;
+package com.fairytown.ft.goods.controller;
 
 
 import java.util.ArrayList;
@@ -8,16 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.fairytown.ft.cart.domain.vo.CartVO;
-import com.fairytown.ft.cart.domain.vo.CartVO;
-import com.fairytown.ft.cart.service.CartService;
 import com.fairytown.ft.common.PageInfo;
+import com.fairytown.ft.goods.domain.vo.CartVO;
 import com.fairytown.ft.goods.domain.vo.GoodsVO;
+import com.fairytown.ft.goods.service.CartService;
+import com.fairytown.ft.user.domain.vo.UserVO;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -31,27 +34,42 @@ public class CartController {
 		// 카트 담기
 		@ResponseBody
 		@PostMapping(value = "/goods/addCart.ft")
-		public void addCart(CartVO cart, HttpSession session) throws Exception {
-		 
-		 String userId = (String) session.getAttribute("userId");
-		 cart.setCartUserId(userId);
-
-		 cService.addCart(cart);
-		 
+		public int addCart(@ModelAttribute CartVO cart, HttpSession session, @RequestParam("cartGoodsCode") Integer cartGoodsCode, @RequestParam("cartStock") Integer cartStock) throws Exception {
+			int result = 0;
+			UserVO uOne = (UserVO) session.getAttribute("user");
+			if(uOne != null) {
+				cart.setCartUserId(uOne.getUserId());
+				cart = cService.findByUserIdAndGoodsCode(cart);
+				if(cart == null) {
+					CartVO newCart = new CartVO();
+				    newCart.setCartUserId(uOne.getUserId());
+				    newCart.setCartGoodsCode(cartGoodsCode);
+				    newCart.setCartStock(cartStock);
+					result = cService.addCart(newCart);
+				} else {
+					int prev = cart.getCartStock();
+				    cart.setCartStock(prev+cartStock);
+					result = cService.addCnt(cart);
+				}
+			} 
+			
+			return result;
 		}
+		
 		
 		// 카트 목록
 		@GetMapping("/goods/cartList.ft")
-	    public ModelAndView ShowCartList(ModelAndView mv, HttpSession session,
+	    public ModelAndView ShowCartList(@ModelAttribute CartVO cart, ModelAndView mv, HttpSession session,
 	            @RequestParam(value="page", 
 	            required=false, defaultValue="1") Integer currentPage) {
 			try {
-				String userId = (String)session.getAttribute("userId");
+				UserVO uOne = (UserVO) session.getAttribute("user");
+				String userId = uOne.getUserId();
+				cart.setCartUserId(userId);
 				int totalCount = cService.getTotalCount(userId);
-				PageInfo pi = this.getPageInfo(currentPage, totalCount);
-//				List<CartListVO> cList = cService.selectCartList(userId, pi);
-				List<CartVO> cList = cService.selectCartList();
+				List<CartVO> cList = cService.selectCartList(userId);
 				mv.addObject("cList", cList);
+				mv.addObject("totalCount", totalCount);
 				mv.setViewName("goods/cartlist");
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -86,14 +104,14 @@ public class CartController {
 	    }
 	    
 	    // 장바구니 주문
-	    @PostMapping(value = "/goods/order.ft")
+	    @PostMapping(value = "/goods/orderInfo.ft")
 	    public ModelAndView orderCart(@RequestParam("check-order-cart") String selectCart, ModelAndView mv) throws Exception {
 	    	try {
 				String[] carts = selectCart.split(",");
 				int result = 0;
 				List<CartVO> cList = new ArrayList<CartVO>();
 				for(String cartNum : carts) {
-					cList.add(cService.selectCartList(cartNum));
+					cList.add(cService.selectOrderList(cartNum));
 				}
 				mv.addObject("cList", cList);
 				mv.setViewName("goods/orderInfo");
@@ -105,7 +123,28 @@ public class CartController {
 	    	return mv;
 	    }
 	    
-	 // 주문 페이지 이동
+
+	    @ResponseBody
+	    @PostMapping(value="/goods/cartCntMinus.ft")
+	    public String MinusCnt(@ModelAttribute CartVO cart
+	    		, @RequestParam("cartNum") Integer cartNum
+	    		, @RequestParam("cartStock") Integer cartStock
+	    		, HttpSession session) {
+	    	try {
+	    		int prev = cart.getCartStock();
+	    		cart.setCartStock(prev - 1);
+				int result = 0;
+				result = cService.MinusCnt(cart);
+				if (result > 0) {
+					return "success";
+				} else {
+					return "fail";
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				return e.getMessage();
+			}
+	    }
 
 	    
 	    // 페이징
