@@ -48,7 +48,7 @@
 	
 	<insert id="insertTicket">
 		INSERT INTO TICKET_TBL 
-		VALUES(4, #{ticketName }, 
+		VALUES(SEQ_TICKET_NO.NEXTVAL, #{ticketName }, 
 		#{ticketDetail }, #{ticketCard }, #{ticketAdult}, 
 		#{ticketTeen}, #{ticketChild}, SEQ_TICKET_IMG_NO.NEXTVAL,
 		 #{ticketImgName }, #{ticketImgRename }, 
@@ -67,7 +67,7 @@
 		TICKET_IMG_NAME = #{ticketImgName },
 		 TICKET_IMG_RENAME = #{ticketImgRename }, 
 		 TICKET_IMG_FILEPATH = #{ticketImgFilepath }, 
-		 TICKET_IMG_FILELENGTH = #{ticketImgFilelength }  
+		 TICKET_IMG_FILELENGTH = #{ticketImgFilelength },
 		 TICKET_STATUS = #{ticketStatus }  
 		 WHERE TICKET_NO = #{ticketNo }
 	</update>

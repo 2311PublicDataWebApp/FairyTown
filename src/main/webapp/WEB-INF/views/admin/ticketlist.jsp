@@ -47,22 +47,22 @@
 								<c:forEach items="${tList }" var="ticket" varStatus="i">
 									<tr class="ticket_list_tr">
 										<td class="list_first_td">
-											<a href="admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">${i.count }</a>
+											<a href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">${i.count }</a>
 										</td>
 										<td class="list_second_td">
-											<a href="admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">${ticket.ticketName }</a>
+											<a href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">${ticket.ticketName }</a>
 										</td>
 										<td class="list_third_td">
-											<a href="admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">${ticket.ticketDetail}</a>
+											<a href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">${ticket.ticketDetail}</a>
 										</td>
 										<td class="list_fourth_td">
-											<a href="admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">${ticket.ticketAdult}</a>
+											<a href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">${ticket.ticketAdult}</a>
 										</td>
 										<td class="list_fifth_td">
-											<a href="admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">${ticket.ticketStatus}</a>
+											<a href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">${ticket.ticketStatus}</a>
 										</td>
 										<td class="list_sixth_td">
-											<a href="admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">${ticket.ticketDate}</a>
+											<a href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">${ticket.ticketDate}</a>
 										</td>
 									</tr>
 								</c:forEach>
@@ -70,14 +70,14 @@
 
 								<tr class="pgn">
 								    <td colspan="6">
-								        <c:if test="${pInfo.startNavi ne 1}">
-								            <a href="/admin/ticketlist.ft?page=${pInfo.startNavi - 1}">[이전]</a>
+								        <c:if test="${pi.startNavi ne 1}">
+								            <a href="/admin/ticketlist.ft?page=${pi.startNavi - 1}">[이전]</a>
 								        </c:if> 
-								        <c:forEach begin="${pInfo.startNavi}" end="${pInfo.endNavi}" var="p">
+								        <c:forEach begin="${pi.startNavi}" end="${pi.endNavi}" var="p">
 								            <a href="/admin/ticketlist.ft?page=${p}">${p}</a>
 								        </c:forEach> 
-								        <c:if test="${pInfo.endNavi ne pInfo.naviTotalCount}">
-								            <a href="/admin/ticketlist.ft?page=${pInfo.endNavi + 1}">[다음]</a>
+								        <c:if test="${pi.endNavi ne pi.naviTotalCount}">
+								            <a href="/admin/ticketlist.ft?page=${pi.endNavi + 1}">[다음]</a>
 								        </c:if>
 								    </td>
 								</tr>	

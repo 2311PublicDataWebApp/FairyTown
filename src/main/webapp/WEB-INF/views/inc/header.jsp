@@ -385,17 +385,17 @@
             </div>
 
             <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0" style="margin-right: 100px;">
-                <li><a href="ride/list.ft" class="yellow underline" style="margin-right: 40px; color: #C96AAC; font-size: 20px;" >즐길거리</a></li>
-                <li><a href="goods/list.ft" class="yellow underline" style="margin-right: 40px; color: #BA83BD; font-size: 20px;" >굿즈샵</a></li>
-                <li><a href="ticket/list.ft" class="yellow underline" style="margin-right: 40px; color: #A996CE; font-size: 20px;" >예매하기</a></li>
-                <li><a href="review/list.ft" class="yellow underline" style="margin-right: 40px; color: #93ADDE; font-size: 20px;" >리뷰</a></li>
+                <li><a href="/ride/list.ft" class="yellow underline" style="margin-right: 40px; color: #C96AAC; font-size: 20px;" >즐길거리</a></li>
+                <li><a href="/goods/list.ft" class="yellow underline" style="margin-right: 40px; color: #BA83BD; font-size: 20px;" >굿즈샵</a></li>
+                <li><a href="/ticket/list.ft" class="yellow underline" style="margin-right: 40px; color: #A996CE; font-size: 20px;" >예매하기</a></li>
+                <li><a href="/review/list.ft" class="yellow underline" style="margin-right: 40px; color: #93ADDE; font-size: 20px;" >리뷰</a></li>
 <!--                 <li><a href="#" class="nav-link px-2" style="margin-right: 40px; color: #5DCCFA;">고객센터</a></li> -->
 				<li class="dropdown">
 				      <button class="nav-link px-2" style="margin-top: -9px;"> 
 				        <span class="yellow underline" style="margin-right: 40px;  color: #5DCCFA; font-size: 20px;">고객센터</span>
 				      </button>
 				      <div class="dropdown-content">
-				        <a href="notice/list.ft" style="color: #497BC2;">공지사항</a>
+				        <a href="/notice/list.ft" style="color: #497BC2;">공지사항</a>
 				        <a href="#" style="color: #5DCCFA;">자주 묻는 질문</a>
 				        <a href="#" style="color: #497BC2;">1대1 문의</a>
 				      </div>

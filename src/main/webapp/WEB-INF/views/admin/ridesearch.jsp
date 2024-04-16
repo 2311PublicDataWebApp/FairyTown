@@ -83,14 +83,14 @@
 								<!-- 페이지네이션 -->
 								<tr align="center" class="pgn">
 									<td colspan="5">
-										<c:if test="${pInfo.startNavi ne '1' }">
-											<a href="/admin/ridesearch.ft?page=${pInfo.startNavi - 1 }">[이전]</a>
+										<c:if test="${pi.startNavi ne '1' }">
+											<a href="/admin/ridesearch.ft?page=${pi.startNavi - 1 }">[이전]</a>
 										</c:if> 
-										<c:forEach begin="${pInfo.startNavi }" end="${pInfo.endNavi }" var="p">
+										<c:forEach begin="${pi.startNavi }" end="${pi.endNavi }" var="p">
 											<a href="/admin/ridesearch.ft?page=${p }">${p }</a>
 										</c:forEach> 
-											<c:if test="${pInfo.endNavi ne pInfo.naviTotalCount }">
-												<a href="/admin/ridesearch.ft?page=${pInfo.endNavi + 1 }">[다음]</a>
+											<c:if test="${pi.endNavi ne pi.naviTotalCount }">
+												<a href="/admin/ridesearch.ft?page=${pi.endNavi + 1 }">[다음]</a>
 											</c:if>
 									</td>
 								</tr>

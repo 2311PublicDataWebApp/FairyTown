@@ -135,7 +135,8 @@
 					return false;
 
 				}
-		
+		}
+	
 				function removeWord(){
 				    if( search_form.searchKeyword.value != "" ) {
 				    	search_form.searchKeyword.value="";
@@ -143,10 +144,10 @@
 				     }
 				}
 				
-				function showRegist(){
-					location.href = "redirect:/admin/ticketregist";
-					}
-				}		
+				
+				function showRegist() {
+			        location.href = "/admin/ticketregist.ft";
+			    }		
 	</script>
 	  
 	<!-- 공통 / 풋터 -->

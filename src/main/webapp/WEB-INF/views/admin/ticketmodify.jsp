@@ -12,7 +12,7 @@
 	<!-- 공통 / 헤더 -->
 	<jsp:include page="../inc/header.jsp"></jsp:include>
 
-		<form action="/admin/ticketmodify.ft" method="post" name="ticketForm">
+		<form action="/admin/ticketmodify.ft" method="post" name="ticketForm" enctype="multipart/form-data">
 			
 		<!-- 어드민 타이틀 영역 -->
 			<div class="admTitle">
@@ -28,7 +28,7 @@
 		
 		<!-- 컨텐츠 영역 -->
 			<div class="content">
-				<input type="hidden" name="ticketNo" value="ticketNo">
+				<input type="hidden" name="ticketNo" value="${ticket.ticketNo }">
 				<table class="table_close">
 					<tr>
 						<td>티켓명＊ : </td>
@@ -80,7 +80,8 @@
 					<tr>
 						<td>이미지 : </td>
 						<td>
-							<span>${ticket.ticketImgName }</span><input type="file" name="ticketImgName">
+							<img src="../resources/nuploadFiles/${ticket.ticketImgRename }" alt="이미지"><br>
+							<input type="file" name="reloadFile">
 						</td>
 					</tr>
 					<tr>
@@ -145,9 +146,9 @@
 			}
 		}
 		
-		function deleteClose(ticketNo){
+		function deleteTicket(ticketNo){
 			if(confirm("삭제하시겠습니까?")){
-				location.href = "admin/ticketdelete.ft?ticketNo="+ticketNo;
+				location.href = "/admin/ticketdelete.ft?ticketNo="+ticketNo;
 				alert("정상적으로 삭제되었습니다.");
 			}else{
 				alert("삭제를 취소하셨습니다.");

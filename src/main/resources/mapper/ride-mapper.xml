@@ -4,19 +4,213 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
   <mapper namespace="com.fairytown.ft.ride.store.RideStore">
-  	
-  	 
-  	<insert id="insertClose">
+
+  
+<!--    놀이기구 관련	  -->
+  
+  	  <insert id="insertRide">
 		INSERT INTO RIDE_TBL
-		VALUES(6,  
+		VALUES(SEQ_RIDE_NO.NEXTVAL,  
 		#{rideName }, #{rideDescription }, #{rideCount}, 
 		#{rideStatus}, #{rideDate}, #{rideLimit}, 
 		 #{rideX }, #{rideY }, 
-		 SEQ_RIMG_NO.NEXTVAL, #{closeDate }, #{closeReason },6)
+		  #{closeDate }, #{closeReason },SEQ_CLOSE_NO.NEXTVAL,)
+		 <selectKey keyProperty="rideId,closeNo" resultType="int" order="AFTER">
+			SELECT SEQ_RIDE_NO.CURRVAL FROM DUAL
+		</selectKey>
+		</insert>
+		
+  	<insert id="insertRideImg">
+		INSERT INTO RIDE_IMG_TBL
+		VALUES(SEQ_RIMG_NO.NEXTVAL, 
+		#{rideId},#{rideImgName},#{rideImgRename},#{rideImgFilepath}
+		,#{rideImgFilelength},#{rideImgThumbnail})
+		<selectKey keyProperty="rideImgNo" resultType="int" order="AFTER">
+			SELECT SEQ_RIMG_NO.CURRVAL FROM DUAL
+		</selectKey>
 	</insert>
+	
+  <update id="modifyRide">
+		UPDATE RIDE_TBL 
+		SET 
+		RIDE_NAME = #{rideName }, 
+		RIDE_DESCRIPTION = #{rideDescription }, 
+		RIDE_COUNT = #{rideCount}, 
+		RIDE_STATUS = #{rideStatus }, 
+		RIDE_DATE = #{rideDate }, 
+		RIDE_LIMIT = #{rideLimit }, 
+		RIDE_X = #{rideX }  
+		RIDE_Y = #{rideY }  
+		WHERE RIDE_ID = #{rideId}
+	</update>
+	
+	 <update id="modifyRideImg">
+		UPDATE RIDE_IMG_TBL 
+		SET 
+		RIDE_IMG_NAME = #{rideImgName }, 
+		RIDE_IMG_RENAME = #{rideImgRename }, 
+		RIDE_IMG_FILEPATH = #{rideImgFilepath}, 
+		RIDE_IMG_FILELENGTH = #{rideImgFilelength }, 
+		RIDE_IMG_THUMBNAI = #{rideImgThumbnail }, 
+		WHERE RIDE_IMG_NO = #{rideImgNo }
+	</update>
+	
+  	<delete id="deleteRide">
+		DELETE FROM RIDE_TBL WHERE RIDE_ID = #{rideId}
+	</delete>
+  <select id="selectTotalCount" resultType="_int">
+		SELECT COUNT(*) FROM RIDE_TBL
+	</select>
+	
+	<select id="searchTotalCount" resultType="_int">
+		SELECT COUNT(*) FROM RIDE_TBL
+		  
+		<if test="searchCondition =='all'">		
+			WHERE RIDE_NAME LIKE '%'||#{searchKeyword}||'%'
+			OR RIDE_STATUS LIKE '%'||#{searchKeyword}||'%'
+		</if>
+		<if test="searchCondition == 'rideName'">		
+			WHERE RIDE_NAME LIKE '%'||#{searchKeyword}||'%'
+		</if>
+		<if test="searchCondition == 'rideStatus'">		
+			WHERE RIDE_STATUS LIKE '%'||#{searchKeyword}||'%'
+		</if>
+	</select>
+	
+	<select id="selectRideList" resultMap="rideResultMap">
+		SELECT * FROM RIDE_TBL ORDER BY RIDE_DATE DESC
+	</select>
+	
+	<select id="selectByRideId" resultMap="rideResultMap">
+		SELECT * FROM RIDE_TBL WHERE RIDE_ID = #{rideId }
+	</select>
+	
+	<select id="selectrideByKeyword" resultMap="rideResultMap">
+		SELECT * FROM RIDE_TBL
+		<if test="searchCondition =='all'">		
+			WHERE RIDE_NAME LIKE '%'||#{searchKeyword}||'%'
+			OR RIDE_STATUS LIKE '%'||#{searchKeyword}||'%'
+		</if>
+		<if test="searchCondition == 'rideName'">		
+			WHERE RIDE_NAME LIKE '%'||#{searchKeyword}||'%'
+		</if>
+		<if test="searchCondition == 'rideStatus'">		
+			WHERE RIDE_STATUS LIKE '%'||#{searchKeyword}||'%'
+		</if>
+		ORDER BY RIDE_DATE DESC
+	</select>
+    	
+    	
+    	
+    	
+    	
+    	
+<!-- 운휴 관련 -->
+
+		<update id="insertClose">
+		    UPDATE RIDE_TBL
+		    SET
+		    RIDE_STATUS = 
+		        CASE 
+		            WHEN #{closeDate} != TODAY THEN 'AV'
+		            ELSE 'NAV'
+		        END,
+		    CLOSE_DATE = #{closeDate},
+		    CLOSE_REASON = #{closeReason},
+		    CLOSE_NO = SEQ_CLOSE_NO.NEXTVAL
+		    WHERE RIDE_ID = #{rideId}
+		</update>
+		  
   
   
+	 <select id="searchcloseByKeyword" resultMap="rideResultMap">
+		SELECT * FROM RIDE_TBL
+		<if test="searchCondition =='all'">		
+			WHERE RIDE_NAME LIKE '%'||#{searchKeyword}||'%'
+			WHERE CLOSE_REASON LIKE '%'||#{searchKeyword}||'%'
+			WHERE CLOSE_DATE LIKE '%'||#{searchKeyword}||'%'
+			OR RIDE_STATUS LIKE '%'||#{searchKeyword}||'%'
+		</if>
+		<if test="searchCondition == 'rideName'">		
+			WHERE RIDE_NAME LIKE '%'||#{searchKeyword}||'%'
+		</if>
+		<if test="searchCondition == 'closeReason'">		
+			WHERE CLOSE_REASON LIKE '%'||#{searchKeyword}||'%'
+		</if>
+		<if test="searchCondition == 'closeDate'">		
+			WHERE CLOSE_DATE LIKE '%'||#{searchKeyword}||'%'
+		</if>
+ 		<if test="searchCondition == 'rideStatus'">		
+			WHERE RIDE_STATUS LIKE '%'||#{searchKeyword}||'%'
+		</if>
+		ORDER BY RIDE_DATE DESC
+	</select>
+   	
+  	<select id="selectCloseList" resultMap="rideResultMap">
+		SELECT * FROM RIDE_TBL ORDER BY RIDE_DATE DESC
+	</select>
   
+  
+  	
+	<select id="selectByCloseNo" resultMap="rideResultMap">
+		SELECT * FROM RIDE_TBL WHERE CLOSE_NO = #{closeNo }
+	</select>
+  
+  <update id="deleteclose">
+		UPDATE RIDE_TBL 
+		SET 
+		CLOSE_DATE=NULL, 
+		CLOSE_REASON=NULL,
+		CLOSE_NO=NULL,
+		RIDE_STATUS='AV'
+		WHERE RIDE_ID = #{rideId}
+	</update>
+	
+	
+	<update id="modifyclose">
+		 UPDATE RIDE_TBL
+		    SET
+		    RIDE_STATUS = 
+		        CASE 
+		            WHEN #{closeDate} != TODAY THEN 'AV'
+		            ELSE 'NAV'
+		        END,
+		    CLOSE_DATE = #{closeDate},
+		    CLOSE_REASON = #{closeReason},
+		    WHERE CLOSE_NO= #{closeNo}
+	</update>
+	
+	
+	
+	
+<!--   ride 테이블 총 13개 칼럼 -->
+  <resultMap type="RideVO" id="rideResultMap">
+  	<id property="rideId" column="RIDE_ID"/>
+  	<result property="rideName" column="RIDE_NAME"/>
+  	<result property="rideDescription" column="RIDE_DESCRIPTION"/>
+  	<result property="rideCount" column="RIDE_COUNT"/>
+  	<result property="rideStatus" column="RIDE_STATUS"/>
+  	<result property="rideDate" column="RIDE_DATE"/>
+  	<result property="rideLimit" column="RIDE_LIMIT"/>
+  	<result property="rideX" column="RIDE_X"/>
+  	<result property="rideY" column="RIDE_Y"/>
+  	<result property="closeDate" column="CLOSE_DATE"/>
+  	<result property="closeReason" column="CLOSE_REASON"/>
+  	<result property="closeNo" column="CLOSE_NO"/>
+  	
+  
+  </resultMap>
+  
+<!--   rimg 테이블 총 7개 칼럼 -->
+  <resultMap type="RimgVO" id="rimgResultMap">
+ 	 <id property="rideImgNo" column="RIDE_IMG_NO"/>
+  	<result property="rideId" column="RIDE_ID"/>
+  	<result property="rideImgName" column="RIDE_IMG_NAME"/>
+  	<result property="rideImgRename" column="RIDE_IMG_RENAME"/>
+  	<result property="rideImgFilepath" column="RIDE_IMG_FILEPATH"/>
+  	<result property="rideImgFilelength" column="RIDE_IMG_FILELENGTH"/>
+  	<result property="rideImgThumbnail" column="RIDE_IMG_THUMBNAIL"/>
+  </resultMap>
   
   
   

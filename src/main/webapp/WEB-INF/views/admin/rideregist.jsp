@@ -31,7 +31,7 @@
 				<table class="table_ride">
 					<tr>
 						<td>놀이기구명 : </td>
-						<td><input type="text" name="rideName" placeholder="놀이기구 이름을 작성해주세요"></td>
+						<td><input type="text" name="rideName" placeholder="놀이기구 이름을 입력해주세요"></td>
 					</tr>
 					<tr>
 						<td>설명 : </td>
@@ -47,11 +47,11 @@
 					</tr>
 					<tr>
 						<td>운휴정보 : </td>
-						<td><input type="text" name="rideClose"></td>
+						<td><input type="text" name="rideStatus"></td>
 					</tr>
 					<tr>
 						<td>이미지 : </td>
-						<td><input type="file" name="rideImgNo"></td>
+						<td><input type="file" name="rideImgName"></td>
 					</tr>	
 					<tr>
 						<td>X좌표 : </td>
@@ -63,7 +63,7 @@
 					</tr>
 				</table>
 				
-				<input type="reset" value="이전으로">
+				<input type="reset" value="이전으로" onClick="goBack();">
 				<input type="submit" value="등록하기">
 			</div>
 			
@@ -72,5 +72,13 @@
 	
 	<!-- 공통 / 풋터 -->
 	<jsp:include page="../inc/footer.jsp"></jsp:include>
+		<script>
+			// 상세 페이지 사용 JS : goBack(),showModify()
+				function goBack(){
+				history.back();
+			}
+			
+			
+			</script>
 </body>
 </html>
