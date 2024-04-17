@@ -161,10 +161,10 @@ public class GoodsController {
 	            required=false, defaultValue="1") Integer currentPage) {
 			try {
 				int totalCount = gService.getTotalCount();
-				PageInfo pi = this.getPageInfo(currentPage, totalCount);
-				List<GoodsVO> gList = gService.selectGoodsList(pi);
+				PageInfo pInfo = this.getPageInfo(currentPage, totalCount);
+				List<GoodsVO> gList = gService.selectGoodsList(pInfo);
 				mv.addObject("gList", gList);
-				mv.addObject("pi", pi);
+				mv.addObject("pi", pInfo);
 				mv.setViewName("goods/list");
 			} catch (Exception e) {
 				// TODO: handle exception

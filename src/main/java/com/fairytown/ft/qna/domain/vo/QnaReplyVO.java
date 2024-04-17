@@ -1,6 +1,5 @@
 package com.fairytown.ft.qna.domain.vo;
 
-
 import java.sql.Date;
 
 import lombok.AllArgsConstructor;
@@ -15,15 +14,14 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
-@ToString 
-public class QnaVO {
+@ToString	
+public class QnaReplyVO {
 	
-	private int qnaNo;
+	private int qnaReplyNo;
 	@NonNull
-	private String qnaName;
-	private String qnaContent;
-	private String qnaWriter;
-	private String qnaStatus;
-	private Date qnaDate;
-	
+	private int refQnaNo;
+	private String qnaReplyWriter;
+	private String qnaReplyContent;
+	private Date qnaReplyDate;
+
 }

@@ -1,15 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
-  <mapper namespace="QnaMapper">
-  
-  
-  
-  
-  
-  
-  
-  
-  </mapper>
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="QnaMapper">
+	
+	<select id="selectQnaList" resultType="QnaVO">
+			SELECT * FROM QNA_TBL ORDER BY QNA_NO DESC
+	</select>
+	
+	<select id="selectTotalCount" resultType="_int">
+			SELECT COUNT(*) FROM QNA_TBL
+	</select>
+	
+	<select id="selectByQnaNo" resultType="QnaVO">
+			SELECT * FROM QNA_TBL WHERE QNA_NO = #{qnaNo }
+	</select>
+	
+	<delete id="deleteQna">
+			DELETE FROM QNA_TBL WHERE QNA_NO = #{qnaNo }
+	</delete>
+	
+	<update id="updateQna">
+			UPDATE QNA_TBL SET QNA_NAME = #{qnaName }, QNA_CONTENT = #{qnaContent } WHERE QNA_NO = #{qnaNo }
+	</update>
+	
+	<insert id="insertQna">
+			INSERT INTO QNA_TBL VALUES(SEQ_QNA_NO.NEXTVAL, #{qnaName }, #{qnaContent }, #{qnaWriter }, QNA_STATUS = #{qnaStatus }, DEFAULT)
+	</insert>
+	
+</mapper>

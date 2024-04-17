@@ -35,14 +35,14 @@
 				.line {
 					border: 0.5px solid ;
 					width: 1300px;
-					margin-left: 320px;
+/* 					margin-left: 320px; */
 					color: #DEDEDE;
 					text-align: center;
 				}
 				.line2 {
 					border: 0.5px solid ;
 					width: 1100px;
-					margin-left: 360px;
+/* 					margin-left: 360px; */
 					color: #DEDEDE;
 					text-align: center;
 				}
@@ -278,7 +278,7 @@
 				</form>
 			</c:if>
 				<!-- 배너 -->
-				<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" style=" z-index:1; margin-top: -155px;">
+				<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" style=" z-index:1; margin-top: -155px;margin-top: -155px; width: 1900px; margin-left:-310px;">
 				  <div class="carousel-indicators">
 				    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
 				    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -321,7 +321,7 @@
 				<div class="line"></div>
 				
 		<!-- 아코디언 -->
-		<div class="accordion-banner" style="margin-top: 30px;'">
+		<div class="accordion-banner" style="margin-top: 30px; width: 1900px; margin-left: -300px;">
 		    <div class="accordion-item">
 		        <img src="../resources/dist/img/slides-3.jpg" alt="Image 1">
 		        <div class="accordion-content">
@@ -361,7 +361,7 @@
 		<p style="text-align: center; margin-top: 100px; font-size: 50px;">페어리타운 <b>리뷰를 부탁해!</b></p>
 		<p style="text-align: center; font-size: 20px; color: #999999;">생생한 리뷰로 체험하는 페어리타운</p>
 		
-		<div class="hover01">
+		<div class="hover01" style="margin-left: -300px;">
 		<figure>
 		<img src="../resources/dist/img/slides-2.jpg" style="width: 300px; height: 300px; margin-left: 440px; margin-top: 40px;">
 		</figure>
@@ -381,15 +381,18 @@
 		<img src="../resources/dist/img/slides-2.jpg" style="width: 300px; height: 300px; margin-left: 1140px; margin-top: -440px;">
 		</figure>
 		</div>
-		<button style="margin-top: 0px; margin-left: 835px; width: 200px; height: 50px; border-radius: 30px;" onclick="review/list.ft">리뷰 더 보러가기</button>
+		<button style="margin-top: 0px; margin-left: 530px; width: 200px; height: 50px; border-radius: 30px;" onclick="review/list.ft">리뷰 더 보러가기</button>
 		
 		<div class="line" style="margin-top: 100px;"></div>
-
-		<div id="circle1" class="cloud1" style="margin-left: 400px; margin-top: 310px;"></div>
+		
+		<div style="margin-left: -300px;">
+		<div id="circle1" class="cloud1" style="margin-left: 400px; margin-top: 150px;"></div>
 		<div id="circle2" class="cloud2" style="margin-left: 320px; margin-top: 180px;"></div>
 		<div id="circle3" class="cloud3" style="margin-left: 750px; margin-top: -200px;"></div>
 		<div id="circle4" class="cloud4" style="margin-left: 800px; margin-top: 250px;"></div>
+		</div>
 		
+		<div style="margin-left: -240px;">
 		<div id="square1" style="margin-left: 1050px; margin-top: -700px;"></div>
 		<p style="margin-left: 1060px; margin-top: 20px;">안녕</p>
 		<p style="margin-left: 1060px; margin-top: 20px;">안녕</p>
@@ -402,6 +405,7 @@
 		<div id="square3" style="margin-left: 1340px; margin-top: -405px;"></div>
 		<p style="margin-left: 1350px; margin-top: 20px;">안녕</p>
 		<p style="margin-left: 1350px; margin-top: 20px;">안녕</p>
+		</div>
 		<div class="line" style="margin-top: 130px;"></div>
 														
 			<br><br><br><br>
@@ -418,7 +422,7 @@
 <!-- 						<button type="button" onclick="userLogout();">로그아웃</button>				 -->
 <%-- 				</c:if> --%>
 <!-- 				</div> -->
-				<div class="line2" style="margin-top: -50px;"></div>
+				<div class="line2" style="margin-top: -50px; margin-left: 100px;"></div>
 				
 			<script>
 		        // 페이지 로드 후 실행될 코드
