@@ -6,18 +6,19 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>[ADMIN] 티켓 관리</title>
+<title>티켓</title>
 </head>
 <body>
 	<!-- 공통 / 헤더 -->
 	<jsp:include page="../inc/header.jsp"></jsp:include>
 
+		<form action="/ticket/detail.ft" method="post" name="ticketForm">
 			
-		<!-- 어드민 타이틀 영역 -->
-			<div class="admTitle">
+		<!-- 타이틀 영역 -->
+			<div class="Title">
 				<table class="title_tbl">
 					<tr>
-						<td class="titleFirst"><h2>티켓 관리 </h2></td>
+						<td class="titleFirst"><h2>티켓</h2></td>
 					</tr>
 					<tr>
 						<td class="titleSecond"><h4>티켓 상세</h4></td>
@@ -27,10 +28,10 @@
 		
 		<!-- 컨텐츠 영역 -->
 			<div class="content">
-				<input type="hidden" name="ticketNo" value="ticketNo">
+			<input type="hidden" name="ticketNo" value="${ticket.ticketNo }">
 				<table class="table_close">
 					<tr>
-						<td>티켓명<sup style="color:red">*</sup> : </td>
+						<td>티켓명＊ : </td>
 						<td>
 							<span>${ticket.ticketName }</span>
 						</td>
@@ -47,7 +48,7 @@
 					</tr>
 					
 					<tr>
-						<td>어른 가격 <sup style="color:red">*</sup> : </td>
+						<td>어른 가격* : </td>
 						<td>
 							<span>${ticket.ticketAdult}</span>
 						</td>
@@ -66,18 +67,14 @@
 					</tr>
 					<tr>
 						<td>사용상태 : </td>
-							<c:set var="tStatus" value="${ticket.ticketStatus }" />
-							<c:if test="${tStatus eq 'Y' }">
-								<td>사용중</td>
-							</c:if>
-							<c:if test="${tStatus eq 'N'}">
-								<td>사용안함</td>
-							</c:if>
+						<td>
+							<span>${ticket.ticketStatus}</span>
+						</td>
 					</tr>
 					<tr>
 						<td>이미지 : </td>
 						<td>
-								<img src="../resources/nuploadFiles/${ticket.ticketImgRename }" alt="이미지"><br>
+						<img src="../resources/nuploadFiles/${ticket.ticketImgRename }" alt="이미지">
 						</td>
 					</tr>
 					
@@ -85,23 +82,24 @@
 					<tr>
 						<td colspan="5">
 							<input type="reset" value="이전으로" onClick="goBack();">
-							<input type="button" value="수정하기" onClick="showModify(${ticket.ticketNo});"> 
+							<input type="button"  onClick="showTicketing(${ticket.ticketNo});" value="구매하기">
 						</td>
 					</tr>
 				</table>
 			</div>
-<!-- 		</form>  -->
+		</form> 
 	
 		<script>
-		//상세 페이지 사용 JS : showModify(), goBack()
+		//상세 페이지 사용 JS : showTicketing(), goBack()
 			
 			function goBack() {
 				history.back();
 			}
 		
-			function showModify(ticketNo) {
-			    location.href = "/admin/ticketmodify.ft?ticketNo=" + ticketNo;
-			}
+			function showTicketing(ticketNo){
+				 location.href = "/ticketing/regist.ft?ticketNo="+ticketNo;
+		    }	
+	
 			
 		
 		</script>

@@ -12,8 +12,6 @@
 	<!-- 공통 / 헤더 -->
 	<jsp:include page="../inc/header.jsp"></jsp:include>
 
-		<form action="/admin/ridedetail.ft" method="post" name="rideForm">
-			
 		<!-- 어드민 타이틀 영역 -->
 			<div class="admTitle">
 				<table class="title_tbl">
@@ -28,7 +26,7 @@
 		
 		<!-- 컨텐츠 영역 -->
 			<div class="content">
-				<input type="hidden" name="rideNo">
+				<input type="hidden" name="rideId" value="${ride.rideId }">
 				
 				<table class="table_ride">
 					<tr>
@@ -49,12 +47,18 @@
 					</tr>
 					<tr>
 						<td>운휴정보 : </td>
-						<td>${ride.rideClose }</td>
+						<c:set var="rStatus" value="${ride.rideStatus }" />
+						<c:if test="${rStatus eq 'NAV'}">
+									<td>임시 휴무</td>
+						</c:if>
+						<c:if test="${rStatus ne 'NAV'}">
+								<td>정상 운행(10:00 ~ 22:00)</td>
+						</c:if>
 					</tr>
-					<tr>
-						<td>이미지 : </td>
-						<td>${ride.rideImgNo }</td>
-					</tr>
+<!-- 					<tr> -->
+<!-- 						<td>이미지 : </td> -->
+<%-- 						<td>${ride.rideImgName }</td> --%>
+<!-- 					</tr> -->
 				
 					<tr>
 						<td>X좌표 : </td>
@@ -67,7 +71,7 @@
 					<tr>
 						<td colspan="5">
 							<input type="reset" value="이전으로" onClick="goBack();">
-							<input type="submit" value="수정하기" onclick="showModify();">
+							<input type="button" value="수정하기" onclick="showModify(${ride.rideId});">
 						</td>
 					</tr>
 				</table>
@@ -79,9 +83,8 @@
 				history.back();
 			}
 			
-				function showModify() {
-					var qnaNo = "${ride.rideNo }";
-					location.href = "/admin/ridemodify.ft?rideNo="+rideNo;
+				function showModify(rideId) {
+					location.href = "/admin/ridemodify.ft?rideId="+rideId;
 				}
 			</script>
 		</form>

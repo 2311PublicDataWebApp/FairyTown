@@ -31,6 +31,7 @@
 				<table class="table_ride_list">
 					<tr>
 						<td colspan="5"><input type="button" name="rideregist" onClick="showRegist();" value="등록하기"></td>
+						<td colspan="6">총 ${totalCount}개</td>
 					</tr>
 					
 					<tr>
@@ -43,60 +44,50 @@
 					
 					<!-- 	등록된 운영 휴무 계획이 있는 경우 -->
 					<c:choose>
-							<c:when test="${fn:length(rList) != 0 }">
-								<c:forEach items="${rList }" var="ride" varStatus="i">
+							<c:when test="${fn:length(sList) != 0 }">
+								<c:forEach items="${sList }" var="ride" varStatus="i">
 									<tr class="ride_list_tr">
 										<td class="list_first_td">
-											<a href="/admin/ridedetail.ft?rideNo=${ride.rideNo }">${i.count }</a>
+											<a href="/admin/ridedetail.ft?rideId=${ride.rideId }">${i.count }</a>
 										</td>
 										<td class="list_second_td">
-											<a href="/admin/ridedetail.ft?rideNo=${ride.rideNo }">${ride.rideName }</a>
+											<a href="/admin/ridedetail.ft?rideId=${ride.rideId }">${ride.rideName }</a>
 										</td>
 										<td class="list_third_td">
-											<a href="/admin/ridedetail.ft?rideNo=${ride.rideNo }">${ride.rideLimit}</a>
+											<a href="/admin/ridedetail.ft?rideId=${ride.rideId }">${ride.rideLimit}</a>
 										</td>
-										
-										<td class="list_fourth_td">
-											<a href="/admin/ridedetail.ft?rideNo=${ride.rideNo }">${ride.rideStatus}</a>
-										</td>
-
 										<c:set var="rStatus" value="${ride.rideStatus }" />
-										
-										<c:if test="${rStatus eq 'AV' }">
-											<td class="list_fifth_td"><a
-												href="/admin/ridedetail.ft?rideNo=${ride.rideNo }">정상 운영</a>
-											</td>
-										</c:if>
-										<c:if test="${rStatus eq 'NAV'}">
-											<td class="list_fifth_td"><a
-												href="/admin/ridedetail.ft?rideNo=${ride.rideNo }">임시 휴무</a>
-											</td>
-										</c:if>
+											<c:if test="${rStatus eq 'Y' }">
+												<td class="list_fifth_td"><a
+													href="/admin/ridedetail.ft?rideId=${ride.rideId }">정상운행</a></td>
+											</c:if>
+											<c:if test="${rStatus eq 'N'}">
+												<td class="list_third_td"><a
+													href="/admin/ridedetail.ft?rideId=${ride.rideId }">임시휴무</a></td>
+											</c:if>
 										
 										<td class="list_sixth_td">
-											<a href="/admin/ridedetail.ft=${ride.rideNo }">${ride.rideDate}</a>
+											<a href="/admin/ridedetail.ft?rideId=${ride.rideId }">${ride.rideDate}</a>
 										</td>
 									</tr>
 								</c:forEach>
 
 
-								<!-- 페이지네이션 -->
 								<tr align="center" class="pgn">
 									<td colspan="5">
-										<c:if test="${pInfo.startNavi ne '1' }">
-											<a href="/admin/ridesearch.ft?page=${pInfo.startNavi - 1 }">[이전]</a>
+										<c:if test="${pi.startNavi ne '1' }">
+											<a href="/admin/ridesearch.ft?page=${pi.startNavi - 1 }">[이전]</a>
 										</c:if> 
-										<c:forEach begin="${pInfo.startNavi }" end="${pInfo.endNavi }" var="p">
+										<c:forEach begin="${pi.startNavi }" end="${pi.endNavi }" var="p">
 											<a href="/admin/ridesearch.ft?page=${p }">${p }</a>
 										</c:forEach> 
-											<c:if test="${pInfo.endNavi ne pInfo.naviTotalCount }">
-												<a href="/admin/ridesearch.ft?page=${pInfo.endNavi + 1 }">[다음]</a>
+											<c:if test="${pi.endNavi ne pi.naviTotalCount }">
+												<a href="/admin/ridesearch.ft?page=${pi.endNavi + 1 }">[다음]</a>
 											</c:if>
 									</td>
 								</tr>
 							</c:when>
 							
-							<!-- 	등록된 놀이기구가 없는 경우 -->
 							<c:otherwise>
 									<td class="list_fifth_td" colspan="5">
 										<p class="nullmsg_search">
@@ -110,7 +101,8 @@
 				<tr>				
 				<!-- 검색 영역 -->
 					<td colspan="5">
-					    <form class="search_form" action="/admin/ridesearch.ft" name="search_form" method="get">
+					    <form class="search_form" action="/admin/ridesearch.ft" name="search_form" method="post">
+							<input type="hidden" name="page" value="1">
 							<div class="search_select">
 								<select class="form-select" name="searchCondition"  id="searchcon">
 									<option value="all" 			<c:if test="${searchCondition == 'all'}">selected</c:if>>전체</option>
@@ -122,8 +114,8 @@
 							<div class="search_button">
 								<div class="input">
 									<input type="search" name="searchKeyword" id="searchKeyword" value="${searchKeyword }">
-									<button type="submit" class="btn" onClick="return Checkalert();">검색</button>
-									<button type="reset" class="btn search_reset"  onClick="removeWord();">초기화</button>
+									<input type="submit" class="btn" onClick="return Checkalert();" value="검색"/>
+									<input type="button" class="btn search_reset"  onClick="removeWord();" value="초기화"/>
 								</div>
 							</div>
 						</form>
@@ -142,17 +134,20 @@
 				return false;
 
 			}
-	
+		}
+		
 			function removeWord(){
 			    if( search_form.searchKeyword.value != "" ) {
 			    	search_form.searchKeyword.value="";
 			    	document.getElementById("searchcon").value = "all";
 			     }
 			}
+			
+			
 			function showRegist(){
-				location.href = "admin/rideregist.ft";
+				location.href = "/admin/rideregist.ft";
 				}
-			}			 
+						 
 		</script>
 	  
 	<!-- 공통 / 풋터 -->

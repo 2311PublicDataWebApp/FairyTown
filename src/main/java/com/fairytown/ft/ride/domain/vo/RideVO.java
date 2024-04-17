@@ -13,8 +13,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class RideVO {
-	// 임시 수정본
-	private int rideId;
+	private Integer rideId;
 	private String rideName;
 	private String rideDescription;
 	private int rideCount;
@@ -23,7 +22,6 @@ public class RideVO {
 	private String rideLimit;
 	private String rideX;
 	private String rideY;
-	private String rideImgNo;
 	private Date closeDate;
 	private String closeReason;
 	private int closeNo;

@@ -12,7 +12,7 @@
 	<!-- 공통 / 헤더 -->
 	<jsp:include page="../inc/header.jsp"></jsp:include>
 
-		<form action="/admin/closeregist.ft" method="post" name="closeForm">
+		<form action="/admin/closeregist.ft" method="post" name="closeForm" onSubmit="return Checkform()">
 			
 		<!-- 어드민 타이틀 영역 -->
 			<div class="admTitle">
@@ -36,6 +36,7 @@
 								<select class="select_ride" name="rideName"  id="searchcon">
 <!-- 								<select class="select_ride" name="searchCondition"  id="searchcon"> -->
 									<option value="all">전체</option>
+									<c:forEach></c:forEach>
 									<option value="flumeRide">후룸라이드</option>
 									<option value="gyroDrop">자이로드롭</option>
 									<option value="gyroSwing">자이로스윙</option>
@@ -89,7 +90,6 @@
 		function Checkform() {
 
 				if (closeForm.rideName.value == "all") {
-
 					closeForm.rideName.focus();
 					alert("놀이기구를 선택해주세요.");
 
@@ -98,7 +98,6 @@
 				}
 
 				if (closeForm.closeReason.value == "all") {
-
 					closeForm.closeReason.focus();
 					alert("사유를 선택해주세요.");
 
@@ -106,10 +105,8 @@
 
 				}
 				if (closeForm.closeDate.value == "") {
-
 					closeForm.closeDate.focus();
 					alert("날짜를 선택해주세요.");
-
 					return false;
 
 				}

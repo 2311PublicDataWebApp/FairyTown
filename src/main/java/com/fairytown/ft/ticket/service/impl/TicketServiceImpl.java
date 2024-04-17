@@ -21,57 +21,61 @@ public class TicketServiceImpl implements TicketService {
 
 	@Autowired
 	private TicketStore tStore;
-	private SqlSession session;
 	
 	@Override
 	public int insertTicket(TicketVO ticket) {
 		int result = tStore.insertTicket(ticket);
 		return result;
 	}
-
-	@Override
-	public TicketVO selectByTicketNo(int ticketNo) {
-		TicketVO ticket = tStore.selectByTicketNo(session, ticketNo);
-		return ticket;
-	}
-
-	@Override
-	public int getTotalCount() {
-		int totalCount = tStore.selectTotalCount(session);
-		return totalCount;
-	}
-
-	@Override
-	public List<TicketVO> selectTicketList(PageInfo pi) {
-		List<TicketVO> tList = tStore.selectTicketList(session, pi);
-		return tList;
-	}
-
-	@Override
-	public int getTotalCount(Map<String, String> paramMap) {
-		int totalCount = tStore.selectTotalCount(session, paramMap);
-		return totalCount;
-	}
-
-	@Override
-	public List<TicketVO> selectTicketByKeyword(PageInfo pi, Map<String, String> paramMap) {
-		int limit = pi.getBoardLimit();
-		int offset = (pi.getCurrentPage() - 1) * limit;
-		RowBounds rowBounds = new RowBounds(offset, limit);
-		List<TicketVO> sList = tStore.selectTicketByKeyword(rowBounds, paramMap);
-		return sList;
-	}
-
+	
 	@Override
 	public int modifyTicket(TicketVO ticket) {
-		int result = tStore.modifyTicket(session, ticket);
+		int result = tStore.modifyTicket(ticket);
 		return result;
 	}
 
 	@Override
 	public int deleteTicket(int ticketNo) {
-		int result = tStore.deleteTicket(session, ticketNo);
+		int result = tStore.deleteTicket(ticketNo);
 		return result;
 	}
 
+	@Override
+	public List<TicketVO> selectTicketList(PageInfo pi) {
+		int limit = pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<TicketVO> tList = tStore.selectTicketList(rowBounds, pi);
+		return tList;
+	}
+
+	@Override
+	public TicketVO selectByTicketNo(int ticketNo) {
+		TicketVO ticket = tStore.selectByTicketNo(ticketNo);
+		return ticket;
+	}
+	
+	@Override
+	public List<TicketVO> selectTicketByKeyword(PageInfo pi, Map<String, String> paramMap) {
+		int limit = pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<TicketVO> sList = tStore.searchTicketByKeyword(rowBounds, paramMap);
+		return sList;
+	}
+	
+	@Override
+	public int getTotalCount() {
+		int totalCount = tStore.selectTotalCount();
+		return totalCount;
+	}
+	@Override
+	public int getTotalCount(Map<String, String> paramMap) {
+		int totalCount = tStore.searchTotalCount(paramMap);
+		return totalCount;
+	}
+	
+
+
+	
 }
