@@ -1,10 +1,13 @@
 package com.fairytown.ft.user.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.fairytown.ft.common.PageInfo;
 import com.fairytown.ft.user.domain.vo.UserVO;
 import com.fairytown.ft.user.store.UserStore;
 
@@ -71,5 +74,41 @@ public class UserService implements UserDetailsService {
 	public UserVO selectUser(String userId) {
 		UserVO user = uStore.checkUserLogin(userId);
 		return user;
+	}
+
+	//회원 정보 삭제
+	public int deleteUser(UserVO user) {
+		//참조 테이블 데이터 삭제
+		uStore.deleteUserReview(user);
+		uStore.deleteUserNotice(user);
+		uStore.deleteUserBlack(user);
+		uStore.deleteUserBlack(user);
+		uStore.deleteUserBooking(user);
+		uStore.deleteUserTicket(user);
+		
+		int result = uStore.deleteUser(user);
+		return result;
+	}
+
+	//유저 목록 조회
+	public List<UserVO> selectUserList(PageInfo pi) {
+		List<UserVO> uList = uStore.selectUserList(pi);
+		return uList;
+	}
+
+	//유저 목록 수 얻기
+	public int getUserTotalCount() {
+		int totalCount = uStore.getUserTotalCount();
+		return totalCount;
+	}
+
+	public int getSearchUserTotalCount(UserVO user) {
+		int totalCount = uStore.getSearchUserTotalCount(user);
+		return totalCount;
+	}
+
+	public List<UserVO> searchUserList(PageInfo pi) {
+		List<UserVO> uList = uStore.searchUserList(pi);
+		return uList;
 	}
 }

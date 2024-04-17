@@ -45,9 +45,9 @@ public class BookingController {
 			model.addAttribute("tingOne", tingOne);
 			// rideVO값을 가져와 세션에 저장하도록 변경해야함
 			List<RideVO> rideList = new ArrayList<>();
-			rideList.add(new RideVO(1, "아트란티스", "설명충", 8, null, null, null, null, null, null, null, null, 1));
-			rideList.add(new RideVO(2, "자이로드롭", "설명충", 8, null, null, null, null, null, null, null, null, 2));
-			rideList.add(new RideVO(3, "자이로드롭", "설명충", 8, null, null, null, null, null, null, null, null, 3));
+//			rideList.add(new RideVO(1, "아트란티스", "설명충", 8, null, null, null, null, null, null, null, null, 1));
+//			rideList.add(new RideVO(2, "자이로드롭", "설명충", 8, null, null, null, null, null, null, null, null, 2));
+//			rideList.add(new RideVO(3, "자이로드롭", "설명충", 8, null, null, null, null, null, null, null, null, 3));
 			model.addAttribute("user", user);
 			model.addAttribute("rideList", rideList);
 			session.setAttribute("rideList", rideList);

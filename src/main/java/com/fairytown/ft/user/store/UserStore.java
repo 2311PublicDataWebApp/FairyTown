@@ -1,7 +1,10 @@
 package com.fairytown.ft.user.store;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
+import com.fairytown.ft.common.PageInfo;
 import com.fairytown.ft.user.domain.vo.UserVO;
 
 @Mapper
@@ -27,5 +30,29 @@ public interface UserStore {
 
 	//회원 정보 수정
 	int userUpdate(UserVO user);
+
+	//회원 정보 삭제
+	int deleteUser(UserVO user);
+
+	//참조테이블 데이터 삭제
+	void deleteUserReview(UserVO user);//리뷰
+	void deleteUserNotice(UserVO user);//공지
+	void deleteUserBlack(UserVO user);//블랙리스트
+	void deleteUserBooking(UserVO user);//예약목록
+	void deleteUserTicket(UserVO user);//티켓목록
+
+	//유저 목록 조회
+	List<UserVO> selectUserList(PageInfo pi);
+
+	//유저 목록 수
+	int getUserTotalCount();
+
+	//검색 유저 목록 수
+	int getSearchUserTotalCount(UserVO user);
+
+	//검색 유저 목록 조회
+	List<UserVO> searchUserList(PageInfo pi);
+	
+
 
 }

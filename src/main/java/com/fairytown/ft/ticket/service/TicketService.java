@@ -8,23 +8,21 @@ import com.fairytown.ft.ticket.domain.vo.TicketVO;
 
 public interface TicketService {
 
-    int getTotalCount();
 
-    List<TicketVO> selectTicketList(PageInfo pi);
+	int getTotalCount();
 
-    int getTotalCount(Map<String, String> paramMap);
+	List<TicketVO> selectTicketList(PageInfo pi);
 
-    List<TicketVO> selectTicketByKeyword(PageInfo pi, Map<String, String> paramMap);
+	int getTotalCount(Map<String, String> paramMap);
 
-    int insertTicket(TicketVO ticket);
+	List<TicketVO> selectTicketByKeyword(PageInfo pi, Map<String, String> paramMap);
 
-    int modifyTicket(TicketVO ticket);
+	int insertTicket(TicketVO ticket);
 
-    int deleteTicket(int ticketNo);
+	int modifyTicket(TicketVO ticket);
 
-    TicketVO selectByTicketNo(int ticketNo);
+	int deleteTicket(int ticketNo);
 
-
-
+	TicketVO selectByTicketNo(int ticketNo);
 
 }

@@ -5,6 +5,92 @@
   
   <mapper namespace="com.fairytown.ft.user.store.UserStore">
   
+  	<select id="selectUserList" resultType="userVO">
+  		SELECT *
+		FROM (
+		    SELECT t.*, ROW_NUMBER() OVER (ORDER BY USER_ID DESC NULLS LAST) AS rn
+		    FROM USER_TBL t
+		)
+		WHERE rn BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<select id="searchUserList" resultType="userVO">
+	    SELECT * 
+	    FROM (
+	        SELECT t.*, ROW_NUMBER() OVER (ORDER BY USER_ID DESC NULLS LAST) AS rn
+	        FROM USER_TBL t
+	    ) tmp
+	    WHERE rn BETWEEN #{startRow} AND #{endRow}
+	    AND
+	    <if test="type == 'name'">
+	        REAL_NAME LIKE '%'||#{keyword}||'%' 
+	    </if>
+	    <if test="type == 'id'">
+	        USER_ID LIKE '%'||#{keyword}||'%'  
+	    </if>
+	    <if test="type == 'email'">
+	        EMAIL LIKE '%'||#{keyword}||'%'
+	    </if>
+	    <if test="type == 'userSt'">
+	        USER_ST LIKE '%'||#{keyword}||'%'
+	    </if>
+	</select>
+	
+	<select id="getSearchUserTotalCount" resultType="int">
+	    SELECT COUNT(*)
+	    FROM USER_TBL
+	    <where>
+	        <choose>
+	            <when test="type == 'name'">
+	                REAL_NAME LIKE '%'||#{keyword}||'%' 
+	            </when>
+	            <when test="type == 'id'">
+	                USER_ID LIKE '%'||#{keyword}||'%'  
+	            </when>
+	            <when test="type == 'email'">
+	                EMAIL LIKE '%'||#{keyword}||'%'
+	            </when>
+	            <when test="type == 'userSt'">
+	                USER_ST LIKE '%'||#{keyword}||'%'
+	            </when>
+	        </choose>
+	    </where>
+	</select>
+  
+    <select id="getUserTotalCount">
+    	SELECT COUNT(*) FROM USER_TBL
+    </select>
+  
+  	<delete id="deleteUserTicket">
+  		DELETE FROM TICKETING_TBL
+  		WHERE USER_ID = #{userId}
+  	</delete>
+  	
+  	<delete id="deleteUserBooking">
+  		DELETE FROM BOOKING_TBL
+  		WHERE USER_ID = #{userId}
+  	</delete>
+  	
+  	<delete id="deleteUserBlack">
+  		DELETE FROM BLACKLIST_TBL
+  		WHERE USER_ID = #{userId}
+  	</delete>
+  	
+  	<delete id="deleteUserReview">
+  		DELETE FROM REVIEW_TBL
+  		WHERE USER_ID = #{userId}
+  	</delete>
+  	
+  	<delete id="deleteUserNotice">
+  		DELETE FROM NOTICE_TBL
+  		WHERE USER_ID = #{userId}
+  	</delete>
+  	
+  	<delete id="deleteUser">
+  		DELETE FROM USER_TBL
+  		WHERE USER_ID = #{userId}
+  	</delete>
+  	
  	<select id="checkUserLogin" resultType="UserVO">
 		SELECT * FROM USER_TBL 
 		WHERE USER_ID = #{userId }
@@ -57,7 +143,7 @@
 			#{detailAddress},
 			#{userAdmin},
 			DEFAULT,
-			#{uName}
+			#{realName}
 		)
 	
 	</insert>

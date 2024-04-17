@@ -19,12 +19,20 @@ public class PageInfo {
 		private int startNavi;
 		private int endNavi;
 		private int recordCountPerPage;
+		private int startRow;
+		private int endRow;
+		
+		//검색 필터
+		private String	keyword;
+		private String	type;
 		
 		public PageInfo() {
 		}
 
 		public PageInfo(int currentPage, int totalCount, int boardLimit) {
 			super();
+			this.startRow = (currentPage - 1) * boardLimit + 1;
+			this.endRow = currentPage * boardLimit;
 			this.currentPage = currentPage;
 			this.totalCount = totalCount;
 			this.naviLimit = 5;

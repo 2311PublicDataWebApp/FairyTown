@@ -12,7 +12,7 @@
 	<!-- 공통 / 헤더 -->
 	<jsp:include page="../inc/header.jsp"></jsp:include>
 
-		<form action="/admin/ticketmodify.ft" method="post" name="ticketForm">
+		<form action="/admin/ticketmodify.ft" method="post" name="ticketForm" enctype="multipart/form-data">
 			
 		<!-- 어드민 타이틀 영역 -->
 			<div class="admTitle">
@@ -28,7 +28,13 @@
 		
 		<!-- 컨텐츠 영역 -->
 			<div class="content">
-				<input type="hidden" name="ticketNo" value="ticketNo">
+				<input type="hidden" name="ticketNo" value="${ticket.ticketNo }">
+				<input type="hidden" name="ticketImgNo" value="${ticket.ticketImgNo }">
+				<input type="hidden" name="ticketImgName" value="${ticket.ticketImgName }">
+				<input type="hidden" name="ticketImgRename" value="${ticket.ticketImgRename }">
+				<input type="hidden" name="ticketImgFilepath" value="${ticket.ticketImgFilepath }">
+				<input type="hidden" name="ticketImgFilelength" value="${ticket.ticketImgFilelength }">
+				
 				<table class="table_close">
 					<tr>
 						<td>티켓명＊ : </td>
@@ -63,24 +69,17 @@
 					<tr>
 						<td>사용상태 : </td>
 						<td>  
-						<c:if test="${ticket.ticketStatus} eq 'Y'">
-							<input type="checkbox" id="usingTicket" value="usingTicket" name="ticketStatus" onClick='checkOnlyOne(this)' checked>
-  							<label for="usingTicket">사용함</label>
-  							<input type="checkbox" id="discardTicket"  value="discardTicket" name="ticketStatus" onClick='checkOnlyOne(this)'>
-  							<label for="discardTicket">사용안함</label>
-						</c:if>  	
-						<c:if test="${ticket.ticketStatus} eq 'N'">
-							<input type="checkbox" id="usingTicket" value="usingTicket" name="ticketStatus" onClick='checkOnlyOne(this)' >
-  							<label for="usingTicket">사용함</label>
-  							<input type="checkbox" id="discardTicket"  value="discardTicket" name="ticketStatus" onClick='checkOnlyOne(this)'checked>
-  							<label for="discardTicket">사용안함</label>
-						</c:if>  						
+							<input type="checkbox" id="using" value="Y" name="ticketStatus" onClick='checkOnlyOne(this)' <c:if test="${ticket.ticketStatus eq 'Y'}">checked</c:if>>
+  							<label for="using">사용함</label>
+  							<input type="checkbox" id="discard"  value="N" name="ticketStatus" onClick='checkOnlyOne(this)' <c:if test="${ticket.ticketStatus eq 'N'}">checked</c:if>>
+  							<label for="discard">사용안함</label>
   						</td>
 					</tr>
 					<tr>
 						<td>이미지 : </td>
 						<td>
-							<span>${ticket.ticketImgName }</span><input type="file" name="ticketImgName">
+							<img src="../resources/nuploadFiles/${ticket.ticketImgRename }" alt="이미지"><br>
+							<input type="file" name="reloadFile">
 						</td>
 					</tr>
 					<tr>
@@ -145,9 +144,9 @@
 			}
 		}
 		
-		function deleteClose(ticketNo){
+		function deleteTicket(ticketNo){
 			if(confirm("삭제하시겠습니까?")){
-				location.href = "admin/ticketdelete.ft?ticketNo="+ticketNo;
+				location.href = "/admin/ticketdelete.ft?ticketNo="+ticketNo;
 				alert("정상적으로 삭제되었습니다.");
 			}else{
 				alert("삭제를 취소하셨습니다.");
