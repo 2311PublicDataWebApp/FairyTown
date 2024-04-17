@@ -24,4 +24,8 @@ public interface GoodsService {
 
 	int deleteGoods(Integer goodsCode);
 
+	List<GoodsVO> selectGoodsList(PageInfo pi, String sortType);
+
+	List<GoodsVO> sortSearchGoodsByKeyword(PageInfo pi, Map<String, String> paramMap);
+
 }

@@ -37,47 +37,44 @@
 						<tbody>
 							<tr>
 								<td width="170px">주문번호</td>
-								<td><p class="goodsOrderCode">${order.goodsOrderCode }</p></td>
+								<td><p class="goodsOrderCode">${oList[0].goodsOrderCode }</p></td>
 							</tr>
-							<tr>
-								<td>상품명</td>
-								<td>${order.goodsName }</td>
-							</tr>
-							<tr>
-								<td>가격</td>
-<%-- 								<td>${goods.goodsPrice }원</td> --%>
-								<td><fmt:formatNumber value="${(order.goodsPrice) * (order.goodsOrderCnt) }" pattern="###,###,###"/>원</td>
-							</tr>
-							<c:if test="${order.goodsFileRename ne null }">
+							
 								<tr>
-									<td>첨부파일</td>
-									<td><img src='../resources/guploadFiles/${order.goodsFileRename }'></td>
+									<td><br>상품 정보</td>
+									<td>
+									<c:forEach items="${oList }" var="oList" varStatus="i">
+									<br>
+									<img src='../resources/guploadFiles/${oList.goodsFileRename }' width="300px">
+									${oList.goodsName }
+									<br><br>
+									</c:forEach>
+									</td>
 								</tr>
-							</c:if>
 							<tr>
 								<td>총 가격</td>
 <%-- 								<td>${goods.goodsPrice }원</td> --%>
-								<td><fmt:formatNumber value="${order.goodsSum}" pattern="###,###,###"/>원</td>
+								<td><fmt:formatNumber value="${oList[0].goodsSum}" pattern="###,###,###"/>원</td>
 							</tr>
 							<tr>
 								<td>주문날짜</td>
-								<td>${order.goodsOrderDate }</td>
+								<td>${oList[0].goodsOrderDate }</td>
 							</tr>
 							<tr>
 								<td>수령인</td>
-								<td>${order.goodsOrderName }</td>
+								<td>${oList[0].goodsOrderName }</td>
 							</tr>
 							<tr>
 								<td>수령인 전화번호</td>
-								<td>${order.goodsOrderPhone }</td>
+								<td>${oList[0].goodsOrderPhone }</td>
 							</tr>
 							<tr>
 								<td>수령인 우편번호</td>
-								<td>${order.goodsOrderPostcode }</td>
+								<td>${oList[0].goodsOrderPostcode }</td>
 							</tr>
 							<tr>
 								<td>수령인 주소</td>
-								<td>${order.goodsOrderAddress }</td>
+								<td>${oList[0].goodsOrderAddress }</td>
 							</tr>
 						</tbody>
 					</table>						
@@ -85,11 +82,18 @@
 					</div>
 					</div>
 					</div>
+					<form name="cancelPay" action="/goods/cancelPay.ft" method="post" autocomplete="off">
+						<input type="hidden" name="cancelArray" id="cancelArray" value="">
+						<input type="hidden" name="goodsOrderCode" value="${oList[0].goodsOrderCode }">
+						<input type="hidden" name="merchantUid" value="${oList.get(0).merchantUid }">
+						<button type="button" class="payment" onclick="cancel();">주문취소</button>
+					</form>
 				</section>
 		</div>
 		<jsp:include page="../inc/footer.jsp"></jsp:include>
 		<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
-		
+		<!-- iamport.payment.js -->
+	    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 		<script type="text/javascript">
 			function showModifyPage() {
 				var goodsCode = "${goods.goodsCode }";
@@ -105,6 +109,17 @@
 			
 			function showGoodsList() {
 				location.href = "/goods/list.ft";
+			}
+			function cancel() {
+				var cancelGoods = "";
+				<c:forEach items="${oList }" var="oList" varStatus="i">
+					cancelGoods += "{goodsCode: '${oList.goodsCode }',goodsOrderCnt : '${oList.goodsOrderCnt }'}/";
+		        </c:forEach>
+	        	document.getElementById('cancelArray').value = cancelGoods;
+				  if(confirm("주문 취소하시겠습니까?")) {	
+					  
+					cancelPay.submit();
+				  }
 			}
 		</script>
 		

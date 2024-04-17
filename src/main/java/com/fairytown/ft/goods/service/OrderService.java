@@ -11,8 +11,22 @@ public interface OrderService {
 
 	void insertOrder(OrderVO order);
 
-	void insertOrderDetail(OrderVO order);
+	void insertOrderDetail(OrderVO orderDetail);
 
-	OrderVO selectByOrderCode(String goodsOrderCode);
+	void orderReset(OrderVO orderDetail);
+
+	void minusStock(OrderVO orderDetail);
+
+	List<OrderVO> selectByOrderCode(String goodsOrderCode);
+
+	int getTotalCount(String userId);
+
+	List<OrderVO> selectOrderList(PageInfo pi, String userId);
+
+	void deleteOrder(OrderVO order);
+
+	void deleteOrderDetail(OrderVO order);
+
+	void plusStock(OrderVO order);
 
 }

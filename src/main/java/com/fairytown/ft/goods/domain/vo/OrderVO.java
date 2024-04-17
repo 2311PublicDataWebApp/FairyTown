@@ -32,6 +32,7 @@ public class OrderVO {
 	private Integer goodsOrderCnt;
 //	private GoodsVO goods;
 	private String goodsName;
-	private String goodsPrice;
+	private Integer goodsPrice;
 	private String goodsFileRename;
+	private String merchantUid;
 }

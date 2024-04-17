@@ -23,8 +23,9 @@ public class CartVO {
 	private Date cartCklimit;	
 	private String cartCkid;
 	private Integer cartStock;
+	private Integer goodsStock;
 	private Date cartDate;
 	private String goodsName;
-	private String goodsPrice;
+	private Integer goodsPrice;
 	private String goodsFileRename;
 }

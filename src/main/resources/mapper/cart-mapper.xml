@@ -11,7 +11,7 @@
 		<update id="addCnt">
 			UPDATE CART_TBL SET CART_STOCK = #{cartStock} WHERE CART_USER_ID = #{cartUserId} AND CART_GOODS_CODE = #{cartGoodsCode}
 		</update>
-		<update id="MinusCnt">
+		<update id="changeCnt">
 			UPDATE CART_TBL SET CART_STOCK = #{cartStock} WHERE CART_NUM = #{cartNum}
 		</update>
 		<!-- 카트 리스트 -->
@@ -22,6 +22,7 @@
 			     INNER JOIN GOODS_TBL G
 			         ON C.CART_GOODS_CODE = G.GOODS_CODE  
 			 WHERE C.CART_USER_ID = #{cartUserId}
+			 ORDER BY C.CART_DATE DESC
 		</select>
 		<select id="findByUserIdAndGoodsCode" resultType="CartVO">
 			 SELECT

@@ -6,12 +6,12 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>굿즈 상세 조회</title>
+		<title>주문 내역</title>
 	</head>
 	<body>
 		<jsp:include page="../inc/header.jsp"></jsp:include>
-		<div id="goods-detail">
-			<h1><b>굿즈 상세 조회</b></h1>
+		<div id="order-detail">
+			<h1><b>주문 내역</b></h1>
 			<br><br><br>
 				<section class="section">
 					<div class="row">
@@ -34,76 +34,57 @@
 					<br>
 					<!-- Default Table -->
 					<table class="table table-striped">
-						<tbody>
-							<tr>
-								<td width="170px">상품코드</td>
-								<td><p class="goodsCode">${goods.goodsCode }</p></td>
-							</tr>
-							<tr>
-								<td>상품명</td>
-								<td>${goods.goodsName }</td>
-							</tr>
-							<tr>
-								<td>가격</td>
-<%-- 								<td>${goods.goodsPrice }원</td> --%>
-								<td>₩<fmt:formatNumber value="${goods.goodsPrice }" pattern="###,###,###"/></td>
-							</tr>
-							<c:if test="${goods.goodsFileRename ne null }">
+						<tbody>	
 								<tr>
-									<td>첨부파일</td>
-									<td><img src='../resources/guploadFiles/${goods.goodsFileRename }'></td>
+									<td>주문 날짜</td>
+									<td>주문 번호</td>
+									<td>주문 상태</td>
 								</tr>
-							</c:if>
-							<tr>
-								<td>내용</td>
-								<td>${goods.goodsContent }</td>
-							</tr>
+							<c:forEach items="${oList }" var="oList" varStatus="i">
+								<tr>
+									<td><p class="goodsOrderDate">${oList.goodsOrderDate }</p></td>
+									<td><p class="goodsOrderCode"><a href="/goods/orderDetail.ft?goodsOrderCode=${oList.goodsOrderCode }">${oList.goodsOrderCode }</p></td>
+									<td width="170px">결제완료</td>
+								</tr>
+							</c:forEach>
 						</tbody>
 					</table>
-							<p class="cartStock">
-							<span>구입 수량</span>
-							<input class="numBox" type="number" min="1" max="${goods.goodsStock}" value="1" />  
-							</p>						
+					<div class="col-md-12">
+					<nav aria-label="Page navigation example">					
+						<ul class="pagination justify-content-center" style="font-weight: 600; ">
+							<c:if test="${pi.startNavi ne '1' }">
+								<li class="page-item">
+									<a class="page-link rounded-circle" href="/goods/orderList.ft?page=${pi.startNavi - 1 }" aria-label="Previous">
+									    <span aria-hidden="true">&laquo;</span>
+									</a>
+								</li>
+							</c:if>
+							<c:forEach begin="${pi.startNavi }" end="${pi.endNavi }" var="p">
+								<li class="page-item">
+									<a class="page-link rounded-circle mx-2" href="/goods/orderList.ft?page=${p }" style="border: none; color: #313131;">
+									${p }
+									</a>
+								</li>
+							</c:forEach>
+							<c:if test="${pi.endNavi ne pi.naviTotalCount }">
+								<li class="page-item">
+									<a class="page-link rounded-circle" href="/goods/orderList.ft?page=${pi.endNavi + 1 }" aria-label="Next">
+									<span aria-hidden="true">&raquo;</span>
+									</a>
+								</li>
+							</c:if>
+						</ul>
+					</nav>
+				</div>						
 					</div>
 					</div>
 					</div>
 					</div>
-					<p class="addToCart">
- 						<button type="button" class="addCart_btn">카트에 담기</button>
-					</p>
 				</section>
 		</div>
 		<jsp:include page="../inc/footer.jsp"></jsp:include>
 		<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
-		<script>
-			$(".addCart_btn").click(function(){
-			 var cartGoodsCode = ${goods.goodsCode };
-			 var cartStock = $(".numBox").val();
-			    
-			 var data = {
-				'cartGoodsCode' : cartGoodsCode,
-			 	'cartStock' : cartStock
-			   };
-			 
-			 $.ajax({
-			  url : "/goods/addCart.ft",
-			  type : "post",
-			  data : data,
-			  success : function(result){
-				  if(result == 1) {
-					     alert("카트 담기 성공");
-					     $(".numBox").val("1");
-					    } else {
-					     alert("회원만 사용할 수 있습니다.")
-					     $(".numBox").val("1");
-					    }
-			  },
-			  error : function(){
-			   alert("카트 담기 실패");
-			  }
-			 });
-			});
-		</script>
+		
 		<script type="text/javascript">
 			function showModifyPage() {
 				var goodsCode = "${goods.goodsCode }";

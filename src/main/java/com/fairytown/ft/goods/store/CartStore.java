@@ -25,9 +25,8 @@ public interface CartStore {
 	CartVO findByUserIdAndGoodsCode(SqlSession session, CartVO cart);
 
 	int addCnt(SqlSession session, CartVO cart);
-
-	int MinusCnt(SqlSession session, CartVO cart);
-
+	
+	int changeCnt(SqlSession session, CartVO cart);
 	
 	
 }

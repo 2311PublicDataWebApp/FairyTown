@@ -21,7 +21,6 @@ public interface CartService {
 
 	int addCnt(CartVO cart);
 
-	int MinusCnt(CartVO cart);
-
+	int changeCnt(CartVO cart);
 
 }

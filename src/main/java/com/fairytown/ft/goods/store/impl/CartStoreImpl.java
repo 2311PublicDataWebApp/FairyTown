@@ -61,9 +61,10 @@ public class CartStoreImpl implements CartStore{
 		return result;
 	}
 
+
 	@Override
-	public int MinusCnt(SqlSession session, CartVO cart) {
-		int result = session.update("CartMapper.MinusCnt", cart);
+	public int changeCnt(SqlSession session, CartVO cart) {
+		int result = session.update("CartMapper.changeCnt", cart);
 		return result;
 	}
 

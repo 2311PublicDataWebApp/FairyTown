@@ -5,7 +5,7 @@
   
 	<mapper namespace="OrderMapper">
 		<insert id="insertOrder">
-			INSERT INTO GOODS_ORDER_TBL VALUES(#{goodsOrderCode }, DEFAULT , #{goodsOrderName }, #{goodsOrderPhone }, #{goodsOrderPostcode }, #{goodsOrderAddress }, #{goodsSum })
+			INSERT INTO GOODS_ORDER_TBL VALUES(#{goodsOrderCode }, DEFAULT , #{goodsOrderName }, #{goodsOrderPhone }, #{goodsOrderPostcode }, #{goodsOrderAddress }, #{goodsSum }, #{merchantUid})
 		</insert>
 		<insert id="insertOrderDetail">
 			INSERT INTO GOODS_ORDER_DETAIL_TBL VALUES(#{goodsCode}, #{goodsOrderCode }, #{goodsOrderUserId }, #{goodsOrderCnt })
@@ -17,4 +17,32 @@
 					 INNER JOIN GOODS_TBL G ON D.GOODS_CODE = G.GOODS_CODE  
 			WHERE D.GOODS_ORDER_CODE = #{goodsOrderCode }
 		</select>
+		<delete id="orderReset">
+			DELETE FROM CART_TBL WHERE CART_GOODS_CODE = #{goodsCode} AND CART_USER_ID = #{goodsOrderUserId}
+		</delete>
+		<update id="minusStock">
+			UPDATE GOODS_TBL SET GOODS_STOCK = GOODS_STOCK - #{goodsOrderCnt} WHERE GOODS_CODE = #{goodsCode}
+		</update>
+		<update id="plusStock">
+			UPDATE GOODS_TBL SET GOODS_STOCK = GOODS_STOCK + #{goodsOrderCnt} WHERE GOODS_CODE = #{goodsCode}
+		</update>
+		<select id="selectOrderCount" resultType="_int">
+			SELECT COUNT(DISTINCT O.GOODS_ORDER_CODE) FROM
+			GOODS_ORDER_TBL O INNER JOIN GOODS_ORDER_DETAIL_TBL D
+			ON O.GOODS_ORDER_CODE = D.GOODS_ORDER_CODE
+			WHERE D.GOODS_ORDER_USER_ID = #{goodsOrderUserId }
+		</select>
+		<select id="selectOrderList" resultType="OrderVO">
+			SELECT DISTINCT O.GOODS_ORDER_CODE, O.GOODS_ORDER_DATE
+			FROM GOODS_ORDER_TBL O INNER JOIN GOODS_ORDER_DETAIL_TBL D
+			ON O.GOODS_ORDER_CODE = D.GOODS_ORDER_CODE
+			WHERE D.GOODS_ORDER_USER_ID = #{goodsOrderUserId }
+			ORDER BY O.GOODS_ORDER_DATE DESC
+		</select>
+		<delete id="deleteOrder">
+			DELETE FROM GOODS_ORDER_TBL WHERE MERCHANT_UID = #{merchantUid}
+		</delete>
+		<delete id="deleteOrderDetail">
+			DELETE FROM GOODS_ORDER_DETAIL_TBL WHERE GOODS_ORDER_CODE = #{goodsOrderCode}
+		</delete>
 	</mapper>

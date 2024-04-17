@@ -12,8 +12,26 @@
 		<!-- 공통 / 헤더 -->
 		<jsp:include page="../inc/header.jsp"></jsp:include>
 		<div id="goods-list">
-			<h1><b>굿즈 목록</b></h1>
+			<h1><b>굿즈 장바구니 목록</b></h1>
 			<br><br><br>				
+					<ul>
+						<li>
+							 <div class="allCheck">
+							  	<input type="checkbox" name="allCheck" id="allCheck" /><label for="allCheck">모두 선택</label> 
+							 </div>
+							<form action="/goods/deleteCart.ft" method="post" name="deleteCartForm">							
+							 	<input type="hidden" id="check-delete-cart" name="check-delete-cart">
+                            </form>
+						  	<button type="button" class="selectDelete_btn" onclick="getDeleteCart();">선택 삭제</button> 
+                            <form action="/goods/orderInfo.ft" method="post" name="orderCartForm">							
+								 <div class="orderBtn">
+								 	<input type="hidden" id="check-order-cart" name="check-order-cart">
+								 </div>
+                            </form>
+						  	<button type="button" class="selectOrder_btn" onclick="getOrderCart();">선택 주문</button> 
+						</li>
+					</ul>
+					<div id="totalCount">총 ${totalCount }개</div>
 				<table class="table table-hover">
 					<thead>
 						<tr>
@@ -26,23 +44,8 @@
 						</tr>
 					</thead>
 					<tbody>
-					<ul>
-						<li>
-								 <div class="allCheck">
-								  	<input type="checkbox" name="allCheck" id="allCheck" /><label for="allCheck">모두 선택</label> 
-								 </div>
-							<form action="/goods/deleteCart.ft" method="post" name="deleteCartForm">							
-							 	<input type="hidden" id="check-delete-cart" name="check-delete-cart">
-                            </form>
-						  	<button type="button" class="selectDelete_btn" onclick="getDeleteCart();">선택 삭제</button> 
-                            <form action="/goods/orderInfo.ft" method="post" name="orderCartForm">							
-								 <div class="orderBtn">
-								 	<input type="hidden" id="check-order-cart" name="check-order-cart">
-								 </div>
-                            </form>
-						  	<button type="button" class="selectOrder_btn" onclick="getOrderCart();">선택 주문</button> 
-						</li>
-						<li>
+						
+						<div id="mainTbody">
 						<c:forEach items="${cList }" var="cart" varStatus="i">            
 							<tr>
 								<td>
@@ -53,22 +56,16 @@
 								<td><img src="../resources/guploadFiles/${cart.goodsFileRename }" width="30px"></td>
 								<td>${cart.cartGoodsCode }</td>
 								<td><a href="/goods/detail.ft?goodsCode=${cart.cartGoodsCode }">${cart.goodsName }</a></td>
-								<td><fmt:formatNumber value="${cart.goodsPrice }" pattern="###,###,###"/>원</td>
+								<td>₩<fmt:formatNumber value="${cart.goodsPrice }" pattern="###,###,###"/></td>
 								<td>
-									<button type="button" onClick="Minus()">-</button>
-										<input class="numBox" type="number" cmin="1" max="${cart.cartStock}" value="${cart.cartStock }" />
-									<button type="button" onClick="Plus()">+</button>
+									<input type="hidden" value="${cart.goodsPrice}">
+									<input id="numBox${i.count}" name="numBox${i.count}" class="numBox${i.count}" type="number" min="1" max="${cart.goodsStock}" value="${cart.cartStock }"/>
+									<input type="hidden" value="${cart.cartNum}" name="cartNum${i.count}" id="cartNum${i.count}" class="cartNum${i.count}">
 								</td>
-								<td><fmt:formatNumber pattern="###,###,###" value="${cart.goodsPrice * cart.cartStock}" />원</td>
-								<%-- <td>
-									<div class="delete">
-										<button type="button" class="delete_${cart.cartNum}_btn" data-cartNum="${cart.cartNum}">삭제</button>
-									</div>
-								</td> --%>
+								<td>₩<fmt:formatNumber pattern="###,###,###" value="${cart.goodsPrice * cart.cartStock}" /></td>
 							</tr>
 						</c:forEach>
-						</li>
-					</ul>
+						</div>
 					</tbody>
 				</table>
 		</div>
@@ -139,33 +136,36 @@
 	    	}
 		</script>
 		<script>
-		function showInsertForm() {
-			// 공지사항 글쓰기 페이지 이동
-			location.href="/goods/insert.ft";
-		}
-		function Minus() {
-			var cartStock = $(".numBox").val();
-			var cartNum = $(".cartNum").val();
-			if(cartStock == 0) {
-		        alert("최소 갯수입니다.");
-		    } else{
-		        $.ajax({
-		            type: "post",
-		            url: '/goods/cartCntMinus.ft',
-		            data: {"cartStock" : cartStock, "cartNum" : cartNum},
-		            success: function(result) {
-        				alert("서비스 결과: " + result);
-        			},
-        			error: function() {
-        				alert("Ajax 통신 실패! 관리자에게 문의바랍니다.")
-        			}
-		        
-			    });
+			function showInsertForm() {
+				// 글쓰기 페이지 이동
+				location.href="/goods/insert.ft";
 			}
-		}
-		function plus() {
 			
-		}
+			<c:forEach items="${cList}" var="cart" varStatus="i">
+				$("#numBox${i.count}").on("change", function() {
+					var changeCount = "";
+					var cartNum;
+					var numBox;
+					cartNum = $("#cartNum${i.count}").val();
+	        		numBox = $("#numBox${i.count}").val();
+					changeCount += "{cartNum: "+ cartNum +", cartStock : "+numBox+"}/";
+	        		var price = parseInt(this.previousElementSibling.value);
+	     			var totalTd = this.parentElement.nextElementSibling;
+					$.ajax({
+	        			url: "/goods/cartCnt.ft",
+	        			data: { "changeCount" : changeCount},
+	        			type: "POST",
+	        			success: function(result) {
+	        				totalTd.innerHTML = '';
+	        				totalTd.innerHTML = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(price * numBox);
+	        			},
+	        			error: function() {
+	        				alert("Ajax 통신 실패! 관리자에게 문의바랍니다.")
+	        			}
+	        		});
+				});
+			</c:forEach>
+
 		</script>
 		<script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 	</body>

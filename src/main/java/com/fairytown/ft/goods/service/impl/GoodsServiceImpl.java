@@ -72,4 +72,20 @@ public class GoodsServiceImpl implements GoodsService {
 		int result = gStore.deleteGoods(session, goodsCode);
 		return result;
 	}
+
+	@Override
+	public List<GoodsVO> selectGoodsList(PageInfo pi, String sortType) {
+		List<GoodsVO> sortList = gStore.selectGoodsList(session, pi, sortType);
+		return sortList;
+	}
+
+	@Override
+	public List<GoodsVO> sortSearchGoodsByKeyword(PageInfo pi, Map<String, String> paramMap) {
+		int limit = pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		List<GoodsVO> searchList = gStore.sortSelectGoodsByKeyword(session, rowBounds, paramMap);
+		return searchList;
+	}
 }

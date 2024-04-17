@@ -65,10 +65,9 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public int MinusCnt(CartVO cart) {
-		int result = cStore.MinusCnt(session, cart);
+	public int changeCnt(CartVO cart) {
+		int result = cStore.changeCnt(session, cart);
 		return result;
 	}
-
 
 }

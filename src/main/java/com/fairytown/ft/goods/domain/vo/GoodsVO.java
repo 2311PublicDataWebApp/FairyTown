@@ -19,7 +19,7 @@ public class GoodsVO {
 	private Integer goodsCode;
 	@NonNull
 	private String goodsName;
-	private String goodsPrice;
+	private Integer goodsPrice;
 	private Integer goodsStock;
 	private Date goodsDate;
 	private String goodsContent;

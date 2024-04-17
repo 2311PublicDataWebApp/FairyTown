@@ -6,13 +6,13 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>굿즈 장바구니 목록</title>
+		<title>굿즈 주문</title>
 	</head>
 	<body>
 		<!-- 공통 / 헤더 -->
 		<jsp:include page="../inc/header.jsp"></jsp:include>
 		<div id="goods-list">
-			<h1><b>굿즈 목록</b></h1>
+			<h1><b>굿즈 주문</b></h1>
 			<br><br><br>				
 				<table class="table table-hover">
 					<thead>
@@ -45,14 +45,14 @@
 						</li>
 						<li>
 			
-						<c:set var="sum" value="0" />${cList }
+						<c:set var="sum" value="0" />
 						<c:forEach items="${cList }" var="cart" varStatus="i">
 							<tr>
 								<td><img src="../resources/guploadFiles/${cart.goodsFileRename }" width="30px"></td>
 								<td><a href="/goods/detail.ft?goodsCode=${cart.cartGoodsCode }">${cart.goodsName }</a></td>
-								<td><fmt:formatNumber value="${cart.goodsPrice }" pattern="###,###,###"/>원</td>
-								<td><input class="numBox" type="number" cmin="1" max="${cart.cartStock}" value="${cart.cartStock }" /></td>
-								<td><fmt:formatNumber pattern="###,###,###" value="${cart.goodsPrice * cart.cartStock}" />원</td>
+								<td>₩<fmt:formatNumber value="${cart.goodsPrice }" pattern="###,###,###"/></td>
+								<td>${cart.cartStock }</td>
+								<td>₩<fmt:formatNumber pattern="###,###,###" value="${cart.goodsPrice * cart.cartStock}" /></td>
 								
 							</tr>
 						<c:set var="sum" value="${sum + (cart.goodsPrice * cart.cartStock)}" />
@@ -71,6 +71,7 @@
 					 <div class="orderInfo">
 					 <form name="orderForm" action="/goods/order.ft" method="post" autocomplete="off">
 					  <c:forEach items="${cList }" var="cart" varStatus="i">            
+						<input type="hidden" value="${cart.cartNum }" name="cartNum">
 						<input type="hidden" value="${cart.cartGoodsCode }" name="goodsCode">
 						<input type="hidden" value="${cart.cartUserId }" name="goodsOrderUserId">
 						<input type="hidden" value="${cart.cartStock }" name="goodsOrderCnt">
@@ -206,6 +207,15 @@
 			var detailAddress = document.getElementById('detailAddress').value;
 			var goodsOrderAddress = roadAddress + detailAddress;
 			
+			function testPay() {
+				var orderGoods = "";
+		        <c:forEach items="${cList }" var="cart" varStatus="i">
+	        	orderGoods += "{'cartNum': '${cart.cartNum }','cartGoodsCode' : '${cart.cartGoodsCode }','cartUserId' : '${cart.cartUserId }','cartStock' : '${cart.cartStock }','goodsName' : '${cart.goodsName }','goodsPrice' : '${cart.goodsPrice }','goodsFileRename': '${cart.goodsFileRename }'}/";
+		        </c:forEach>
+// 		        document.getElementById('merchant_uid').value = rsp.merchant_uid;
+		        document.getElementById('goodsArray').value = orderGoods;
+		        orderInsert();
+			}
 			function requestPay() {
 				var purchasePrice = ${sum};
 			    // purchasePrice가 0이 아닌 경우에만 결제 요청을 수행합니다.
@@ -232,16 +242,9 @@
 						        msg += '카드 승인번호 : ' + rsp.apply_num;
 								
 						      
-						        var orderGoods = [];
+						        var orderGoods = "";
 							        <c:forEach items="${cList }" var="cart" varStatus="i">
-						        	orderGoods.push({
-							        		cartGoodsCode : '${cart.cartGoodsCode }',
-							        		cartUserId : '${cart.cartUserId }',
-							        		cartStock : '${cart.cartStock }',
-							        		goodsName : '${cart.goodsName }',
-							        		goodsPrice : '${cart.goodsPrice }',
-							        		goodsFileRename: '${cart.goodsFileRename }'
-									});
+						        	orderGoods += "{cartNum: '${cart.cartNum }',cartGoodsCode : '${cart.cartGoodsCode }',cartUserId : '${cart.cartUserId }',cartStock : '${cart.cartStock }',goodsName : '${cart.goodsName }',goodsPrice : '${cart.goodsPrice }',goodsFileRename: '${cart.goodsFileRename }'}/";
 							        </c:forEach>
 						        document.getElementById('merchant_uid').value = rsp.merchant_uid;
 						        document.getElementById('goodsArray').value = orderGoods;

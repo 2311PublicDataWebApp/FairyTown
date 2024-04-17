@@ -2,8 +2,13 @@ package com.fairytown.ft.goods.controller;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -124,24 +129,47 @@ public class CartController {
 	    }
 	    
 
+	    // 수량 변경
 	    @ResponseBody
-	    @PostMapping(value="/goods/cartCntMinus.ft")
-	    public String MinusCnt(@ModelAttribute CartVO cart
-	    		, @RequestParam("cartNum") Integer cartNum
-	    		, @RequestParam("cartStock") Integer cartStock
+	    @PostMapping(value="/goods/cartCnt.ft")
+	    public Object changeCnt(@ModelAttribute CartVO cart
+//	    		, @RequestParam("cartNum") Integer cartNum
+//	    		, @RequestParam("numBox") Integer cartStock
+	    		, @RequestParam("changeCount") String changeCount
 	    		, HttpSession session) {
 	    	try {
-	    		int prev = cart.getCartStock();
-	    		cart.setCartStock(prev - 1);
-				int result = 0;
-				result = cService.MinusCnt(cart);
-				if (result > 0) {
-					return "success";
-				} else {
-					return "fail";
-				}
+	    		
+	    		int result = 0;
+	    		JSONArray changeArray = new JSONArray();
+				 String [] tempGoods = changeCount.split("/");
+				 // String -> JSONObject parsing 
+				//2. Parser
+		        JSONParser jsonParser = new JSONParser();
+		        //3. To Object
+		        //4. To JsonObject
+				 for(String temp : tempGoods) {
+					 JSONObject jsonObj = new JSONObject(temp);
+					 changeArray.put(jsonObj);
+				 }
+			    for(int i = 0; i < changeArray.length(); i++) {
+			    	Object obj = changeArray.get(i);
+			        if(obj instanceof JSONObject) {
+			        	JSONObject jsonCartItem = (JSONObject) obj;
+				        // 여기서부터 jsonObject에서 상품 정보 추출 및 저장
+				        Integer cartNum = jsonCartItem.getInt("cartNum");
+				        Integer cartStock = jsonCartItem.getInt("cartStock");
+				        cart.setCartStock(cartStock);
+			    		cart.setCartNum(cartNum);
+			    		if (cartStock > 0) {			    			
+			    			result = cService.changeCnt(cart);
+			    		} else {
+			    			result = cService.deleteCart(cartNum.toString());
+			    		}
+			        }
+			    }
+				return result;
+				
 			} catch (Exception e) {
-				// TODO: handle exception
 				return e.getMessage();
 			}
 	    }
