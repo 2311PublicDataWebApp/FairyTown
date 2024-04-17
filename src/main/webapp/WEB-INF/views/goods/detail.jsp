@@ -46,7 +46,7 @@
 							<tr>
 								<td>가격</td>
 <%-- 								<td>${goods.goodsPrice }원</td> --%>
-								<td><fmt:formatNumber value="${goods.goodsPrice }" pattern="###,###,###"/>원</td>
+								<td>₩<fmt:formatNumber value="${goods.goodsPrice }" pattern="###,###,###"/></td>
 							</tr>
 							<c:if test="${goods.goodsFileRename ne null }">
 								<tr>
@@ -62,7 +62,7 @@
 					</table>
 							<p class="cartStock">
 							<span>구입 수량</span>
-							<input class="numBox" type="number" cmin="1" max="${goods.goodsStock}" value="1" />  
+							<input class="numBox" type="number" min="1" max="${goods.goodsStock}" value="1" />  
 							</p>						
 					</div>
 					</div>
@@ -90,8 +90,13 @@
 			  type : "post",
 			  data : data,
 			  success : function(result){
-			   alert("카트 담기 성공");
-			   $(".numBox").val("1");
+				  if(result == 1) {
+					     alert("카트 담기 성공");
+					     $(".numBox").val("1");
+					    } else {
+					     alert("회원만 사용할 수 있습니다.")
+					     $(".numBox").val("1");
+					    }
 			  },
 			  error : function(){
 			   alert("카트 담기 실패");

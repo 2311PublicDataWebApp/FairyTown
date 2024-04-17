@@ -1,4 +1,4 @@
-package com.fairytown.ft.cart.service.impl;
+package com.fairytown.ft.goods.service.impl;
 
 import java.util.List;
 import java.util.Map;
@@ -8,12 +8,11 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fairytown.ft.cart.domain.vo.CartVO;
-import com.fairytown.ft.cart.domain.vo.CartVO;
-import com.fairytown.ft.cart.service.CartService;
-import com.fairytown.ft.cart.store.CartStore;
 import com.fairytown.ft.common.PageInfo;
+import com.fairytown.ft.goods.domain.vo.CartVO;
 import com.fairytown.ft.goods.domain.vo.GoodsVO;
+import com.fairytown.ft.goods.service.CartService;
+import com.fairytown.ft.goods.store.CartStore;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -24,13 +23,14 @@ public class CartServiceImpl implements CartService {
 	private SqlSession session;
 	
 	@Override
-	public void addCart(CartVO cart) {
-		cStore.insertCart(session, cart);
+	public int addCart(CartVO cart) {
+		int result = cStore.insertCart(session, cart);
+		return result;
 	}
 
 	@Override
-	public List<CartVO> selectCartList(String userId, PageInfo pi) {
-		List<CartVO> cList = cStore.selectCartList(session, userId, pi);
+	public List<CartVO> selectCartList(String userId) {
+		List<CartVO> cList = cStore.selectCartList(session, userId);
 		return cList;
 	}
 
@@ -41,21 +41,33 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public List<CartVO> selectCartList() {
-		List<CartVO> cList = cStore.selectCartList(session);
-		return cList;
-	}
-
-	@Override
 	public int deleteCart(String cartNum) {
 		int result = cStore.deleteCart(session, cartNum);
 		return result;
 	}
 
 	@Override
-	public CartVO selectCartList(String cartNum) {
+	public CartVO selectOrderList(String cartNum) {
 		CartVO cartItem = cStore.selectOrderList(session, cartNum);
 		return cartItem;
+	}
+
+	@Override
+	public CartVO findByUserIdAndGoodsCode(CartVO cart) {
+		CartVO cartItem = cStore.findByUserIdAndGoodsCode(session, cart);
+		return cartItem;
+	}
+
+	@Override
+	public int addCnt(CartVO cart) {
+		int result = cStore.addCnt(session, cart);
+		return result;
+	}
+
+	@Override
+	public int changeCnt(CartVO cart) {
+		int result = cStore.changeCnt(session, cart);
+		return result;
 	}
 
 }

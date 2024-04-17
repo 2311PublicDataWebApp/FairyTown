@@ -49,8 +49,8 @@ public class GoodsStoreImpl implements GoodsStore{
 
 	@Override
 	public GoodsVO selectByGoodsCode(SqlSession session, Integer goodsCode) {
-		GoodsVO notice = session.selectOne("GoodsMapper.selectByGoodsCode", goodsCode);
-		return notice;
+		GoodsVO goods = session.selectOne("GoodsMapper.selectByGoodsCode", goodsCode);
+		return goods;
 	}
 
 	@Override
@@ -63,6 +63,22 @@ public class GoodsStoreImpl implements GoodsStore{
 	public int deleteGoods(SqlSession session, Integer goodsCode) {
 		int result = session.update("GoodsMapper.deleteGoods", goodsCode);
 		return result;
+	}
+
+	@Override
+	public List<GoodsVO> selectGoodsList(SqlSession session, PageInfo pi, String sortType) {
+		int limit = pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<GoodsVO> sortList = session.selectList("GoodsMapper.selectGoodsBySortType", sortType, rowBounds);
+		return sortList;
+	}
+
+	@Override
+	public List<GoodsVO> sortSelectGoodsByKeyword(SqlSession session, RowBounds rowBounds,
+			Map<String, String> paramMap) {
+		List<GoodsVO> sList = session.selectList("GoodsMapper.sortSelectGoodsByKeyword", paramMap, rowBounds);
+		return sList;
 	}
 
 

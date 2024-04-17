@@ -23,9 +23,6 @@ import com.fairytown.ft.notice.service.NoticeService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-
-
-
 @Controller
 public class NoticeController {
 	
@@ -33,7 +30,6 @@ public class NoticeController {
 	private NoticeService nService;
 	
 	// ===================
-	// 공지사항 작성 페이지
 	// ===================
 	@GetMapping("/notice/insert.ft")
 	public String showWriteForm() {

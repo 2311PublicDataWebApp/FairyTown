@@ -6,13 +6,13 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>굿즈 장바구니 목록</title>
+		<title>굿즈 주문</title>
 	</head>
 	<body>
 		<!-- 공통 / 헤더 -->
 		<jsp:include page="../inc/header.jsp"></jsp:include>
 		<div id="goods-list">
-			<h1><b>굿즈 목록</b></h1>
+			<h1><b>굿즈 주문</b></h1>
 			<br><br><br>				
 				<table class="table table-hover">
 					<thead>
@@ -45,14 +45,14 @@
 						</li>
 						<li>
 			
-						<c:set var="sum" value="0" />${cList }
+						<c:set var="sum" value="0" />
 						<c:forEach items="${cList }" var="cart" varStatus="i">
 							<tr>
 								<td><img src="../resources/guploadFiles/${cart.goodsFileRename }" width="30px"></td>
 								<td><a href="/goods/detail.ft?goodsCode=${cart.cartGoodsCode }">${cart.goodsName }</a></td>
-								<td><fmt:formatNumber value="${cart.goodsPrice }" pattern="###,###,###"/>원</td>
-								<td><input class="numBox" type="number" cmin="1" max="${cart.cartStock}" value="${cart.cartStock }" /></td>
-								<td><fmt:formatNumber pattern="###,###,###" value="${cart.goodsPrice * cart.cartStock}" />원</td>
+								<td>₩<fmt:formatNumber value="${cart.goodsPrice }" pattern="###,###,###"/></td>
+								<td>${cart.cartStock }</td>
+								<td>₩<fmt:formatNumber pattern="###,###,###" value="${cart.goodsPrice * cart.cartStock}" /></td>
 								
 							</tr>
 						<c:set var="sum" value="${sum + (cart.goodsPrice * cart.cartStock)}" />
@@ -69,16 +69,19 @@
 					  주문 정보 입력
 					 </div>
 					 <div class="orderInfo">
-					 <form role="form" method="post" autocomplete="off">
+					 <form name="orderForm" action="/goods/order.ft" method="post" autocomplete="off">
 					  <c:forEach items="${cList }" var="cart" varStatus="i">            
-						<input type="hidden" value="${cart.cartGoodsCode }" name="cartGoodsCode">
-						<input type="hidden" value="${cart.cartUserId }" name="cartUserId">
-						<input type="hidden" value="${cart.cartStock }" name="cartStock">
+						<input type="hidden" value="${cart.cartNum }" name="cartNum">
+						<input type="hidden" value="${cart.cartGoodsCode }" name="goodsCode">
+						<input type="hidden" value="${cart.cartUserId }" name="goodsOrderUserId">
+						<input type="hidden" value="${cart.cartStock }" name="goodsOrderCnt">
 						<input type="hidden" value="${cart.goodsName }" name="goodsName">
 						<input type="hidden" value="${cart.goodsPrice }" name="goodsPrice">
 						<input type="hidden" value="${cart.goodsFileRename }" name="goodsFileRename">
 					  </c:forEach>
-					  <input type="hidden" name="amount" value="${sum}" />
+					  <input type="hidden" name="sum" value="${sum}" />
+					  <input type="hidden" id="merchant_uid" name="merchant_uid" value="" />
+					  <input type="hidden" id="goodsArray" name="goodsArray">
 					    
 					  <div class="inputArea">
 					   <label for="">수령인</label>
@@ -86,30 +89,20 @@
 					  </div>
 					  
 					  <div class="inputArea">
-					   <label for="orderPhon">수령인 연락처</label>
+					   <label for="orderPhone">수령인 연락처</label>
 					   <input type="text" name="goodsOrderPhone" id="goodsOrderPhone" required="required" />
 					  </div>
 					  
-					  <div class="inputArea">
-					   <label for="userAddr1">우편번호</label>
-					   <input type="text" name="goodsOrderPostcode" id="goodsOrderPostcode" required="required" />
-					  </div>
-					  
-					  <div class="inputArea">
-					   <label for="userAddr2">1차 주소</label>
-					   <input type="text" name="goodsOrderAddress" id="goodsOrderAddress" required="required" />
-					  </div>
-					  
-					  
-					    <input type="text" id="goodsOrderPostcode" placeholder="우편번호">
+					 
+					    <input type="text" name="goodsOrderPostcode" id="goodsOrderPostcode" placeholder="우편번호">
 						<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
-						<input type="text" id="roadAddress" placeholder="도로명주소">
-						<input type="text" id="jibunAddress" placeholder="지번주소">
+						<input type="text" name="roadAddress" id="roadAddress" placeholder="도로명주소">
+						<input type="text" name="jibunAddress" id="jibunAddress" placeholder="지번주소">
 						<span id="guide" style="color:#999;display:none"></span>
-						<input type="text" id="detailAddress" placeholder="상세주소">
+						<input type="text" name="detailAddress" id="detailAddress" placeholder="상세주소">
 						<input type="text" id="extraAddress" placeholder="참고항목">
 					  <div class="inputArea">
-					   <button type="submit" class="order_btn">주문</button>
+					   <button type="button" class="payment" onclick="requestPay()">주문</button>
 					   <button type="button" class="cancel_btn">취소</button> 
 					  </div>
 					  
@@ -122,6 +115,12 @@
 		<jsp:include page="../inc/footer.jsp"></jsp:include>
 		<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+		<!-- 포트원 결제 -->
+	    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+	    <!-- jQuery -->
+	    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+	    <!-- iamport.payment.js -->
+	    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 		<script>
 		    //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
 		    function execDaumPostcode() {
@@ -183,6 +182,85 @@
 			$(".cancel_btn").click(function(){
 				location.href="/goods/cartList.ft";
 			});      
+		</script>
+		<script>
+			var IMP = window.IMP;
+			IMP.init('imp38074451');
+			
+			var today = new Date();
+			var hours = today.getHours();
+			var minutes = today.getMinutes();  
+			var seconds = today.getSeconds(); 
+			var milliseconds = today.getMilliseconds();
+			
+			// 시, 분, 초, 밀리초를 각각 두 자리 문자열로 만듭니다.
+			hours = ("0" + hours).slice(-2);
+			minutes = ("0" + minutes).slice(-2);
+			seconds = ("0" + seconds).slice(-2);
+			milliseconds = ("00" + milliseconds).slice(-3);
+			var makeMerchantUid = hours + minutes + seconds + "-" + milliseconds;
+			
+			var goodsOrderName = document.getElementById('goodsOrderName').value;
+			var goodsOrderPhone = document.getElementById('goodsOrderPhone').value;
+			var goodsOrderPostcode = document.getElementById('goodsOrderPostcode').value;
+			var roadAddress = document.getElementById('roadAddress').value;
+			var detailAddress = document.getElementById('detailAddress').value;
+			var goodsOrderAddress = roadAddress + detailAddress;
+			
+			function testPay() {
+				var orderGoods = "";
+		        <c:forEach items="${cList }" var="cart" varStatus="i">
+	        	orderGoods += "{'cartNum': '${cart.cartNum }','cartGoodsCode' : '${cart.cartGoodsCode }','cartUserId' : '${cart.cartUserId }','cartStock' : '${cart.cartStock }','goodsName' : '${cart.goodsName }','goodsPrice' : '${cart.goodsPrice }','goodsFileRename': '${cart.goodsFileRename }'}/";
+		        </c:forEach>
+// 		        document.getElementById('merchant_uid').value = rsp.merchant_uid;
+		        document.getElementById('goodsArray').value = orderGoods;
+		        orderInsert();
+			}
+			function requestPay() {
+				var purchasePrice = ${sum};
+			    // purchasePrice가 0이 아닌 경우에만 결제 요청을 수행합니다.
+			    if (purchasePrice !== 0) {
+					IMP.request_pay(
+				        {
+				            pg: "html5_inicis.INIpayTest",
+				            pay_method: "card",
+				            merchant_uid: makeMerchantUid,
+				            name: "페어리타운 굿즈",
+				            amount: 100,
+				            buyer_email: "Iamport@chai.finance",
+				            buyer_name: goodsOrderName,
+				            buyer_tel: goodsOrderPhone,
+				            buyer_addr: goodsOrderAddress,
+				            buyer_postcode: goodsOrderPostcode,
+				        },
+				        function (rsp) {
+				            if (rsp.success) {
+				            	var msg = '결제가 완료되었습니다.';
+						        msg += '고유ID : ' + rsp.imp_uid;
+						        msg += '상점 거래ID : ' + rsp.merchant_uid;
+						        msg += '결제 금액 : ' + rsp.paid_amount;
+						        msg += '카드 승인번호 : ' + rsp.apply_num;
+								
+						      
+						        var orderGoods = "";
+							        <c:forEach items="${cList }" var="cart" varStatus="i">
+						        	orderGoods += "{cartNum: '${cart.cartNum }',cartGoodsCode : '${cart.cartGoodsCode }',cartUserId : '${cart.cartUserId }',cartStock : '${cart.cartStock }',goodsName : '${cart.goodsName }',goodsPrice : '${cart.goodsPrice }',goodsFileRename: '${cart.goodsFileRename }'}/";
+							        </c:forEach>
+						        document.getElementById('merchant_uid').value = rsp.merchant_uid;
+						        document.getElementById('goodsArray').value = orderGoods;
+						        orderInsert();
+				            } else {
+				            	 var msg = '결제에 실패하였습니다.';
+						         msg += '//' + rsp.error_msg;
+				            }
+			        });
+			   	} else {
+			        alert('결제 불가');
+			    }
+			}
+			function orderInsert(){
+				orderForm.submit();
+			}
 		</script>
 		<script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 	</body>

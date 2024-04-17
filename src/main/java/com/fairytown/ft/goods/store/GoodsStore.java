@@ -27,6 +27,10 @@ public interface GoodsStore {
 
 	int deleteGoods(SqlSession session, Integer goodsCode);
 
+	List<GoodsVO> selectGoodsList(SqlSession session, PageInfo pi, String sortType);
+
+	List<GoodsVO> sortSelectGoodsByKeyword(SqlSession session, RowBounds rowBounds, Map<String, String> paramMap);
+
 	
 	
 	

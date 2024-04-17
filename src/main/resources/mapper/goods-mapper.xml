@@ -48,6 +48,56 @@
 			</if>
 			ORDER BY GOODS_CODE DESC
 		</select>
+		<select id="sortSelectGoodsByKeyword" resultType="GoodsVO">
+			SELECT * FROM GOODS_TBL
+			<if test="searchCondition =='all'">		
+				WHERE GOODS_CODE LIKE '%'||#{searchKeyword}||'%'
+				OR GOODS_NAME LIKE '%'||#{searchKeyword}||'%'
+				OR GOODS_CONTENT LIKE '%'||#{searchKeyword}||'%'
+			</if>
+			<if test="searchCondition == 'goodsCode'">		
+				WHERE GOODS_CODE LIKE '%'||#{searchKeyword}||'%'
+			</if>
+			<if test="searchCondition == 'goodsName'">		
+				WHERE GOODS_NAME LIKE '%'||#{searchKeyword}||'%'
+			</if>
+			<if test="searchCondition == 'goodsContent'">	
+				WHERE GOODS_CONTENT LIKE '%'||#{searchKeyword}||'%'
+			</if>
+			<if test="sortType =='recentSort'">		
+				ORDER BY GOODS_CODE DESC
+			</if>
+			<if test="sortType == 'oldSort'">		
+				ORDER BY GOODS_CODE ASC
+			</if>
+			<if test="sortType == 'highSort'">		
+				ORDER BY GOODS_PRICE DESC
+			</if>
+			<if test="sortType == 'rowSort'">	
+				ORDER BY GOODS_PRICE ASC
+			</if>
+			<if test="sortType == 'nameSort'">	
+				ORDER BY GOODS_PRICE ASC
+			</if>
+		</select>
+		<select id="selectGoodsBySortType" resultType="GoodsVO">
+			SELECT * FROM GOODS_TBL
+			<if test="sortType =='recentSort'">		
+				ORDER BY GOODS_CODE DESC
+			</if>
+			<if test="sortType == 'oldSort'">		
+				ORDER BY GOODS_CODE ASC
+			</if>
+			<if test="sortType == 'highSort'">		
+				ORDER BY GOODS_PRICE DESC
+			</if>
+			<if test="sortType == 'rowSort'">	
+				ORDER BY GOODS_PRICE ASC
+			</if>
+			<if test="sortType == 'nameSort'">	
+				ORDER BY GOODS_PRICE ASC
+			</if>
+		</select>
 		<select id="selectByGoodsCode" resultType="GoodsVO">
 			SELECT * FROM GOODS_TBL WHERE GOODS_CODE = #{goodsCode }
 		</select>

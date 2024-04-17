@@ -1,4 +1,4 @@
-package com.fairytown.ft.cart.domain.vo;
+package com.fairytown.ft.goods.domain.vo;
 
 import java.sql.Date;
 
@@ -19,12 +19,13 @@ public class CartVO {
 	@NonNull
 	private Integer cartNum;
 	private String cartUserId;
-	private String cartGoodsCode;
+	private Integer cartGoodsCode;
 	private Date cartCklimit;	
 	private String cartCkid;
 	private Integer cartStock;
+	private Integer goodsStock;
 	private Date cartDate;
 	private String goodsName;
-	private String goodsPrice;
+	private Integer goodsPrice;
 	private String goodsFileRename;
 }
