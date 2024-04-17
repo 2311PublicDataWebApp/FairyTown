@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="QnaReplyMapper">
+	
+	<select id="selectQnaReplyList" resultType="QnaReplyVO">
+			SELECT * FROM QNAREPLY_TBL WHERE REF_QNA_NO = #{refQnaNo} ORDER BY QNAREPLY_NO ASC
+	</select>
+	
+	<insert id="insertQnaReply">
+			INSERT INTO QNAREPLY_TBL VALUES(SEQ_QNA_REPLY_NO.NEXTVAL, #{refQnaNo}, #{qnaReplyWriter}, #{qnaReplyContent}, DEFAULT)
+	</insert>
+	
+	<update id="updateQnaReply">
+			UPDATE QNAREPLY_TBL SET QNAREPLY_CONTENT = #{qnaReplyContent } WHERE QNAREPLY_NO = #{qnaReplyNo }
+	</update>
+	
+	<delete id="removeQnaReply">
+			DELETE FROM QNAREPLY_TBL WHERE QNAREPLY_NO = #{qnaReplyNo }
+	</delete>
+	
+	
+</mapper>

@@ -35,14 +35,14 @@
         </div>
     </footer>
     <br>
-    <div class="footer-info" style="margin-left: 260px; margin-bottom: 50px;">
-        <p style="margin-left: 280px;">
+    <div class="footer-info" style="margin-left: 200px; margin-bottom: 50px;">
+        <p style="">
             <span>주소 : 서울 중구 남대문로 120 대일빌딩 2층, 3층</span>
             <span>개인정보 관리책임자 : 바이킹</span>
             <span>청소년보호책임자 : 바이킹</span>
             <span>발행.편집인 : 바이킹</span>
         </p>
-        <p style="margin-left: 200px;">
+        <p style="margin-left:-100px;">
             <span>㈜페어리타운</span>
             <span>대표이사 : 바이킹</span>
             <span>사업자등록번호 : 123-45-67890</span>
