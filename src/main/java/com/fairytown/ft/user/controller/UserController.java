@@ -1,6 +1,8 @@
 package com.fairytown.ft.user.controller;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fairytown.ft.common.PageInfo;
 import com.fairytown.ft.user.domain.vo.UserVO;
 import com.fairytown.ft.user.service.UserService;
 
@@ -30,12 +33,106 @@ public class UserController {
 	
 		private final UserService uService;
 	
+		//일반 회원 탈퇴처리
+		@PostMapping(value = "/admin/userdelete.ft")
+		public ModelAndView deleteMember(@RequestParam("check-delete-members") String selectMembers,
+				ModelAndView mv) {
+			try {
+				String[] users = selectMembers.split(",");
+				int result = 0;
+				UserVO user = new UserVO();
+				for(String userId : users) {
+					user.setUserId(userId);
+					result = uService.deleteUser(user);
+					if(result > 0) {
+						continue;
+					}
+					else {
+						mv.addObject("msg", userId + "계정을 삭제 할 수 없습니다.");
+						mv.setViewName("common/errorPage");
+						return mv;
+					}
+				}
+				mv.setViewName("redirect:/user/userlist.ft");
+			} catch (Exception e) {
+				mv.addObject("msg", e.getMessage());
+				mv.setViewName("common/errorPage");
+			}
+			return mv;
+		}
+		
+		//관리자페이지 - 유저관리
+		@GetMapping("/admin/userlist.ft")
+		public ModelAndView showUserList(ModelAndView mv
+				, @RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage
+				, @RequestParam(value="keyword", required=false) String keyword
+				, @RequestParam(value="type", required=false) String type) {
+			try {
+				if(keyword == null && type == null) {
+					int totalCount = uService.getUserTotalCount();
+					PageInfo pi = this.getPageInfo(currentPage, totalCount);
+					List<UserVO> uList = uService.selectUserList(pi);
+					mv.addObject("uList", uList);
+					mv.addObject("pInfo", pi);
+					mv.setViewName("admin/userlist");
+				} else {
+					UserVO user = new UserVO();
+					user.setKeyword(keyword);
+					user.setType(type);
+					
+					int totalCount = uService.getSearchUserTotalCount(user);
+					PageInfo pi = this.getPageInfo(currentPage, totalCount);
+					pi.setKeyword(keyword);
+					pi.setType(type);
+					
+					List<UserVO> uList = uService.searchUserList(pi);
+					mv.addObject("uList", uList);
+					mv.addObject("pInfo", pi);
+					mv.setViewName("admin/userlist");
+				}
+			} catch (Exception e) {
+				mv.addObject("msg", e.getMessage());
+				mv.setViewName("common/errorPage");
+			}
+			return mv;
+		}
+		
+		
 		//회원탈퇴 페이지 조회
 		@GetMapping("/user/quit.ft")
 		public ModelAndView showQuitForm(ModelAndView mv) {
 			mv.setViewName("user/quit");
 			return mv;
 		}
+		
+		//회원 탈퇴 기능
+		@PostMapping("/user/quit.ft")
+		public ModelAndView quitUser(ModelAndView mv,
+				HttpServletRequest request,
+				@RequestParam("userPw") String userPw) {
+			try {
+				HttpSession session = request.getSession();
+				UserVO user = (UserVO) session.getAttribute("user");
+				if(passwordEncoder.matches(userPw, user.getUserPw())) {
+					int result = uService.deleteUser(user);
+					if(result > 0) {
+						mv.setViewName("main");
+					} else {
+						mv.addObject("msg", "탈퇴에 실패하였습니다. 관리자에게 문의해주세요.");
+						mv.setViewName("common/errorPage");
+					}
+				} else {
+					mv.addObject("msg", "잘못된 비밀번호입니다.");
+					mv.setViewName("common/errorPage");
+				}
+			} catch (Exception e) {
+				mv.addObject("msg", e.getMessage());
+				mv.setViewName("common/errorPage");
+			}
+			
+			return mv;
+		}
+		
 		
 		//회원 정보수정 페이지 조회
 		@GetMapping("/user/modify.ft")
@@ -102,7 +199,7 @@ public class UserController {
 	
 		@GetMapping("/user/login.ft")
 		public String login() {
-		    return "redirect:/";
+		    return "user/login";
 		}
 		// 로그아웃
 		@PostMapping("/user/logout.ft")
@@ -145,8 +242,7 @@ public class UserController {
 						mv.addObject("msg", "회원가입에 실패하였습니다.");
 						mv.setViewName("common/errorPage");
 					}					
-				}		
-				mv.setViewName("user/register");			
+				}			
 			} catch (Exception e) {
 				mv.addObject("msg", e.getMessage());
 				mv.setViewName("common/errorPage");
@@ -216,5 +312,13 @@ public class UserController {
 				mv.setViewName("common/errorPage");
 			}
 			return mv;
+		}
+		
+		//페이징 처리
+		private PageInfo getPageInfo(Integer currentPage, int totalCount) {
+			int boardLimit = 10; // 한 페이지당 보여줄 게시물의 갯수
+			PageInfo pi = new PageInfo(currentPage, totalCount, boardLimit);
+			
+			return pi;
 		}
 }

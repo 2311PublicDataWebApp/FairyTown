@@ -17,7 +17,7 @@
 			<ul>
 				<li>
 					<label>이름</label>
-					<input type="text" name="uName">
+					<input type="text" name="realName">
 				</li>
 				<li>
 					<label>아이디</label>
