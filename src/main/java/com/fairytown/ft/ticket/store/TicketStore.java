@@ -14,22 +14,23 @@ import com.fairytown.ft.ticket.domain.vo.TicketVO;
 @Mapper
 public interface TicketStore {
 
-	TicketVO selectByTicketNo(SqlSession session, int ticketNo);
+    int selectTotalCount(Map<String, String> paramMap);
 
-	int selectTotalCount(SqlSession session, Map<String, String> paramMap);
+    List<TicketVO> selectTicketList(PageInfo pi);
 
-	List<TicketVO> selectTicketList(SqlSession session, PageInfo pi);
+    int selectTotalCount();
 
-	int selectTotalCount(SqlSession session);
+    List<TicketVO> searchTicketByKeyword(RowBounds rowBounds, Map<String, String> paramMap);
 
-	List<TicketVO> selectTicketByKeyword(RowBounds rowBounds, Map<String, String> paramMap);
+    int insertTicket(TicketVO ticket);
 
-	int insertTicket(TicketVO ticket);
+    int modifyTicket(TicketVO ticket);
 
-	int modifyTicket(SqlSession session, TicketVO ticket);
+    int deleteTicket(int ticketNo);
 
-	int deleteTicket(SqlSession session, int ticketNo);
+    TicketVO selectByTicketNo(int ticketNo);
 
-	
+
+
 
 }

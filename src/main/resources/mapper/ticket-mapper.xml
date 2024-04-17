@@ -74,6 +74,13 @@
 	<delete id="deleteTicket">
 		DELETE FROM TICKET_TBL WHERE TICKET_NO = #{ticketNo }
 	</delete>
+	
+	<!-- 티켓 번호로 티켓 조회하는 쿼리입니다 -->
+	<select id="selectByTicketNumber" resultMap="ticketResultMap">
+		SELECT TICKET_NO AS TICKET_NUMBER, TICKET_NAME, TICKET_DETAIL, TICKET_CARD, TICKET_ADULT, TICKET_TEEN, TICKET_CHILD, TICKET_IMG_NO, TICKET_IMG_NAME, TICKET_IMG_RENAME, TICKET_IMG_FILEPATH, TICKET_DATE, TICKET_STATUS
+	    FROM TICKET_TBL
+	    WHERE TICKET_NO = #{ticketNumber}
+	</select>
   
     <resultMap type="TicketVO" id="ticketResultMap">
 		<id 	property="ticketNo" 		column="TICKET_NO"/>

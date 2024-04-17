@@ -26,11 +26,11 @@ public class TicketingStoreImpl implements TicketingStore{
 	public List<TicketingVO> ticketingListSelect(SqlSession session, UserVO user) {
 		// 1. 티켓 예약 정보 조회
 		List<TicketingVO> tingList = session.selectList("TicketingMapper.ticketingListSelect", user);
-		// 2. 티켓 정보 조회   티켓 매퍼에 resultmap 없어서 진행불가 
-//	    for (TicketingVO ting : tingList) {
-//	        TicketVO ticket = session.selectOne("TicketMapper.ticketSelectById", ting.getTicketNumber());
-//	        ting.setTicket(ticket);
-//	    }
+		// 2. 티켓 정보 조회
+	    for (TicketingVO ting : tingList) {
+	    	 TicketVO ticket = session.selectOne("com.fairytown.ft.ticket.store.TicketStore.selectByTicketNumber", ting.getTicketNumber());
+	    	 ting.setTicket(ticket);
+	    }
 		return tingList;
 	}
 	// 티켓 변경 로직

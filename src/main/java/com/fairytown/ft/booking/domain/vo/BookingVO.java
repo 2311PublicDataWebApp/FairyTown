@@ -2,6 +2,8 @@ package com.fairytown.ft.booking.domain.vo;
 
 import java.sql.Date;
 
+import com.fairytown.ft.ride.domain.vo.RideVO;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,4 +22,6 @@ public class BookingVO {
     private Date bookingDate;
     private Date bookingTime;
     private int bookingPeople;
+    
+    private RideVO ride;
 }
