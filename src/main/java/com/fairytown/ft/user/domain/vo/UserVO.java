@@ -27,6 +27,10 @@ public class UserVO implements UserDetails, Serializable{
 	private Date	userDate;
 	private String	realName;
 	
+	//검색 필터
+	private String	keyword;
+	private String	type;
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
