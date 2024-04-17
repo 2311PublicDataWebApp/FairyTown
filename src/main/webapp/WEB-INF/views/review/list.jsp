@@ -9,12 +9,14 @@
 <meta charset="UTF-8">
 <title>리뷰 | 페어리 타운</title>
 <!-- Favicon -->
-<link href="../resources/dist/img/Favicon.png" rel="shortcut icon"
+<link href="../resources/dist/img/close.png" rel="shortcut icon"
 	type="image/x-icon">
 <!-- Bootstrap CSS 파일 링크 추가 -->
-<link
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+ -->
+ <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-	rel="stylesheet">
+	rel="stylesheet"> 
 <!-- jQuery -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -85,12 +87,32 @@ liked {
 			<h3>
 				<b>리뷰 <span style="opacity: 0.8; font-size: large;">${totalCount}</span></b>
 			</h3>
-			<h6 style="color: #AAB2B9;">페어리타운 방문객들의 생생한 리뷰를 확인해 보세요.</h6>
-			<br>
-			<br>
-			<br>
+			<h6 style="color: #AAB2B9; font-size: medium">페어리타운 방문객들의 생생한 리뷰를 확인해 보세요.</h6>
+			<!-- 구분선 -->
+			<hr class="muidivider" style="border-width: 4px;">
+			 <!-- 여백 추가 -->
+			<div style="margin-bottom: 20px;"></div>
+					<!-- 검색 폼, 리뷰 작성하기 -->
+		<div
+			class="d-flex flex-wrap justify-content-center align-items-center pb-5">
+			<!-- 검색 폼 -->
+			<jsp:include page="modules/searchForm.jsp"></jsp:include>
+
+			<!-- 리뷰 작성하기 -->
+			<div class="d-flex col-md-6 justify-content-end">
+				<button type="button" class="btn"
+					style="background-color: #FAFAFA; border-color: #e9ecef;"
+					onclick="showInsertForm();">리뷰 작성하기</button>
+			</div>
+		</div>
+		<!-- ------------------ -->
+			<!-- 구분선 -->
+			<hr class="muidivider">
+			<div style="margin-bottom: 20px;"></div>
+			
 
 			<!-- 리뷰 아이템 -->
+			<!-- 모듈로 담아서 메인에 쓰면 될 듯. -->
 			<c:forEach items="${rList}" var="review" varStatus="status">
 				<div class="col-md-3 mb-4 border rounded p-3">
 					<!-- 여백 추가 -->
@@ -101,7 +123,18 @@ liked {
 							<%-- <img src="${review.thumbnailUrl}" alt="Thumbnail"> --%>
 						</div>
 						<div class="details">
-							<p class="title">${review.reviewTitle}</p>
+							<%-- <p class="title">${review.reviewTitle}</p>
+							<p class="viewCount">${review.viewCount }</p>  --%>
+							<div class="row">
+							    <div class="col-sm-6">
+							        <p class="title">${review.reviewTitle}</p>
+							    </div>
+							    <%-- <div class="col-sm-6 text-right">
+							        <span class="viewCount" style="font-size: 11px;">
+							            <i class="fas fa-eye"></i> ${review.viewCount}
+							        </span>
+							    </div> --%>
+							</div>
 							<h6 class="date" style="color: #AAB2B9; font-size: 10px">${review.reviewDate}</h6>
 							<div class="icon-container">
 								<img src="../resources/dist/img/mainLogo.png" alt="Main Logo"
@@ -120,20 +153,6 @@ liked {
 
 		<!-- 모달 창 -->
 		<jsp:include page="./modules/reviewModal.jsp"></jsp:include>
-
-		<!-- 검색 영역 -->
-		<div
-			class="d-flex flex-wrap justify-content-center align-items-center pb-5">
-			<!-- 검색 폼 -->
-			<jsp:include page="modules/searchForm.jsp"></jsp:include>
-
-			<div class="d-flex col-md-6 justify-content-end">
-				<button type="button" class="btn"
-					style="background-color: #FAFAFA; border-color: #e9ecef;"
-					onclick="showInsertForm();">글쓰기</button>
-			</div>
-		</div>
-		<!-- ------------------ -->
 
 		<!-- 페이징 영역 -->
 		<jsp:include page="modules/pagination.jsp"></jsp:include>
@@ -225,13 +244,13 @@ liked {
             success: function(response) {
                 // 서버에서 응답이 왔을 때 수행할 작업
                 // 여기에 필요한 경우 UI 업데이트 등의 작업을 추가할 수 있습니다.
-                console.log("조회수 업데이트 성공 : "+ response.viewCount); // 현재 조회수 표시
 
                 // 화면에 조회수 업데이트
                 var viewCountSpan = $("#viewCount_" + reviewNo);
                 var newViewCount = parseInt(viewCountSpan.text()) + 1;
                 viewCountSpan.text(newViewCount);
 
+                console.log("조회수 업데이트 성공 : "+ newViewCount); // 현재 조회수 표시
                 console.log("리뷰 번호: ",reviewNo);
             },
             error: function(xhr, status, error) {
@@ -240,6 +259,13 @@ liked {
             }
         });
     }
+ 
+    // 작성하기
+	function showInsertForm() {
+		// 리뷰 작성하기 페이지 이동
+		location.href="/review/insert.ft";
+	}
+	
 	</script>
 </body>
 </html>

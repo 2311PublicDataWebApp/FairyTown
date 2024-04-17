@@ -43,8 +43,8 @@
   	<!-- 리뷰 등록 쿼리 -->
 	<!-- 글 작성 후 작성한 글 상세보기로 리다이렉트 하기 위한 SQL 쿼리 -->
 	<insert id="insertReview" parameterType="ReviewVO" useGeneratedKeys="true" keyProperty="ReviewNo">
-    <selectKey keyProperty="reviewNo" order="BEFORE" resultType="int">
-        SELECT SEQ_REVIEW_NO.NEXTVAL FROM DUAL
+    <selectKey keyProperty="reviewNo" order="AFTER" resultType="int">
+        SELECT SEQ_REVIEW_NO.CURRVAL FROM DUAL
     </selectKey>
     INSERT INTO REVIEW_TBL
 	VALUES(SEQ_REVIEW_NO.NEXTVAL, #{userId }, #{realName}, #{ticketType }, #{reviewTitle }, #{reviewContent}

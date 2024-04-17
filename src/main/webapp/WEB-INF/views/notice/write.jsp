@@ -7,7 +7,7 @@
 		<meta charset="UTF-8">
 		<title>공지사항 등록 | 페어리 타운</title>
 		<!-- Favicon -->
-   		<link href="../resources/dist/img/Favicon.png" rel="shortcut icon" type="image/x-icon">
+   		<link href="../resources/dist/img/close.png" rel="shortcut icon" type="image/x-icon">
 		<!-- CK Editor -->
 		<script src="https://cdn.ckeditor.com/ckeditor5/41.2.1/classic/ckeditor.js"></script>
 		<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>

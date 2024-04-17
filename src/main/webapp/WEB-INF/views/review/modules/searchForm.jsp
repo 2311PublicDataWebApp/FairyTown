@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>리뷰 검색</title>
-    <!-- 여기에 필요한 CSS 파일들을 링크하세요 -->
+    <!-- 여기에 필요한 CSS 파일들을 링크 -->
 </head>
 <body>
     <div class="d-flex col-md-6 justify-content-start">
@@ -27,6 +27,6 @@
             </div>
         </form>
     </div>
-    <!-- 여기에 필요한 JavaScript 파일들을 링크하세요 -->
+    <!-- 여기에 필요한 JavaScript 파일들을 링크 -->
 </body>
 </html>

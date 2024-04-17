@@ -69,7 +69,7 @@ public class ReviewController {
 			if (result > 0) {
 				// 등록한 글로 리다이렉트 (상세보기, sql문까지 완료 후 주석 해제)
 				int reviewNo = review.getReviewNo();				
-				String redirectUrl = "/review/detail.ft?reviewNo=" + (reviewNo + 1);
+				String redirectUrl = "/review/detail.ft?reviewNo=" + reviewNo;
 				mv.setViewName("redirect:" + redirectUrl);
 			} else {
 				mv.addObject("msg", "리뷰 등록 실패");

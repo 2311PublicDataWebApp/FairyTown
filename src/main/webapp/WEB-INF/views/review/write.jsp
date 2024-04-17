@@ -7,7 +7,7 @@
 		<meta charset="UTF-8">
 		<title>리뷰 등록 | 페어리 타운</title>
 	    <!-- Favicon -->
-	    <link href="../resources/dist/img/Favicon.png" rel="shortcut icon" type="image/x-icon">
+	    <link href="../resources/dist/img/close.png" rel="shortcut icon" type="image/x-icon">
 		<!-- jQuery -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 		

@@ -87,7 +87,7 @@ public class NoticeController {
 			    // 등록된 공지사항의 ID를 가져옴
 
 				// 상세 페이지로 이동하기 위해 공지사항 ID를 사용하여 URL을 생성
-			    String redirectUrl = "/notice/detail.ft?noticeNo=" + (noticeNo + 1);
+			    String redirectUrl = "/notice/detail.ft?noticeNo=" + noticeNo;
 			    
 			    // 생성된 URL로 리다이렉트
 			    mv.setViewName("redirect:" + redirectUrl);

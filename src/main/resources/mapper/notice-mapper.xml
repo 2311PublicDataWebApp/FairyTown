@@ -43,15 +43,13 @@
 	</resultMap>
 	
 	
-	<!-- 공지사항을 등록하는 SQL 쿼리 -->
-	<!-- 글 작성 후 작성한 글 상세보기로 리다이렉트 하기 위한 SQL 쿼리 -->	
- 	<insert id="insertNotice" parameterType="NoticeVO" useGeneratedKeys="true" keyProperty="noticeNo">
-    <selectKey keyProperty="noticeNo" order="BEFORE" resultType="int">
-        SELECT SEQ_NOTICE_NO.NEXTVAL FROM DUAL
-    </selectKey>
+<insert id="insertNotice" parameterType="NoticeVO" useGeneratedKeys="true" keyProperty="noticeNo">
+    <selectKey keyProperty="noticeNo" order="AFTER" resultType="int">
+        SELECT SEQ_NOTICE_NO.CURRVAL FROM DUAL
+    </selectKey> 
     insert into NOTICE_TBL
-	VALUES(SEQ_NOTICE_NO.NEXTVAL, #{userId }, #{noticeSubject }, #{noticeContent }, DEFAULT, DEFAULT, #{noticeFileName }, #{noticeFileRename }, #{noticeFilePath }, #{noticeFileLength }, #{noticeType })
-	</insert> 
+    VALUES (SEQ_NOTICE_NO.NEXTVAL, #{userId}, #{noticeSubject}, #{noticeContent}, DEFAULT, DEFAULT, #{noticeFileName}, #{noticeFileRename}, #{noticeFilePath}, #{noticeFileLength}, #{noticeType})
+</insert>
 	
 	<!-- 공지사항 번호에 해당하는 공지사항을 조회하는 SQL 쿼리 -->
 	<select id="selectByNoticeNo" resultMap="noticeResultMap">

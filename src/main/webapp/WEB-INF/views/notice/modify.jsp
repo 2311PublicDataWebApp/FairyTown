@@ -7,7 +7,7 @@
 		<meta charset="UTF-8">
 		<title>공지사항 수정 | 페어리 타운</title>
 	    <!-- Favicon -->
-	    <link href="../resources/dist/img/Favicon.png" rel="shortcut icon" type="image/x-icon">
+	    <link href="../resources/dist/img/close.png" rel="shortcut icon" type="image/x-icon">
 		 <style>
         	#notice-modify {
         		width: 800px;

@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <title>리뷰 | 페어리 타운</title>
     <!-- Favicon -->
-    <link href="../resources/dist/img/Favicon.png" rel="shortcut icon" type="image/x-icon">
+    <link href="../resources/dist/img/close.png" rel="shortcut icon" type="image/x-icon">
     <!-- Bootstrap CSS 파일 링크 추가 -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- jQuery -->
