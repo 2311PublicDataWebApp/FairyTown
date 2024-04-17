@@ -15,13 +15,9 @@ import com.fairytown.ft.ticket.domain.vo.TicketVO;
 public interface TicketStore {
 
 
-	int selectTotalCount(Map<String, String> paramMap);
-
-	List<TicketVO> selectTicketList(PageInfo pi);
+	int searchTotalCount(Map<String, String> paramMap);
 
 	int selectTotalCount();
-
-	List<TicketVO> searchTicketByKeyword(RowBounds rowBounds, Map<String, String> paramMap);
 
 	int insertTicket(TicketVO ticket);
 
@@ -30,6 +26,11 @@ public interface TicketStore {
 	int deleteTicket(int ticketNo);
 
 	TicketVO selectByTicketNo(int ticketNo);
+
+	List<TicketVO> selectTicketList(RowBounds rowBounds, PageInfo pi);
+
+	List<TicketVO> searchTicketByKeyword(RowBounds rowBounds, Map<String, String> paramMap);
+
 
 
 	

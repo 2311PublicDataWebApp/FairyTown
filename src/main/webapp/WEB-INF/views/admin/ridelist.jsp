@@ -31,6 +31,7 @@
 				<td colspan="5">
 				<input type="button" name="rideregist"
 					onClick="showRegist();" value="등록하기"></td>
+					<td colspan="6">총 ${totalCount}개</td>
 			</tr>
 			<tr>
 				<td>번호</td>
@@ -53,13 +54,13 @@
 								href="/admin/ridedetail.ft?rideId=${ride.rideId }">${ride.rideLimit}</a>
 							</td>
 							<c:set var="rStatus" value="${ride.rideStatus }" />
-							<c:if test="${rStatus eq 'AV' }">
+							<c:if test="${rStatus eq 'Y' }">
 								<td class="list_fifth_td"><a
-									href="/admin/ridedetail.ft?rideId=${ride.rideId }">정상 운영</a></td>
+									href="/admin/ridedetail.ft?rideId=${ride.rideId }">정상운행</a></td>
 							</c:if>
-							<c:if test="${rStatus eq 'NAV'}">
+							<c:if test="${rStatus eq 'N'}">
 								<td class="list_third_td"><a
-									href="/admin/ridedetail.ft?rideId=${ride.rideId }">임시 휴무</a></td>
+									href="/admin/ridedetail.ft?rideId=${ride.rideId }">임시휴무</a></td>
 							</c:if>
 							<td class="list_fourth_td"><a
 								href="/admin/ridedetail.ft?rideId=${ride.rideId }">${ride.rideDate}</a>
@@ -93,7 +94,8 @@
 				<td colspan="5">
 					<div class="search_box">
 						<form class="search_form" action="/admin/ridesearch.ft"
-							name="search_form" method="get">
+							name="search_form" method="post">
+							<input type="hidden" name="page" value="1">
 							<div class="search_select">
 								<select class="form-select" name="searchCondition"
 									id="searchcon">
@@ -107,8 +109,7 @@
 								<div class="input">
 									<input type="search" name="searchKeyword"
 										placeholder="검색어를 입력해주세요">
-									<button type="submit" class="btn"
-										onClick="return Checkalert();">검색</button>
+									<input type="submit" class="btn" value="검색"/>
 								</div>
 							</div>
 						</form>
@@ -119,7 +120,7 @@
 	</div>
 
 	<script>
-		// 목록 페이지 사용 JS : Checkalert(), showRegist()
+// 		목록 페이지 사용 JS : Checkalert(), showRegist()
 		function Checkalert() {
 			if (search_form.searchKeyword.value == "") {
 				search_form.searchKeyword.focus();

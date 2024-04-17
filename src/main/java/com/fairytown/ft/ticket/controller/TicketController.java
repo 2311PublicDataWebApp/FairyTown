@@ -51,8 +51,8 @@ public class TicketController {
 			, @RequestParam(value = "uploadFile", required = false) MultipartFile uploadFile
 			, HttpServletRequest request) {
 		try {
-			String ticketNo = (String)session.getAttribute("ticketNo");
-			ticket.setTicketNo(ticketNo);
+//			ticketNo = (String)session.getAttribute("ticketNo");
+//			ticket.setTicketNo(ticketNo);
 			
 			if (uploadFile != null && !uploadFile.getOriginalFilename().equals("")) {
 				Map<String, Object> infoMap = this.saveFile(uploadFile, request);
@@ -122,6 +122,7 @@ public class TicketController {
 			List<TicketVO> tList = tService.selectTicketList(pi);
 			mv.addObject("tList", tList);
 			mv.addObject("pi", pi);
+			mv.addObject("totalCount", totalCount);
 			mv.setViewName("admin/ticketlist");
 		} catch (Exception e) {
 			mv.addObject("msg", e.getMessage());
@@ -145,6 +146,7 @@ public class TicketController {
  		PageInfo pi = new PageInfo(currentPage, totalCount, 10);
  		List<TicketVO> sList = tService.selectTicketByKeyword(pi, paramMap);
  		mv.addObject("sList", sList);
+ 		mv.addObject("totalCount", totalCount);
  		mv.addObject("pi", pi);
  		mv.addObject("searchCondition", searchCondition);
  		mv.addObject("searchKeyword", searchKeyword);
@@ -166,8 +168,8 @@ public class TicketController {
      public ModelAndView modifyTicket(ModelAndView mv, 
     		@ModelAttribute TicketVO ticket,
  			@RequestParam(value = "reloadFile", required = false) MultipartFile reloadFile, 
- 			HttpServletRequest request,
- 			@RequestParam("ticketNo") int ticketNo) {
+ 			HttpServletRequest request
+ 			) {
  		try {
  			if (reloadFile != null && !reloadFile.isEmpty()) {
  				String fileName = ticket.getTicketImgRename();
@@ -232,6 +234,7 @@ public class TicketController {
 			PageInfo pi = new PageInfo(currentPage, totalCount, 10);
 			List<TicketVO> tList = tService.selectTicketList(pi);
 			mv.addObject("tList", tList);
+			mv.addObject("totalCount", totalCount);
 			mv.addObject("pi", pi);
 			mv.setViewName("ticket/list");
 		} catch (Exception e) {

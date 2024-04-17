@@ -23,22 +23,24 @@ public interface RideStore {
 
 	int deleteRide(int rideId);
 
-	List<RideVO> selectRideList(PageInfo pi);
-
+	List<RideVO> selectRideList(RowBounds rb);
+	List<RimgVO> selectRideImgList();
+	
 	RideVO selectByRideId(int rideId);
 
-	List<RideVO> searchrideByKeyword(RowBounds rb, Map<String, String> paramMap);
+	List<RideVO> searchRideByKeyword(RowBounds rb, Map<String, String> paramMap);
 
 	int selectTotalCount();
 
-	int selectTotalCount(Map<String, String> paramMap);
+	int searchTotalCount(Map<String, String> paramMap);
 
 	// 운휴 관련
 	int insertClose(RideVO close);
 	List<RideVO> searchcloseByKeyword(RowBounds rb, Map<String, String> paramMap);
-	List<RideVO> selectCloseList(PageInfo pi);
+	List<RideVO> selectCloseList();
 	RideVO selectByCloseNo(int closeNo);
 	int deleteclose(int closeNo);
 	int modifyclose(RideVO close);
+	
 
 }

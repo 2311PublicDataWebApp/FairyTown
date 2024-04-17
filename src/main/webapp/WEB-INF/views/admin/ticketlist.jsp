@@ -30,6 +30,7 @@
 				<table class="table_ride_list">
 					<tr>
 						<td colspan="6"><input type="button" name="ticketregist" onClick="showRegist();" value="티켓 등록"></td>
+						<td colspan="6">총 ${totalCount}개</td>
 					</tr>
 					
 					<tr>
@@ -58,9 +59,17 @@
 										<td class="list_fourth_td">
 											<a href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">${ticket.ticketAdult}</a>
 										</td>
-										<td class="list_fifth_td">
-											<a href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">${ticket.ticketStatus}</a>
-										</td>
+										
+										<c:set var="tStatus" value="${ticket.ticketStatus }" />
+										<c:if test="${tStatus eq 'Y' }">
+											<td class="list_fifth_td"><a
+												href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">사용중</a></td>
+										</c:if>
+										<c:if test="${tStatus ne 'Y'}">
+											<td class="list_third_td"><a
+												href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">사용안함</a></td>
+										</c:if>
+										
 										<td class="list_sixth_td">
 											<a href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">${ticket.ticketDate}</a>
 										</td>

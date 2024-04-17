@@ -29,6 +29,7 @@ public class RideServiceImpl implements RideService {
 	@Override
 	public int insertRide(RideVO ride, RimgVO rImg) {
 		int result = rStore.insertRide(ride);
+		rImg.setRideId(ride.getRideId());
 		result += rStore.insertRideImg(rImg);
 		return result;
 	}
@@ -57,7 +58,10 @@ public class RideServiceImpl implements RideService {
 	//목록
 	@Override
 	public List<RideVO> selectRideList(PageInfo pi) {
-		List<RideVO> rList = rStore.selectRideList(pi);
+		int limit = pi.getBoardLimit();
+		int offset =(pi.getCurrentPage()-1)*limit;
+		RowBounds rb = new RowBounds(offset, limit);
+		List<RideVO> rList = rStore.selectRideList(rb);
 		return rList;
 	}
 	//상세
@@ -69,11 +73,11 @@ public class RideServiceImpl implements RideService {
 	
 	// 검색
 	@Override
-	public List<RideVO> selectrideByKeyword(PageInfo pi, Map<String, String> paramMap) {
+	public List<RideVO> searchRideByKeyword(PageInfo pi, Map<String, String> paramMap) {
 		int limit = pi.getBoardLimit();
 		int offset =(pi.getCurrentPage()-1)*limit;
 		RowBounds rb = new RowBounds(offset, limit);
-		List<RideVO> sList = rStore.searchrideByKeyword(rb, paramMap);
+		List<RideVO> sList = rStore.searchRideByKeyword(rb, paramMap);
 		return sList;
 	}
 
@@ -86,7 +90,7 @@ public class RideServiceImpl implements RideService {
 	
 	@Override
 	public int getTotalCount(Map<String, String> paramMap) {
-		int totalCount = rStore.selectTotalCount(paramMap);
+		int totalCount = rStore.searchTotalCount(paramMap);
 		return totalCount;
 	}
 
@@ -122,11 +126,15 @@ public class RideServiceImpl implements RideService {
 
 
 		@Override
-		public List<RideVO> selectCloseList(PageInfo pi) {
-			List<RideVO> rList = rStore.selectCloseList(pi);
+		public List<RideVO> selectCloseList() {
+			List<RideVO> rList = rStore.selectCloseList();
 			return rList;
 		}
-
+		@Override
+		public List<RimgVO> selectRideImgList(int rideId) {
+			List<RimgVO> rList = rStore.selectRideImgList();
+			return rList;
+		}
 
 		@Override
 		public List<RideVO> selectcloseByKeyword(PageInfo pi, Map<String, String> paramMap) {
@@ -136,6 +144,8 @@ public class RideServiceImpl implements RideService {
 			List<RideVO> sList = rStore.searchcloseByKeyword(rb, paramMap);
 			return sList;
 		}
+
+
 
 
 		

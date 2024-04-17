@@ -12,7 +12,7 @@
 	<!-- 공통 / 헤더 -->
 	<jsp:include page="../inc/header.jsp"></jsp:include>
 
-		<form action="/admin/ticketregist.ft" method="post" name="ticketForm">
+		<form action="/admin/ticketregist.ft" method="post" name="ticketForm" enctype="multipart/form-data" onSubmit="return Checkform()">
 			
 		<!-- 어드민 타이틀 영역 -->
 			<div class="admTitle">
@@ -30,7 +30,7 @@
 			<div class="content">
 				<table class="table_ride">
 					<tr>
-						<td>티켓명＊ : </td>
+						<td>티켓명 <sup style="color:red">*</sup> : </td>
 						<td>
 							<input type="text" name="ticketName" placeholder="티켓명을 입력해주세요.">
 						</td>
@@ -48,24 +48,24 @@
 						</td>
 					</tr>
 					<tr>
-						<td>어른가격* : </td>
-						<td><input type="number" name="ticketAdult"></td>
+						<td>어른가격 <sup style="color:red">*</sup> : </td>
+						<td><input type="number" name="ticketAdult" value="0"></td>
 					</tr>
 					<tr>
 						<td>청소년 가격 : </td>
-						<td><input type="number" name="ticketTeen"></td>
+						<td><input type="number" name="ticketTeen" value="0"></td>
 					</tr>
 					<tr>
 						<td>어린이 가격 : </td>
-						<td><input type="number" name="ticketChild"></td>
+						<td><input type="number" name="ticketChild" value="0"></td>
 					</tr>
 					<tr>
 						<td>사용상태 : </td>
 						<td>  
-							<input type="checkbox" id="usingTicket" value="usingTicket" name="ticketStatus" onClick='checkOnlyOne(this)' checked>
-  							<label for="usingTicket">사용함</label>
-  							<input type="checkbox" id="discardTicket"  value="discardTicket" name="ticketStatus" onClick='checkOnlyOne(this)'>
-  							<label for="discardTicket">사용안함</label>
+							<input type="checkbox" id="using" value="Y" name="ticketStatus" onClick='checkOnlyOne(this)' checked>
+  							<label for="using">사용함</label>
+  							<input type="checkbox" id="discard"  value="N" name="ticketStatus" onClick='checkOnlyOne(this)'>
+  							<label for="discard">사용안함</label>
   						</td>
 					</tr>
 					<tr>
@@ -107,18 +107,14 @@
 		function Checkform() {
 
 				if (ticketForm.ticketName.value == "") {
-
 					ticketForm.ticketName.focus();
 					alert("티켓 이름을 입력해주세요.");
 					return false;
-
 				}
 
 				if (ticketForm.ticketAdult.value == "") {
-
 					ticketForm.ticketAdult.focus();
 					alert("어른 가격을 등록해주세요.");
-
 					return false;
 				}
 		}

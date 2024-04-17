@@ -32,6 +32,7 @@
 				<table class="table_ride_list">
 					<tr>
 						<td colspan="6"><input type="button" name="ticketregist" onClick="showRegist();" value="티켓 등록"></td>
+						<td colspan="6">총 ${totalCount}개</td>
 					</tr>
 					
 					<tr>
@@ -60,9 +61,15 @@
 										<td class="list_fourth_td">
 											<a href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">${ticket.ticketAdult}</a>
 										</td>
-										<td class="list_fifth_td">
-											<a href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">${ticket.ticketStatus}</a>
-										</td>
+									<c:set var="tStatus" value="${ticket.ticketStatus }" />
+										<c:if test="${tStatus eq 'Y' }">
+											<td class="list_fifth_td"><a
+												href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">사용중</a></td>
+										</c:if>
+										<c:if test="${tStatus ne 'Y'}">
+											<td class="list_third_td"><a
+												href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">사용안함</a></td>
+										</c:if>
 										<td class="list_sixth_td">
 											<a href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">${ticket.ticketDate}</a>
 										</td>
@@ -72,14 +79,14 @@
 
 								<tr align="center" class="pgn">
 									<td colspan="6">
-										<c:if test="${pInfo.startNavi ne '1' }">
-											<a href="/admin/ticketsearch.ft?page=${pInfo.startNavi - 1 }">[이전]</a>
+										<c:if test="${pi.startNavi ne '1' }">
+											<a href="/admin/ticketsearch.ft?page=${pi.startNavi - 1 }">[이전]</a>
 										</c:if> 
-										<c:forEach begin="${pInfo.startNavi }" end="${pInfo.endNavi }" var="p">
+										<c:forEach begin="${pi.startNavi }" end="${pi.endNavi }" var="p">
 											<a href="/admin/ticketsearch.ft?page=${p }">${p }</a>
 										</c:forEach> 
-											<c:if test="${pInfo.endNavi ne pInfo.naviTotalCount }">
-												<a href="/admin/ticketsearch.ft?page=${pInfo.endNavi + 1 }">[다음]</a>
+											<c:if test="${pi.endNavi ne pi.naviTotalCount }">
+												<a href="/admin/ticketsearch.ft?page=${pi.endNavi + 1 }">[다음]</a>
 											</c:if>
 									</td>
 								</tr>
@@ -114,7 +121,7 @@
 								<div class="input">
 									<input type="search" name="searchKeyword" id="searchKeyword" value="${searchKeyword }">
 									<button type="submit" class="btn" onClick="Checkalert();">검색</button>
-									<button type="reset" class="btn search_reset"  onClick="removeWord();">초기화</button>
+									<input type="button" class="btn search_reset"  onClick="removeWord();" value="초기화"/>
 								</div>
 							</div>
 						</form>

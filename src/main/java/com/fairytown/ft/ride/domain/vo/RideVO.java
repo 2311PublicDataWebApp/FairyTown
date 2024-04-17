@@ -13,7 +13,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class RideVO {
-	private int rideId;
+	private Integer rideId;
 	private String rideName;
 	private String rideDescription;
 	private int rideCount;

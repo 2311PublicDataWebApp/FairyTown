@@ -29,7 +29,7 @@
 				<!-- 목록 영역 -->
 				<table class="table_ride_list">
 					<tr>
-						<td colspan="5"><input type="button" name="closeregist" onClick="showRegist();" value="휴무 등록"></td>
+						<td colspan="5"><input type="button" name="closeregist" onClick="showRegist();" value="휴무등록"></td>
 					</tr>
 					
 					<tr>
@@ -46,28 +46,28 @@
 								<c:forEach items="${cList }" var="close" varStatus="i">
 									<tr class="close_list_tr">
 										<td class="list_first_td">
-											<a href="/admin/closedetail.ft?rideNo=${close.rideNo }">${i.count }</a>
+											<a href="/admin/closedetail.ft?rideId=${close.rideId }">${i.count }</a>
 										</td>
 										<td class="list_second_td">
-											<a href="/admin/closedetail.ft?rideNo=${close.rideNo }">${close.rideName }</a>
+											<a href="/admin/closedetail.ft?rideId=${close.rideId }">${close.rideName }</a>
 										</td>
 										<td class="list_third_td">
-											<a href="/admin/closedetail.ft?rideNo=${close.rideNo }">${close.closeDate}</a>
+											<a href="/admin/closedetail.ft?rideId=${close.rideId }">${close.closeDate}</a>
 										</td>
 										
 										<td class="list_fourth_td">
-											<a href="/admin/closedetail.ft?rideNo=${close.rideNo }">${close.closeReason}</a>
+											<a href="/admin/closedetail.ft?rideId=${close.rideId }">${close.closeReason}</a>
 										</td>
 
 										<c:set var="rStatus" value="${close.rideStatus }" />
 										<c:if test="${rStatus eq 'AV' }">
 											<td class="list_fifth_td"><a
-												href="/admin/closedetail.ft?rideNo=${close.rideNo }">정상 운영</a>
+												href="/admin/closedetail.ft?rideId=${close.rideId }">정상운영</a>
 											</td>
 										</c:if>
 										<c:if test="${rStatus eq 'NAV'}">
 											<td class="list_third_td"><a
-												href="/admin/closedetail.ft?rideNo=${close.rideNo }">임시 휴무</a>
+												href="/admin/closedetail.ft?rideId=${close.rideId }">임시휴무</a>
 											</td>
 										</c:if>
 									</tr>
@@ -76,14 +76,14 @@
 
 								<tr align="center" class="pgn">
 									<td colspan="5">
-										<c:if test="${pInfo.startNavi ne '1' }">
-											<a href="/admin/closelist.ft?page=${pInfo.startNavi - 1 }">[이전]</a>
+										<c:if test="${pi.startNavi ne '1' }">
+											<a href="/admin/closelist.ft?page=${pi.startNavi - 1 }">[이전]</a>
 										</c:if> 
-										<c:forEach begin="${pInfo.startNavi }" end="${pInfo.endNavi }" var="p">
+										<c:forEach begin="${pi.startNavi }" end="${pi.endNavi }" var="p">
 											<a href="/admin/closelist.ft?page=${p }">${p }</a>
 										</c:forEach> 
-											<c:if test="${pInfo.endNavi ne pInfo.naviTotalCount }">
-												<a href="/admin/closelist.ft?page=${pInfo.endNavi + 1 }">[다음]</a>
+											<c:if test="${pi.endNavi ne pi.naviTotalCount }">
+												<a href="/admin/closelist.ft?page=${pi.endNavi + 1 }">[다음]</a>
 											</c:if>
 									</td>
 								</tr>
@@ -105,14 +105,14 @@
 					<tr>
 					<td colspan="5">
 						<div class="search_box">
-						    <form class="search_form" action="/admin/closesearch.ft" name="search_form" method="get">
+						    <form class="search_form" action="/admin/closesearch.ft" name="search_form" method="post">
 									<div class="search_select">
 										<select class="form-select" name="searchCondition"  id="searchcon">
 											<option value="all">전체</option>
 											<option value="rideName">놀이기구명</option>
 											<option value="closeDate">휴무일시</option>
 											<option value="closeReason">사유</option>
-											<option value="rideStatus">현재 상태</option>
+											<option value="rideStatus">운휴상태</option>
 										</select>
 									</div>	
 									
@@ -144,7 +144,7 @@
 			function showRegist(){
 				location.href = "/admin/closeregist.ft";
 				}
-			}		
+					
 	</script>
 	  
 	<!-- 공통 / 풋터 -->

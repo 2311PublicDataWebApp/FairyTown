@@ -42,7 +42,10 @@ public class TicketServiceImpl implements TicketService {
 
 	@Override
 	public List<TicketVO> selectTicketList(PageInfo pi) {
-		List<TicketVO> tList = tStore.selectTicketList(pi);
+		int limit = pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<TicketVO> tList = tStore.selectTicketList(rowBounds, pi);
 		return tList;
 	}
 
@@ -68,7 +71,7 @@ public class TicketServiceImpl implements TicketService {
 	}
 	@Override
 	public int getTotalCount(Map<String, String> paramMap) {
-		int totalCount = tStore.selectTotalCount(paramMap);
+		int totalCount = tStore.searchTotalCount(paramMap);
 		return totalCount;
 	}
 	

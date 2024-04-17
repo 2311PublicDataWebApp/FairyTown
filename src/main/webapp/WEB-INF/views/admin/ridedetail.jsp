@@ -12,8 +12,6 @@
 	<!-- 공통 / 헤더 -->
 	<jsp:include page="../inc/header.jsp"></jsp:include>
 
-		<form action="/admin/ridedetail.ft" method="post" name="rideForm">
-			
 		<!-- 어드민 타이틀 영역 -->
 			<div class="admTitle">
 				<table class="title_tbl">
@@ -86,7 +84,6 @@
 			}
 			
 				function showModify(rideId) {
-					var rideId = "${ride.rideId }";
 					location.href = "/admin/ridemodify.ft?rideId="+rideId;
 				}
 			</script>

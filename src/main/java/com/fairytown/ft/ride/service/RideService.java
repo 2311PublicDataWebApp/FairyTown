@@ -15,7 +15,7 @@ public interface RideService {
 
 	int getTotalCount(Map<String, String> paramMap);
 
-	List<RideVO> selectrideByKeyword(PageInfo pi, Map<String, String> paramMap);
+	List<RideVO> searchRideByKeyword(PageInfo pi, Map<String, String> paramMap);
 
 	List<RideVO> selectRideList(PageInfo pi);
 
@@ -35,13 +35,15 @@ public interface RideService {
 
 	RideVO selectByCloseNo(int closeNo);
 
-	List<RideVO> selectCloseList(PageInfo pi);
+	List<RideVO> selectCloseList();
 
 	List<RideVO> selectcloseByKeyword(PageInfo pi, Map<String, String> paramMap);
 
 	int modifyclose(RideVO close);
 
 	int deleteclose(int closeNo);
+
+	List<RimgVO> selectRideImgList(int rideId);
 
 
 

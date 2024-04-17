@@ -13,7 +13,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TicketVO {
-	private String ticketNo;
+	private String  ticketNo;
 	private String 	ticketName;
 	private String 	ticketDetail;
 	private String 	ticketCard;
