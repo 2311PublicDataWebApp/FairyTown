@@ -199,6 +199,7 @@ public class UserController {
 		public String login() {
 		    return "user/login";
 		}
+
 		// 로그아웃
 		@PostMapping("/user/logout.ft")
 		public String userLogout(HttpServletRequest request, HttpServletResponse response) {
