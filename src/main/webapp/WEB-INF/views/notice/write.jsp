@@ -5,7 +5,9 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>공지사항 등록</title>
+		<title>공지사항 등록 | 페어리 타운</title>
+		<!-- Favicon -->
+   		<link href="../resources/dist/img/Favicon.png" rel="shortcut icon" type="image/x-icon">
 		<!-- CK Editor -->
 		<script src="https://cdn.ckeditor.com/ckeditor5/41.2.1/classic/ckeditor.js"></script>
 		<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
@@ -29,32 +31,38 @@
 	<!-- 공통 / 헤더 -->
 	<jsp:include page="../inc/header.jsp"></jsp:include>
 	
-	<div id="notice-write">
-	    <h1><b>공지사항 등록</b></h1>
-	    <br><br><br>
 	
+	<div id="notice-write">
+    <h1><b>공지사항 등록</b></h1>
+    <br><br><br>
 	    <form action="/notice/insert.ft" method="post" enctype="multipart/form-data">
-		   
-		        <div class="mb-3">
-		            <label for="inputText">제목</label>
-		            <input type="text" class="form-control" name="noticeSubject">
-		        </div>
-		        <div class="mb-3" style="width: 50%; margin: 0 auto;">
-		            <label for="exampleFormControlTextarea1" class="form-label"></label>
-		            <textarea class="form-control " name="noticeContent" id="noticeContent" rows="6"></textarea>
-		        </div>
-		        <div class="mb-3">
-		            <label for="inputNumber">첨부파일</label>
-		            <input type="file" name="uploadFile">
-		        </div>
-		<!--         <div class="d-flex justify-content-end">
-		 -->        <div class="d-flex justify-content-center">
-		            <button type="submit" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef;">등록</button>
-		        </div>
-		   
+	        <div class="mb-3">
+	            <div class="row g-2 align-items-center">
+		            <div class="col-auto">
+					    <select class="form-select" name="noticeType" id="noticeType">
+					        <c:forEach items="${noticeTypes}" var="type">
+					            <option value="${type}">${type}</option>
+					        </c:forEach>
+					    </select>
+					</div>
+	                <div class="col">
+	                    <input type="text" class="form-control" name="noticeSubject" placeholder="제목을 입력하세요">
+	                </div>
+	            </div>
+	        </div>
+	        <div class="mb-3" style="margin-top: -20px;">
+	            <label for="exampleFormControlTextarea1" class="form-label"></label>
+	            <textarea class="form-control" name="noticeContent" id="noticeContent" rows="6"></textarea>
+	        </div>
+	        <div class="mb-3">
+	            <label for="inputNumber">첨부파일</label>
+	            <input type="file" name="uploadFile">
+	        </div>
+	        <div class="d-flex justify-content-center">
+	            <button type="submit" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef;">등록</button>
+	        </div>
 	    </form>
 	</div>
-	
 	
 	
 	<script type="text/javascript">

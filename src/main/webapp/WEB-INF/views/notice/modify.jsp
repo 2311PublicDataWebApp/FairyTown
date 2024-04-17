@@ -5,7 +5,9 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>공지사항 수정</title>
+		<title>공지사항 수정 | 페어리 타운</title>
+	    <!-- Favicon -->
+	    <link href="../resources/dist/img/Favicon.png" rel="shortcut icon" type="image/x-icon">
 		 <style>
         	#notice-modify {
         		width: 800px;
@@ -15,7 +17,9 @@
         </style>
 	</head>
 	<body>
-	<%-- <jsp:include page="../inc/header.jsp"></jsp:include> --%>
+	<!-- 공통 / 헤더 -->
+	<jsp:include page="../inc/header.jsp"></jsp:include>
+	
 	<div id="notice-modify">
 		<h1><b>공지사항 수정</b></h1>
 		<br><br><br>
@@ -54,11 +58,13 @@
 				</div>
               </form>
               </div>
-		<%-- <jsp:include page="../inc/footer.jsp"></jsp:include> --%>
 		<script type="text/javascript">
 			function showNoticeList() {
 				location.href = "/notice/list.ft";
 			}
 		</script>
+		
+	<!-- 공통 / 풋터 -->
+	<jsp:include page="../inc/footer.jsp"></jsp:include>
 	</body>
 </html>

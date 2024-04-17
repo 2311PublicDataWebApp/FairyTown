@@ -395,7 +395,7 @@
 				        <span class="yellow underline" style="margin-right: 40px;  color: #5DCCFA; font-size: 20px;">고객센터</span>
 				      </button>
 				      <div class="dropdown-content">
-				        <a href="notice/list.ft" style="color: #497BC2;">공지사항</a>
+				        <a href="/notice/list.ft" style="color: #497BC2;">공지사항</a>
 				        <a href="#" style="color: #5DCCFA;">자주 묻는 질문</a>
 				        <a href="#" style="color: #497BC2;">1대1 문의</a>
 				      </div>

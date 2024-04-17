@@ -7,6 +7,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Error</title>
+<!-- Favicon -->
+<link href="../resources/dist/img/Favicon.png" rel="shortcut icon" type="image/x-icon">
 <style>
 div{margin-left:43%;
 	margin-top:10%;}

@@ -25,6 +25,7 @@ public class NoticeVO {
 	private String noticeFileRename; 
 	private String noticeFilePath; 
 	private Long noticeFileLength;
+	private String noticeType;
 	
 	// 파라미터 이름을 명시적으로 지정 
 //	@ConstructorProperties({"noticeNo", "userId", "noticeSubject", "noticeContent", "noticeDate", "updateDate", "noticeFileName", "noticeFileRename", "noticeFilePath", "noticeFileLength"})
