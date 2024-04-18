@@ -11,6 +11,10 @@ java {
 	sourceCompatibility = '17'
 }
 
+compileJava {
+    options.compilerArgs << "-parameters"
+}
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -52,8 +56,6 @@ dependencies {
     // GSON
     implementation 'com.google.code.gson:gson:2.8.8' 
 	implementation 'org.apache.commons:commons-lang3'
-	
-	 implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
 }
 
 
@@ -66,3 +68,7 @@ tasks.withType(JavaCompile) {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+
+
+

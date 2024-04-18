@@ -8,7 +8,6 @@ import com.fairytown.ft.ticket.domain.vo.TicketVO;
 
 public interface TicketService {
 
-	TicketVO selectByTicketNo(int ticketNo);
 
 	int getTotalCount();
 
@@ -23,5 +22,7 @@ public interface TicketService {
 	int modifyTicket(TicketVO ticket);
 
 	int deleteTicket(int ticketNo);
+
+	TicketVO selectByTicketNo(int ticketNo);
 
 }

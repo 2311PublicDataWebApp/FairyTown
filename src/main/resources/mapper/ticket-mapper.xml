@@ -31,7 +31,7 @@
 		SELECT * FROM TICKET_TBL WHERE TICKET_NO = #{ticketNo }
 	</select>
 	
-	<select id="selectTicketByKeyword" resultMap="ticketResultMap">
+	<select id="searchTicketByKeyword" resultMap="ticketResultMap">
 		SELECT * FROM TICKET_TBL
 		<if test="searchCondition =='all'">		
 			WHERE TICKET_NAME LIKE '%'||#{searchKeyword}||'%'
@@ -48,11 +48,14 @@
 	
 	<insert id="insertTicket">
 		INSERT INTO TICKET_TBL 
-		VALUES(4, #{ticketName }, 
+		VALUES(SEQ_TICKET_NO.NEXTVAL, #{ticketName }, 
 		#{ticketDetail }, #{ticketCard }, #{ticketAdult}, 
-		#{ticketTeen}, #{ticketChild}, SEQ_TICKET_IMG_NO.NEXTVAL,
+		#{ticketTeen}, #{ticketChild},
 		 #{ticketImgName }, #{ticketImgRename }, 
 		#{ticketImgFilepath }, #{ticketImgFilelength },DEFAULT,DEFAULT)
+		<selectKey keyProperty="ticketNo" resultType="string" order="AFTER">
+			SELECT SEQ_TICKET_NO.CURRVAL FROM DUAL
+		</selectKey>
 	</insert>
 	
 	<update id="modifyTicket">
@@ -67,13 +70,20 @@
 		TICKET_IMG_NAME = #{ticketImgName },
 		 TICKET_IMG_RENAME = #{ticketImgRename }, 
 		 TICKET_IMG_FILEPATH = #{ticketImgFilepath }, 
-		 TICKET_IMG_FILELENGTH = #{ticketImgFilelength }  
+		 TICKET_IMG_FILELENGTH = #{ticketImgFilelength },
 		 TICKET_STATUS = #{ticketStatus }  
 		 WHERE TICKET_NO = #{ticketNo }
 	</update>
 	<delete id="deleteTicket">
 		DELETE FROM TICKET_TBL WHERE TICKET_NO = #{ticketNo }
 	</delete>
+	
+	<!-- 티켓 번호로 티켓 조회하는 쿼리입니다 -->
+	<select id="selectByTicketNumber" resultMap="ticketResultMap">
+		SELECT TICKET_NO AS TICKET_NUMBER, TICKET_NAME, TICKET_DETAIL, TICKET_CARD, TICKET_ADULT, TICKET_TEEN, TICKET_CHILD, TICKET_IMG_NAME, TICKET_IMG_RENAME, TICKET_IMG_FILEPATH, TICKET_DATE, TICKET_STATUS
+	    FROM TICKET_TBL
+	    WHERE TICKET_NO = #{ticketNumber}
+	</select>
   
     <resultMap type="TicketVO" id="ticketResultMap">
 		<id 	property="ticketNo" 		column="TICKET_NO"/>
@@ -83,7 +93,6 @@
 		<result property="ticketAdult" 		column="TICKET_ADULT"/>
 		<result property="ticketTeen" 		column="TICKET_TEEN"/>
 		<result property="ticketChild" 	column="TICKET_CHILD"/>
-		<result property="ticketImgNo" column="TICKET_IMG_NO"/>
 		<result property="ticketImgName" 	column="TICKET_IMG_NAME"/>
 		<result property="ticketImgRename" column="TICKET_IMG_RENAME"/>
 		<result property="ticketImgFilepath" column="TICKET_IMG_FILEPATH"/>

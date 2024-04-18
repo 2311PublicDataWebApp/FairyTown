@@ -13,4 +13,21 @@
 	    <result property="bookingTime" column="BOOKING_TIME"/>
 	    <result property="bookingPeople" column="BOOKING_PEOPLE"/>
 	</resultMap>
+	<select id="BookingListSelect" resultMap="BookingResultMap">
+		SELECT * FROM BOOKING_TBL 
+		WHERE USER_ID = #{userId }
+	</select>
+	<delete id="bookingDeleteOne">
+		DELETE BOOKING_TBL
+		WHERE BOOKING_NUMBER= #{bookingNumber }
+	</delete>
+	<delete id="bookingDelete">
+		DELETE BOOKING_TBL
+		WHERE USER_ID= #{userId }
+	</delete>
+	<insert id="bookingBasic">
+	    INSERT INTO BOOKING_TBL
+	    VALUES (SEQ_BOOKING_NUMBER.NEXTVAL, #{userId}, #{ticketCode}, #{rideId}, #{bookingDate}, #{bookingTime}, #{bookingPeople})
+	</insert>
+
 </mapper>

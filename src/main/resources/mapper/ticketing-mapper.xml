@@ -38,4 +38,5 @@
   		SET PURCHASE_SUCCESS = 'C'
 		WHERE TICKETING_CODE = #{ticketingCode}
   	</update>
+  	
   </mapper>

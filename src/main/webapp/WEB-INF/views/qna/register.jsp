@@ -11,145 +11,25 @@
 	<body>
 		<!-- 공통 / 헤더 -->
 		<jsp:include page="../inc/header.jsp"></jsp:include>
-			<h1>1대1 문의 등록</h1>
-		<form action="/qna/register.ft" method="post" enctype="multipart/form-data">
-			<fieldset>
-				<legend>문의 등록</legend><br>
-				제목 <input type="text" name="qnaTitle" placeholder="제목을 입력해주세요"><br><br>
-				내용 <textarea rows="4" cols="50" name="qnaContent"></textarea><br>
-				작성자 <input type="text" name="qnaWriter" placeholder="작성자를 입력해주세요"><br>
-				<input type="submit" value="작성하기">
-			</fieldset>
-		</form>
-		<h1>1대1 문의 등록</h1>
-		<form action="/qna/register.ft" method="post" enctype="multipart/form-data">
-			<fieldset>
-				<legend>문의 등록</legend><br>
-				제목 <input type="text" name="qnaTitle" placeholder="제목을 입력해주세요"><br><br>
-				내용 <textarea rows="4" cols="50" name="qnaContent"></textarea><br>
-				작성자 <input type="text" name="qnaWriter" placeholder="작성자를 입력해주세요"><br>
-				<input type="submit" value="작성하기">
-			</fieldset>
-		</form>
-		<h1>1대1 문의 등록</h1>
-		<form action="/qna/register.ft" method="post" enctype="multipart/form-data">
-			<fieldset>
-				<legend>문의 등록</legend><br>
-				제목 <input type="text" name="qnaTitle" placeholder="제목을 입력해주세요"><br><br>
-				내용 <textarea rows="4" cols="50" name="qnaContent"></textarea><br>
-				작성자 <input type="text" name="qnaWriter" placeholder="작성자를 입력해주세요"><br>
-				<input type="submit" value="작성하기">
-			</fieldset>
-		</form>
-		<h1>1대1 문의 등록</h1>
-		<form action="/qna/register.ft" method="post" enctype="multipart/form-data">
-			<fieldset>
-				<legend>문의 등록</legend><br>
-				제목 <input type="text" name="qnaTitle" placeholder="제목을 입력해주세요"><br><br>
-				내용 <textarea rows="4" cols="50" name="qnaContent"></textarea><br>
-				작성자 <input type="text" name="qnaWriter" placeholder="작성자를 입력해주세요"><br>
-				<input type="submit" value="작성하기">
-			</fieldset>
-		</form>
-		<h1>1대1 문의 등록</h1>
-		<form action="/qna/register.ft" method="post" enctype="multipart/form-data">
-			<fieldset>
-				<legend>문의 등록</legend><br>
-				제목 <input type="text" name="qnaTitle" placeholder="제목을 입력해주세요"><br><br>
-				내용 <textarea rows="4" cols="50" name="qnaContent"></textarea><br>
-				작성자 <input type="text" name="qnaWriter" placeholder="작성자를 입력해주세요"><br>
-				<input type="submit" value="작성하기">
-			</fieldset>
-		</form>
-		<h1>1대1 문의 등록</h1>
-		<form action="/qna/register.ft" method="post" enctype="multipart/form-data">
-			<fieldset>
-				<legend>문의 등록</legend><br>
-				제목 <input type="text" name="qnaTitle" placeholder="제목을 입력해주세요"><br><br>
-				내용 <textarea rows="4" cols="50" name="qnaContent"></textarea><br>
-				작성자 <input type="text" name="qnaWriter" placeholder="작성자를 입력해주세요"><br>
-				<input type="submit" value="작성하기">
-			</fieldset>
-		</form>
-		<h1>1대1 문의 등록</h1>
-		<form action="/qna/register.ft" method="post" enctype="multipart/form-data">
-			<fieldset>
-				<legend>문의 등록</legend><br>
-				제목 <input type="text" name="qnaTitle" placeholder="제목을 입력해주세요"><br><br>
-				내용 <textarea rows="4" cols="50" name="qnaContent"></textarea><br>
-				작성자 <input type="text" name="qnaWriter" placeholder="작성자를 입력해주세요"><br>
-				<input type="submit" value="작성하기">
-			</fieldset>
-		</form>
-		<h1>1대1 문의 등록</h1>
-		<form action="/qna/register.ft" method="post" enctype="multipart/form-data">
-			<fieldset>
-				<legend>문의 등록</legend><br>
-				제목 <input type="text" name="qnaTitle" placeholder="제목을 입력해주세요"><br><br>
-				내용 <textarea rows="4" cols="50" name="qnaContent"></textarea><br>
-				작성자 <input type="text" name="qnaWriter" placeholder="작성자를 입력해주세요"><br>
-				<input type="submit" value="작성하기">
-			</fieldset>
-		</form>
-		<h1>1대1 문의 등록</h1>
-		<form action="/qna/register.ft" method="post" enctype="multipart/form-data">
-			<fieldset>
-				<legend>문의 등록</legend><br>
-				제목 <input type="text" name="qnaTitle" placeholder="제목을 입력해주세요"><br><br>
-				내용 <textarea rows="4" cols="50" name="qnaContent"></textarea><br>
-				작성자 <input type="text" name="qnaWriter" placeholder="작성자를 입력해주세요"><br>
-				<input type="submit" value="작성하기">
-			</fieldset>
-		</form>
-		<h1>1대1 문의 등록</h1>
-		<form action="/qna/register.ft" method="post" enctype="multipart/form-data">
-			<fieldset>
-				<legend>문의 등록</legend><br>
-				제목 <input type="text" name="qnaTitle" placeholder="제목을 입력해주세요"><br><br>
-				내용 <textarea rows="4" cols="50" name="qnaContent"></textarea><br>
-				작성자 <input type="text" name="qnaWriter" placeholder="작성자를 입력해주세요"><br>
-				<input type="submit" value="작성하기">
-			</fieldset>
-		</form>
-		<h1>1대1 문의 등록</h1>
-		<form action="/qna/register.ft" method="post" enctype="multipart/form-data">
-			<fieldset>
-				<legend>문의 등록</legend><br>
-				제목 <input type="text" name="qnaTitle" placeholder="제목을 입력해주세요"><br><br>
-				내용 <textarea rows="4" cols="50" name="qnaContent"></textarea><br>
-				작성자 <input type="text" name="qnaWriter" placeholder="작성자를 입력해주세요"><br>
-				<input type="submit" value="작성하기">
-			</fieldset>
-		</form>
-		<h1>1대1 문의 등록</h1>
-		<form action="/qna/register.ft" method="post" enctype="multipart/form-data">
-			<fieldset>
-				<legend>문의 등록</legend><br>
-				제목 <input type="text" name="qnaTitle" placeholder="제목을 입력해주세요"><br><br>
-				내용 <textarea rows="4" cols="50" name="qnaContent"></textarea><br>
-				작성자 <input type="text" name="qnaWriter" placeholder="작성자를 입력해주세요"><br>
-				<input type="submit" value="작성하기">
-			</fieldset>
-		</form>
-		<h1>1대1 문의 등록</h1>
-		<form action="/qna/register.ft" method="post" enctype="multipart/form-data">
-			<fieldset>
-				<legend>문의 등록</legend><br>
-				제목 <input type="text" name="qnaTitle" placeholder="제목을 입력해주세요"><br><br>
-				내용 <textarea rows="4" cols="50" name="qnaContent"></textarea><br>
-				작성자 <input type="text" name="qnaWriter" placeholder="작성자를 입력해주세요"><br>
-				<input type="submit" value="작성하기">
-			</fieldset>
-		</form>
-		<h1>1대1 문의 등록</h1>
-		<form action="/qna/register.ft" method="post" enctype="multipart/form-data">
-			<fieldset>
-				<legend>문의 등록</legend><br>
-				제목 <input type="text" name="qnaTitle" placeholder="제목을 입력해주세요"><br><br>
-				내용 <textarea rows="4" cols="50" name="qnaContent"></textarea><br>
-				작성자 <input type="text" name="qnaWriter" placeholder="작성자를 입력해주세요"><br>
-				<input type="submit" value="작성하기">
-			</fieldset>
+			<h1>문의 작성</h1>
+		<form action="/qna/insert.ft" method="post" enctype="multipart/form-data">
+			<ul>
+				<li>
+					<label>제목</label>
+					<input type="text" name="qnaName">
+				</li>
+				<li>
+					<label>작성자</label>
+					<input type="text" name="qnaWriter">
+				</li>
+				<li>
+					<label>내용</label>
+					<textarea rows="4" cols="51" name="qnaContent"></textarea>
+				</li>
+			</ul>
+			<div>
+				<input type="submit" value="등록하기">
+			</div>
 		</form>
 		
 		<!-- 공통 / 풋터 -->

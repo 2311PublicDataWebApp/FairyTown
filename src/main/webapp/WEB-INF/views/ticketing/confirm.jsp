@@ -78,70 +78,6 @@ function requestPay() {
         alert('구매 금액이 0원입니다. 결제를 진행할 수 없습니다.');
     }
 }
-
-// ---------------------------------- 테스트모듈
-// var IMP = window.IMP;
-// IMP.init('imp11650867');
-
-// function requestPay() {
-//     var simulatePayment = confirm("결제를 시뮬레이션 하시겠습니까?");
-//     if (simulatePayment) {
-//         var simulatedResponse = {
-//             success: true,
-//             imp_uid: "simulation_imp_uid",
-//             merchant_uid: "simulation_merchant_uid",
-//             paid_amount: ${tingOne.purchasePrice},
-//             apply_num: "simulation_apply_num"
-//         };
-//         processPaymentResponse(simulatedResponse);
-//     } else {
-//         IMP.request_pay({
-//             pg: "html5_inicis",
-//             pay_method: "card",
-//             merchant_uid: "57008833-33004",
-//             name: "${ticketOne.ticketName }",
-//             amount: ${tingOne.purchasePrice},
-//             buyer_email: "Iamport@chai.finance",
-//             buyer_name: "바이킹 기술지원팀",
-//             buyer_tel: "010-1234-5678",
-//             buyer_addr: "서울특별시 중구",
-//             buyer_postcode: "123-456",
-//         }, processPaymentResponse);
-//     }
-// }
-
-// function processPaymentResponse(rsp) {
-//     if (rsp.success) {
-//         jQuery.ajax({
-//             url: "/ticketing/paymentRegist.ft",
-//             type: 'POST',
-//             data: {
-//             	userId : '${user.userId }',
-//             	reservationDateStr : '${tingOne.reservationDate }',
-//             	adult : ${tingOne.adult },
-//             	teenager : ${tingOne.teenager },
-//             	child : ${tingOne.child },
-//             	purchasePrice : ${tingOne.purchasePrice },
-//             	impUid: rsp.imp_uid,
-//             	merchantUid: rsp.merchant_uid
-//             }
-//         }).done(function (data) {
-//             var msg = '결제가 완료되었습니다.';
-//             msg += '\n고유ID : ' + rsp.imp_uid;
-//             msg += '\n상점 거래ID : ' + rsp.merchant_uid;
-//             msg += '\결제 금액 : ' + rsp.paid_amount;
-//             msg += '카드 승인번호 : ' + rsp.apply_num;
-//             alert(msg);
-//             window.location.href = '/ticketing/list.ft';
-//         }).fail(function (jqXHR, textStatus, errorThrown) {
-//             // 오류가 발생한 경우 사용자에게 알림
-//             alert("결제 정보 전송 중 오류가 발생했습니다: " + errorThrown);
-//         });
-//     } else {
-//         alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
-//     }
-// }
-// ---------------------------------- 테스트모듈
 </script>
 <meta charset="UTF-8">
 	<title>티켓결제-확인</title>
@@ -150,6 +86,7 @@ function requestPay() {
 	<form action="/ticketing/confirm.ft" method="post">
 		<input type="hidden" name="userId" value="${user.userId }">
 		<input type="hidden" name="ticketNo" value="${ticketOne.ticketNo }">
+		<img src="../resources/nuploadFiles/${ticketOne.ticketImgRename }" alt="티켓이미지"><br>
 		<div>
 		    <label for="ticketName" class="form-label">티켓이름 : </label>
 		    <span class="form-control" id="ticketName">${ticketOne.ticketName }</span>

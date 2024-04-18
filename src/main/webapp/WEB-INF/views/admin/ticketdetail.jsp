@@ -12,7 +12,6 @@
 	<!-- 공통 / 헤더 -->
 	<jsp:include page="../inc/header.jsp"></jsp:include>
 
-		<form action="/admin/ticketdetail.ft" method="post" name="ticketForm">
 			
 		<!-- 어드민 타이틀 영역 -->
 			<div class="admTitle">
@@ -28,17 +27,17 @@
 		
 		<!-- 컨텐츠 영역 -->
 			<div class="content">
-			<input type="hidden" name="ticketNo" value="ticketNo">
+				<input type="hidden" name="ticketNo" value="ticketNo">
 				<table class="table_close">
 					<tr>
-						<td>티켓명＊ : </td>
+						<td>티켓명<sup style="color:red">*</sup> : </td>
 						<td>
 							<span>${ticket.ticketName }</span>
 						</td>
 					</tr>
 					<tr>
 						<td>티켓설명 : </td>
-						<td><span>${ticket.ticketDetail }"></span>
+						<td><span>${ticket.ticketDetail }</span>
 					</tr>
 					<tr>
 						<td>제휴카드 : </td>
@@ -48,7 +47,7 @@
 					</tr>
 					
 					<tr>
-						<td>어른 가격* : </td>
+						<td>어른 가격 <sup style="color:red">*</sup> : </td>
 						<td>
 							<span>${ticket.ticketAdult}</span>
 						</td>
@@ -67,14 +66,18 @@
 					</tr>
 					<tr>
 						<td>사용상태 : </td>
-						<td>
-							<span>${ticket.ticketStatus}</span>
-						</td>
+							<c:set var="tStatus" value="${ticket.ticketStatus }" />
+							<c:if test="${tStatus eq 'Y' }">
+								<td>사용중</td>
+							</c:if>
+							<c:if test="${tStatus eq 'N'}">
+								<td>사용안함</td>
+							</c:if>
 					</tr>
 					<tr>
 						<td>이미지 : </td>
 						<td>
-							<span>${ticket.ticketImgName}</span>
+								<img src="../resources/nuploadFiles/${ticket.ticketImgRename }" alt="이미지"><br>
 						</td>
 					</tr>
 					
@@ -82,12 +85,12 @@
 					<tr>
 						<td colspan="5">
 							<input type="reset" value="이전으로" onClick="goBack();">
-							<input type="submit" value="수정하기" onClick="showModify();"> 
+							<input type="button" value="수정하기" onClick="showModify(${ticket.ticketNo});"> 
 						</td>
 					</tr>
 				</table>
 			</div>
-		</form> 
+<!-- 		</form>  -->
 	
 		<script>
 		//상세 페이지 사용 JS : showModify(), goBack()
@@ -95,11 +98,10 @@
 			function goBack() {
 				history.back();
 			}
-			function showModify() {
-				var noticeNo = "${ticket.ticketNo }";
-				location.href = "admin/ticketmodify.ft?ticketNo=" + ticketNo;
+		
+			function showModify(ticketNo) {
+			    location.href = "/admin/ticketmodify.ft?ticketNo=" + ticketNo;
 			}
-	
 			
 		
 		</script>

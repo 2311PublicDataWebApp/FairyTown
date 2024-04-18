@@ -15,8 +15,8 @@
         </c:when>
         <c:otherwise>
             <c:forEach items="${tingList}" var="ting">
-				티켓이름 : <br>
-				티켓 이미지 : <br>
+				티켓이름 : ${ting.ticket.ticketName }<br>
+				<img src="../resources/nuploadFiles/${ting.ticket.ticketImgRename }" alt="티켓이미지"><br>
             	티켓 코드 : ${ting.ticketingCode } <br>
                 예약일 : ${ting.reservationDate } <br>
                 어른 : ${ting.adult } <br>

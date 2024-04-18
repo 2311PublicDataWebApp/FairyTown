@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.fairytown.ft.ticket.domain.vo.TicketVO;
+import com.fairytown.ft.ticket.service.TicketService;
 import com.fairytown.ft.ticketing.domain.vo.TicketingVO;
 import com.fairytown.ft.ticketing.service.TicketingService;
 import com.fairytown.ft.user.domain.vo.UserVO;
+import com.fairytown.ft.user.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 
@@ -28,20 +30,24 @@ public class TicketingController {
 	
 	@Autowired
 	private TicketingService tingService;
+	@Autowired
+	private UserService uService;
+	@Autowired
+	private TicketService tService;
 	
 	// 티켓팅 입력 진행 뷰
 	@GetMapping("/ticketing/regist.ft")
-	public String ticketingRegistView(Model model, TicketVO ticketOne) {
+	public String ticketingRegistView(Model model, @RequestParam(name = "ticketNo", required = false) Integer ticketNo, HttpServletRequest request) {
+		// 페이지 진입시 로그인이 되어있어야 합니다
 		try {
-			UserVO user = new UserVO();
-			// 임시 아이디 할당
-			user.setUserId("khuser01");
-			if(ticketOne.getTicketNo() == null) {
-				// 임시 티켓 할당 -> 1번티켓 조회해주세요
-				ticketOne = new TicketVO("1", "종일권", "티켓 설명", "ING.PNG", 300, 200, 100, 0, null, null, null, 0, null, null);
+			HttpSession session = request.getSession();
+			UserVO uOne = (UserVO) session.getAttribute("user");
+			UserVO user = uService.selectUser(uOne.getUserId());
+			TicketVO ticketOne = new TicketVO();
+			if(ticketNo == null || ticketNo == 0) {
+			    ticketNo = 1;
 			}
-			user.setUserId("testuser01");
-			// 임시 티켓 할당
+			ticketOne = tingService.selectByTicketNo(ticketNo);
 			model.addAttribute("user", user);
 			model.addAttribute("ticketOne", ticketOne);
 			return "ticketing/regist";
@@ -101,15 +107,15 @@ public class TicketingController {
 	}
 	// 결제 내역 리스트 뷰
 	@GetMapping("/ticketing/list.ft")
-	public String ticketingListView(Model model) {
+	public String ticketingListView(Model model, HttpServletRequest request) {
+		// 페이지 진입시 로그인이 되어있어야 합니다.
 		try {
-			UserVO user = new UserVO();
-			// 임시 아이디 할당
-			user.setUserId("khuser01");		
+			HttpSession session = request.getSession();
+			UserVO uOne = (UserVO) session.getAttribute("user");
+			UserVO user = uService.selectUser(uOne.getUserId());	
 			List<TicketingVO> tingList = tingService.ticketingListSelect(user);
+			model.addAttribute("user", user);
 			model.addAttribute("tingList", tingList);
-			// 티켓 정보 조회 (티켓에 연결)
-//			model.addAttribute("tList", tList);
 			return "ticketing/list";
 		} catch (Exception e) {
 			model.addAttribute("msg", e.getMessage());
@@ -125,7 +131,7 @@ public class TicketingController {
 	}
 	// 티켓 결제 취소
 	@PostMapping("/ticketing/cancle.ft")
-	public ResponseEntity<String> ticketingCancle(Model model, @RequestParam("ticketingCode") String ticketingCode) {
+	public ResponseEntity<String> ticketingCancle(@RequestParam("ticketingCode") String ticketingCode) {
 		try {
 			int result = tingService.ticketingCancle(ticketingCode);
 			if(result > 0) {
