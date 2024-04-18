@@ -6,7 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>공지사항</title>
+<title>공지사항 상세보기 | 페어리 타운</title>
+    <!-- Favicon -->
+    <link href="../resources/dist/img/close.png" rel="shortcut icon" type="image/x-icon">
 <!-- 부트스트랩 CDN 추가 -->
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -19,8 +21,8 @@
 <script async charset="utf-8" src="//cdn.embedly.com/widgets/platform.js"></script>
 </head>
 <body>
-	<%-- <jsp:include page="../inc/header.jsp"></jsp:include> --%>
-
+	<!-- 공통 / 헤더 -->
+	<jsp:include page="../inc/header.jsp"></jsp:include>
 
 			<div class="pagetitle text-center">
 				<h1>
@@ -50,7 +52,7 @@
 											onclick="showNoticeList();">목록</button>
 									</div>
 								</c:if>
-								<c:if test="${memberId ne 'admin' }">
+								<c:if test="${userId ne 'admin' }">
 									<div class="d-flex col-md-12 justify-content-end">
 										<button type="button" class="btn"
 											style="background-color: #FAFAFA; border-color: #e9ecef;"
@@ -61,22 +63,28 @@
 								<!-- Default Table -->
 							<!-- 	<table class="table table-striped"> -->
 								<table class="">
-										<tbody>
-											<div class="titArea d-flex align-items-center justify-content-between">
-								    <div class="label pr-3">
-								        <p class="mb-0">공지&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-								    </div>
-								    <div class="flex-grow-1">
-								        <p class="tit mb-0" style="word-wrap: break-word; font-size: 24px; font-weight: bold;">
-								            ${notice.noticeSubject }
-								        </p>
-								    </div>
-								    <div>
-								        <p class="date mb-0">
-								            ${notice.noticeDate }
-								        </p>
-								    </div>
-									</div>
+									<tbody>
+										<div class="titArea d-flex align-items-center justify-content-between">
+										    <div class="label pr-3">
+													<p class="mb-0"> ${notice.noticeType}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+		 								    </div>
+										    <div class="flex-grow-1">
+										        <p class="tit mb-0" style="word-wrap: break-word; font-size: 24px; font-weight: bold;">
+										            ${notice.noticeSubject }
+										        </p>
+										    </div>
+										    <div>
+										        <p class="date mb-0">
+										            ${notice.noticeDate }
+										        </p>
+										    </div>
+									  </div>
+									  <!-- 구분선 추가 -->
+									  	<tr>
+								        <tr>
+										    <td colspan="2">
+										        <hr style="border-top: 1px solid #ccc; width: 100%;">
+										    </td>
 										</tr>
 										<c:if test="${notice.noticeFileRename ne null }">
 											<tr>
@@ -148,7 +156,14 @@
 	</div>
 
 
+
 	 <script>
+		 
+	    
+	    // ============================
+	    // CKEditor 동영상 임베드 설정 영역
+	    // ============================
+	    	
         // URL 파라미터에서 동영상 주소 추출
         function getVideoUrl() {
             var urlParams = new URLSearchParams(window.location.search);
@@ -207,12 +222,7 @@
 			function showNoticeList() {
 				location.href = "/notice/list.ft";
 			}
-			
-			
-			
-			
-			
-			
+	
 			getReplyList();
         	function getReplyList() {
         		var refNoticeNo = $("#refNoticeNo").val();
@@ -285,14 +295,8 @@
         			
 	        		var tr = $("<tr id='replyTr'>");
 	        		tr.append("<td colspan='2'><input type='text' id='replyContent' name='replyContent' class='form-control' style='margin: 0 0 0 125px;' value='"+rContent+"'><br><div class='d-flex col-md-10 justify-content-end'><button type='button' class='btn ' style='background-color: #FAFAFA; border-color: #e9ecef; margin:0 100px 0 0' onclick='modifyReply("+rNo+", this);'>수정완료</button></div></td>")
-// 	        		tr.append("<td><br><br><button type='button' id='rSubmit' class='btn' style='background-color: #FAFAFA; border-color: #e9ecef;' onclick='modifyReply("+rNo+", this);'>수정완료</button></td>")
 	        		$(obj).parent().parent().after(tr);
         		}
-        		
-        		
-       		
-        			
-        		
         		
         		//$("#replyTable tbody").append(tr);
         		//$("<td>").append("<input type='text'>");
@@ -336,6 +340,7 @@
         	
 		</script>
 
-
+	<!-- 공통 / 풋터 -->
+	<jsp:include page="../inc/footer.jsp"></jsp:include>
 </body>
 </html>

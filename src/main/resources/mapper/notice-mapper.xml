@@ -2,37 +2,64 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <!-- NoticeMapper 인터페이스와 연결된 XML 매퍼 -->
  <mapper namespace="NoticeMapper"> 
 
+		<!-- NoticeVO 객체를 매핑하기 위한 resultMap -->
 	<resultMap type="NoticeVO" id="noticeResultMap">
-		<id 	property="noticeNo" 		column="NOTICE_NO"/>
-		<result property="userId"		 	column="USER_ID"/>
-		<result property="noticeSubject"	column="NOTICE_SUBJECT"/>
-		<result property="noticeContent" 	column="NOTICE_CONTENT"/>
-		<result property="noticeDate" 		column="NOTICE_DATE"/>
-		<result property="updateDate" 		column="UPDATE_DATE"/>
-		<result property="noticeFileName" 	column="NOTICE_FILENAME"/>
-		<result property="noticeFileRename" column="NOTICE_FILERENAME"/>
-		<result property="noticeFilePath" 	column="NOTICE_FILEPATH"/>
-		<result property="noticeFileLength" column="NOTICE_FILELENGTH"/>
+	    <!-- 공지사항 번호 -->
+	    <id property="noticeNo" column="NOTICE_NO"/>
+	    
+	    <!-- 사용자 ID -->
+	    <result property="userId" column="USER_ID"/>
+	    
+	    <!-- 공지사항 제목 -->
+	    <result property="noticeSubject" column="NOTICE_SUBJECT"/>
+	    
+	    <!-- 공지사항 내용 -->
+	    <result property="noticeContent" column="NOTICE_CONTENT"/>
+	    
+	    <!-- 공지사항 작성일 -->
+	    <result property="noticeDate" column="NOTICE_DATE"/>
+	    
+	    <!-- 공지사항 수정일 -->
+	    <result property="updateDate" column="UPDATE_DATE"/>
+	    
+	    <!-- 공지사항 첨부 파일명 -->
+	    <result property="noticeFileName" column="NOTICE_FILENAME"/>
+	    
+	    <!-- 공지사항 첨부 파일 변경된 이름 -->
+	    <result property="noticeFileRename" column="NOTICE_FILERENAME"/>
+	    
+	    <!-- 공지사항 첨부 파일 경로 -->
+	    <result property="noticeFilePath" column="NOTICE_FILEPATH"/>
+	    
+	    <!-- 공지사항 첨부 파일 크기 -->
+	    <result property="noticeFileLength" column="NOTICE_FILELENGTH"/>
+	    
+	    <!-- 공지사항 유형 -->
+	    <result property="noticeType" column="NOTICE_TYPE"/>
 	</resultMap>
 	
-	<!-- 공지사항을 삽입하는 SQL 쿼리 -->
-	<!-- 글 작성 후 작성한 글 상세보기로 리다이렉트 하기 위한 SQL 쿼리 -->
-	<insert id="insertNotice" parameterType="NoticeVO" useGeneratedKeys="true" keyProperty="noticeNo">
-    <selectKey keyProperty="noticeNo" order="BEFORE" resultType="int">
-        SELECT SEQ_NOTICE_NO.NEXTVAL FROM DUAL
-    </selectKey>
+	
+<insert id="insertNotice" parameterType="NoticeVO" useGeneratedKeys="true" keyProperty="noticeNo">
+    <selectKey keyProperty="noticeNo" order="AFTER" resultType="int">
+        SELECT SEQ_NOTICE_NO.CURRVAL FROM DUAL
+    </selectKey> 
     insert into NOTICE_TBL
-	VALUES(SEQ_NOTICE_NO.NEXTVAL, #{userId }, #{noticeSubject }, #{noticeContent }, DEFAULT, DEFAULT, #{noticeFileName }, #{noticeFileRename }, #{noticeFilePath }, #{noticeFileLength })
-	</insert>
-	<!-- <insert id="insertNotice">
-		INSERT INTO NOTICE_TBL VALUES(SEQ_NOTICE_NO.NEXTVAL, #{userId }, #{noticeSubject }, #{noticeContent }, DEFAULT, DEFAULT, #{noticeFileName }, #{noticeFileRename }, #{noticeFilePath }, #{noticeFileLength })
-	</insert> -->
+    VALUES (SEQ_NOTICE_NO.NEXTVAL, #{userId}, #{noticeSubject}, #{noticeContent}, DEFAULT, DEFAULT, #{noticeFileName}, #{noticeFileRename}, #{noticeFilePath}, #{noticeFileLength}, #{noticeType})
+</insert>
+	
+	<!-- 공지사항 번호에 해당하는 공지사항을 조회하는 SQL 쿼리 -->
+	<select id="selectByNoticeNo" resultMap="noticeResultMap">
+		SELECT * FROM NOTICE_TBL WHERE NOTICE_NO = #{noticeNo }
+	</select>
 	
 	<!-- 공지사항을 수정하는 SQL 쿼리 -->
 	<update id="updateNotice">
-		UPDATE NOTICE_TBL SET NOTICE_SUBJECT = #{noticeSubject }, NOTICE_CONTENT = #{noticeContent }, UPDATE_DATE = DEFAULT, NOTICE_FILENAME = #{noticeFileName }, NOTICE_FILERENAME = #{noticeFileRename }, NOTICE_FILEPATH = #{noticeFilePath }, NOTICE_FILELENGTH = #{noticeFileLength }  WHERE NOTICE_NO = #{noticeNo }
+		UPDATE NOTICE_TBL SET NOTICE_SUBJECT = #{noticeSubject }, NOTICE_CONTENT = #{noticeContent }, UPDATE_DATE = DEFAULT, NOTICE_FILENAME = #{noticeFileName }, NOTICE_FILERENAME = #{noticeFileRename }, NOTICE_FILEPATH = #{noticeFilePath }, NOTICE_FILELENGTH = #{noticeFileLength }, NOTICE_TYPE = #{noticeType}
+		WHERE NOTICE_NO = #{noticeNo }
 	</update>
 	<!-- 공지사항을 삭제하는 SQL 쿼리 -->
 	<delete id="deleteNotice">
@@ -48,13 +75,13 @@
 	<select id="searchTotalCount" resultType="_int">
 		SELECT COUNT(*) FROM NOTICE_TBL
 		<if test="searchCondition =='all'">		
-			WHERE USER_ID LIKE '%'||#{searchKeyword}||'%'
-			OR NOTICE_SUBJECT LIKE '%'||#{searchKeyword}||'%'
+<!-- 			WHERE USER_ID LIKE '%'||#{searchKeyword}||'%'
+ -->		WHERE NOTICE_SUBJECT LIKE '%'||#{searchKeyword}||'%'
 			OR NOTICE_CONTENT LIKE '%'||#{searchKeyword}||'%'
 		</if>
-		<if test="searchCondition == 'writer'">		
+<!-- 		<if test="searchCondition == 'writer'">		
 			WHERE USER_ID LIKE '%'||#{searchKeyword}||'%'
-		</if>
+		</if> -->
 		<if test="searchCondition == 'title'">		
 			WHERE NOTICE_SUBJECT LIKE '%'||#{searchKeyword}||'%'
 		</if>
@@ -68,22 +95,18 @@
 		SELECT * FROM NOTICE_TBL ORDER BY NOTICE_NO DESC
 	</select>
 	
-	<!-- 공지사항 번호에 해당하는 공지사항을 조회하는 SQL 쿼리 -->
-	<select id="selectByNoticeNo" resultMap="noticeResultMap">
-		SELECT * FROM NOTICE_TBL WHERE NOTICE_NO = #{noticeNo }
-	</select>
 	
 	<!-- 특정 키워드에 따라 공지사항을 조회하는 SQL 쿼리 -->
 	<select id="selectNoticesByKeyword" resultMap="noticeResultMap">
 		SELECT * FROM NOTICE_TBL
 		<if test="searchCondition =='all'">		
-			WHERE USER_ID LIKE '%'||#{searchKeyword}||'%'
-			OR NOTICE_SUBJECT LIKE '%'||#{searchKeyword}||'%'
+<!-- 			WHERE USER_ID LIKE '%'||#{searchKeyword}||'%'
+ -->		WHERE NOTICE_SUBJECT LIKE '%'||#{searchKeyword}||'%'
 			OR NOTICE_CONTENT LIKE '%'||#{searchKeyword}||'%'
 		</if>
-		<if test="searchCondition == 'writer'">		
+<!-- 		<if test="searchCondition == 'writer'">		
 			WHERE USER_ID LIKE '%'||#{searchKeyword}||'%'
-		</if>
+		</if> -->
 		<if test="searchCondition == 'title'">		
 			WHERE NOTICE_SUBJECT LIKE '%'||#{searchKeyword}||'%'
 		</if>
@@ -92,22 +115,5 @@
 		</if>
 		ORDER BY NOTICE_NO DESC
 	</select>
-	
-	<!-- 글 작성 후 작성한 글 상세보기로 리다이렉트 하기 위한 SQL 쿼리 -->
-	<!-- <insert id="insertNotice" parameterType="NoticeVO" useGeneratedKeys="true" keyProperty="noticeNo">
-    <selectKey keyProperty="noticeNo" order="BEFORE" resultType="int">
-        SELECT SEQ_NOTICE_NO.NEXTVAL FROM DUAL
-    </selectKey>
-    insert into NOTICE_TBL
-	VALUES(SEQ_NOTICE_NO.NEXTVAL, #{userId }, #{noticeSubject }, #{noticeContent }, DEFAULT, DEFAULT, #{noticeFileName }, #{noticeFileRename }, #{noticeFilePath }, #{noticeFileLength })
-	</insert> -->
-	
-	<!-- <insert id="insertUser" parameterType="NoticeVO" >
-	<selectKey order="BEFORE" keyProperty="noticeNo" resultType="int">
-		SELECT users_seq.nextval from dual
-	</selectKey>
-	insert into users(no,user_code,name,email,pwd,hp,start_date,point)
-	values(#{no},#{userCode},#{name},#{email},#{pwd},#{hp},sysdate,#{point}) 
-	</insert> -->
 	
 </mapper>
