@@ -5,8 +5,9 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>공지사항 검색</title>
-    	<!-- <link rel="stylesheet" href="../resources/css/main.css"> -->
+        <title>공지사항 검색 | 페어리 타운</title>
+    	<!-- Favicon -->
+    	<link href="../resources/dist/img/close.png" rel="shortcut icon" type="image/x-icon">
     	<style>
     		#notice-search {
     			width: 1200px;
@@ -15,6 +16,8 @@
     	</style>
     </head>
     <body>
+    <!-- 공통 / 헤더 -->
+	<jsp:include page="../inc/header.jsp"></jsp:include>
     	
     	<div id="notice-search">
         <h1><b>공지사항 목록</b></h1>
@@ -23,19 +26,19 @@
             <thead>
                 <tr>
                     <th>번호</th>
+                    <th>구분</th>
                     <th>제목</th>
-                    <th>작성자</th>
-                    <th>작성날짜</th>
+                    <th>등록일</th>
                 </tr>
             </thead>
             <tbody>
             <c:forEach items="${sList }" var="notice" varStatus="i">            
                 <tr>
                     <td>${notice.noticeNo }</td>
+                    <td>${notice.noticeType }</td>
                     <td><a href="/notice/detail.ft?noticeNo=${notice.noticeNo }">
                     ${notice.noticeSubject }
                     </a></td>
-                    <td>${notice.userId }</td>
                     <td>${notice.noticeDate }</td>
                 </tr>
             </c:forEach>
@@ -49,8 +52,8 @@
 	                                <select class="form-select" name="searchCondition">
 	                                <c:if test="${searchCondition eq 'all' }" >selected</c:if>
 								<option value="all" <c:if test="${searchCondition eq 'all' }"> selected</c:if>>전체</option>
-								<option value="writer" <c:if test="${searchCondition eq 'writer' }"> selected</c:if>>작성자</option>
-								<option value="title" <c:if test="${searchCondition eq 'title' }"> selected</c:if>>제목</option>
+<%-- 								<option value="writer" <c:if test="${searchCondition eq 'writer' }"> selected</c:if>>작성자</option>
+ --%>								<option value="title" <c:if test="${searchCondition eq 'title' }"> selected</c:if>>제목</option>
 								<option value="content" <c:if test="${searchCondition eq 'content' }"> selected</c:if>>내용</option>
 	                                </select>
 	                            </div>
@@ -72,7 +75,7 @@
 	                                <select class="form-select" name="searchCondition">
 	                                <c:if test="${searchCondition eq 'all' }" >selected</c:if>
 										<option value="all" <c:if test="${searchCondition eq 'all' }"> selected</c:if>>전체</option>
-										<option value="writer" <c:if test="${searchCondition eq 'writer' }"> selected</c:if>>작성자</option>
+<%-- 										<option value="writer" <c:if test="${searchCondition eq 'writer' }"> selected</c:if>>작성자</option> --%>
 										<option value="title" <c:if test="${searchCondition eq 'title' }"> selected</c:if>>제목</option>
 										<option value="content" <c:if test="${searchCondition eq 'content' }"> selected</c:if>>내용</option>
 	                                </select>
@@ -125,12 +128,14 @@
 							</div>
 						</div>
 				</div>
-		<%-- <jsp:include page="../inc/footer.jsp"></jsp:include> --%>
         <script>
 			function showInsertForm() {
 				// 공지사항 글쓰기 페이지 이동
 				location.href="/admin/notiregister";
 			}
 		</script>
+		
+		<!-- 공통 / 풋터 -->
+		<jsp:include page="../inc/footer.jsp"></jsp:include>	
     </body>
 </html>

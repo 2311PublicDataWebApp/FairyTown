@@ -3,13 +3,161 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
+  <!-- ReviewMapper 인터페이스와 연결된 XML 매퍼 -->
   <mapper namespace="ReviewMapper">
   
+	<!-- ReviewVO 객체를 매핑하기 위한 resultMap -->
+	<resultMap type="ReviewVO" id="reviewResultMap">
+	    <!-- 리뷰 번호 -->
+	    <id property="reviewNo" column="REVIEW_NO"/>
+	    
+	    <!-- 사용자 ID -->
+	    <id property="userId" column="USER_ID"/>
+	    
+	    <!-- 사용자 실명 -->
+	    <id property="realName" column="REAL_NAME"/>
+	    
+	    <!-- 티켓 유형 -->
+	    <id property="ticketType" column="TICKET_TYPE"/>
+	    
+	    <!-- 리뷰 제목 -->
+	    <id property="reviewTitle" column="REVIEW_TITLE"/>
+	    
+	    <!-- 리뷰 내용 -->
+	    <id property="reviewContent" column="REVIEW_CONTENT"/>
+	    
+	    <!-- 리뷰 작성일 -->
+	    <id property="reviewDate" column="REVIEW_DATE"/>
+	    
+	    <!-- 리뷰 수정일 -->
+	    <id property="updateDate" column="UPDATE_DATE"/>
+	    
+	    <!-- 유용해요 수 -->
+	    <id property="likeCount" column="LIKE_COUNT"/>
+	    
+	    <!-- 조회수 -->
+	    <id property="viewCount" column="VIEW_COUNT"/>
+	</resultMap>
   
   
+  	<!-- 리뷰 등록 쿼리 -->
+	<!-- 글 작성 후 작성한 글 상세보기로 리다이렉트 하기 위한 SQL 쿼리 -->
+	<insert id="insertReview" parameterType="ReviewVO" useGeneratedKeys="true" keyProperty="ReviewNo">
+    <selectKey keyProperty="reviewNo" order="AFTER" resultType="int">
+        SELECT SEQ_REVIEW_NO.CURRVAL FROM DUAL
+    </selectKey>
+    INSERT INTO REVIEW_TBL
+	VALUES(SEQ_REVIEW_NO.NEXTVAL, #{userId }, #{realName}, #{ticketType }, #{reviewTitle }, #{reviewContent}
+	 , DEFAULT, DEFAULT, DEFAULT, DEFAULT)
+	</insert>
+	
+	<!-- 리뷰 삭제 쿼리 -->
+	<delete id="deleteReview">
+		DELETE FROM REVIEW_TBL
+		WHERE REVIEW_NO = #{reviewNo }
+	</delete>
+	
+	<!-- 리뷰 번호에 해당하는 리뷰를 조회하는 SQL 쿼리 -->
+	<select id="selectByReviewNo" resultMap="reviewResultMap">
+		SELECT * FROM REVIEW_TBL WHERE REVIEW_NO = #{reviewNo }
+	</select>
   
+ 	<!-- 리뷰 조회수 업데이트 쿼리 -->
+	<update id="updateViewCount" parameterType="int">
+	    <!-- 주어진 리뷰 번호에 해당하는 리뷰의 조회수를 1 증가시킨다. -->
+	    UPDATE REVIEW_TBL
+	    SET VIEW_COUNT = VIEW_COUNT + 1
+	    WHERE REVIEW_NO = #{reviewNo}
+	</update>
+	
+	<!-- 리뷰 좋아요 수 증가 쿼리 -->
+	<update id="increaseLikeCount" parameterType="int">
+	    UPDATE REVIEW_TBL
+	    SET LIKE_COUNT = LIKE_COUNT + 1
+	    WHERE REVIEW_NO = #{reviewNo}
+	</update>
+	
+	<!-- 리뷰 좋아요 수 감소 쿼리 -->
+	<update id="decreaseLikeCount" parameterType="int">
+	    UPDATE REVIEW_TBL
+	    SET LIKE_COUNT = LIKE_COUNT - 1
+	    WHERE REVIEW_NO = #{reviewNo}
+	</update>
+	
+  	<!-- 리뷰 좋아요 수 업데이트 쿼리 old -->
+	<update id="updateLikeCountByAction" parameterType="int">
+	    <!-- 주어진 리뷰 번호에 해당하는 리뷰의 좋아요 수를 1 증가시킵니다. -->
+	    UPDATE REVIEW_TBL
+	    SET LIKE_COUNT = LIKE_COUNT + 1
+	    WHERE REVIEW_NO = #{reviewNo}
+	</update>
+	
+	<!-- 리뷰 좋아요 수 업데이트 쿼리 -->
+<!-- 	<update id="updateLikeCountByMap" parameterType="map">
+	    <choose>
+	        <when test="action == 'increase'">
+	            UPDATE REVIEW_TBL SET LIKE_COUNT = LIKE_COUNT + 1 WHERE REVIEW_NO = #{reviewNo}
+	        </when>
+	        <otherwise>
+	            UPDATE REVIEW_TBL SET LIKE_COUNT = LIKE_COUNT - 1 WHERE REVIEW_NO = #{reviewNo}
+	        </otherwise>
+	    </choose>
+	</update> -->
   
-  
+	
+	<!-- 총 리뷰 개수를 조회하는 SQL 쿼리 -->
+	<select id="selectTotalCount" resultType="_int">
+		SELECT COUNT(*) FROM REVIEW_TBL
+	</select>
+	
+	<!-- 리뷰 리스트를 조회하는 SQL 쿼리 -->
+	<select id="selectReviewList" resultMap="reviewResultMap">
+		SELECT * FROM REVIEW_TBL ORDER BY REVIEW_NO DESC
+	</select>
+	
+	
+	<!-- 검색 조건에 따라 공지사항의 총 개수를 조회하는 SQL 쿼리 -->
+	<select id="searchTotalCount" resultType="_int">
+		SELECT COUNT(*) FROM REVIEW_TBL
+		<if test="searchCondition =='all'">		
+<!-- 			WHERE USER_ID LIKE '%'||#{searchKeyword}||'%'
+ -->		WHERE REVIEW_TITLE LIKE '%'||#{searchKeyword}||'%'
+			OR REVIEW_CONTENT LIKE '%'||#{searchKeyword}||'%'
+			OR TICKET_TYPE LIKE '%'||#{searchKeyword}||'%'
+		</if>
+		<if test="searchCondition == 'title'">		
+			WHERE REVIEW_TITLE LIKE '%'||#{searchKeyword}||'%'
+		</if>
+		<if test="searchCondition == 'content'">	
+			WHERE REVIEW_CONTENT LIKE '%'||#{searchKeyword}||'%'
+		</if>
+ 		<if test="searchCondition == 'tickettype'">		
+			WHERE TICKET_TYPE LIKE '%'||#{searchKeyword}||'%'
+		</if> 
+	</select>
+	
+	<!-- 특정 키워드에 따라 공지사항을 조회하는 SQL 쿼리 -->
+	<select id="selectReviewsByKeyword" resultMap="reviewResultMap">
+		SELECT * FROM REVIEW_TBL
+		<if test="searchCondition =='all'">		
+ 			WHERE REVIEW_TITLE LIKE '%'||#{searchKeyword}||'%'
+ 			OR REVIEW_CONTENT LIKE '%'||#{searchKeyword}||'%'
+			OR TICKET_TYPE LIKE '%'||#{searchKeyword}||'%'
+		</if>
+		<if test="searchCondition == 'title'">		
+			WHERE REVIEW_TITLE LIKE '%'||#{searchKeyword}||'%'
+		</if>
+		<if test="searchCondition == 'content'">	
+			WHERE REVIEW_CONTENT LIKE '%'||#{searchKeyword}||'%'
+ 		<if test="searchCondition == 'tickettype'">		
+			WHERE TICKET_TYPE LIKE '%'||#{searchKeyword}||'%'
+		</if> 
+		</if>
+		ORDER BY REVIEW_NO DESC
+	</select>	
+	
+		
+	  
   
   
   </mapper>
