@@ -27,7 +27,8 @@ public interface RideStore {
 	List<RimgVO> selectRideImgList();
 	
 	RideVO selectByRideId(int rideId);
-
+	List<RimgVO> selectImgByRideId(int rideId);
+	
 	List<RideVO> searchRideByKeyword(RowBounds rb, Map<String, String> paramMap);
 
 	int selectTotalCount();
@@ -41,6 +42,7 @@ public interface RideStore {
 	RideVO selectByCloseNo(int closeNo);
 	int deleteclose(int closeNo);
 	int modifyclose(RideVO close);
+	List<RideVO> selectRideNameForClose();
 	
 
 }

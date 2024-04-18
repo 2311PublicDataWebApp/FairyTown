@@ -48,17 +48,22 @@
 					<tr>
 						<td>운휴정보 : </td>
 						<c:set var="rStatus" value="${ride.rideStatus }" />
-						<c:if test="${rStatus eq 'NAV'}">
-									<td>임시 휴무</td>
+						<c:if test="${rStatus eq 'N'}">
+									<td>임시휴무</td>
 						</c:if>
-						<c:if test="${rStatus ne 'NAV'}">
+						<c:if test="${rStatus ne 'Y'}">
 								<td>정상 운행(10:00 ~ 22:00)</td>
 						</c:if>
 					</tr>
-<!-- 					<tr> -->
-<!-- 						<td>이미지 : </td> -->
-<%-- 						<td>${ride.rideImgName }</td> --%>
-<!-- 					</tr> -->
+				
+					<tr>
+					<td>이미지 : </td>
+					<td>
+					<c:forEach items="${rImg }" var="rimg">
+									<img src="../resources/nuploadFiles/${rimg.rideImgRename }" alt="이미지">
+					</c:forEach><br>
+						</td>
+					</tr>
 				
 					<tr>
 						<td>X좌표 : </td>

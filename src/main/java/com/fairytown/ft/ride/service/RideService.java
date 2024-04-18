@@ -7,9 +7,13 @@ import com.fairytown.ft.common.PageInfo;
 import com.fairytown.ft.ride.domain.vo.RideVO;
 import com.fairytown.ft.ride.domain.vo.RimgVO;
 
+
 public interface RideService {
 
-	int insertRide(RideVO ride, RimgVO rImg);
+	
+	int insertRide(RideVO ride);
+	int insertRideImg(RimgVO rImg);
+
 
 	int deleteRide(int rideId);
 
@@ -26,6 +30,10 @@ public interface RideService {
 	int modifyRide(RideVO ride);
 	int modifyRideImg(RimgVO rImg);
 
+	List<RimgVO> selectRideImgList(int rideId);
+	List<RimgVO> selectImgByRideId(int rideId);
+	
+	
 	
 	
 	
@@ -42,8 +50,11 @@ public interface RideService {
 	int modifyclose(RideVO close);
 
 	int deleteclose(int closeNo);
+	List<RideVO> selectRideNameForClose();
+	
 
-	List<RimgVO> selectRideImgList(int rideId);
+
+	
 
 
 
