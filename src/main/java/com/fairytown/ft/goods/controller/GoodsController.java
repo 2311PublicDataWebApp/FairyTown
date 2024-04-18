@@ -1,12 +1,7 @@
 package com.fairytown.ft.goods.controller;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,12 +9,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.commons.io.FileUtils;
+
 //import javax.servlet.http.HttpServletRequest;
 //import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -90,66 +87,27 @@ public class GoodsController {
 			return mv;
 		}
 		
-		// ck 에디터에서 파일 업로드
-		@RequestMapping(value = "/goods/ckUpload", method = RequestMethod.POST)
-		public void postCKEditorImgUpload(HttpServletRequest req,
-		          HttpServletResponse res,
-		          @RequestParam(value = "upload", required = false) MultipartFile upload) throws Exception {
-		 
-		JsonObject jsonObject = new JsonObject();
-		 // 랜덤 문자 생성
-		 UUID uid = UUID.randomUUID();
-		 
-		 OutputStream out = null;
-		 PrintWriter printWriter = null;
-		   
-		 // 인코딩
-		 res.setCharacterEncoding("utf-8");
-		 res.setContentType("text/html;charset=utf-8");
-		 
-		 try {
-		  
-		  String fileName = upload.getOriginalFilename();  // 파일 이름 가져오기
-		  byte[] bytes = upload.getBytes();
-		  
-		  // 업로드 경로
-		  // String ckUploadPath = uploadPath + File.separator + "ckUpload" + File.separator + uid + "_" + fileName;
-		  String projectPath 	 = req.getSession().getServletContext().getRealPath("resources");
-		  String saveDirectory = projectPath + "\\ckUpload" + "\\" + uid + "_" + fileName;
-		  
-		  out = new FileOutputStream(new File(saveDirectory));
-		  out.write(bytes);
-		  out.flush();  // out에 저장된 데이터를 전송하고 초기화
-		  
-		  String callback = req.getParameter("CKEditorFuncNum");
-		  printWriter = res.getWriter();
-		  // String fileUrl = "/ckUpload/" + uid + "_" + fileName;  // 작성화면
-		  String fileUrl = "/resources/ckUpload/" + uid + "_" + fileName;
-		  
-		  
-		  // 업로드시 메시지 출력
-//		  printWriter.println("<script type='text/javascript'>"
-//		     + "window.parent.CKEDITOR.tools.callFunction("
-//		     + callback+",'"+ fileUrl+"','이미지를 업로드하였습니다.')"
-//		     +"</script>");
-		  // printWriter.println("{\"filename\" : \""+fileName+"\", \"uploaded\" : 1, \"url\":\""+fileUrl+"\"}");
-		  JsonObject json = new JsonObject();
-          json.addProperty("uploaded", 1);
-          json.addProperty("fileName", fileName);
-          json.addProperty("url", fileUrl);
-          printWriter.print(json);
-          System.out.println(json);
-		  printWriter.flush();
-		  
-		 } catch (IOException e) { e.printStackTrace();
-		 } finally {
-		  try {
-		   if(out != null) { out.close(); }
-		   if(printWriter != null) { printWriter.close(); }
-		  } catch(IOException e) { e.printStackTrace(); }
-		 }
-		 
-		 return; 
+		@ResponseBody
+		@RequestMapping(value = "/goods/ckUpload", method = {RequestMethod.POST, RequestMethod.GET})
+		public String fileUpload(Model model,  
+		        @RequestParam(value="upload", required = false) MultipartFile fileload,
+		        HttpServletRequest req) {
+			
+		    String filename = fileload.getOriginalFilename();
+		    UUID uid = UUID.randomUUID();
+		    
+		    String projectPath 	 = req.getSession().getServletContext().getRealPath("resources");
+			String saveDirectory = projectPath + "\\ckUpload" + "\\" + uid + "_" + filename;
+		    
+   
+		    File file = new File(saveDirectory);
+		    
+		    try {
+		        FileUtils.writeByteArrayToFile(file, fileload.getBytes() );	        
+		        return "{ \"uploaded\" : true, \"url\" : \"/resources/ckUpload/" + uid + "_" + filename + "\" }";
+		    } catch (IOException e) {
+		    	return "업로드 실패";
+		    }
 		}
 		
 	

@@ -7,8 +7,8 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>굿즈 등록</title>
-		<script src="../resources/ckeditor/ckeditor.js"></script>
-<!-- 		<script src="https://cdn.ckeditor.com/ckeditor5/41.2.1/classic/ckeditor.js"></script> -->
+		<script src="https://cdn.ckeditor.com/ckeditor5/41.2.1/classic/ckeditor.js"></script>
+		<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
 		<style type="text/css">
 	        .ck-editor__editable[role="textbox"] {
 				/* Editing area */
@@ -57,7 +57,7 @@
 					<label for="inputPassword" class="col-sm-2 col-form-label">굿즈 상세 설명</label>
 					<div class="col-sm-10">
 <!-- 						<textarea class="form-control" rows="10" cols="51" name="goodsContent"></textarea> -->
-						<textarea class="form-control" id="editor" name="goodsContent"></textarea>
+						<textarea class="form-control" id="goodsContent" name="goodsContent"></textarea>
 					</div>
 				</div>
 				<br><br>
@@ -69,14 +69,54 @@
 		<!-- 공통 / 풋터 -->
 		<jsp:include page="../inc/footer.jsp"></jsp:include>
 		<script>
-			 var ckeditor_config = {
-			   resize_enaleb : false,
-			   enterMode : CKEDITOR.ENTER_BR,
-			   shiftEnterMode : CKEDITOR.ENTER_P,
-			   filebrowserUploadUrl : "/goods/ckUpload"
-			 };
-			 
-			 CKEDITOR.replace("editor", ckeditor_config);
+		var myEditor;
+		
+		ClassicEditor
+		    .create( document.querySelector( '#goodsContent' ), {  
+		    	
+		        ckfinder: {
+		            uploadUrl: '/goods/ckUpload'
+		        },
+		        alignment: {
+		            options: [ 'left', 'center', 'right' ]
+		        },
+		        language: 'ko'
+		    } )
+		    .then( editor => {
+		        console.log( 'Editor was initialized', editor );
+		    	var matches = [], queries = {};
+		    	var id, list, start;
+		    	var regExp = /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/;
+		
+		    	setTimeout(function() {
+		    		
+		    		editor.on('paste', function(e) {
+		    			matches = e.data.dataValue.match(regExp);
+		    			if ( !matches || matches[5] === 'channel' || (matches[5] !== 'watch' && matches[5].length !== 11) ) {
+		    				return;
+		    			}
+		
+		    			id = matches[5];
+		    			queries = window.XE.URI(matches[0].replace(/amp\;/g, '')).search(true);
+		    			list = queries.list ? '?list=' + queries.list : '';
+		    			start = queries.t ? '?start=' + queries.t : '';
+		    			
+		    			if ( matches[5] === 'watch' ) {
+		    				id = queries.v;
+		    			}
+		
+		    			e.data.dataValue = 
+		    				'<div class="youtube_converted">' +
+		    					'<img src="https://img.youtube.com/vi/'+ id +'/mqdefault.jpg" />' +
+		    					'<iframe src="https://www.youtube.com/embed/'+ id + list + start +'" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>' +
+		    				'</div>' +
+		    				'<p>&nbsp;</p>';
+		    		});
+		    	}, 1200);
+		    } )
+		    .catch( error => {
+		        console.error( error );
+		    } );
 		</script>
 		
 	</body>
