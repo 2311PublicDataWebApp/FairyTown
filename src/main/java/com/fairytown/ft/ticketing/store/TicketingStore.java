@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.fairytown.ft.ticket.domain.vo.TicketVO;
 import com.fairytown.ft.ticketing.domain.vo.TicketingVO;
 import com.fairytown.ft.user.domain.vo.UserVO;
 
@@ -41,5 +42,13 @@ public interface TicketingStore {
 	 * @return result
 	 */
 	int ticketingCancle(SqlSession session, String ticketingCode);
+
+	/**
+	 * 티켓 번호로 조회
+	 * @param session 
+	 * @param ticketNo
+	 * @return
+	 */
+	TicketVO selectByTicketNo(SqlSession session, Integer ticketNo);
 
 }

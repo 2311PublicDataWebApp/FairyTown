@@ -2,6 +2,7 @@ package com.fairytown.ft.ticketing.service;
 
 import java.util.List;
 
+import com.fairytown.ft.ticket.domain.vo.TicketVO;
 import com.fairytown.ft.ticketing.domain.vo.TicketingVO;
 import com.fairytown.ft.user.domain.vo.UserVO;
 
@@ -34,5 +35,12 @@ public interface TicketingService {
 	 * @return result
 	 */
 	int ticketingCancle(String ticketingCode);
+
+	/**
+	 * 티켓 번호로 조회
+	 * @param ticketNo
+	 * @return
+	 */
+	TicketVO selectByTicketNo(Integer ticketNo);
 
 }

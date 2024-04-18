@@ -47,7 +47,7 @@ public class TicketingController {
 			if(ticketNo == null || ticketNo == 0) {
 			    ticketNo = 1;
 			}
-			ticketOne = tService.selectByTicketNo(ticketNo);
+			ticketOne = tingService.selectByTicketNo(ticketNo);
 			model.addAttribute("user", user);
 			model.addAttribute("ticketOne", ticketOne);
 			return "ticketing/regist";

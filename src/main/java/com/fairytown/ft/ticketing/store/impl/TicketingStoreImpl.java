@@ -47,4 +47,12 @@ public class TicketingStoreImpl implements TicketingStore{
 		return result;
 	}
 
+	// 티켓 번호로 조회
+	@Override
+	public TicketVO selectByTicketNo(SqlSession session, Integer ticketNumber) {
+		TicketVO ticketOne = session.selectOne("com.fairytown.ft.ticket.store.TicketStore.selectByTicketNumber", ticketNumber);
+		ticketOne.setTicketNo(ticketNumber.toString());
+		return ticketOne;
+	}
+
 }

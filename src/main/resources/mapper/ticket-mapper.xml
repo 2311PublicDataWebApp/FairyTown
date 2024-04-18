@@ -80,7 +80,7 @@
 	
 	<!-- 티켓 번호로 티켓 조회하는 쿼리입니다 -->
 	<select id="selectByTicketNumber" resultMap="ticketResultMap">
-		SELECT TICKET_NO AS TICKET_NUMBER, TICKET_NAME, TICKET_DETAIL, TICKET_CARD, TICKET_ADULT, TICKET_TEEN, TICKET_CHILD, TICKET_IMG_NO, TICKET_IMG_NAME, TICKET_IMG_RENAME, TICKET_IMG_FILEPATH, TICKET_DATE, TICKET_STATUS
+		SELECT TICKET_NO AS TICKET_NUMBER, TICKET_NAME, TICKET_DETAIL, TICKET_CARD, TICKET_ADULT, TICKET_TEEN, TICKET_CHILD, TICKET_IMG_NAME, TICKET_IMG_RENAME, TICKET_IMG_FILEPATH, TICKET_DATE, TICKET_STATUS
 	    FROM TICKET_TBL
 	    WHERE TICKET_NO = #{ticketNumber}
 	</select>
@@ -93,7 +93,6 @@
 		<result property="ticketAdult" 		column="TICKET_ADULT"/>
 		<result property="ticketTeen" 		column="TICKET_TEEN"/>
 		<result property="ticketChild" 	column="TICKET_CHILD"/>
-		<result property="ticketImgNo" column="TICKET_IMG_NO"/>
 		<result property="ticketImgName" 	column="TICKET_IMG_NAME"/>
 		<result property="ticketImgRename" column="TICKET_IMG_RENAME"/>
 		<result property="ticketImgFilepath" column="TICKET_IMG_FILEPATH"/>
