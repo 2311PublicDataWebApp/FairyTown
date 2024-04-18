@@ -15,6 +15,7 @@
 		<input type="hidden" name="ticketAdult" value="${ticketOne.ticketAdult }">
 		<input type="hidden" name="ticketTeen" value="${ticketOne.ticketTeen }">
 		<input type="hidden" name="ticketChild" value="${ticketOne.ticketChild }">
+		<input type="hidden" name="ticketImgRename" value="${ticketOne.ticketImgRename }">
 <%-- 		${ticketOne.ticketImgRename } --%>
 		<div>
 			<label for="ticketName" class="form-label">티켓이름 : </label>

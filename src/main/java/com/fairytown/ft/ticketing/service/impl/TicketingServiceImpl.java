@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fairytown.ft.ticket.domain.vo.TicketVO;
 import com.fairytown.ft.ticketing.domain.vo.TicketingVO;
 import com.fairytown.ft.ticketing.service.TicketingService;
 import com.fairytown.ft.ticketing.store.TicketingStore;
@@ -43,6 +44,13 @@ public class TicketingServiceImpl implements TicketingService {
 	public int ticketingCancle(String ticketingCode) {
 		int result = tingStore.ticketingCancle(session, ticketingCode);
 		return result;
+	}
+
+	// 티켓 번호로 조회
+	@Override
+	public TicketVO selectByTicketNo(Integer ticketNo) {
+		TicketVO ticketOne = tingStore.selectByTicketNo(session, ticketNo);
+		return ticketOne;
 	}
 
 }

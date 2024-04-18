@@ -86,6 +86,7 @@ function requestPay() {
 	<form action="/ticketing/confirm.ft" method="post">
 		<input type="hidden" name="userId" value="${user.userId }">
 		<input type="hidden" name="ticketNo" value="${ticketOne.ticketNo }">
+		<img src="../resources/nuploadFiles/${ticketOne.ticketImgRename }" alt="티켓이미지"><br>
 		<div>
 		    <label for="ticketName" class="form-label">티켓이름 : </label>
 		    <span class="form-control" id="ticketName">${ticketOne.ticketName }</span>
