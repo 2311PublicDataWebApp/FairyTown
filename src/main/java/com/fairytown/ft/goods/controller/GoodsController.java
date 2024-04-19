@@ -77,7 +77,7 @@ public class GoodsController {
 				if (result > 0) {
 					mv.setViewName("redirect:/goods/list.ft");
 				} else {
-					mv.addObject("msg", "공지사항 등록이 완료되지 못했습니다.");
+					mv.addObject("msg", "굿즈 등록이 완료되지 못했습니다.");
 					mv.setViewName("common/errorPage");
 				}
 			} catch (Exception e) {
@@ -133,7 +133,7 @@ public class GoodsController {
 			return mv;
 	    };
 		
-	    // 공지사항 검색
+	    // 굿즈 검색
 	 	@GetMapping(value="/goods/search.ft")
 	 	public ModelAndView searchGoodsList(ModelAndView mv
 	 			, @RequestParam("searchCondition") String searchCondition
@@ -154,7 +154,7 @@ public class GoodsController {
 	 		return mv;
 	 	}
 	 	
-	 	// 공지 상세조회
+	 	// 굿즈 상세조회
 	    @GetMapping("/goods/detail.ft")
 	    public ModelAndView showGoodsDetail(ModelAndView mv
 	    		, @RequestParam("goodsCode") Integer goodsCode) {
@@ -173,7 +173,7 @@ public class GoodsController {
 			return mv;
 		}
 	 	
-	 	// 공지 수정 페이지 이동
+	 	// 굿즈 수정 페이지 이동
 	    @GetMapping("/goods/modify.ft")
 	    public ModelAndView showModifyForm(ModelAndView mv, @RequestParam("goodsCode") Integer goodsCode) {
 			try {
@@ -192,7 +192,7 @@ public class GoodsController {
 			return mv;
 		}
 	    
-	 	// 공지 수정
+	 	// 굿즈 수정
 	 	@PostMapping("/goods/modify.ft")
 	    public ModelAndView updateGoods(ModelAndView mv, @ModelAttribute GoodsVO goods, @RequestParam("goodsStock") int goodsStock, @RequestParam("goodsCode") Integer goodsCode, 
 	 			@RequestParam(value = "reloadFile", required = false) MultipartFile reloadFile, HttpServletRequest request) {
@@ -226,7 +226,7 @@ public class GoodsController {
 	 		return mv;
 	 	}
 	 	
-	 	// 공지 삭제
+	 	// 굿즈 삭제
 	    @GetMapping("/goods/delete.ft")
 	    public ModelAndView deleteGoods(ModelAndView mv, @RequestParam("goodsCode") Integer goodsCode) {
 	 		try {
@@ -242,6 +242,48 @@ public class GoodsController {
 	 		}
 	 		return mv;
 	 	}
+	    
+	    // 굿즈 정렬
+	    @ResponseBody
+	    @GetMapping(value="/goods/sortList.ft")
+	    public Object sortGoods(
+	            @RequestParam(value="page", 
+	            required=false, defaultValue="1") Integer currentPage
+	            , @RequestParam("sortType") String sortType) {
+	    	try {
+				int totalCount = gService.getTotalCount();
+				PageInfo pi = this.getPageInfo(currentPage, totalCount);
+				List<GoodsVO> sortList = gService.selectGoodsList(pi, sortType);
+				return sortList;
+			} catch (Exception e) {
+				// TODO: handle exception
+				return e.getMessage();
+			}
+	    }
+	    
+	    // 굿즈 검색 정렬
+	    @ResponseBody
+	    @GetMapping(value="/goods/sortSearchList.ft")
+	    public Object sortSearchGoods(
+	            @RequestParam(value="page", 
+	            required=false, defaultValue="1") Integer currentPage
+	            , @RequestParam("searchCondition") String searchCondition
+	 			, @RequestParam("searchKeyword") String searchKeyword
+	            , @RequestParam("sortType") String sortType) {
+	    	try {
+	    		Map<String, String> paramMap = new HashMap<String, String>();
+		 		paramMap.put("searchCondition", searchCondition);
+		 		paramMap.put("searchKeyword", searchKeyword);
+		 		paramMap.put("sortType", sortType);
+		 		int totalCount = gService.getTotalCount(paramMap);
+		 		PageInfo pi = this.getPageInfo(currentPage, totalCount);
+		 		List<GoodsVO> sortSearchList = gService.sortSearchGoodsByKeyword(pi, paramMap);
+				return sortSearchList;
+			} catch (Exception e) {
+				// TODO: handle exception
+				return e.getMessage();
+			}
+	    }
 	    
 		// 파일 저장
 	    private Map<String, Object> saveFile(MultipartFile uploadFile, HttpServletRequest request) throws Exception {
