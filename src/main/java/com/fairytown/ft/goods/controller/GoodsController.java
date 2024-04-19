@@ -88,7 +88,7 @@ public class GoodsController {
 			return mv;
 		}
 		
-		@ResponseBody
+//		@ResponseBody
 		@RequestMapping(value = "/goods/ckUpload", method = {RequestMethod.POST, RequestMethod.GET})
 		public String fileUpload(Model model,  
 		        @RequestParam(value="upload", required = false) MultipartFile fileload,
