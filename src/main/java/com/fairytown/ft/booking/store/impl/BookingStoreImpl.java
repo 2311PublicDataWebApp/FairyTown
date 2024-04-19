@@ -2,11 +2,13 @@ package com.fairytown.ft.booking.store.impl;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.fairytown.ft.booking.domain.vo.BookingVO;
 import com.fairytown.ft.booking.store.BookingStore;
+import com.fairytown.ft.common.PageInfo;
 import com.fairytown.ft.ride.domain.vo.RideVO;
 import com.fairytown.ft.user.domain.vo.UserVO;
 
@@ -43,5 +45,14 @@ public class BookingStoreImpl implements BookingStore{
 	        totalCount += result;
 	    }
 	    return totalCount;
+	}
+
+	@Override
+	public List<BookingVO> BookingListSelectPage(SqlSession session, UserVO user, PageInfo pInfo) {
+		int limit = pInfo.getBoardLimit();
+		int offset = (pInfo.getCurrentPage() - 1) * pInfo.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<BookingVO> bListP = session.selectList("BookingMapper.BookingListSelect", user, rowBounds); 
+		return bListP;
 	}
 }
