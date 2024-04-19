@@ -42,7 +42,7 @@
             <span>청소년보호책임자 : 바이킹</span>
             <span>발행.편집인 : 바이킹</span>
         </p>
-        <p style="margin-left:-100px;">
+        <p style="margin-left:2100px;">
             <span>㈜페어리타운</span>
             <span>대표이사 : 바이킹</span>
             <span>사업자등록번호 : 123-45-67890</span>
