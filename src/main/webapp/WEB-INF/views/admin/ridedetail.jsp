@@ -27,7 +27,7 @@
 		<!-- 컨텐츠 영역 -->
 			<div class="content">
 				<input type="hidden" name="rideId" value="${ride.rideId }">
-				
+			
 				<table class="table_ride">
 					<tr>
 						<td>놀이기구명 : </td>
@@ -48,17 +48,23 @@
 					<tr>
 						<td>운휴정보 : </td>
 						<c:set var="rStatus" value="${ride.rideStatus }" />
-						<c:if test="${rStatus eq 'NAV'}">
-									<td>임시 휴무</td>
+						<c:if test="${rStatus eq 'N'}">
+									<td>임시휴무</td>
 						</c:if>
-						<c:if test="${rStatus ne 'NAV'}">
-								<td>정상 운행(10:00 ~ 22:00)</td>
+						<c:if test="${rStatus ne 'N'}">
+								<td>정상운행(10:00 ~ 22:00)</td>
 						</c:if>
 					</tr>
-<!-- 					<tr> -->
-<!-- 						<td>이미지 : </td> -->
-<%-- 						<td>${ride.rideImgName }</td> --%>
-<!-- 					</tr> -->
+				
+					<tr>
+						<td>이미지 : </td>
+						<td>
+						    <c:forEach var="img" items="${rImg}">
+						        <img src="../resources/nuploadFiles/${img.rideImgRename}" alt="이미지">
+						    </c:forEach><br>
+						</td>
+									
+					</tr>
 				
 					<tr>
 						<td>X좌표 : </td>

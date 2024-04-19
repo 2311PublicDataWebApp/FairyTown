@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fairytown.ft.booking.domain.vo.BookingVO;
 import com.fairytown.ft.booking.service.BookingService;
+import com.fairytown.ft.common.PageInfo;
 import com.fairytown.ft.ride.domain.vo.RideVO;
 import com.fairytown.ft.ticketing.domain.vo.TicketingVO;
 import com.fairytown.ft.user.domain.vo.UserVO;
@@ -117,20 +118,26 @@ public class BookingController {
 	}
 	// 예약조회 뷰 
 	@GetMapping("/booking/list.ft")
-	public String bookingListView(Model model, HttpServletRequest request) {
+	public String bookingListView(Model model, HttpServletRequest request,
+			@RequestParam(value="page", required=false, defaultValue="1") Integer currentPage) {
 		// 페이지 진입시 로그인이 되어있어야 합니다
 		try {
 			HttpSession session = request.getSession();
 			UserVO uOne = (UserVO) session.getAttribute("user");
 			UserVO user = uService.selectUser(uOne.getUserId());
 			List<BookingVO> bList = bService.BookingListSelect(user);
-			model.addAttribute("bList", bList);
+			int totalCount = bList.size();
+			PageInfo pInfo = this.getPageInfo(currentPage, totalCount);
+			List<BookingVO> bListP = bService.BookingListSelectPage(user, pInfo);
+			model.addAttribute("pi", pInfo);
+			model.addAttribute("bList", bListP);
 			return "booking/list";
 		} catch (Exception e) {
 			model.addAttribute("msg", e.getMessage());
 			return "common/errorPage";
 		}
 	}
+
 	// 예약 개별 삭제
 	@PostMapping("/booking/deleteOne.ft")
 	public ResponseEntity<String> bookingDeleteOne(@RequestParam("bookingNumber") String bookingNumber) {
@@ -156,5 +163,12 @@ public class BookingController {
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("예외 발생: " + e.getMessage());
 		}
+	}
+	
+	// 페이징
+	private PageInfo getPageInfo(Integer currentPage, int totalCount) {
+		int boardLimit = 5; // 한 페이지당 보여줄 게시물의 갯수
+		PageInfo pi = new PageInfo(currentPage, totalCount, boardLimit);
+		return pi;
 	}
 }

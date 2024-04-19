@@ -5,7 +5,9 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>공지사항 목록</title>
+        <title>공지사항 | 페어리 타운</title>
+	    <!-- Favicon -->
+	    <link href="../resources/dist/img/close.png" rel="shortcut icon" type="image/x-icon">
 	    	<style>
 	    		#notice-list {
 	    			width: 1200px;
@@ -34,7 +36,7 @@
 		            <c:forEach items="${nList }" var="notice" varStatus="i">            
 		                <tr>
 		                    <td>${notice.noticeNo }</td>
-		                    <td>공지</td>
+		                    <td>${notice.noticeType }</td>
 		                    <td><a href="/notice/detail.ft?noticeNo=${notice.noticeNo }">
 		                    ${notice.noticeSubject }
 		                    </a></td>
@@ -44,6 +46,9 @@
 		            </tbody>
 		        </table>
 		        
+		        
+		        
+		        
 		        <c:if test="${memberId ne 'admin' }">
 		        	<div class="d-flex flex-wrap justify-content-center align-items-center pb-5">
 	                    <div class="d-flex col-md-12 justify-content-start">
@@ -51,7 +56,7 @@
 	                            <div class="col-auto">
 	                                <select class="form-select" name="searchCondition">
 	                                <option value="all" selected>전체</option>
-				                <option value="writer">작성자</option>
+<!-- 				                <option value="writer">작성자</option> -->
 				                <option value="title">제목</option>
 				                <option value="content">내용</option>
 	                             
@@ -74,7 +79,7 @@
                             <div class="col-auto">
                                 <select class="form-select" name="searchCondition">
                                 <option value="all" selected>전체</option>
-			                <option value="writer">작성자</option>
+<!-- 			                <option value="writer">작성자</option> -->
 			                <option value="title">제목</option>
 			                <option value="content">내용</option>
                              

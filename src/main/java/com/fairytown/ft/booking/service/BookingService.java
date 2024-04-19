@@ -3,6 +3,7 @@ package com.fairytown.ft.booking.service;
 import java.util.List;
 
 import com.fairytown.ft.booking.domain.vo.BookingVO;
+import com.fairytown.ft.common.PageInfo;
 import com.fairytown.ft.ride.domain.vo.RideVO;
 import com.fairytown.ft.user.domain.vo.UserVO;
 
@@ -34,5 +35,7 @@ public interface BookingService {
 	 * @return result
 	 */
 	int bookingBasic(List<RideVO> rideList);
+
+	List<BookingVO> BookingListSelectPage(UserVO user, PageInfo pInfo);
 
 }

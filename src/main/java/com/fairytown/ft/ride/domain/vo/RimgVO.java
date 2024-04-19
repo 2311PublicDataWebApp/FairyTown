@@ -18,7 +18,7 @@ public class RimgVO {
 	private String rideImgRename;
 	private String rideImgFilepath;
 	private long rideImgFilelength;
-	private String rideImgThumbnail;
+	private String displayYn;
 
 
 }

@@ -60,7 +60,6 @@ public class NoticeServiceImpl implements NoticeService {
 		int limit = pi.getBoardLimit();
 		int offset = (pi.getCurrentPage() - 1) * limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		
 		List<NoticeVO> searchList = nStore.selectNoticesByKeyword(session, rowBounds, paramMap);
 		return searchList;
 	}

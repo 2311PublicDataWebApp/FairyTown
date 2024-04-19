@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.fairytown.ft.booking.domain.vo.BookingVO;
 import com.fairytown.ft.booking.service.BookingService;
 import com.fairytown.ft.booking.store.BookingStore;
+import com.fairytown.ft.common.PageInfo;
 import com.fairytown.ft.ride.domain.vo.RideVO;
 import com.fairytown.ft.user.domain.vo.UserVO;
 
@@ -46,6 +47,12 @@ public class BookingServiceImpl implements BookingService{
 	public int bookingBasic(List<RideVO> rideList) {
 		int result = bStore.bookingBasic(session, rideList);
 		return result;
+	}
+
+	@Override
+	public List<BookingVO> BookingListSelectPage(UserVO user, PageInfo pInfo) {
+		List<BookingVO> bListP = bStore.BookingListSelectPage(session, user, pInfo);
+		return bListP;
 	}
 	
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,7 +23,8 @@ public class QnaReplyController {
 	
 	@Autowired
 	private QnaReplyService qService;
-
+	
+	
 	// 댓글 등록 POST
 	@ResponseBody
 	@RequestMapping(value = "/qreply/add.ft", method = RequestMethod.POST)
@@ -34,7 +36,7 @@ public class QnaReplyController {
             String qnaReplyWriter = uOne.getUserId();
 			if (qnaReplyWriter != null) {
 				reply.setQnaReplyWriter(qnaReplyWriter);
-				result = qService.insertQnaReply(reply);
+				result = qService.insertQnaReply(reply);				
 			} else {
 				return "Login needed";
 			}

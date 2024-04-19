@@ -18,6 +18,8 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <!-- Option 1: Include in HTML -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
         <style>
         	.body {
         		position: releative;
@@ -397,8 +399,8 @@
 				      </button>
 				      <div class="dropdown-content">
 				        <a href="/notice/list.ft" style="color: #497BC2;">공지사항</a>
-				        <a href="#" style="color: #5DCCFA;">자주 묻는 질문</a>
-				        <a href="#" style="color: #497BC2;">1대1 문의</a>
+				        <a href="/faq.ft" style="color: #5DCCFA;">자주 묻는 질문</a>
+				        <a href="/qna/list.ft" style="color: #497BC2;">1대1 문의</a>
 				      </div>
 				    </li>
                 
@@ -409,8 +411,13 @@
 <!--                 <button type="button" onclick = "location.href = '#'" class="btn btn-primary" style="background-color: #FAC0CF; color: #F38686; border: 0;">회원가입</button> -->
 <!--             </div> -->
 				<!-- Start of Button 2 -->
+				<c:if test = "${user.userId eq null }">
 					<a href="/user/login.ft" class="btn-2" style="border-radius: 10px; text-align: center; margin-right: -20px; margin-top: -15px; ">로그인</a>
 					<a href="/user/register.ft" class="btn-2" style="border-radius: 10px; text-align: center; margin-top: -15px; margin-right: -20px;">회원가입</a>
+				</c:if>
+				<c:if test = "${user.userId ne null }">
+					<a href="/user/logout.ft" class="btn-2" style="border-radius: 10px; text-align: center; margin-top: -15px; margin-right: -20px;">로그아웃</a>
+				</c:if>
 <!-- 					background-color: #FAC0CF; -->
 					<!-- End of Button 2 -->
         </header>

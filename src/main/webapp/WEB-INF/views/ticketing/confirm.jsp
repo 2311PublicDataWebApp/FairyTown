@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -81,52 +83,74 @@ function requestPay() {
 </script>
 <meta charset="UTF-8">
 	<title>티켓결제-확인</title>
+	<link rel="stylesheet" href="../resources/dist/css/confirm.css">
 </head>
 <body>
-	<form action="/ticketing/confirm.ft" method="post">
-		<input type="hidden" name="userId" value="${user.userId }">
-		<input type="hidden" name="ticketNo" value="${ticketOne.ticketNo }">
-		<img src="../resources/nuploadFiles/${ticketOne.ticketImgRename }" alt="티켓이미지"><br>
-		<div>
-		    <label for="ticketName" class="form-label">티켓이름 : </label>
-		    <span class="form-control" id="ticketName">${ticketOne.ticketName }</span>
-		</div>
-		<div>
-		    <label for="ticketDetail" class="form-label">상품 설명 : </label>
-		    <span class="form-control" id="ticketDetail">${ticketOne.ticketDetail }</span>
-		</div>
-		<div>
-		    <label for="reservationDate" class="form-label">예약일 : </label>
-		    <span class="form-control" id="reservationDate">${tingOne.reservationDate }</span>
-		</div>
-		<div>
-		    <label for="adult" class="form-label">성인 : </label>
-		    <span class="form-control" id="adult">${tingOne.adult }</span>
-		</div>
-		<div>
-		    <label for="teenager" class="form-label">청소년 : </label>
-		    <span class="form-control" id="teenager">${tingOne.teenager }</span>
-		</div>
-		<div>
-		    <label for="child" class="form-label">어린이 : </label>
-		    <span class="form-control" id="child">${tingOne.child }</span>
-		</div>
-		<div>
-		    <label for="total" class="form-label">총 인원수 : </label>
-		    <span class="form-control" id="total">${tingOne.adult + tingOne.teenager + tingOne.child }</span>
-		</div>
-		<div>
-		    <label for=purchasePrice class="form-label">결제 예정 금액 : </label>
-		    <span class="form-control" id="purchasePrice">${tingOne.purchasePrice}</span>
-		</div>
-		<br>
-	</form>
-<button onclick="goBack()">이전 페이지로 이동</button><br>
-*테스트 100원 고정
-<button onclick="requestPay()">결제하기</button><br>
-안내 / 주의사항<br>
-취소 / 환불<br>
-상품 세부 사항<br>
+	<!-- 공통 / 헤더 -->
+	<jsp:include page="../inc/header.jsp"></jsp:include>
+	<div class="main-form">
+		<section class="ticketing-form">
+			<form action="/ticketing/confirm.ft" method="post">
+				<input type="hidden" name="userId" value="${user.userId }">
+				<input type="hidden" name="ticketNo" value="${ticketOne.ticketNo }">
+				<div class="ticket-image">
+					<img src="../resources/nuploadFiles/${ticketOne.ticketImgRename }" alt="티켓이미지"><br>
+				</div>
+				<div class="ticketName">
+				    <label for="ticketName" class="form-label">${ticketOne.ticketName }</label>
+				</div>
+				<div class="ticketDetail">
+				    <label for="ticketDetail" class="form-label">[상품 설명]</label>
+				    <span class="form-control" id="ticketDetail">${ticketOne.ticketDetail }</span>
+				</div>
+			</form>
+			<div class="goBackBtn">
+				<button onclick="goBack()">이전 페이지로 이동</button>
+			</div>
+		</section>
+		
+		<section class="payment-form dark">
+			<div class="container check">
+				<div class="block-heading">
+					<h2>결제하실 내역</h2>
+					<p>변경을 원하시면 예약 취소 후 재예약 하셔야 하며, 예약 취소 후 환불까지는 영업일 기준 최대 7일이 소요될 수 있으니, 예약하시는 내용을 다시 한 번 확인해 주세요.</p>
+				</div>
+				<div class="products">
+					<h3 class="title">결제 확인</h3>
+					<h4 class="title">예약일 : ${tingOne.reservationDate }</h4>
+					<div class="item">
+						<p class="item-name">총 ${tingOne.adult + tingOne.teenager + tingOne.child } 명</p>
+					</div>
+					<div class="item">
+						<span class="price"><fmt:formatNumber value="${ticketOne.ticketAdult * tingOne.adult}" pattern="###,### 원"/></span>
+						<p class="item-name">성인 : ${tingOne.adult } 명</p>
+						<p class="item-description"><fmt:formatNumber value="${ticketOne.ticketAdult }" pattern="###,###원"/> / 명</p>
+					</div>
+					<div class="item">
+						<span class="price"><fmt:formatNumber value="${tingOne.teenager * ticketOne.ticketTeen}" pattern="###,### 원"/></span>
+						<p class="item-name">청소년 : ${tingOne.teenager } 명</p>
+						<p class="item-description"><fmt:formatNumber value="${ticketOne.ticketTeen }" pattern="###,###원"/> / 명</p>
+					</div>
+					<div class="item">
+						<span class="price"><fmt:formatNumber value="${tingOne.child * ticketOne.ticketChild}" pattern="###,### 원"/></span>
+						<p class="item-name">어린이 : ${tingOne.child } 명</p>
+						<p class="item-description"><fmt:formatNumber value="${ticketOne.ticketChild }" pattern="###,###원"/> / 명</p>
+					</div>
+					<div class="total">합계<span class="price"><fmt:formatNumber value="${tingOne.purchasePrice}" pattern="###,### 원"/></span></div>
+				</div>
+				*테스트 100원 고정
+				<button onclick="requestPay()">결제하기</button><br>
+			</div>
+		</section>	
+	</div>	
+	<div>
+		안내 / 주의사항<br>
+		취소 / 환불<br>
+		상품 세부 사항<br>
+	</div>
+	<!-- 공통 / 풋터 -->	
+	<jsp:include page="../inc/footer.jsp"></jsp:include>
+
 <script>
 function goBack() {
   window.history.back();

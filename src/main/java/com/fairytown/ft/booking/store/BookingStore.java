@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import com.fairytown.ft.booking.domain.vo.BookingVO;
+import com.fairytown.ft.common.PageInfo;
 import com.fairytown.ft.ride.domain.vo.RideVO;
 import com.fairytown.ft.user.domain.vo.UserVO;
 
@@ -40,5 +41,7 @@ public interface BookingStore {
 	 * @return result
 	 */
 	int bookingBasic(SqlSession session, List<RideVO> rideList);
+
+	List<BookingVO> BookingListSelectPage(SqlSession session, UserVO user, PageInfo pInfo);
 
 }

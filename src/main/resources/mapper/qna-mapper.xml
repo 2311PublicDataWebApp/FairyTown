@@ -25,7 +25,7 @@
 	</update>
 	
 	<insert id="insertQna">
-			INSERT INTO QNA_TBL VALUES(SEQ_QNA_NO.NEXTVAL, #{qnaName }, #{qnaContent }, #{qnaWriter }, QNA_STATUS = #{qnaStatus }, DEFAULT)
+			INSERT INTO QNA_TBL VALUES(SEQ_QNA_NO.NEXTVAL, #{qnaName }, #{qnaContent }, #{qnaWriter }, #{qnaStatus }, DEFAULT)
 	</insert>
 	
 </mapper>

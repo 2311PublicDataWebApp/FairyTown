@@ -25,6 +25,9 @@ import com.fairytown.ft.notice.service.NoticeService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+
+
+
 @Controller
 public class NoticeController {
 	
@@ -58,7 +61,7 @@ public class NoticeController {
 //			notice.setUserId(userId);
 			
 			 // 사용자 ID를 "khuser01"로 고정 중
-	        notice.setUserId("khuser01");
+	        notice.setUserId("khuser04");
 	        
 	        // ===========
 	        // 파일 영역
@@ -84,7 +87,7 @@ public class NoticeController {
 			    // 등록된 공지사항의 ID를 가져옴
 
 				// 상세 페이지로 이동하기 위해 공지사항 ID를 사용하여 URL을 생성
-			    String redirectUrl = "/notice/detail.ft?noticeNo=" + (noticeNo + 1);
+			    String redirectUrl = "/notice/detail.ft?noticeNo=" + noticeNo;
 			    
 			    // 생성된 URL로 리다이렉트
 			    mv.setViewName("redirect:" + redirectUrl);

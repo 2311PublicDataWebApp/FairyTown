@@ -95,7 +95,7 @@
 				ORDER BY GOODS_PRICE ASC
 			</if>
 			<if test="sortType == 'nameSort'">	
-				ORDER BY GOODS_PRICE ASC
+				ORDER BY GOODS_NAME ASC
 			</if>
 		</select>
 		<select id="selectByGoodsCode" resultType="GoodsVO">

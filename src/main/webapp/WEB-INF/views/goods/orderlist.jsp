@@ -7,30 +7,27 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>주문 내역</title>
+		<style>
+			#order-list {
+				margin: auto;
+				width:1200px;
+			}
+			.list {
+			  color: lightgray;
+			}
+		</style>
 	</head>
 	<body>
 		<jsp:include page="../inc/header.jsp"></jsp:include>
-		<div id="order-detail">
-			<h1><b>주문 내역</b></h1>
+		<div id="order-list">
+			<h1 style="text-align:center;"><b>주문 내역</b></h1>
 			<br><br><br>
-				<section class="section">
-					<div class="row">
-					<div class="col-lg-9">
-					<div class="card">
-					<div class="card-body">
-					<h5 class="card-title"></h5>
-						<c:if test="${memberId ne 'admin' }">		        
-							<div class="d-flex col-md-12 justify-content-end">
-								<button type="button" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef;" onclick="showModifyPage();">수정</button>
-								<button type="button" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef;" onclick="deleteGoods();">삭제</button>
-								<button type="button" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef;" onclick="showGoodsList();">목록</button>
-							</div>
-						</c:if>
-						<c:if test="${memberId ne 'admin' }">		        
-							<div class="d-flex col-md-12 justify-content-end">
-								<button type="button" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef;" onclick="showGoodsList();">목록</button>
-							</div>
-						</c:if>
+					<c:if test="${totalCount eq 0 }">
+						<h3 style="text-align:center;"><b>주문내역이 존재하지 않습니다</b></h3>
+						<h5 style="text-align:center;"><a href="/goods/list.ft" class="list">지금 굿즈 보러 가기 &#129146;</a></h5>
+					</c:if>
+					<c:if test="${totalCount ne 0 }">	
+					<div id="totalCount">총 ${totalCount }개</div>
 					<br>
 					<!-- Default Table -->
 					<table class="table table-striped">
@@ -49,6 +46,7 @@
 							</c:forEach>
 						</tbody>
 					</table>
+					<br><br><br>
 					<div class="col-md-12">
 					<nav aria-label="Page navigation example">					
 						<ul class="pagination justify-content-center" style="font-weight: 600; ">
@@ -75,33 +73,10 @@
 							</c:if>
 						</ul>
 					</nav>
-				</div>						
-					</div>
-					</div>
-					</div>
-					</div>
-				</section>
+				</div>
+				</c:if>
 		</div>
 		<jsp:include page="../inc/footer.jsp"></jsp:include>
 		<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
-		
-		<script type="text/javascript">
-			function showModifyPage() {
-				var goodsCode = "${goods.goodsCode }";
-				location.href = "/goods/modify.ft?goodsCode=" + goodsCode;
-			}
-			
-			function deleteGoods() {
-				if (confirm("삭제하시겠습니까?")) {
-					var goodsCode = "${goods.goodsCode }";
-					location.href = "/goods/delete.ft?goodsCode=" + goodsCode;
-				}
-			}
-			
-			function showGoodsList() {
-				location.href = "/goods/list.ft";
-			}
-		</script>
-		
     </body>
 </html>

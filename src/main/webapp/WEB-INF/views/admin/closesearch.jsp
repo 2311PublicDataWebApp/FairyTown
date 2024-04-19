@@ -48,51 +48,48 @@
 								<c:forEach items="${cList }" var="close" varStatus="i">
 									<tr class="close_list_tr">
 										<td class="list_first_td">
-											<a href="/admin/closedetail.ft?rideNo=${close.rideNo }">${i.count }</a>
+											<a href="/admin/closedetail.ft?rideId=${close.rideId }">${i.count }</a>
 										</td>
 										<td class="list_second_td">
-											<a href="/admin/closedetail.ft?rideNo=${close.rideNo }">${close.rideName }</a>
+											<a href="/admin/closedetail.ft?rideId=${close.rideId }">${close.rideName }</a>
 										</td>
 										<td class="list_third_td">
-											<a href="/admin/closedetail.ft?rideNo=${close.rideNo }">${close.closeDate}</a>
+											<a href="/admin/closedetail.ft?rideId=${close.rideId }">${close.closeDate}</a>
 										</td>
 										
 										<td class="list_fourth_td">
-											<a href="/adminclosedetail.ft?rideNo=${close.rideNo }">${close.closeReason}</a>
+											<a href="/adminclosedetail.ft?rideId=${close.rideId }">${close.closeReason}</a>
 										</td>
 
 										<c:set var="rStatus" value="${close.rideStatus }" />
-										<c:if test="${rStatus eq 'AV' }">
+										<c:if test="${rStatus eq 'Y' }">
 											<td class="list_fifth_td"><a
-												href="/admin/closedetail.ft?rideNo=${close.rideNo }">정상 운영</a>
+												href="/admin/closedetail.ft?rideId=${close.rideId }">정상 운영</a>
 											</td>
 										</c:if>
-										<c:if test="${rStatus eq 'NAV'}">
+										<c:if test="${rStatus eq 'N'}">
 											<td class="list_fifth_td"><a
-												href="/adminclosedetail.ft?rideNo=${close.rideNo }">임시 휴무</a>
+												href="/adminclosedetail.ft?rideId=${close.rideId }">임시 휴무</a>
 											</td>
 										</c:if>
 									</tr>
 								</c:forEach>
 
 
-								<!-- 페이지네이션 -->
 								<tr align="center" class="pgn">
 									<td colspan="5">
-										<c:if test="${pInfo.startNavi ne '1' }">
-											<a href="/admin/closesearch.ft?page=${pInfo.startNavi - 1 }">[이전]</a>
+										<c:if test="${pi.startNavi ne '1' }">
+											<a href="/admin/closesearch.ft?page=${pi.startNavi - 1 }">[이전]</a>
 										</c:if> 
-										<c:forEach begin="${pInfo.startNavi }" end="${pInfo.endNavi }" var="p">
+										<c:forEach begin="${pi.startNavi }" end="${pi.endNavi }" var="p">
 											<a href="/admin/closesearch.ft?page=${p }">${p }</a>
 										</c:forEach> 
-											<c:if test="${pInfo.endNavi ne pInfo.naviTotalCount }">
-												<a href="/admin/closesearch.ft?page=${pInfo.endNavi + 1 }">[다음]</a>
+											<c:if test="${pi.endNavi ne pi.naviTotalCount }">
+												<a href="/admin/closesearch.ft?page=${pi.endNavi + 1 }">[다음]</a>
 											</c:if>
 									</td>
 								</tr>
 							</c:when>
-							
-							<!-- 	등록된 운영 휴무 계획이 없는 경우 -->
 							<c:otherwise>
 									<td class="list_fifth_td" colspan="5">
 										<p class="nullmsg_search">

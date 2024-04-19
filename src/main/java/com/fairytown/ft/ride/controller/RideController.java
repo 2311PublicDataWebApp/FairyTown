@@ -1,6 +1,7 @@
 package com.fairytown.ft.ride.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,7 +21,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fairytown.ft.common.PageInfo;
 import com.fairytown.ft.ride.service.RideService;
-import com.fairytown.ft.ticket.domain.vo.TicketVO;
 import com.fairytown.ft.ride.domain.vo.RideVO;
 import com.fairytown.ft.ride.domain.vo.RimgVO;
 
@@ -49,35 +49,30 @@ public class RideController {
 		        @ModelAttribute RideVO ride,
 		        @ModelAttribute RimgVO rImg,
 		        HttpSession session,
-		        @RequestParam(value = "uploadFile", required = false) MultipartFile uploadFile,
+		        @RequestParam(value = "uploadFile", required = false) List<MultipartFile> uploadFile,
 //		        @RequestParam("rideId") Integer rideId,
 		        HttpServletRequest request) {
 		    try {
-//		    	rideId = (Integer) session.getAttribute("rideId");
-//		        if (rideId != null) {
-//		            ride.setRideId(rideId);
-//		        } else {
-//		            throw new Exception("세션에서 rideId를 찾을 수 없습니다.");
-//		        }
-		        
-		        if (uploadFile != null && !uploadFile.isEmpty()) {
-		            Map<String, Object> infoMap = saveFile(uploadFile, request);
-		            String fileName = (String) infoMap.get("fileName");
-		            String fileRename = (String) infoMap.get("fileRename");
-		            String filePath = (String) infoMap.get("filePath");
-		            long fileLength = (long) infoMap.get("fileSize");
-		            rImg.setRideImgName(fileName);
-		            rImg.setRideImgRename(fileRename);
-		            rImg.setRideImgFilepath(filePath);
-		            rImg.setRideImgFilelength(fileLength);
-		        }
-
-		        int result = rService.insertRide(ride, rImg);
-		        if (result > 0) {
-		            mv.setViewName("redirect:/admin/ridelist.ft");
-		        } else {
-		            mv.addObject("msg", "등록이 완료되지 못했습니다.");
-		            mv.setViewName("common/errorPage");
+		    	int result = 0;
+		    	result += rService.insertRide(ride);
+		    	if (uploadFile != null && !uploadFile.isEmpty()) {
+		    		int count = 1;
+		    		for(MultipartFile file: uploadFile) {
+			            Map<String, Object> infoMap = saveMultiFile(file, request, count);
+			            rImg.setRideId(ride.getRideId());
+			            rImg.setRideImgName((String) infoMap.get("fileName"));
+			            rImg.setRideImgRename((String) infoMap.get("fileRename"));
+			            rImg.setRideImgFilepath((String) infoMap.get("filePath"));
+			            rImg.setRideImgFilelength((long) infoMap.get("fileSize"));
+			            result += rService.insertRideImg(rImg);
+			        }
+		    		if (result > 0) {
+		    			mv.setViewName("redirect:/admin/ridelist.ft");
+		    			count++;
+		    		} else {
+		    			mv.addObject("msg", "등록이 완료되지 못했습니다.");
+		    			mv.setViewName("common/errorPage");
+		    		}
 		        }
 		    } catch (Exception e) {
 		        mv.addObject("msg", e.getMessage());
@@ -86,22 +81,26 @@ public class RideController {
 		    return mv;
 		}
 
-		// 파일 저장
-		private Map<String, Object> saveFile(MultipartFile uploadFile, HttpServletRequest request) throws Exception {
+		private Map<String, Object> saveMultiFile(MultipartFile uploadFile, HttpServletRequest request, int count) {
 		    String fileName = uploadFile.getOriginalFilename();
 		    String saveDirectory = request.getSession().getServletContext().getRealPath("/resources/nuploadFiles");
 		    File sDir = new File(saveDirectory);
 		    if (!sDir.exists()) {
 		        sDir.mkdirs();
 		    }
-
 		    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		    String strResult = sdf.format(new Date(System.currentTimeMillis()));
 		    String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
-		    String fileRename = strResult + "." + ext;
+		    String fileRename = strResult + "_" + count + "." + ext;
 		    String savePath = saveDirectory + File.separator + fileRename;
 		    File file = new File(savePath);
-		    uploadFile.transferTo(file);
+		    try {
+		        uploadFile.transferTo(file);
+		    } catch (IOException e) {
+		        e.printStackTrace();
+		        // 파일 전송 중 오류 발생 시 null 반환
+		        return null;
+		    }
 		    long fileLength = uploadFile.getSize();
 		    Map<String, Object> infoMap = new HashMap<>();
 		    infoMap.put("fileName", fileName);
@@ -110,7 +109,7 @@ public class RideController {
 		    infoMap.put("fileSize", fileLength);
 		    return infoMap;
 		}
-	   
+
 		
 //		놀이기구 상세
 //		/admin/ridedetail.ft
@@ -124,8 +123,11 @@ public class RideController {
 				@RequestParam("rideId") int rideId) {
 			try {
 				RideVO ride = rService.selectByRideId(rideId);
+				List<RimgVO> rImg = rService.selectImgByRideId(rideId);
+				ride.setRideId(ride.getRideId());
 				if (ride != null) {
 					mv.addObject("ride", ride);
+					mv.addObject("rImg", rImg);
 					mv.setViewName("admin/ridedetail");
 				} else {
 					mv.addObject("msg", "데이터가 존재하지 않았습니다.");
@@ -191,8 +193,9 @@ public class RideController {
 		public String showModifyRide(Model model,
 	 		@RequestParam("rideId") int rideId) {
 	 	 		RideVO ride = rService.selectByRideId(rideId);
-	 	 		List<RimgVO> imgList = rService.selectRideImgList(rideId);
+	 	 		List<RimgVO> rimg = rService.selectRideImgList(rideId);
 	 	 		model.addAttribute("ride", ride);
+	 	 		model.addAttribute("rimg", rimg);
 	 			return "admin/ridemodify";
 		}
 	 	
@@ -202,14 +205,14 @@ public class RideController {
 	    		@ModelAttribute RimgVO rImg,
 	    		@ModelAttribute ArrayList<RimgVO> rImgList,
 	 			@RequestParam(value = "reloadFile", required = false) MultipartFile reloadFile, HttpServletRequest request,
-	 			@RequestParam("rideId") Integer rideId) {
+	 			@RequestParam("rideId") Integer rideId, int count) {
 	 		try {
 	 			if (reloadFile != null && !reloadFile.isEmpty()) {
 	 				String fileName = rImg.getRideImgRename();
 	 				if (fileName != null) {
 	 					this.deleteFile(request, fileName);
 	 				}
-	 				Map<String, Object> infoMap = this.saveFile(reloadFile, request);
+	 				Map<String, Object> infoMap = this.saveMultiFile(reloadFile, request, count);
 	 				String rideFilename = (String) infoMap.get("fileName");
 	 				rImg.setRideImgName(rideFilename);
 	 				rImg.setRideImgRename((String) infoMap.get("fileRename"));
@@ -231,8 +234,8 @@ public class RideController {
 	 	}
 	 	 
 	 	 
-	 	 
-//		놀이기구 삭제
+	 	
+		//		놀이기구 삭제
 //		/admin/ridedelete.ft
 	 	@GetMapping("/admin/ridedelete.ft")
 	    public ModelAndView deleteride(ModelAndView mv, int rideId) {
@@ -256,20 +259,59 @@ public class RideController {
 	// --------- [유저] --------- 
 //		놀이기구 목록
 //		ride/list.ft
-	 	
 	 	@GetMapping("ride/list.ft")
-	 	public String showridelist() {
-	 		return "ride/list";
-	 	}
-		
+	 	public ModelAndView showUserRideList(ModelAndView mv,
+		        @RequestParam(value="page", required=false, defaultValue="1") Integer currentPage,
+		        RideVO ride) {
+		    try {
+		    	ride.setRideId(ride.getRideId());
+		        int totalCount = rService.getTotalCount();
+		        PageInfo pi = new PageInfo(currentPage, totalCount, 10);
+		        List<RideVO> rlist = rService.selectUserRideList(pi);
+		        List<RimgVO> rimg = rService.selectUserRideImg();
+		        mv.addObject("rimg", rimg);
+		        mv.addObject("rlist", rlist);
+		        mv.addObject("pi", pi);
+		        mv.addObject("totalCount", totalCount);
+		        mv.setViewName("ride/list");
+		    } catch (Exception e) {
+		        mv.addObject("msg", e.getMessage());
+		        mv.setViewName("common/errorPage");
+		    }
+		    return mv;
+		}
 	 	
 	 	
 //		놀이기구 상세
 //		ride/detail.ft
 	 	
-	 	@GetMapping("ride/detail.ft")
-	 	public String showridedetail() {
-	 		return "ride/detail";
+	 	@GetMapping("/ride/detail.ft")
+		public ModelAndView selectrideuserdetail(ModelAndView mv,
+				@RequestParam("rideId") int rideId,
+				RideVO ride) {
+			try {
+				List<RideVO> rList = rService.selectUserRideByRideId(rideId);
+				List<RimgVO> rImg = rService.selectUserImgByRideId(rideId);
+				ride.setRideId(ride.getRideId());
+				if (ride != null) {
+					mv.addObject("rList", rList);
+					mv.addObject("rImg", rImg);
+					mv.setViewName("ride/detail");
+				} else {
+					mv.addObject("msg", "데이터가 존재하지 않았습니다.");
+					mv.setViewName("common/errorPage");
+				}
+			} catch (Exception e) {
+				mv.addObject("msg", e.getMessage());
+				mv.setViewName("common/errorPage");
+			}
+			return mv;
+		}
+	 	
+	 	@PostMapping("ride/detail.ft")
+	 	public String showridedetailforbk(RideVO ride, ModelAndView mv) {
+	 		mv.addObject(ride);
+	 		return "booking/basic";
 	 	}
 	 	
 	
@@ -284,15 +326,14 @@ public class RideController {
 	
 	
 	
-		// 휴무 등록 페이지 이동
+//		 휴무 등록 페이지 이동
 		@GetMapping("/admin/closeregist.ft")
 		public String showCloseRegistPage(Model model) {
-			List<RideVO> clist = rService.selectCloseList();
-			model.addAttribute("clist", clist);
+			List<RideVO> close = rService.selectRideNameForClose();
+			model.addAttribute("close",close);
 			return "admin/closeregist";
 		}
 
-		
 //		휴무 등록
 //		admin/closeregist.ft
 		@PostMapping("/admin/closeregist.ft")
@@ -300,14 +341,15 @@ public class RideController {
 				, @ModelAttribute RideVO close
 				, HttpSession session
 				, HttpServletRequest request
-				,@RequestParam("closeNo") Integer closeNo){
+				,  @RequestParam("closeReason") String closeReason
+				,  @RequestParam("rideId") int rideId
+				 ){
 			try {
-				
-				closeNo = (Integer)session.getAttribute("closeNo");
-				close.setCloseNo(closeNo);
+				close.setRideId(rideId);
+				 close.setCloseReason(closeReason);
 				int result = rService.insertClose(close);
 				if (result > 0) {
-					mv.setViewName("redirect:/admin/closelist.ft");
+					mv.setViewName("redirect:/admin/closedetail.ft?rideId=" + close.getRideId());
 				} else {
 					mv.addObject("msg", "등록이 완료되지 못했습니다.");
 					mv.setViewName("common/errorPage");
@@ -323,14 +365,19 @@ public class RideController {
 //		휴무 상세
 //		admin/closedetail.ft
 		@GetMapping("/admin/closedetail.ft")
-		public String showTdetailPage() {
-			return "admin/closedetail";
+		public ModelAndView showCloseDetail(ModelAndView mv, 
+				@RequestParam("rideId") int rideId) {
+			RideVO close = rService.selectByRideId(rideId);
+	 		mv.addObject("close", close);
+			return mv;
 		}
-
+		
+		
 		@PostMapping("/admin/closedetail.ft")
-		public ModelAndView selectclosedetail(ModelAndView mv, int closeNo) {
+		public ModelAndView selectCloseDetail(ModelAndView mv,
+				@RequestParam("rideId") int rideId) {
 			try {
-				RideVO close = rService.selectByCloseNo(closeNo);
+				RideVO close = rService.selectByRideId(rideId);
 				if (close != null) {
 					mv.addObject("close", close);
 					mv.setViewName("admin/closedetail");
@@ -347,17 +394,18 @@ public class RideController {
 	   
 	    
 		
+		
 //		휴무 목록
 //		admin/closelist.ft
 		@GetMapping("/admin/closelist.ft")
 	    public ModelAndView ShowcloseList(ModelAndView mv,
-	            @RequestParam(value="page", 
-	            required=false, defaultValue="1") Integer currentPage) {
+	            @RequestParam(value="page", required=false, defaultValue="1") Integer currentPage
+	            ) {
 			try {
-				int totalCount = rService.getTotalCount();
+				int totalCount = rService.getCloseTotalCount();
 				PageInfo pi = new PageInfo(currentPage, totalCount, 10);
-				List<RideVO> rList = rService.selectCloseList();
-				mv.addObject("rList", rList);
+				List<RideVO> cList = rService.selectCloseList(pi);
+				mv.addObject("cList", cList);
 				mv.addObject("pi", pi);
 				mv.setViewName("admin/closelist");
 			} catch (Exception e) {
@@ -389,15 +437,25 @@ public class RideController {
 	 		return mv;
 	 	}
 		
+	 	
+	 	
 //		휴무 수정
 //		admin/closemodify.ft
+	 	@GetMapping("/admin/closemodify.ft")
+		public String showModifyClose(Model model,
+	 		@RequestParam("rideId") int rideId) {
+	 	 		RideVO close = rService.selectByRideId(rideId);
+	 	 		model.addAttribute("close", close);
+	 			return "admin/closemodify";
+		}
 	 	 @PostMapping("/admin/closemodify.ft")
-	     public ModelAndView modifyclose(ModelAndView mv, @ModelAttribute RideVO close,
-	 			int closeNo) {
+	     public ModelAndView modifyClose(ModelAndView mv, 
+	    		 @ModelAttribute RideVO close,
+	    		 @RequestParam("rideId") int rideId) {
 	 		try {
 	 			int result = rService.modifyclose(close);
 	 			if (result > 0) {
-	 				mv.setViewName("redirect:/admin/closedetail.ft?closeNo=" + close.getCloseNo());
+	 				mv.setViewName("redirect:/admin/closedetail.ft?rideId=" + close.getRideId());
 	 			} else {
 	 				mv.addObject("msg", "데이터가 존재하지 않습니다.");
 	 				mv.setViewName("common/errorPage");	
@@ -413,9 +471,9 @@ public class RideController {
 //		휴무 삭제
 //		admin/closedelete.ft
 	 	@GetMapping("/admin/closedelete.ft")
-	    public ModelAndView deleteclose(ModelAndView mv, int closeNo) {
+	    public ModelAndView deleteclose(ModelAndView mv, int rideId) {
 			try {
-				int result = rService.deleteclose(closeNo);
+				int result = rService.deleteclose(rideId);
 				if (result > 0) {
 					mv.setViewName("redirect:/admin/closelist.ft");
 				} else {
@@ -432,32 +490,6 @@ public class RideController {
 //	-----------------------------------------기타 필요 코드
 	 	
 	 	
-    // 파일 저장
-//    private Map<String, Object> saveFile(MultipartFile uploadFile, HttpServletRequest request) throws Exception {
-//		String fileName = uploadFile.getOriginalFilename();
-//		String projectPath 	 = request.getSession().getServletContext().getRealPath("resources");
-//		String saveDirectory = projectPath + "\\nuploadFiles";
-//		File sDir 			 = new File(saveDirectory);
-//		if (!sDir.exists()) {
-//			sDir.mkdir(); 
-//		}
-//		
-//		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss"); 
-//		String strResult = sdf.format(new Date(System.currentTimeMillis())); 
-//		String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
-//		String fileRename = strResult + "." + ext;
-//		String savePath 	 = saveDirectory + "\\" + fileRename;
-//		File file = new File(savePath);
-//		uploadFile.transferTo(file);
-//		long fileLength = uploadFile.getSize();
-//		Map<String, Object> infoMap = new HashMap<String, Object>();
-//		infoMap.put("fileName"	, fileName);
-//		infoMap.put("fileRename", fileRename);
-//		infoMap.put("filePath"	, savePath);
-//		infoMap.put("fileSize"	, fileLength);
-//		return infoMap;
-//	}
-//    
     // 파일 삭제
     private void deleteFile(HttpServletRequest request, String fileName) {
 		String rPath = request.getSession().getServletContext().getRealPath("resources");

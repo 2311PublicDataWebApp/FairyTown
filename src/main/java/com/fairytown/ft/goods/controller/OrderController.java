@@ -148,6 +148,7 @@ public class OrderController {
  				PageInfo pi = this.getPageInfo(currentPage, totalCount);
  				List<OrderVO> oList = oService.selectOrderList(pi, userId);
  				mv.addObject("oList", oList);
+ 				mv.addObject("totalCount", totalCount);
  				mv.addObject("pi", pi);
  				mv.setViewName("goods/orderlist");
  			} catch (Exception e) {
