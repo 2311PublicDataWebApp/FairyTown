@@ -59,6 +59,7 @@ public class RideController {
 		    		int count = 1;
 		    		for(MultipartFile file: uploadFile) {
 			            Map<String, Object> infoMap = saveMultiFile(file, request, count);
+			            rImg.setRideId(ride.getRideId());
 			            rImg.setRideImgName((String) infoMap.get("fileName"));
 			            rImg.setRideImgRename((String) infoMap.get("fileRename"));
 			            rImg.setRideImgFilepath((String) infoMap.get("filePath"));
@@ -90,14 +91,16 @@ public class RideController {
 		    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		    String strResult = sdf.format(new Date(System.currentTimeMillis()));
 		    String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
-		    String fileRename = strResult + "_"+count+"." + ext;
+		    String fileRename = strResult + "_" + count + "." + ext;
 		    String savePath = saveDirectory + File.separator + fileRename;
 		    File file = new File(savePath);
 		    try {
-				uploadFile.transferTo(file);
-			} catch (IllegalStateException | IOException e) {
-				e.printStackTrace();
-			}
+		        uploadFile.transferTo(file);
+		    } catch (IOException e) {
+		        e.printStackTrace();
+		        // 파일 전송 중 오류 발생 시 null 반환
+		        return null;
+		    }
 		    long fileLength = uploadFile.getSize();
 		    Map<String, Object> infoMap = new HashMap<>();
 		    infoMap.put("fileName", fileName);
@@ -119,9 +122,9 @@ public class RideController {
 		public ModelAndView selectridedetail(ModelAndView mv,
 				@RequestParam("rideId") int rideId) {
 			try {
-				
 				RideVO ride = rService.selectByRideId(rideId);
 				List<RimgVO> rImg = rService.selectImgByRideId(rideId);
+				ride.setRideId(ride.getRideId());
 				if (ride != null) {
 					mv.addObject("ride", ride);
 					mv.addObject("rImg", rImg);
@@ -256,20 +259,59 @@ public class RideController {
 	// --------- [유저] --------- 
 //		놀이기구 목록
 //		ride/list.ft
-	 	
 	 	@GetMapping("ride/list.ft")
-	 	public String showridelist() {
-	 		return "ride/list";
-	 	}
-		
+	 	public ModelAndView showUserRideList(ModelAndView mv,
+		        @RequestParam(value="page", required=false, defaultValue="1") Integer currentPage,
+		        RideVO ride) {
+		    try {
+		    	ride.setRideId(ride.getRideId());
+		        int totalCount = rService.getTotalCount();
+		        PageInfo pi = new PageInfo(currentPage, totalCount, 10);
+		        List<RideVO> rlist = rService.selectUserRideList(pi);
+		        List<RimgVO> rimg = rService.selectUserRideImg();
+		        mv.addObject("rimg", rimg);
+		        mv.addObject("rlist", rlist);
+		        mv.addObject("pi", pi);
+		        mv.addObject("totalCount", totalCount);
+		        mv.setViewName("ride/list");
+		    } catch (Exception e) {
+		        mv.addObject("msg", e.getMessage());
+		        mv.setViewName("common/errorPage");
+		    }
+		    return mv;
+		}
 	 	
 	 	
 //		놀이기구 상세
 //		ride/detail.ft
 	 	
-	 	@GetMapping("ride/detail.ft")
-	 	public String showridedetail() {
-	 		return "ride/detail";
+	 	@GetMapping("/ride/detail.ft")
+		public ModelAndView selectrideuserdetail(ModelAndView mv,
+				@RequestParam("rideId") int rideId,
+				RideVO ride) {
+			try {
+				List<RideVO> rList = rService.selectUserRideByRideId(rideId);
+				List<RimgVO> rImg = rService.selectUserImgByRideId(rideId);
+				ride.setRideId(ride.getRideId());
+				if (ride != null) {
+					mv.addObject("rList", rList);
+					mv.addObject("rImg", rImg);
+					mv.setViewName("ride/detail");
+				} else {
+					mv.addObject("msg", "데이터가 존재하지 않았습니다.");
+					mv.setViewName("common/errorPage");
+				}
+			} catch (Exception e) {
+				mv.addObject("msg", e.getMessage());
+				mv.setViewName("common/errorPage");
+			}
+			return mv;
+		}
+	 	
+	 	@PostMapping("ride/detail.ft")
+	 	public String showridedetailforbk(RideVO ride, ModelAndView mv) {
+	 		mv.addObject(ride);
+	 		return "booking/basic";
 	 	}
 	 	
 	
@@ -300,11 +342,14 @@ public class RideController {
 				, HttpSession session
 				, HttpServletRequest request
 				,  @RequestParam("closeReason") String closeReason
+				,  @RequestParam("rideId") int rideId
 				 ){
 			try {
+				close.setRideId(rideId);
+				 close.setCloseReason(closeReason);
 				int result = rService.insertClose(close);
 				if (result > 0) {
-					mv.setViewName("redirect:/admin/closelist.ft");
+					mv.setViewName("redirect:/admin/closedetail.ft?rideId=" + close.getRideId());
 				} else {
 					mv.addObject("msg", "등록이 완료되지 못했습니다.");
 					mv.setViewName("common/errorPage");
@@ -320,13 +365,17 @@ public class RideController {
 //		휴무 상세
 //		admin/closedetail.ft
 		@GetMapping("/admin/closedetail.ft")
-		public String showTdetailPage() {
-			return "admin/closedetail";
+		public ModelAndView showCloseDetail(ModelAndView mv, 
+				@RequestParam("rideId") int rideId) {
+			RideVO close = rService.selectByRideId(rideId);
+	 		mv.addObject("close", close);
+			return mv;
 		}
 		
-
+		
 		@PostMapping("/admin/closedetail.ft")
-		public ModelAndView selectclosedetail(ModelAndView mv, int rideId) {
+		public ModelAndView selectCloseDetail(ModelAndView mv,
+				@RequestParam("rideId") int rideId) {
 			try {
 				RideVO close = rService.selectByRideId(rideId);
 				if (close != null) {
@@ -345,17 +394,18 @@ public class RideController {
 	   
 	    
 		
+		
 //		휴무 목록
 //		admin/closelist.ft
 		@GetMapping("/admin/closelist.ft")
 	    public ModelAndView ShowcloseList(ModelAndView mv,
-	            @RequestParam(value="page", 
-	            required=false, defaultValue="1") Integer currentPage) {
+	            @RequestParam(value="page", required=false, defaultValue="1") Integer currentPage
+	            ) {
 			try {
-				int totalCount = rService.getTotalCount();
+				int totalCount = rService.getCloseTotalCount();
 				PageInfo pi = new PageInfo(currentPage, totalCount, 10);
-				List<RideVO> rList = rService.selectCloseList();
-				mv.addObject("rList", rList);
+				List<RideVO> cList = rService.selectCloseList(pi);
+				mv.addObject("cList", cList);
 				mv.addObject("pi", pi);
 				mv.setViewName("admin/closelist");
 			} catch (Exception e) {
@@ -387,11 +437,21 @@ public class RideController {
 	 		return mv;
 	 	}
 		
+	 	
+	 	
 //		휴무 수정
 //		admin/closemodify.ft
+	 	@GetMapping("/admin/closemodify.ft")
+		public String showModifyClose(Model model,
+	 		@RequestParam("rideId") int rideId) {
+	 	 		RideVO close = rService.selectByRideId(rideId);
+	 	 		model.addAttribute("close", close);
+	 			return "admin/closemodify";
+		}
 	 	 @PostMapping("/admin/closemodify.ft")
-	     public ModelAndView modifyclose(ModelAndView mv, @ModelAttribute RideVO close,
-	 			int rideId) {
+	     public ModelAndView modifyClose(ModelAndView mv, 
+	    		 @ModelAttribute RideVO close,
+	    		 @RequestParam("rideId") int rideId) {
 	 		try {
 	 			int result = rService.modifyclose(close);
 	 			if (result > 0) {

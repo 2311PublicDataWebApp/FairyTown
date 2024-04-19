@@ -5,9 +5,6 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.ibatis.session.SqlSession;
-
-import com.fairytown.ft.common.PageInfo;
 import com.fairytown.ft.ride.domain.vo.RideVO;
 import com.fairytown.ft.ride.domain.vo.RimgVO;
 
@@ -29,6 +26,8 @@ public interface RideStore {
 	RideVO selectByRideId(int rideId);
 	List<RimgVO> selectImgByRideId(int rideId);
 	
+	List<RideVO> selectUserRideList(RowBounds rb);
+	
 	List<RideVO> searchRideByKeyword(RowBounds rb, Map<String, String> paramMap);
 
 	int selectTotalCount();
@@ -38,11 +37,16 @@ public interface RideStore {
 	// 운휴 관련
 	int insertClose(RideVO close);
 	List<RideVO> searchcloseByKeyword(RowBounds rb, Map<String, String> paramMap);
-	List<RideVO> selectCloseList();
-	RideVO selectByCloseNo(int closeNo);
-	int deleteclose(int closeNo);
+	RideVO selectByCloseNo(int rideId);
+	int deleteclose(int rideId);
 	int modifyclose(RideVO close);
 	List<RideVO> selectRideNameForClose();
+	List<RideVO> selectCloseList(RowBounds rb);
+	int selectCloseTotalCount();
+	int rideId(RideVO rideId);
+	List<RimgVO> selectUserRideImg();
 	
+	List<RimgVO> selectUserImgByRideId(int rideId);
+	List<RideVO> selectUserRideByRideId(int rideId);
 
 }

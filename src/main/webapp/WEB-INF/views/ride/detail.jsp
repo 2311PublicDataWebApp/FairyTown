@@ -74,7 +74,7 @@
 					<tr>
 						<td>이미지 : </td>
 						<td>
-							<span>${ride.rideImgName}</span>
+<%-- 							<span>${rImg.rideImgName}</span> --%>
 						</td>
 					</tr>
 					
@@ -82,6 +82,7 @@
 					<tr>
 						<td colspan="5">
 							<input type="reset" value="이전으로" onClick="goBack();">
+							<input type="button" value="예약하기" onClick="showBooking();">
 						</td>
 					</tr>
 				</table>
@@ -94,7 +95,11 @@
 			function goBack() {
 				history.back();
 			}
-		
+
+			function showBooking(rideId){
+		        location.href = "/booking/basic.ft";
+		    }	
+	
 		
 			
 		

@@ -28,10 +28,11 @@
 		<!-- 컨텐츠 영역 -->
 			<div class="content">
 				<table class="table_ride">
+				
 					<tr>
-						<td>놀이기구명＊ : </td>
+						<td>놀이기구명 <sup style="color: red">*</sup> : </td>
 						<td>
-								<select class="select_ride" name="rideName"  id="searchcon">
+								<select class="select_ride" name="rideId">
 										<option value="all">전체</option>
 											<c:if test="${fn:length(close) != 0 }">
 												<c:forEach items="${close }" var="close" varStatus="i">
@@ -42,14 +43,14 @@
 						</td>
 					</tr>
 					<tr>
-						<td>날짜* : </td>
-						<td><input type="date" name="closeDate" value="closeDate"></td>
+							<td>날짜 <sup style="color: red">*</sup> : </td>
+						<td><input type="date" name="close d1eDate"></td>
 					</tr>
 					<tr>
 						<td>사유 : </td>
 						<td>
-							<select class="select_ride" name="closeReason"  id="searchcon">
-									<option value="all">전체</option>
+							<select class="select_ride" name="closeReason" >
+									<option value="all" selected>전체</option>
 									<option value="regular">정기휴무</option>
 									<option value="disaster">천재지변</option>
 									<option value="outofOrder">기기수리</option>
@@ -66,7 +67,8 @@
 					<tr>
 						<td colspan="5">
 							<input type="reset" value="이전으로" onClick="goBack();">
-							<input type="submit" value="등록하기" onclick="return submitAlert();">
+							<input type="submit" value="등록하기">
+<!-- 							<input type="submit" value="등록하기" onclick="return submitAlert();"> -->
 						</td>
 					</tr>
 				</table>
@@ -85,14 +87,6 @@
 				if (closeForm.rideName.value == "all") {
 					closeForm.rideName.focus();
 					alert("놀이기구를 선택해주세요.");
-
-					return false;
-
-				}
-
-				if (closeForm.closeReason.value == "all") {
-					closeForm.closeReason.focus();
-					alert("사유를 선택해주세요.");
 
 					return false;
 

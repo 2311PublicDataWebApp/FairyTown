@@ -268,7 +268,7 @@ public class TicketController {
 		return mv;
 	}
  	
- 	
+
  	
 //	-----------------------------------------기타 필요 코드
 

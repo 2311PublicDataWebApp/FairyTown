@@ -33,6 +33,7 @@ public interface RideService {
 	List<RimgVO> selectRideImgList(int rideId);
 	List<RimgVO> selectImgByRideId(int rideId);
 	
+	List<RideVO> selectUserRideList(PageInfo pi);
 	
 	
 	
@@ -43,15 +44,19 @@ public interface RideService {
 
 	RideVO selectByCloseNo(int closeNo);
 
-	List<RideVO> selectCloseList();
-
 	List<RideVO> selectcloseByKeyword(PageInfo pi, Map<String, String> paramMap);
 
 	int modifyclose(RideVO close);
 
 	int deleteclose(int closeNo);
 	List<RideVO> selectRideNameForClose();
+	List<RideVO> selectCloseList(PageInfo pi);
+	int getCloseTotalCount();
+	int getCloseTotalCount(Map<String, String> paramMap);
+	List<RimgVO> selectUserRideImg();
 	
+	List<RideVO> selectUserRideByRideId(int rideId);
+	List<RimgVO> selectUserImgByRideId(int rideId);
 
 
 	

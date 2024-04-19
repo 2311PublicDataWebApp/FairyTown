@@ -22,46 +22,58 @@
 					</tr>
 					<tr>
 						<td class="titleSecond"><h4>휴무일 수정</h4></td>
-					</tr>
+					</tr>	
 				</table>
 			</div>
 		
 		<!-- 컨텐츠 영역 -->
 			<div class="content">
-				<input type="hidden" name="closeNo" value="closeNo">
+<!-- 				<input type="hidden" name="rideId" value="rideId"> -->
 				<table class="table_close">
 					<tr>
-						<td>놀이기구명＊ : </td>
+						<td>놀이기구명 <sup style="color: red">*</sup> : </td>
 						<td>
-							<div class="select_ride">
-								<select class="select_ride" name="rideName"  id="searchcon" value="${ride.rideName}">
-<!-- 								<select class="select_ride" name="searchCondition"  id="searchcon"> -->
-									<option value="all" 			<c:if test="${#searchcon == 'all'}">selected</c:if>>전체</option>
-									<option value="flumeRide"		<c:if test="${#searchcon == 'flumeRide'}">selected</c:if>>후룸라이드</option>
-									<option value="gyroDrop"		<c:if test="${#searchcon == 'gyroDrop'}">selected</c:if>>자이로드롭</option>
-									<option value="gyroSwing"		<c:if test="${#searchcon == 'gyroSwing'}">selected</c:if>>자이로스윙</option>
-									<option value="atlantis"		<c:if test="${#searchcon == 'atlantis'}">selected</c:if>>아틀란티스</option>
-									<option value="cometExpress"	<c:if test="${#searchcon == 'cometExpress'}">selected</c:if>>신밧드의 모험</option>
+								<select class="select_ride" name="rideId"  id="searchcon">
+										<option value="all">전체</option>
+											<c:if test="${fn:length(close) != 0 }">
+												<c:forEach var="close" items="${close}" varStatus="i">
+													<option value="${close.rideId}" <c:if test="${rideId == close.rideId}">selected</c:if>>${close.rideName}</option>
+												</c:forEach>
+											</c:if>
 								</select>
-							</div>	
 						</td>
+					
 					</tr>
 					<tr>
-						<td>날짜* : </td>
-						<td><input type="date" name="closeDate" value="${ride.closeDate }"></td>
+						<td>날짜 <sup style="color: red">*</sup>  : </td>
+						<td><input type="date" name="closeDate" value="${close.closeDate }"></td>
 					</tr>
 					<tr>
 						<td>사유 : </td>
 						<td>
-							<select class="select_ride" name="closeReason"  id="searchcon">
-<!-- 								<select class="select_ride" name="searchCondition"  id="searchcon"> -->
-									<option value="all"			<c:if test="${#searchcon == 'all'}">selected</c:if>>전체</option>
-									<option value="regular"		<c:if test="${#searchcon == 'regular'}">selected</c:if>>정기휴무</option>
-									<option value="disaster"	<c:if test="${#searchcon == 'disaster'}">selected</c:if>>천재지변</option>
-									<option value="outofOrder"	<c:if test="${#searchcon == 'outofOrder'}">selected</c:if>>기기수리</option>
-									<option value="vacation"	<c:if test="${#searchcon == 'vacation'}">selected</c:if>>담당자부재</option>
-									<option value="etc"			<c:if test="${#searchcon == 'etc'}">selected</c:if>>기타</option>
-							</select>
+						<c:set var="cReason" value="${close.closeReason }" />
+							<select class="select_ride" name="closeReason" id="searchcon">
+							    <c:choose>
+							        <c:when test="${closeReason == 'all'}">
+							            <option value="all" selected>전체</option>
+							        </c:when>
+							        <c:when test="${closeReason == 'regular'}">
+							            <option value="regular" selected>정기휴무</option>
+							        </c:when>
+							        <c:when test="${closeReason == 'disaster'}">
+							            <option value="disaster" selected>천재지변</option>
+							        </c:when>
+							        <c:when test="${closeReason == 'outoforder'}">
+							            <option value="outoforder" selected>기기수리</option>
+							        </c:when>
+							        <c:when test="${closeReason == 'vacation'}">
+							            <option value="vacation" selected>담당자부재</option>
+							        </c:when>
+							        <c:when test="${closeReason == 'etc'}">
+							            <option value="etc" selected>기타</option>
+							        </c:when>
+							    </c:choose>
+							   </select>
 						</td>
 					</tr>
 					<tr>
@@ -83,7 +95,6 @@
 		function Checkform() {
 
 				if (closeForm.rideName.value == "all") {
-
 					closeForm.rideName.focus();
 					alert("놀이기구를 선택해주세요.");
 
@@ -92,7 +103,6 @@
 				}
 
 				if (closeForm.closeReason.value == "all") {
-
 					closeForm.closeReason.focus();
 					alert("사유를 선택해주세요.");
 
@@ -100,7 +110,6 @@
 
 				}
 				if (closeForm.closeDate.value == "") {
-
 					closeForm.closeDate.focus();
 					alert("날짜를 선택해주세요.");
 

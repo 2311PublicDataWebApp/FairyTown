@@ -60,12 +60,12 @@
 										</td>
 
 										<c:set var="rStatus" value="${close.rideStatus }" />
-										<c:if test="${rStatus eq 'AV' }">
+										<c:if test="${rStatus eq 'Y' }">
 											<td class="list_fifth_td"><a
 												href="/admin/closedetail.ft?rideId=${close.rideId }">정상운영</a>
 											</td>
 										</c:if>
-										<c:if test="${rStatus eq 'NAV'}">
+										<c:if test="${rStatus eq 'N'}">
 											<td class="list_third_td"><a
 												href="/admin/closedetail.ft?rideId=${close.rideId }">임시휴무</a>
 											</td>

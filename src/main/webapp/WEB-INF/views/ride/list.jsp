@@ -28,11 +28,10 @@
 			<div class="content">
 				<!-- 목록 영역 -->
 				<table class="table_ride_list"> 
-									
 						<tr>
-							<td></td>
-							<td>{}</td>
-							<td>{}</td>
+						
+							<td> <a href="/ride/detail.ft?rideId=3"><img src="../resources/nuploadFiles/${img.rideImgRename}" alt="이미지"></a></td>
+					
 						</tr>
 								<tr>
 									<td class="list_fifth_td" colspan="3">
@@ -50,6 +49,7 @@
 			function showMain() {
 		        location.href = "/";
 		    }	
+	
 	</script>
 	  
 	<!-- 공통 / 풋터 -->

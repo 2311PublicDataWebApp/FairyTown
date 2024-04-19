@@ -46,12 +46,13 @@
 	 <update id="modifyRideImg">
 		UPDATE RIDE_IMG_TBL 
 		SET 
+		RIDE_IMG_NO = #{rideImgNo}, 
 		RIDE_IMG_NAME = #{rideImgName }, 
 		RIDE_IMG_RENAME = #{rideImgRename }, 
 		RIDE_IMG_FILEPATH = #{rideImgFilepath}, 
 		RIDE_IMG_FILELENGTH = #{rideImgFilelength }, 
-		RIDE_IMG_THUMBNAIL = #{rideImgThumbnail }, 
-		WHERE RIDE_IMG_NO = #{rideImgNo }
+		DISPLAY_YN = #{display_yn}, 
+		WHERE RIDE_ID = #{rideId }
 	</update>
 	
   	<delete id="deleteRide">
@@ -80,7 +81,15 @@
 		SELECT * FROM RIDE_TBL ORDER BY RIDE_DATE DESC
 	</select>
 		<select id="selectRideImgList" resultMap="rimgResultMap">
-		SELECT * FROM RIDE_IMG_TBL ORDER BY RIDE_IMG_NO DESC
+		SELECT * FROM RIDE_IMG_TBL
+	</select>
+	
+	<select id="selectUserRideList" resultMap="rideResultMap">
+		SELECT * FROM RIDE_TBL ORDER BY RIDE_DATE DESC
+	</select>
+	
+	<select id="selectUserRideImg" resultMap="rimgResultMap">
+		SELECT * FROM RIDE_IMG_TBL 
 	</select>
 	
 	
@@ -88,7 +97,17 @@
 	<select id="selectByRideId" resultMap="rideResultMap">
 		SELECT * FROM RIDE_TBL WHERE RIDE_ID = #{rideId }
 	</select>
+	<select id="selectImgByRideId" resultMap="rimgResultMap">
+		SELECT * FROM RIDE_IMG_TBL WHERE RIDE_ID = #{rideId }
+	</select>
 	
+	
+	<select id="selectUserRideByRideId" resultMap="rideResultMap">
+		SELECT * FROM RIDE_TBL WHERE RIDE_ID = #{rideId }
+	</select>
+	<select id="selectUserImgByRideId" resultMap="rimgResultMap">
+		SELECT * FROM RIDE_IMG_TBL WHERE RIDE_ID = #{rideId }
+	</select>
 
 	
 <!-- 	검색 -->
@@ -119,7 +138,7 @@
 		    SET
 		    RIDE_STATUS = 
 		        CASE 
-		            WHEN #{closeDate} != SYSDATE THEN 'Y'
+		            WHEN #{closeDate} = SYSDATE THEN 'Y'
 		            ELSE 'N'
 		        END,
 		    CLOSE_DATE = #{closeDate},
@@ -150,12 +169,13 @@
  		<if test="searchCondition == 'rideStatus'">		
 			WHERE RIDE_STATUS LIKE '%'||#{searchKeyword}||'%'
 		</if>
-		ORDER BY RIDE_DATE DESC
+		ORDER BY CLOSE_DATE DESC
 	</select>
    	
   	<select id="selectCloseList" resultMap="rideResultMap">
-		SELECT * FROM RIDE_TBL WHERE CLOSE_YN = 'N' ORDER BY RIDE_DATE DESC 
+		SELECT * FROM RIDE_TBL WHERE CLOSE_DATE IS NOT NULL ORDER BY RIDE_DATE DESC
 	</select>
+	
 	<select id="selectRideNameForClose" resultMap="rideResultMap">
 		SELECT RIDE_ID, RIDE_NAME FROM RIDE_TBL ORDER BY RIDE_ID DESC
 	</select>
@@ -174,19 +194,20 @@
 		 UPDATE RIDE_TBL
 		    SET
 		    RIDE_STATUS = 
-		        CASE 
-		            WHEN #{closeDate} != TODAY THEN 'AV'
-		            ELSE 'NAV'
+		       CASE 
+		            WHEN #{closeDate} = SYSDATE THEN 'Y'
+		            ELSE 'N'
 		        END,
 		    CLOSE_DATE = #{closeDate},
 		    CLOSE_REASON = #{closeReason},
 		    WHERE CLOSE_NO= #{closeNo}
 	</update>
 	
+	<select id="selectCloseTotalCount" resultType="_int">
+		SELECT COUNT(*) FROM RIDE_TBL WHERE CLOSE_DATE IS NOT NULL ORDER BY RIDE_DATE DESC
+	</select>
 	
-	
-	
-<!--   ride 테이블 총 12개 칼럼 -->
+	<!--   ride 테이블 총 12개 칼럼 -->
   <resultMap type="RideVO" id="rideResultMap">
   	<id property="rideId" column="RIDE_ID"/>
   	<result property="rideName" column="RIDE_NAME"/>

@@ -134,11 +134,7 @@ public class RideServiceImpl implements RideService {
 		}
 
 
-		@Override
-		public List<RideVO> selectCloseList() {
-			List<RideVO> rList = rStore.selectCloseList();
-			return rList;
-		}
+	
 		@Override
 		public List<RimgVO> selectRideImgList(int rideId) {
 			List<RimgVO> rList = rStore.selectRideImgList();
@@ -162,6 +158,59 @@ public class RideServiceImpl implements RideService {
 		}
 
 
+		@Override
+		public List<RideVO> selectCloseList(PageInfo pi) {
+			int limit = pi.getBoardLimit();
+			int offset =(pi.getCurrentPage()-1)*limit;
+			RowBounds rb = new RowBounds(offset, limit);
+			List<RideVO> rList = rStore.selectCloseList(rb);
+			return rList;
+		}
+
+
+		@Override
+		public int getCloseTotalCount() {
+			int totalCount = rStore.selectCloseTotalCount();
+			return totalCount;
+		}
+
+
+		@Override
+		public int getCloseTotalCount(Map<String, String> paramMap) {
+			int totalCount = rStore.searchTotalCount(paramMap);
+			return totalCount;
+		}
+
+
+		@Override
+		public List<RideVO> selectUserRideList(PageInfo pi) {
+			int limit = pi.getBoardLimit();
+			int offset =(pi.getCurrentPage()-1)*limit;
+			RowBounds rb = new RowBounds(offset, limit);
+			List<RideVO> rList = rStore.selectUserRideList(rb);
+			return rList;
+		}
+
+
+		@Override
+		public List<RimgVO> selectUserRideImg() {
+			List<RimgVO> rimg = rStore.selectUserRideImg();
+			return rimg;
+		}
+
+
+		@Override
+		public List<RideVO> selectUserRideByRideId(int rideId) {
+			List<RideVO> ride = rStore.selectUserRideByRideId(rideId);
+			return ride;
+		}
+
+
+		@Override
+		public List<RimgVO> selectUserImgByRideId(int rideId) {
+			List<RimgVO> rList = rStore.selectUserImgByRideId(rideId);
+			return rList;
+		}
 
 
 	
