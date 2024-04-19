@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,19 +19,25 @@ public class RideServiceImpl implements RideService {
 	@Autowired
 	private RideStore rStore;
 
-	
-
 	// --------------------------------------- 놀이기구 관련
 	// -----------------------어드민
 	
 	//등록
+	
+	
 	@Override
-	public int insertRide(RideVO ride, RimgVO rImg) {
+	public int insertRide(RideVO ride) {
 		int result = rStore.insertRide(ride);
-		rImg.setRideId(ride.getRideId());
-		result += rStore.insertRideImg(rImg);
-		return result;
+		return result; 
 	}
+
+
+	@Override
+	public int insertRideImg(RimgVO rImg) {
+		int result = rStore.insertRideImg(rImg);
+		return result; 
+	}
+	
 	
 	
 	//수정
@@ -70,7 +75,11 @@ public class RideServiceImpl implements RideService {
 		RideVO ride = rStore.selectByRideId(rideId);
 		return ride;
 	}
-	
+	@Override
+	public List<RimgVO> selectImgByRideId(int rideId) {
+		List<RimgVO> rimg = rStore.selectImgByRideId(rideId);
+		return rimg;
+	}
 	// 검색
 	@Override
 	public List<RideVO> searchRideByKeyword(PageInfo pi, Map<String, String> paramMap) {
@@ -125,11 +134,7 @@ public class RideServiceImpl implements RideService {
 		}
 
 
-		@Override
-		public List<RideVO> selectCloseList() {
-			List<RideVO> rList = rStore.selectCloseList();
-			return rList;
-		}
+	
 		@Override
 		public List<RimgVO> selectRideImgList(int rideId) {
 			List<RimgVO> rList = rStore.selectRideImgList();
@@ -146,7 +151,73 @@ public class RideServiceImpl implements RideService {
 		}
 
 
+		@Override
+		public List<RideVO> selectRideNameForClose() {
+			List<RideVO> close = rStore.selectRideNameForClose();
+			return close;
+		}
 
+
+		@Override
+		public List<RideVO> selectCloseList(PageInfo pi) {
+			int limit = pi.getBoardLimit();
+			int offset =(pi.getCurrentPage()-1)*limit;
+			RowBounds rb = new RowBounds(offset, limit);
+			List<RideVO> rList = rStore.selectCloseList(rb);
+			return rList;
+		}
+
+
+		@Override
+		public int getCloseTotalCount() {
+			int totalCount = rStore.selectCloseTotalCount();
+			return totalCount;
+		}
+
+
+		@Override
+		public int getCloseTotalCount(Map<String, String> paramMap) {
+			int totalCount = rStore.searchTotalCount(paramMap);
+			return totalCount;
+		}
+
+
+		@Override
+		public List<RideVO> selectUserRideList(PageInfo pi) {
+			int limit = pi.getBoardLimit();
+			int offset =(pi.getCurrentPage()-1)*limit;
+			RowBounds rb = new RowBounds(offset, limit);
+			List<RideVO> rList = rStore.selectUserRideList(rb);
+			return rList;
+		}
+
+
+		@Override
+		public List<RimgVO> selectUserRideImg() {
+			List<RimgVO> rimg = rStore.selectUserRideImg();
+			return rimg;
+		}
+
+
+		@Override
+		public List<RideVO> selectUserRideByRideId(int rideId) {
+			List<RideVO> ride = rStore.selectUserRideByRideId(rideId);
+			return ride;
+		}
+
+
+		@Override
+		public List<RimgVO> selectUserImgByRideId(int rideId) {
+			List<RimgVO> rList = rStore.selectUserImgByRideId(rideId);
+			return rList;
+		}
+
+
+	
+
+
+
+	
 
 		
 

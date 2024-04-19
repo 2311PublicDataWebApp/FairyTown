@@ -21,37 +21,37 @@
 						<td class="titleFirst"><h2>운휴정보</h2></td>
 					</tr>
 					<tr>
-						<td class="titleSecond"><h4>휴무일 수정</h4></td>
+						<td class="titleSecond"><h4>휴무일 상세정보</h4></td>
 					</tr>
 				</table>
 			</div>
 		
 		<!-- 컨텐츠 영역 -->
 			<div class="content">
-			<input type="hidden" name="closeNo" value="closeNo">
+			<input type="hidden" name="rideId" value="rideId">
 				<table class="table_close">
 					<tr>
-						<td>놀이기구명＊ : </td>
+						<td>놀이기구명 <sup style="color: red">*</sup>: </td>
 						<td>
-							<span>${ride.rideName }</span>
+							<span>${close.rideName }</span>
 						</td>
 					</tr>
 					<tr>
-						<td>날짜* : </td>
-						<td><span>${ride.closeDate }"></span>
+						<td>날짜 <sup style="color: red">*</sup>: </td>
+						<td><span>${close.closeDate }</span>
 					</tr>
 					<tr>
 						<td>사유 : </td>
 						<td>
-							<span>${ride.closeReason }</span>
+							<span>${close.closeReason }</span>
 							
 						</td>
 					</tr>
 					<tr>
 						<td colspan="5">
 							<input type="reset" value="이전으로" onClick="goBack();">
-							<input type="submit" value="수정하기">
-							<input type="submit" value="삭제하기" onclick="deleteClose(${ride.closeNo});">
+							<input type="button" value="수정하기" onclick="modifyClose(${close.rideId});">
+							<input type="button" value="삭제하기" onclick="deleteClose(${close.rideId});">
 						</td>
 					</tr>
 				</table>
@@ -61,14 +61,19 @@
 		<script>
 		//상세 페이지 사용 JS : Checkalert(),goBack()
 		
-			function deleteClose(closeNo){
+			function deleteClose(rideId){
 					if(confirm("삭제하시겠습니까?")){
-						location.href = "/admin/closedelete.ft?closeNo="+closeNo;
+						location.href = "/admin/closedelete.ft?rideId="+rideId;
 						alert("정상적으로 삭제되었습니다.");
 					}else{
 						alert("삭제를 취소하셨습니다.");
 					}
 				}
+
+			function modifyClose(rideId){
+						location.href = "/admin/closemodify.ft?rideId="+rideId;
+				}
+		
 		
 			function goBack() {
 				history.back();
