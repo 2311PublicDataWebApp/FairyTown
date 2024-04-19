@@ -24,7 +24,7 @@
 	</head>
 	<body>
 		<!-- 공통 / 헤더 -->
-		<jsp:include page="../inc/header.jsp"></jsp:include>
+		<jsp:include page="../inc/adminheader.jsp"></jsp:include>
 		<div id="goods-write">
 			<h1><b>굿즈 등록</b></h1>
 			<br><br><br>				
@@ -67,7 +67,7 @@
 			</form>
 		</div>
 		<!-- 공통 / 풋터 -->
-		<jsp:include page="../inc/footer.jsp"></jsp:include>
+		<jsp:include page="../inc/adminfooter.jsp"></jsp:include>
 		<script>
 		var myEditor;
 		
