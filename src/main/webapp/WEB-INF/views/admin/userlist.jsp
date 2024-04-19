@@ -107,7 +107,7 @@
        </div>
     </main>
     <script>
-	    function getDeleteMembers(){
+	    function getDeleteUsers(){
 			// 체크된 input 요소 선택
 			var checkedCheckboxes = document.querySelectorAll('input[name="select-user"]:checked');
 	

@@ -3,19 +3,31 @@ package com.fairytown.ft.user.controller;
 
 import java.util.List;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.ModelAndView;
 import com.fairytown.ft.common.PageInfo;
+import com.fairytown.ft.user.domain.vo.KakaoProfile;
 import com.fairytown.ft.user.domain.vo.UserVO;
 import com.fairytown.ft.user.service.UserService;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -33,7 +45,7 @@ public class UserController {
 	
 		//일반 회원 탈퇴처리
 		@PostMapping(value = "/admin/userdelete.ft")
-		public ModelAndView deleteMember(@RequestParam("check-delete-members") String selectMembers,
+		public ModelAndView deleteMember(@RequestParam("check-delete-users") String selectMembers,
 				ModelAndView mv) {
 			try {
 				String[] users = selectMembers.split(",");
@@ -51,7 +63,7 @@ public class UserController {
 						return mv;
 					}
 				}
-				mv.setViewName("redirect:/user/userlist.ft");
+				mv.setViewName("redirect:/admin/userlist.ft");
 			} catch (Exception e) {
 				mv.addObject("msg", e.getMessage());
 				mv.setViewName("common/errorPage");
@@ -66,7 +78,7 @@ public class UserController {
 				, @RequestParam(value="keyword", required=false) String keyword
 				, @RequestParam(value="type", required=false) String type) {
 			try {
-				if(keyword == null && type == null) {
+				if((keyword == null && type == null)||(keyword.equals("") && type.equals(""))) {
 					int totalCount = uService.getUserTotalCount();
 					PageInfo pi = this.getPageInfo(currentPage, totalCount);
 					List<UserVO> uList = uService.selectUserList(pi);
@@ -195,13 +207,67 @@ public class UserController {
 		}
 	
 	
+		//로그인 페이지
 		@GetMapping("/user/login.ft")
-		public String login() {
+		public String login(@RequestParam(value =  "code", required = false) String code, Model model, HttpSession session) throws Exception {
+			if(code == null) {
+				return "user/login";
+			}
+			String accessToken = uService.getAccessToken(code);
+			// 카카오 로그인 처리 로직
+	        // code를 사용하여 액세스 토큰을 얻고, 그 토큰으로 사용자 정보를 조회합니다.
+	        KakaoProfile profile = uService.getKakaoInfo(accessToken);
+
+	        // 사용자 정보가 데이터베이스에 존재하지 않으면 회원가입 처리
+	        if (uService.isUserNew(profile)) {
+	        	model.addAttribute("nickname", profile.getKakaoNickname());
+	        	model.addAttribute("email", profile.getKakaoEmail());
+//	            mv.addObject("kakaoId", profile.getId());
+//	        	model.setViewName("redirect:/user/addinfo.ft"); // 추가 정보 입력 페이지로 리다이렉트
+	            
+	        	return "redirect:/user/addinfo.ft";
+	        }
+	     // 기존 사용자라면, 세션에 사용자 정보 저장
+	        session.setAttribute("user", profile);
 		    return "user/login";
 		}
+		
+//		//카카오 로그인
+//		@PostMapping("/user/kakaoLogin.ft")
+//		public ModelAndView kakaoLogin(ModelAndView mv,
+//				@RequestBody String code,
+//				HttpSession session) throws ParseException {
+//			try {
+//				JsonObject jsonObject = JsonParser.parseString(code).getAsJsonObject();
+//				code = jsonObject.get("code").getAsString();
+//				String accessToken = uService.getAccessToken(code);
+//				// 카카오 로그인 처리 로직
+//		        // code를 사용하여 액세스 토큰을 얻고, 그 토큰으로 사용자 정보를 조회합니다.
+//		        KakaoProfile profile = uService.getKakaoInfo(accessToken);
+//
+//		        // 사용자 정보가 데이터베이스에 존재하지 않으면 회원가입 처리
+//		        if (uService.isUserNew(profile)) {
+//		        	mv.addObject("nickname", profile.getKakaoNickname());
+//		            mv.addObject("email", profile.getKakaoEmail());
+////		            mv.addObject("kakaoId", profile.getId());
+//		        	mv.setViewName("redirect:/user/addinfo.ft"); // 추가 정보 입력 페이지로 리다이렉트
+//		            
+//		        	return mv;
+//		        }
+//
+//		        // 기존 사용자라면, 세션에 사용자 정보 저장
+//		        session.setAttribute("user", profile);
+//		        mv.setViewName("redirect:/"); // 메인 페이지로 리다이렉트
+//			} catch (Exception e) {
+//				mv.addObject("msg", e.getMessage());
+//				e.printStackTrace();
+//				mv.setViewName("common/errorPage");
+//			}
+//	        return mv;
+//		}
 
 		// 로그아웃
-		@PostMapping("/user/logout.ft")
+		@RequestMapping(value="/user/logout.ft", method = {RequestMethod.GET, RequestMethod.POST})
 		public String userLogout(HttpServletRequest request, HttpServletResponse response) {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	        if (auth != null){    
@@ -209,7 +275,10 @@ public class UserController {
 	        }
 			return "redirect:/";
 		}
+		
 	
+		//간편로그인 추가 정보 입력
+		
 		//회원가입 폼 조회
 		@GetMapping("/user/register.ft")
 		public ModelAndView showRegisterForm(ModelAndView mv) {
@@ -228,7 +297,7 @@ public class UserController {
 	            user.setUserPw(encodedPassword);
 				
 				//중복확인
-				UserVO uOne = uService.insertDuplication(user);
+				List<UserVO> uOne = uService.insertDuplication(user);
 				if(uOne != null) {
 					mv.addObject("msg", "중복된 아이디나 이메일을 쓰고 있습니다.");
 					mv.setViewName("common/errorPage");

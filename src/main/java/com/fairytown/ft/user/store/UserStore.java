@@ -17,7 +17,7 @@ public interface UserStore {
 	int insertUser(UserVO user);
 
 	//중복확인
-	UserVO insertDuplication(UserVO user);
+	List<UserVO> insertDuplication(UserVO user);
 
 	//이메일로 유저검색
 	UserVO userFindByEmail(String userEmail);

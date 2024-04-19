@@ -28,12 +28,12 @@
 				</li>
 				<li>
 					<label>비밀번호</label>
-					<input type="text" name="userPw" id="password">
+					<input type="password" name="userPw" id="password">
 					<div class="strongPassword-message hide">8글자 이상, 영문, 숫자, 특수문자(@$!%*#?&)를 사용하세요</div>
 				</li>
 				<li>
 					<label>비밀번호 확인</label>
-					<input type="text" id="password-retype">
+					<input type="password" id="password-retype">
 					<div class="mismatch-message hide">비밀번호가 일치하지 않습니다</div>
 				</li>
 				<li>

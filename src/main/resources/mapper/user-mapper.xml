@@ -99,7 +99,7 @@
 	<select id="insertDuplication" resultType="UserVO">
 		SELECT * FROM USER_TBL
 		WHERE USER_ID = #{userId}
-		AND USER_EMAIL = #{userEmail}
+		OR USER_EMAIL = #{userEmail}
 	</select>
 	
 	<select id="userFindByEmail" resultType="UserVO">
