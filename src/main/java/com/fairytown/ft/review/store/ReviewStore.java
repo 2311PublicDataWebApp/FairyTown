@@ -7,6 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 
 import com.fairytown.ft.notice.domain.vo.NoticePageInfo;
+import com.fairytown.ft.review.domain.vo.ReviewImageVO;
 import com.fairytown.ft.review.domain.vo.ReviewVO;
 
 public interface ReviewStore {
@@ -53,6 +54,8 @@ public interface ReviewStore {
 
 
 	List<ReviewVO> selectReviewsByKeyword(SqlSession session, RowBounds rowBounds, Map<String, String> paramMap);
+
+	void insertImage(SqlSession session, ReviewImageVO image);
 	
 	/**
 	 * 유용해요 카운트 Store

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.fairytown.ft.notice.domain.vo.NoticePageInfo;
 import com.fairytown.ft.notice.domain.vo.NoticeVO;
+import com.fairytown.ft.review.domain.vo.ReviewImageVO;
 import com.fairytown.ft.review.domain.vo.ReviewVO;
 import com.fairytown.ft.review.store.ReviewStore;
 
@@ -24,9 +25,12 @@ public class ReviewStoreImpl implements ReviewStore{
 
 	@Override
 	public ReviewVO selectByReviewNo(SqlSession session, int reviewNo) {
-		ReviewVO review = session.selectOne("ReviewMapper.selectByReviewNo", reviewNo); 
-		return review;
+	    ReviewVO review = session.selectOne("ReviewMapper.selectByReviewNo", reviewNo);
+	    List<ReviewImageVO> imageList = session.selectList("ReviewMapper.selectReviewImageList", reviewNo);
+	    review.setImages(imageList); // 리뷰에 이미지 정보 추가
+	    return review;
 	}
+
 
 	@Override
 	public int deleteReview(SqlSession session, int reviewNo) {
@@ -75,6 +79,11 @@ public class ReviewStoreImpl implements ReviewStore{
 			Map<String, String> paramMap) {
 		List<ReviewVO> searchList = session.selectList("ReviewMapper.selectReviewsByKeyword", paramMap, rowBounds);
 		return searchList;	
+	}
+
+	@Override
+	public void insertImage(SqlSession session, ReviewImageVO image) {
+		session.insert("ReviewMapper.insertImage", image);
 	}	
 	
 //	@Override

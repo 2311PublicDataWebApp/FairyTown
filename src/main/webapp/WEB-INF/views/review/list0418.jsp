@@ -23,10 +23,7 @@
 <!-- Font Awesome 아이콘 라이브러리 -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<!-- Swiper CSS -->
-<link rel="stylesheet"
-	href="https://unpkg.com/swiper/swiper-bundle.min.css">
-	
+
 <style>
 #review-list {
 	width: 1200px;
@@ -78,24 +75,12 @@ liked {
 	margin-top: 5px; /* reviewdate 위의 간격을 조정합니다. */
 	color: #AAB2B9;
 	font-size: 10px;
-}	
-.thumbnail img {
-    width: 100%; /* 이미지 너비를 부모 요소의 100%로 설정하여 부모 요소에 맞게 조절 */
-    height: auto; /* 이미지 높이를 자동으로 조절하여 비율을 유지 */
-    /* 또는 필요한 경우 너비와 높이 값을 직접 설정할 수 있습니다.
-    width: 200px; 
-    height: 150px; */
 }
-.swiper-container img {
-	width: 100%; /* 이미지 너비를 부모 요소의 100%로 설정하여 부모 요소에 맞게 조절 */
-    height: auto;
-}
-
 </style>
 </head>
 <body>
 	<!-- 공통 / 헤더 -->
-	<jsp:include page="../inc/header.jsp" />
+	<jsp:include page="../inc/header.jsp"></jsp:include>
 
 	<div class="container">
 		<div class="row">
@@ -107,26 +92,18 @@ liked {
 			<hr class="muidivider" style="border-width: 4px;">
 			 <!-- 여백 추가 -->
 			<div style="margin-bottom: 20px;"></div>
-		<!-- 검색 폼, 리뷰 작성하기 -->
+					<!-- 검색 폼, 리뷰 작성하기 -->
 		<div
 			class="d-flex flex-wrap justify-content-center align-items-center pb-5">
 			<!-- 검색 폼 -->
-			<jsp:include page="modules/searchForm.jsp" />
+			<jsp:include page="modules/searchForm.jsp"></jsp:include>
 
 			<!-- 리뷰 작성하기 -->
 			 <div class="d-flex col-md-6 justify-content-end">
-			 <!-- 클릭 이벤트 추가하여 모달 열기 -->
-                <button type="button" class="btn"
-                        style="background-color: #FAFAFA; border-color: #e9ecef;"
-                        onclick="openReviewModal();">리뷰 작성하기</button>
-<!-- 				<button type="button" class="btn"
+				<button type="button" class="btn"
 					style="background-color: #FAFAFA; border-color: #e9ecef;"
-					onclick="showInsertForm();">리뷰 작성하기</button> -->
-			</div>
-			
-		<!-- 모달 창(write) -->
-		<jsp:include page="modules/writeReviewModal.jsp" />
-			 
+					onclick="showInsertForm();">리뷰 작성하기</button>
+			</div> 
 		</div>
 		<!-- ------------------ -->
 			<!-- 구분선 -->
@@ -135,20 +112,28 @@ liked {
 			
 
 			<!-- 리뷰 아이템 -->
-			<!-- 이 부분 모듈로 담아서 메인에 쓰면 될 듯. -->
+			<!-- 모듈로 담아서 메인에 쓰면 될 듯. -->
 			<c:forEach items="${rList}" var="review" varStatus="status">
 				<div class="col-md-3 mb-4 border rounded p-3">
 					<!-- 여백 추가 -->
 					<div class="review-item" data-toggle="modal"
 						data-target="#reviewModal${review.reviewNo}">
 						<div class="thumbnail">
-							<!-- 썸네일 -->
-							<img src="../resources/nUploadFiles/${review.images.get(0).fileRename }" alt="thumbnail"></div>
+							<h2>썸네일</h2>
+							<%-- <img src="${review.thumbnailUrl}" alt="Thumbnail"> --%>
+						</div>
 						<div class="details">
+							<%-- <p class="title">${review.reviewTitle}</p>
+							<p class="viewCount">${review.viewCount }</p>  --%>
 							<div class="row">
 							    <div class="col-sm-6">
 							        <p class="title">${review.reviewTitle}</p>
 							    </div>
+							    <%-- <div class="col-sm-6 text-right">
+							        <span class="viewCount" style="font-size: 11px;">
+							            <i class="fas fa-eye"></i> ${review.viewCount}
+							        </span>
+							    </div> --%>
 							</div>
 							<h6 class="date" style="color: #AAB2B9; font-size: 10px">${review.reviewDate}</h6>
 							<div class="icon-container">
@@ -166,24 +151,16 @@ liked {
 			</c:forEach>
 		</div>
 
-		
-		<!-- 모달 창(detail) -->
-		<jsp:include page="./modules/reviewModal.jsp" />
+		<!-- 모달 창 -->
+		<jsp:include page="./modules/reviewModal.jsp"></jsp:include>
 
 		<!-- 페이징 영역 -->
-		<jsp:include page="modules/pagination.jsp" />
+		<jsp:include page="modules/pagination.jsp"></jsp:include>
 
 	</div>
-	
-	
-	
-
-	
-	
-	
 
 	<!-- 공통 / 풋터 -->
-	<jsp:include page="../inc/footer.jsp" />
+	<jsp:include page="../inc/footer.jsp"></jsp:include>
 
 	<!-- Bootstrap JavaScript 파일 링크 추가 -->
 	<script
@@ -192,95 +169,8 @@ liked {
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-	    <!-- Swiper JS -->
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <!-- 슬라이드를 생성하고 설정하는 스크립트 -->
-<!--     <script src="/js/script.js"></script> -->	
 
 	<script>
-	
-	// 리뷰 작성하기 모달 열기 함수
-	function openReviewModal() {
-	    $('#writeReviewModal').modal('show'); // Bootstrap modal 열기
-	}
-	
-	
-	// swiper
-	document.addEventListener("DOMContentLoaded", function () {
-	    var swiper = new Swiper('.swiper-container', {
-	        // Swiper 옵션 설정
-	        loop: true, // 무한 루프
-	        slidesPerView: 1, // 한 번에 보여지는 슬라이드 수
-	        spaceBetween: 30, // 슬라이드 간의 간격
-
-	        // 페이징 버튼 설정
-	        pagination: {
-	            el: '.swiper-pagination',
-	            clickable: true,
-	        },
-
-	        // 네비게이션 버튼 설정
-	        navigation: {
-	            nextEl: '.swiper-button-next',
-	            prevEl: '.swiper-button-prev',
-	        },
-	    });
-	    
-	    // 서버에서 첫 번째 이미지 URL을 가져와 슬라이드에 추가하는 함수
-/* 	    function fetchFirstImage() {
-	        fetch('/api/firstImage')
-	            .then(response => response.json())
-	            .then(firstImageUrl => {
-	                document.querySelector('.swiper-slide').innerHTML = '<img src="' + firstImageUrl + '">';
-	            })
-	            .catch(error => console.error('Error fetching first image:', error));
-	    } */
-	    
-	    // 서버에서 이미지 URL을 가져와 슬라이드에 추가하는 함수
-/* 	    function fetchImages() {
-	        fetch('/api/images')
-	            .then(response => response.json())
-	            .then(images => {
-	                images.forEach(imageUrl => {
-	                    swiper.appendSlide('<div class="swiper-slide"><img src="' + imageUrl + '"></div>');
-	                });
-	            })
-	            .catch(error => console.error('Error fetching images:', error));
-	    } */
-
-	 // 페이지 로드 시 첫 번째 이미지 로드
-	 //   fetchFirstImage();
-	});
-
-	/* $(document).ready(function() {
-	    $.ajax({
-	        type: "GET",
-	        url: "/api/getSlides", // 이미지 데이터를 반환하는 API 엔드포인트
-	        success: function(data) {
-	            data.forEach(function(slide) {
-	                $(".swiper-wrapper").append('<div class="swiper-slide">' + slide + '</div>');
-	            });
-
-	            // 슬라이드를 포함한 후에 Swiper를 초기화합니다.
-	            var swiper = new Swiper('.swiper-container', {
-	                // Swiper 설정
-	                pagination: {
-	                    el: '.swiper-pagination',
-	                },
-	                navigation: {
-	                    nextEl: '.swiper-button-next',
-	                    prevEl: '.swiper-button-prev',
-	                },
-	            });
-	        },
-	        error: function(xhr, status, error) {
-	            console.error(xhr.responseText);
-	        }
-	    });
-	}); */
-	
-	
-	
 	
 	// ===============
 	// 좋아요 토글 함수
@@ -371,15 +261,15 @@ liked {
     }
  
     // 작성하기
-/*     function showInsertForm() {
+    function showInsertForm() {
         // 모달 창 표시
         $("#myModal").css("display", "block");
-    } */
+    }
     
-/*  	function showInsertForm() {
+/* 	function showInsertForm() {
 		// 리뷰 작성하기 페이지 이동
 		location.href="/review/insert.ft"; 
-	} */
+	}*/
 	
 	</script>
 </body>

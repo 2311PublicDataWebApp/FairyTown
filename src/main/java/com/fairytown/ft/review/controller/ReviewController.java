@@ -1,6 +1,9 @@
 package com.fairytown.ft.review.controller;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,10 +19,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fairytown.ft.notice.domain.vo.NoticePageInfo;
 import com.fairytown.ft.notice.domain.vo.NoticeVO;
+import com.fairytown.ft.review.domain.vo.ReviewImageVO;
 import com.fairytown.ft.review.domain.vo.ReviewVO;
 import com.fairytown.ft.review.service.ReviewService;
 
@@ -37,19 +42,19 @@ public class ReviewController {
 	// ===================
 	// 리뷰 등록 페이지
 	// ===================
-	@GetMapping("/review/insert.ft")
-	public String showWriteForm(Model model, ReviewVO review) {
-		// * 로그인 안정화 후 주석 해제
-		// 세션에서 실제 사용자의 이름을 가져와서 review 객체에 설정
-//	    String realName = (String) session.getAttribute("realName");
-//	    review.setRealName(realName);
-		// 실명 우선 하드코딩 (로그인 안정화 후 realName 받아올 것.)
-		review.setRealName("페어리용자");
-		// 셀렉트박스에 필요한 데이터를 가져와서 모델에 추가 (임시적용)
-		List<String> ticketTypes = Arrays.asList("자유이용권", "오전이용권", "오후이용권");
-		model.addAttribute("ticketTypes", ticketTypes);
-		return "review/write";		
-	}
+//	@GetMapping("/review/insert.ft")
+//	public String showWriteForm(Model model, ReviewVO review) {
+//		// * 로그인 안정화 후 주석 해제
+//		// 세션에서 실제 사용자의 이름을 가져와서 review 객체에 설정
+////	    String realName = (String) session.getAttribute("realName");
+////	    review.setRealName(realName);
+//		// 실명 우선 하드코딩 (로그인 안정화 후 realName 받아올 것.)
+//		review.setRealName("페어리용자");
+//		// 셀렉트박스에 필요한 데이터를 가져와서 모델에 추가 (임시적용)
+//		List<String> ticketTypes = Arrays.asList("자유이용권", "오전이용권", "오후이용권");
+//		model.addAttribute("ticketTypes", ticketTypes);
+//		return "review/write";		
+//	}
 	
 	// ===================
 	// 리뷰 등록
@@ -57,7 +62,9 @@ public class ReviewController {
 	@PostMapping("/review/insert.ft")
 	public ModelAndView insertReview(ModelAndView mv
 			, @ModelAttribute ReviewVO review
+			, @ModelAttribute ReviewImageVO image
 			, HttpSession session
+			, @RequestParam(value = "uploadFile", required = false) MultipartFile uploadFile
 			, HttpServletRequest request){
 		try {
 			// 로그인 안정화 후 주석 해제
@@ -66,6 +73,21 @@ public class ReviewController {
 			review.setRealName("페어리용자");
 			
 			int result = rService.insertReview(review);
+			if (uploadFile != null && !uploadFile.getOriginalFilename().equals("")) {
+				Map<String, Object> infoMap = this.saveFile(uploadFile, request);
+				String fileName 	= (String) infoMap.get("fileName");
+				String fileRename 	= (String) infoMap.get("fileRename");
+				String filePath 	= (String) infoMap.get("filePath");
+				long fileLength 	= (long) infoMap.get("fileSize");
+				
+				image.setFileName(fileName);
+				image.setFileRename(fileRename);
+				image.setFilePath(filePath);
+				image.setFileSize(fileLength);
+				// 각 이미지 정보 저장
+                rService.insertImage(image);
+			}			
+			
 			if (result > 0) {
 				// 등록한 글로 리다이렉트 (상세보기, sql문까지 완료 후 주석 해제)
 				int reviewNo = review.getReviewNo();				
@@ -81,6 +103,34 @@ public class ReviewController {
 		}
 		return mv;
 	}
+	
+//	@PostMapping("/review/insert.ft")
+//	public ModelAndView insertReview(ModelAndView mv
+//			, @ModelAttribute ReviewVO review
+//			, HttpSession session
+//			, HttpServletRequest request){
+//		try {
+//			// 로그인 안정화 후 주석 해제
+////			String realName = (String)session.getAttribute("realName");
+////			review.setRealName(realName);
+//			review.setRealName("페어리용자");
+//			
+//			int result = rService.insertReview(review);
+//			if (result > 0) {
+//				// 등록한 글로 리다이렉트 (상세보기, sql문까지 완료 후 주석 해제)
+//				int reviewNo = review.getReviewNo();				
+//				String redirectUrl = "/review/detail.ft?reviewNo=" + reviewNo;
+//				mv.setViewName("redirect:" + redirectUrl);
+//			} else {
+//				mv.addObject("msg", "리뷰 등록 실패");
+//				mv.setViewName("common/errorPage");
+//			}			
+//		} catch (Exception e) {
+//			mv.addObject("msg", e.getMessage());
+//			mv.setViewName("common/errorPage");
+//		}
+//		return mv;
+//	}
 	
 	// ===================
  	// 리뷰 상세보기
@@ -202,22 +252,32 @@ public class ReviewController {
  	// 리뷰 리스트
  	// ===================
     @GetMapping("/review/list.ft")
-    public ModelAndView ShowReviewList(ModelAndView mv,
+    public ModelAndView ShowReviewList(ModelAndView mv, ReviewVO review,
             @RequestParam(value="page", required=false, defaultValue="1") Integer currentPage) {
 		try {
 			// 전체 리뷰 개수를 가져옴
 			int totalCount = rService.getTotalCount();
 			mv.addObject("totalCount", totalCount); // 모델에 totalCount 속성 추가
 			
+			
 			// 페이지 정보를 생성
 			NoticePageInfo pi = this.getPageInfo(currentPage, totalCount);
 			
 			// 현재 페이지에 해당하는 리뷰 목록을 가져옴
 			List<ReviewVO> rList = rService.selectReviewList(pi);
-			
 			// 모델에 리뷰 목록과 페이지 정보를 추가
 			mv.addObject("rList", rList);
 			mv.addObject("pi", pi);
+						
+			// 작성하기
+			review.setRealName("페어리용자");
+//			// * 로그인 안정화 후 주석 해제
+//			// 세션에서 실제 사용자의 이름을 가져와서 review 객체에 설정
+////		String realName = (String) session.getAttribute("realName");
+////		review.setRealName(realName);
+			// 셀렉트박스에 필요한 데이터를 가져와서 모델에 추가 (임시적용)
+			List<String> ticketTypes = Arrays.asList("자유이용권", "오전이용권", "오후이용권");
+			mv.addObject("ticketTypes", ticketTypes);
 			
 			// 리뷰 목록 뷰로 이동
 			mv.setViewName("review/list"); // 뷰 이름 설정
@@ -276,5 +336,49 @@ public class ReviewController {
 				endNavi);
 		return pi;
 	}		
+
+    
+    // ==============
+    // 파일 저장
+    // ==============
+    private Map<String, Object> saveFile(MultipartFile uploadFile, HttpServletRequest request) throws Exception {
+		String fileName = uploadFile.getOriginalFilename();
+//		String projectPath 	 = request.getSession().getServletContext().getRealPath("resources");
+		String projectPath 	 = "/Users/jeonggyuyu/git/FairyTown/src/main/webapp/resources";
+		String saveDirectory = projectPath + "/ruploadFiles";
+		File sDir 			 = new File(saveDirectory);
+		if (!sDir.exists()) {
+			sDir.mkdir(); 
+		}
 		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss"); 
+		String strResult = sdf.format(new Date(System.currentTimeMillis())); 
+		String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
+		String fileRename = strResult + "." + ext;
+		String savePath 	 = saveDirectory + "/" + fileRename;
+		File file = new File(savePath);
+		uploadFile.transferTo(file);
+		long fileLength = uploadFile.getSize();
+		Map<String, Object> infoMap = new HashMap<String, Object>();
+		infoMap.put("fileName"	, fileName);
+		infoMap.put("fileRename", fileRename);
+		infoMap.put("filePath"	, savePath);
+		infoMap.put("fileSize"	, fileLength);
+		return infoMap;
+	}
+    
+    // ==============
+    // 파일 삭제
+    // ==============
+    private void deleteFile(HttpServletRequest request, String fileName) {
+		String rPath = request.getSession().getServletContext().getRealPath("resources");
+		String delFilePath = rPath + "\\ruploadFiles\\" + fileName;
+		File delFile = new File(delFilePath);
+		if (delFile.exists()) {
+			delFile.delete();
+		}
+		
+	}
+    
+    
 }

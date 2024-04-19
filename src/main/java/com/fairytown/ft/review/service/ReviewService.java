@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.fairytown.ft.notice.domain.vo.NoticePageInfo;
 import com.fairytown.ft.notice.domain.vo.NoticeVO;
+import com.fairytown.ft.review.domain.vo.ReviewImageVO;
 import com.fairytown.ft.review.domain.vo.ReviewVO;
 
 public interface ReviewService {
@@ -63,6 +64,12 @@ public interface ReviewService {
 	int getTotalCount(Map<String, String> paramMap);
 
 	List<ReviewVO> searchReviewsByKeyword(NoticePageInfo pi, Map<String, String> paramMap);
+
+	/**
+	 * 이미지 등록 Service
+	 * @param image
+	 */
+	void insertImage(ReviewImageVO image);
 
 
 }

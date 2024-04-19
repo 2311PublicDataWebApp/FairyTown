@@ -22,9 +22,28 @@
 						<!-- 왼쪽 영역: 사진 -->
 						<div class="col-md-6">
 							<!-- 사진을 표시하는 부분 -->
-							<p>
-								<strong>사진 영역</strong>
-							</p>
+								
+                        <div class="swiper-container">
+                            <div class="swiper-wrapper">
+                                <!-- 슬라이드 추가 -->
+                                <div class="swiper-slide">
+                                	<img src="../resources/dist/img/slides-1.jpg" alt="Slide 1">
+                                	<%-- <img src="${review.image1Url}" alt="Slide 1"> --%>
+                                </div>
+                                <div class="swiper-slide">
+                                	<img src="../resources/dist/img/slides-2.jpg" alt="Slide 2">
+                                </div>
+                                <div class="swiper-slide">
+                                <img src="../resources/dist/img/slides-3.jpg" alt="Slide 3">
+                                </div>
+                            </div>
+                            <!-- 추가적인 Swiper 컨트롤러 등을 넣을 수 있음 -->
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-prev"></div>
+                            <div class="swiper-button-next"></div>
+                        </div>								
+								
+								
 						</div>
 
 						<!-- 오른쪽 영역: 텍스트 -->

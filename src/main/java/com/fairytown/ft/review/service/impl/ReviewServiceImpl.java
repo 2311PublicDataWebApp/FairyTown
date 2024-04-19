@@ -2,6 +2,7 @@ package com.fairytown.ft.review.service.impl;
 
 import com.fairytown.ft.notice.domain.vo.NoticePageInfo;
 import com.fairytown.ft.notice.domain.vo.NoticeVO;
+import com.fairytown.ft.review.domain.vo.ReviewImageVO;
 import com.fairytown.ft.review.domain.vo.ReviewVO;
 import com.fairytown.ft.review.service.ReviewService;
 import com.fairytown.ft.review.store.ReviewStore;
@@ -31,6 +32,8 @@ public class ReviewServiceImpl implements ReviewService {
 	@Override
 	public ReviewVO selectByReviewNo(int reviewNo) {
 		ReviewVO review = rStore.selectByReviewNo(session, reviewNo);
+//		List<ReviewImageVO> imageList = rStore.selectImageList(session, reviewNo);
+//		review.setImages(imageList);
 		return review;
 	}
 
@@ -92,6 +95,12 @@ public class ReviewServiceImpl implements ReviewService {
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		List<ReviewVO> searchList = rStore.selectReviewsByKeyword(session, rowBounds, paramMap);
 		return searchList;
+	}
+
+	@Override
+	public void insertImage(ReviewImageVO image) {
+		rStore.insertImage(session, image);
+		
 	}
 
 
