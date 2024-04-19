@@ -489,18 +489,39 @@
 <script src="../resources/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script>
   $(function () {
-    $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
+		"paging": true,
+		"lengthChange": false,
+		"searching": true,
+		"ordering": true,
+		"info": true,
+		"autoWidth": true,
+		"responsive": true,
+		
+		language: {
+		    "decimal": "",
+		    "emptyTable": "테이블에 데이터가 없습니다",
+		    "info": "_TOTAL_개 항목 중 _START_부터 _END_까지 표시중",
+		    "infoEmpty": "0개 항목 중 0부터 0까지 표시중",
+		    "infoFiltered": "(_MAX_개 항목 중 필터링됨)",
+		    "infoPostFix": "",
+		    "thousands": ",",
+		    "lengthMenu": "_MENU_개 항목 표시",
+		    "loadingRecords": "로딩 중...",
+		    "processing": "처리 중...",
+		    "search": "검색:",
+		    "zeroRecords": "일치하는 레코드를 찾을 수 없습니다",
+		    "paginate": {
+		        "first": "처음",
+		        "last": "마지막",
+		        "next": "다음",
+		        "previous": "이전"
+		    },
+		    "aria": {
+		        "orderable": "이 열을 정렬하려면 클릭",
+		        "orderableReverse": "이 열을 역순으로 정렬하려면 클릭"
+		    }
+	    }
     });
   });
 </script>
