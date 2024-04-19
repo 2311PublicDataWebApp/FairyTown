@@ -7,49 +7,47 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>굿즈 목록</title>
+		<style>
+			#goods-list {
+				margin: 0 0 0 400px;
+				width:1200px;
+			}
+		</style>
 	</head>
-	<style>
-		#goods-list {
-			margin: 0 0 0 400px;
-			width:1200px;
-		}
-	</style>
 	<body>
 		<!-- 공통 / 헤더 -->
 		<jsp:include page="../inc/header.jsp"></jsp:include>
 		<div id="goods-list">
-			<h1 style="margin: 0 0 0 50px;"><b>굿즈 목록</b></h1>
-			<br><br><br>
+			<h1 style="margin: 0 0 0 300px;"><b>페어리타운 온라인 굿즈 스토어</b></h1>
+			<br><br><br><br><br>
+				    <div class="goodscontainer">
 					<c:forEach items="${gList }" var="goods" varStatus="i">
 						<div class="album py-5" style="float:left; margin: 0 30px 0 30px">
-						    <div class="container">
-						        <div>
-									<c:if test="${goods.goodsStock ne 0 }">						
-										<div class="card shadow-sm" style="width: 18rem;">
-										  <img src="../resources/guploadFiles/${goods.goodsFileRename }" class="card-img-top" alt="..." style="height:200px;">
-										  <div class="card-body">
-										   <ul class="list-group list-group-flush">
-											    <li class="list-group-item"> <h5 class="card-title"><a href="/goods/detail.ft?goodsCode=${goods.goodsCode }">${goods.goodsName }</a></h5></li>
-											    <li class="list-group-item"><p class="card-text">₩<fmt:formatNumber value="${goods.goodsPrice }" pattern="###,###,###"/></p></li>
-											</ul>
-										  </div>
-										</div>
-									</c:if>
-									<c:if test="${goods.goodsStock eq 0 }">						
-										<div class="card" style="width: 18rem;">
-										  <img src="../resources/guploadFiles/${goods.goodsFileRename }" class="card-img-top" alt="..." style="height:200px;">
-										  <div class="card-body">
-										   <ul class="list-group list-group-flush">
-											    <li class="list-group-item"> <h5 class="card-title"><a href="/goods/detail.ft?goodsCode=${goods.goodsCode }">${goods.goodsName } - 품절</a></a></h5></li>
-											    <li class="list-group-item"><p class="card-text">₩<fmt:formatNumber value="${goods.goodsPrice }" pattern="###,###,###"/></p></li>
-											</ul>
-										  </div>
-										</div>
-									</c:if>
+							<c:if test="${goods.goodsStock ne 0 }">						
+								<div class="card shadow-sm" style="width: 18rem;">
+								  <img src="../resources/guploadFiles/${goods.goodsFileRename }" class="card-img-top" alt="..." style="height:200px;">
+								  <div class="card-body">
+								   <ul class="list-group list-group-flush">
+									    <li class="list-group-item"><h5 class="card-title"><a href="/goods/detail.ft?goodsCode=${goods.goodsCode }">${goods.goodsName }</a></h5></li>
+									    <li class="list-group-item"><p class="card-text">₩<fmt:formatNumber value="${goods.goodsPrice }" pattern="###,###,###"/></p></li>
+									</ul>
+								  </div>
 								</div>
-							</div>
+							</c:if>
+							<c:if test="${goods.goodsStock eq 0 }">						
+								<div class="card shadow-sm" style="width: 18rem;">
+								  <img src="../resources/guploadFiles/${goods.goodsFileRename }" class="card-img-top" alt="..." style="height:200px;">
+								  <div class="card-body">
+								   <ul class="list-group list-group-flush">
+									    <li class="list-group-item"><h5 class="card-title"><a href="/goods/detail.ft?goodsCode=${goods.goodsCode }">${goods.goodsName } - 품절</a></h5></li>
+									    <li class="list-group-item"><p class="card-text">₩<fmt:formatNumber value="${goods.goodsPrice }" pattern="###,###,###"/></p></li>
+									</ul>
+								  </div>
+								</div>
+							</c:if>
 						</div>  
 					</c:forEach>
+					</div>
 
 					<div class="list-footer" style="margin: 0 0 0 35px">
 						<div class="d-flex col-md-12 justify-content-start">
@@ -128,34 +126,66 @@
 					type: "GET",
 					data : {"sortType":sortType} ,
 					success: function(result) {
-						var tableBody = $("#tbody");
-						tableBody.html("");
-						var tr;
-						var sortCode;
-						var sortPrice;
-						var sortFileRename;
+						var goodscontainer = $(".goodscontainer");
+						goodscontainer.html("");
+						var cardBody;
+						var album;
+						var shadow;
+						var ul;
 						
 						
 						if(result.length > 0) {
 							for(var i in result) {
-								var goodsFileRenameVal = "<img src='../resources/guploadFiles/"+result[i].goodsFileRename+"' width='30px'>";
+								var goodsFileRenameVal = "<img src='../resources/guploadFiles/"+result[i].goodsFileRename+"' class='card-img-top' alt='...' style='height:200px;'>";
 								var goodsNameVal;
 								if (result[i].goodsStock !== 0) {
-									goodsNameVal = "<a href='/goods/detail.ft?goodsCode="+result[i].goodsCode+"'>"+result[i].goodsName+"</a>";
+									goodsNameVal = "<li class='list-group-item'><h5 class='card-title'><a href='/goods/detail.ft?goodsCode="+result[i].goodsCode+"'>"+result[i].goodsName+"</a></h5></li>";
+									 
 								} else {
-									goodsNameVal = result[i].goodsName + " - 품절";
+									goodsNameVal = "<li class='list-group-item'><h5 class='card-title'><a href='/goods/detail.ft?goodsCode="+result[i].goodsCode+"'>"+result[i].goodsName+"- 품절</a></h5></li>";
 								}
-								var goodsPriceVal = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(result[i].goodsPrice);
+								var goodsPriceVal = "<li class='list-group-item'><p class='card-text'>"+new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(result[i].goodsPrice)+"</p></li>";
 								
-								tr = $("<tr>") // <tr></tr>
-								sortFileRename = $("<td>").html(goodsFileRenameVal); // <td></td>
-								sortCode = $("<td>").html(goodsNameVal);
-								sortPrice = $("<td>").text(goodsPriceVal);
-								tr.append(sortFileRename);
-		      						tr.append(sortCode);
-		      						tr.append(sortPrice);
-		      						tableBody.append(tr);
+								album = $("<div class='album py-5' style='float:left; margin: 0 30px 0 30px'>");
+								shadow = $("<div class='card shadow-sm' style='width: 18rem;'>");
+								cardBody = $("<div class='card-body'>");
+								ul = $("<ul class='list-group list-group-flush'>");
+								
+								ul.append(goodsNameVal);
+								ul.append(goodsPriceVal);
+								cardBody.append(ul);
+								shadow.append(goodsFileRenameVal);
+								shadow.append(cardBody);
+								album.append(shadow);
+								goodscontainer.append(album);
 							}
+							
+							if (pi.startNavi != 1) {
+								li = $("<li class='page-item'>");
+								a = $("<a onclick='oneMoreAjax();' class='page-link rounded-circle' href=''/goods/sortList.ft?page="+pi.startNavi+"' aria-label='Previous'>");
+								span = "<span aria-hidden='true'>&laquo;</span>";
+								a.append(span);
+								li.append(a);
+								ul.append(li);
+							}
+							
+							for (var p = pi.startNavi; p < pi.endNavi; p++) {
+								li = $("<li class='page-item'>");
+								a = $("<a onclick='oneMoreAjax();' class='page-link rounded-circle mx-2' href='/goods/sortList.ft?page="+p+"' style='border: none; color: #313131;'>");
+								span = p;
+								a.append(span);
+								li.append(a);
+								ul.append(li);
+							}
+							
+							
+							if (pi.endNavi != pi.naviTotalCount) {
+								li = $("<li class='page-item'>");
+								a = $("<a onclick='oneMoreAjax();' class='page-link rounded-circle' href='/goods/sortList.ft?page="+pi.endNavi + 1 +" aria-label='Next'>");
+								span = "<span aria-hidden='true'>&laquo;</span>";
+								a.append(span);
+								li.append(a);
+								ul.append(li);
 						}
 					
 					},
@@ -164,6 +194,80 @@
 					}
 				});
 			});
+			function oneMoreAjax() {
+				$.ajax({
+					url: "/goods/sortList.ft",
+					type: "GET",
+					data : {"sortType":sortType} ,
+					success: function(result) {
+						var goodscontainer = $(".goodscontainer");
+						goodscontainer.html("");
+						var cardBody;
+						var album;
+						var shadow;
+						var ul;
+						
+						
+						if(result.length > 0) {
+							for(var i in result) {
+								var goodsFileRenameVal = "<img src='../resources/guploadFiles/"+result[i].goodsFileRename+"' class='card-img-top' alt='...' style='height:200px;'>";
+								var goodsNameVal;
+								if (result[i].goodsStock !== 0) {
+									goodsNameVal = "<li class='list-group-item'><h5 class='card-title'><a href='/goods/detail.ft?goodsCode="+result[i].goodsCode+"'>"+result[i].goodsName+"</a></h5></li>";
+									 
+								} else {
+									goodsNameVal = "<li class='list-group-item'><h5 class='card-title'><a href='/goods/detail.ft?goodsCode="+result[i].goodsCode+"'>"+result[i].goodsName+"- 품절</a></h5></li>";
+								}
+								var goodsPriceVal = "<li class='list-group-item'><p class='card-text'>"+new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(result[i].goodsPrice)+"</p></li>";
+								
+								album = $("<div class='album py-5' style='float:left; margin: 0 30px 0 30px'>");
+								shadow = $("<div class='card shadow-sm' style='width: 18rem;'>");
+								cardBody = $("<div class='card-body'>");
+								ul = $("<ul class='list-group list-group-flush'>");
+								
+								ul.append(goodsNameVal);
+								ul.append(goodsPriceVal);
+								cardBody.append(ul);
+								shadow.append(goodsFileRenameVal);
+								shadow.append(cardBody);
+								album.append(shadow);
+								goodscontainer.append(album);
+							}
+							
+							if (pi.startNavi != 1) {
+								li = $("<li class='page-item'>");
+								a = $("<a onclick='oneMoreAjax();' class='page-link rounded-circle' href=''/goods/sortList.ft?page="+pi.startNavi+"' aria-label='Previous'>");
+								span = "<span aria-hidden='true'>&laquo;</span>";
+								a.append(span);
+								li.append(a);
+								ul.append(li);
+							}
+							
+							for (var p = pi.startNavi; p < pi.endNavi; p++) {
+								li = $("<li class='page-item'>");
+								a = $("<a onclick='oneMoreAjax();' class='page-link rounded-circle mx-2' href='/goods/sortList.ft?page="+p+"' style='border: none; color: #313131;'>");
+								span = p;
+								a.append(span);
+								li.append(a);
+								ul.append(li);
+							}
+							
+							
+							if (pi.endNavi != pi.naviTotalCount) {
+								li = $("<li class='page-item'>");
+								a = $("<a onclick='oneMoreAjax();' class='page-link rounded-circle' href='/goods/sortList.ft?page="+pi.endNavi + 1 +" aria-label='Next'>");
+								span = "<span aria-hidden='true'>&laquo;</span>";
+								a.append(span);
+								li.append(a);
+								ul.append(li);
+						}
+					
+					},
+					error: function() {
+						alert("실패")
+					}
+				});
+			}
 		</script>
 		<script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
     	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

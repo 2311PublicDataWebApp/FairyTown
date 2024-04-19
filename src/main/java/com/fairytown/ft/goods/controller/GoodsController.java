@@ -120,7 +120,7 @@ public class GoodsController {
 	            required=false, defaultValue="1") Integer currentPage) {
 			try {
 				int totalCount = gService.getTotalCount();
-				PageInfo pInfo = this.getPageInfo(currentPage, totalCount);
+				PageInfo pInfo = this.get9PageInfo(currentPage, totalCount);
 				List<GoodsVO> gList = gService.selectGoodsList(pInfo);
 				mv.addObject("gList", gList);
 				mv.addObject("pi", pInfo);
@@ -246,30 +246,35 @@ public class GoodsController {
 	    // 굿즈 정렬
 	    @ResponseBody
 	    @GetMapping(value="/goods/sortList.ft")
-	    public Object sortGoods(
+	    public Map<String, Object> sortGoods(
 	            @RequestParam(value="page", 
 	            required=false, defaultValue="1") Integer currentPage
 	            , @RequestParam("sortType") String sortType) {
+	    	Map<String, Object> result = new HashMap<String, Object>();
 	    	try {
 				int totalCount = gService.getTotalCount();
-				PageInfo pi = this.getPageInfo(currentPage, totalCount);
+				PageInfo pi = this.get9PageInfo(currentPage, totalCount);
 				List<GoodsVO> sortList = gService.selectGoodsList(pi, sortType);
-				return sortList;
+				result.put("sortList", sortList);
+		 		result.put("pi", pi);
+		 		result.put("msg", "success");
 			} catch (Exception e) {
 				// TODO: handle exception
-				return e.getMessage();
+				result.put("msg", e.getMessage());
 			}
+	    	return result;
 	    }
 	    
 	    // 굿즈 검색 정렬
 	    @ResponseBody
 	    @GetMapping(value="/goods/sortSearchList.ft")
-	    public Object sortSearchGoods(
+	    public Map<String, Object> sortSearchGoods(
 	            @RequestParam(value="page", 
 	            required=false, defaultValue="1") Integer currentPage
 	            , @RequestParam("searchCondition") String searchCondition
 	 			, @RequestParam("searchKeyword") String searchKeyword
 	            , @RequestParam("sortType") String sortType) {
+	    	Map<String, Object> result = new HashMap<String, Object>();
 	    	try {
 	    		Map<String, String> paramMap = new HashMap<String, String>();
 		 		paramMap.put("searchCondition", searchCondition);
@@ -278,11 +283,16 @@ public class GoodsController {
 		 		int totalCount = gService.getTotalCount(paramMap);
 		 		PageInfo pi = this.getPageInfo(currentPage, totalCount);
 		 		List<GoodsVO> sortSearchList = gService.sortSearchGoodsByKeyword(pi, paramMap);
-				return sortSearchList;
+		 		result.put("sortSearchList", sortSearchList);
+		 		result.put("pi", pi);
+		 		result.put("searchCondition", searchCondition);
+		 		result.put("searchKeyword", searchKeyword);
+		 		result.put("msg", "success");
 			} catch (Exception e) {
 				// TODO: handle exception
-				return e.getMessage();
+				result.put("msg", e.getMessage());
 			}
+	    	return result;
 	    }
 	    
 		// 파일 저장
@@ -328,7 +338,16 @@ public class GoodsController {
 			}
 		}
 	    
-	    // 페이징
+	    // 9 페이징
+	    private PageInfo get9PageInfo(Integer currentPage, int totalCount) {
+			PageInfo pi = null;
+			int boardLimit = 9; // 한 페이지당 보여줄 게시물의 갯수
+			
+			pi = new PageInfo(currentPage, totalCount, boardLimit);
+			return pi;
+		}
+	    
+	    // 10 페이징
 	    private PageInfo getPageInfo(Integer currentPage, int totalCount) {
 			PageInfo pi = null;
 			int boardLimit = 10; // 한 페이지당 보여줄 게시물의 갯수
