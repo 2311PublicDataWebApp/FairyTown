@@ -71,5 +71,7 @@ public interface ReviewService {
 	 */
 	void insertImage(ReviewImageVO image);
 
+	ReviewVO getBestReview();
+
 
 }

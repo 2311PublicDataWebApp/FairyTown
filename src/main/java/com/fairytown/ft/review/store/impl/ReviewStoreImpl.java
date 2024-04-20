@@ -23,11 +23,17 @@ public class ReviewStoreImpl implements ReviewStore{
 		return result;
 	}
 
+//	@Override
+//	public ReviewVO selectByReviewNo(SqlSession session, int reviewNo) {
+//	    ReviewVO review = session.selectOne("ReviewMapper.selectByReviewNo", reviewNo);
+//	    List<ReviewImageVO> imageList = session.selectList("ReviewMapper.selectReviewImageList", reviewNo);
+//	    review.setImages(imageList); // 리뷰에 이미지 정보 추가
+//	    return review;
+//	}
+	
 	@Override
 	public ReviewVO selectByReviewNo(SqlSession session, int reviewNo) {
-	    ReviewVO review = session.selectOne("ReviewMapper.selectByReviewNo", reviewNo);
-	    List<ReviewImageVO> imageList = session.selectList("ReviewMapper.selectReviewImageList", reviewNo);
-	    review.setImages(imageList); // 리뷰에 이미지 정보 추가
+	    ReviewVO review = session.selectOne("ReviewMapper.selectImagesByReviewNo", reviewNo);
 	    return review;
 	}
 
@@ -84,6 +90,12 @@ public class ReviewStoreImpl implements ReviewStore{
 	@Override
 	public void insertImage(SqlSession session, ReviewImageVO image) {
 		session.insert("ReviewMapper.insertImage", image);
+	}
+
+	@Override
+	public ReviewVO selectBestReview(SqlSession session) {
+		ReviewVO bestReview = session.selectOne("reviewMapper.selectBestReview");
+		return bestReview;
 	}	
 	
 //	@Override

@@ -26,16 +26,19 @@
                         <div class="swiper-container">
                             <div class="swiper-wrapper">
                                 <!-- 슬라이드 추가 -->
+                                <c:forEach items="${review.images}" var="image">
                                 <div class="swiper-slide">
-                                	<img src="../resources/dist/img/slides-1.jpg" alt="Slide 1">
-                                	<%-- <img src="${review.image1Url}" alt="Slide 1"> --%>
+<!--                                 	<img src="../resources/dist/img/slides-1.jpg" alt="Slide 1">
+ -->							 <img src="../resources/ruploadFiles/${image.fileRename}" alt="Slide">								 
                                 </div>
-                                <div class="swiper-slide">
-                                	<img src="../resources/dist/img/slides-2.jpg" alt="Slide 2">
-                                </div>
-                                <div class="swiper-slide">
-                                <img src="../resources/dist/img/slides-3.jpg" alt="Slide 3">
-                                </div>
+                                </c:forEach>
+                                
+<!--                                 <div class="swiper-slide"> -->
+<!--                                 	<img src="../resources/dist/img/slides-2.jpg" alt="Slide 2"> -->
+<!--                                 </div> -->
+<!--                                 <div class="swiper-slide"> -->
+<!--                                 <img src="../resources/dist/img/slides-3.jpg" alt="Slide 3"> -->
+<!--                                 </div> -->
                             </div>
                             <!-- 추가적인 Swiper 컨트롤러 등을 넣을 수 있음 -->
                             <div class="swiper-pagination"></div>

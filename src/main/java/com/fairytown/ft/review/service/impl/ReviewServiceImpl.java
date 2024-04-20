@@ -103,6 +103,12 @@ public class ReviewServiceImpl implements ReviewService {
 		
 	}
 
+	@Override
+	public ReviewVO getBestReview() {
+		// 가장 조회수가 높은 리뷰의 정보를 조회하여 ReviewVO 객체에 담아 반환
+		return rStore.selectBestReview(session);
+	}
+
 
 
 	

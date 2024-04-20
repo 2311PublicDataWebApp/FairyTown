@@ -99,6 +99,60 @@ liked {
 
 	<div class="container">
 		<div class="row">
+
+		<!-- 베스트 리뷰 및 추천 리뷰 영역 -->
+        <div class="col-md-12 mb-4">
+            <!-- 베스트 리뷰 영역 -->
+            <div class="row">
+                <div class="col-md-6">
+                    <h4><b>베스트 리뷰</b></h4>
+                    <!-- 베스트 리뷰를 나타내는 내용 추가 -->
+                    <!-- 베스트 리뷰가 존재할 때만 표시 -->
+<c:if test="${bestReview ne null and not empty bestReview.images}">
+    <!-- bestReview가 null이 아니고 이미지 리스트가 비어있지 않은 경우에만 실행 -->
+    <div class="col-md-3 mb-4 border rounded p-3">
+        <div class="review-item" data-toggle="modal" data-target="#reviewModal${bestReview.reviewNo}">
+            <div class="thumbnail">
+                <!-- 첫 번째 이미지의 fileRename 속성을 가져오기 전에 이미지 리스트가 비어있지 않은지 확인 -->
+                <c:choose>
+                    <c:when test="${not empty bestReview.images}">
+                        <img src="../resources/nUploadFiles/${bestReview.images.get(0).fileRename}" alt="thumbnail">
+                    </c:when>
+                    <c:otherwise>
+                        <img src="../resources/default-thumbnail.jpg" alt="thumbnail"> <!-- 기본 이미지를 보여줄 수 있도록 설정 -->
+                    </c:otherwise>
+                </c:choose>
+            </div>
+            <div class="details">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <!-- 리뷰 제목 출력 -->
+                        <p class="title">${bestReview.reviewTitle}</p>
+                    </div>
+                </div>
+                <!-- 리뷰 날짜 출력 -->
+                <h6 class="date" style="color: #AAB2B9; font-size: 10px">${bestReview.reviewDate}</h6>
+                <div class="icon-container">
+                    <!-- 티켓 유형 출력 -->
+                    <img src="../resources/dist/img/mainLogo.png" alt="Main Logo" class="icon">
+                    <p class="ticket-type" style="font-size: 12px;">${bestReview.ticketType}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</c:if>
+                     
+                    
+                </div>
+                <!-- 추천 리뷰 영역 -->
+                <div class="col-md-6">
+                    <h4><b>추천 리뷰</b></h4>
+                    <!-- 추천 리뷰를 나타내는 내용 추가 -->
+                </div>
+            </div>
+        </div>
+
+		
 			<h3>
 				<b>리뷰 <span style="opacity: 0.8; font-size: large;">${totalCount}</span></b>
 			</h3>
@@ -143,7 +197,7 @@ liked {
 						data-target="#reviewModal${review.reviewNo}">
 						<div class="thumbnail">
 							<!-- 썸네일 -->
-							<img src="../resources/nUploadFiles/${review.images.get(0).fileRename }" alt="thumbnail"></div>
+							<img src="../resources/dist/img/opening.png" alt="thumbnail"></div>
 						<div class="details">
 							<div class="row">
 							    <div class="col-sm-6">
@@ -209,9 +263,11 @@ liked {
 	document.addEventListener("DOMContentLoaded", function () {
 	    var swiper = new Swiper('.swiper-container', {
 	        // Swiper 옵션 설정
-	        loop: true, // 무한 루프
-	        slidesPerView: 1, // 한 번에 보여지는 슬라이드 수
+	        loop: false, // 무한 루프
+	        slidesPerView: 'auto', // 한 번에 보여지는 슬라이드 수
+	  //      slidesPerGroup: 1,
 	        spaceBetween: 30, // 슬라이드 간의 간격
+	        watchOverflow : true, // 슬라이드가 1개 일 때 pager, button 숨김 여부 설정
 
 	        // 페이징 버튼 설정
 	        pagination: {
@@ -224,63 +280,8 @@ liked {
 	            nextEl: '.swiper-button-next',
 	            prevEl: '.swiper-button-prev',
 	        },
-	    });
-	    
-	    // 서버에서 첫 번째 이미지 URL을 가져와 슬라이드에 추가하는 함수
-/* 	    function fetchFirstImage() {
-	        fetch('/api/firstImage')
-	            .then(response => response.json())
-	            .then(firstImageUrl => {
-	                document.querySelector('.swiper-slide').innerHTML = '<img src="' + firstImageUrl + '">';
-	            })
-	            .catch(error => console.error('Error fetching first image:', error));
-	    } */
-	    
-	    // 서버에서 이미지 URL을 가져와 슬라이드에 추가하는 함수
-/* 	    function fetchImages() {
-	        fetch('/api/images')
-	            .then(response => response.json())
-	            .then(images => {
-	                images.forEach(imageUrl => {
-	                    swiper.appendSlide('<div class="swiper-slide"><img src="' + imageUrl + '"></div>');
-	                });
-	            })
-	            .catch(error => console.error('Error fetching images:', error));
-	    } */
-
-	 // 페이지 로드 시 첫 번째 이미지 로드
-	 //   fetchFirstImage();
+	    });    
 	});
-
-	/* $(document).ready(function() {
-	    $.ajax({
-	        type: "GET",
-	        url: "/api/getSlides", // 이미지 데이터를 반환하는 API 엔드포인트
-	        success: function(data) {
-	            data.forEach(function(slide) {
-	                $(".swiper-wrapper").append('<div class="swiper-slide">' + slide + '</div>');
-	            });
-
-	            // 슬라이드를 포함한 후에 Swiper를 초기화합니다.
-	            var swiper = new Swiper('.swiper-container', {
-	                // Swiper 설정
-	                pagination: {
-	                    el: '.swiper-pagination',
-	                },
-	                navigation: {
-	                    nextEl: '.swiper-button-next',
-	                    prevEl: '.swiper-button-prev',
-	                },
-	            });
-	        },
-	        error: function(xhr, status, error) {
-	            console.error(xhr.responseText);
-	        }
-	    });
-	}); */
-	
-	
-	
 	
 	// ===============
 	// 좋아요 토글 함수

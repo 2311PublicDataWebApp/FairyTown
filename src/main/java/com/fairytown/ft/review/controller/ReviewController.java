@@ -2,11 +2,13 @@ package com.fairytown.ft.review.controller;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -60,49 +62,158 @@ public class ReviewController {
 	// 리뷰 등록
 	// ===================
 	@PostMapping("/review/insert.ft")
-	public ModelAndView insertReview(ModelAndView mv
-			, @ModelAttribute ReviewVO review
-			, @ModelAttribute ReviewImageVO image
-			, HttpSession session
-			, @RequestParam(value = "uploadFile", required = false) MultipartFile uploadFile
-			, HttpServletRequest request){
-		try {
-			// 로그인 안정화 후 주석 해제
-//			String realName = (String)session.getAttribute("realName");
-//			review.setRealName(realName);
-			review.setRealName("페어리용자");
-			
-			int result = rService.insertReview(review);
-			if (uploadFile != null && !uploadFile.getOriginalFilename().equals("")) {
-				Map<String, Object> infoMap = this.saveFile(uploadFile, request);
-				String fileName 	= (String) infoMap.get("fileName");
-				String fileRename 	= (String) infoMap.get("fileRename");
-				String filePath 	= (String) infoMap.get("filePath");
-				long fileLength 	= (long) infoMap.get("fileSize");
-				
-				image.setFileName(fileName);
-				image.setFileRename(fileRename);
-				image.setFilePath(filePath);
-				image.setFileSize(fileLength);
-				// 각 이미지 정보 저장
-                rService.insertImage(image);
-			}			
-			
-			if (result > 0) {
-				// 등록한 글로 리다이렉트 (상세보기, sql문까지 완료 후 주석 해제)
-				int reviewNo = review.getReviewNo();				
-				String redirectUrl = "/review/detail.ft?reviewNo=" + reviewNo;
-				mv.setViewName("redirect:" + redirectUrl);
-			} else {
-				mv.addObject("msg", "리뷰 등록 실패");
-				mv.setViewName("common/errorPage");
-			}			
-		} catch (Exception e) {
-			mv.addObject("msg", e.getMessage());
-			mv.setViewName("common/errorPage");
-		}
-		return mv;
+	public ModelAndView insertReview(ModelAndView mv,
+	        @ModelAttribute ReviewVO review,
+	        HttpSession session,
+	        @RequestParam(value = "uploadFiles", required = false) List<MultipartFile> uploadFiles,
+	        HttpServletRequest request) {
+	    try {
+	        // 리뷰 작성자 설정 (로그인 안정화 후 주석 해제)
+	        // String realName = (String) session.getAttribute("realName");
+	        // review.setRealName(realName);
+	        review.setRealName("페어리용자");
+
+	        // 리뷰 등록
+	        int result = rService.insertReview(review);
+
+	        // 이미지 업로드 및 저장 (최대 3개까지)
+	        if (uploadFiles != null && uploadFiles.size() <= 3) {
+	            for (MultipartFile uploadFile : uploadFiles) {
+	                Map<String, Object> infoMap = saveFile(uploadFile, request);
+	                String fileName = (String) infoMap.get("fileName");
+	                String fileRename = (String) infoMap.get("fileRename");
+	                String filePath = (String) infoMap.get("filePath");
+	                long fileLength = (long) infoMap.get("fileSize");
+
+	                // 각 이미지 정보 저장
+	                ReviewImageVO image = new ReviewImageVO();
+	                image.setFileName(fileName);
+	                image.setFileRename(fileRename);
+	                image.setFilePath(filePath);
+	                image.setFileSize(fileLength);
+	                image.setReviewNo(review.getReviewNo()); // 리뷰 번호 설정
+
+	                rService.insertImage(image);
+	            }
+	        } else {
+	            // 업로드 파일 개수가 3개를 초과하는 경우 에러 처리
+	            mv.addObject("msg", "최대 3개의 이미지만 업로드 가능합니다.");
+	            mv.setViewName("common/errorPage");
+	            return mv;
+	        }
+
+	        if (result > 0) {
+	            // 등록한 글로 리다이렉트 (상세보기, sql문까지 완료 후 주석 해제)
+	            int reviewNo = review.getReviewNo();
+	            String redirectUrl = "/review/detail.ft?reviewNo=" + reviewNo;
+	            mv.setViewName("redirect:" + redirectUrl);
+	        } else {
+	            mv.addObject("msg", "리뷰 등록 실패");
+	            mv.setViewName("common/errorPage");
+	        }
+	    } catch (Exception e) {
+	        mv.addObject("msg", e.getMessage());
+	        mv.setViewName("common/errorPage");
+	    }
+	    return mv;
 	}
+	
+//	@PostMapping("/review/insert.ft")
+//	public ModelAndView insertReview(ModelAndView mv,
+//	        @ModelAttribute ReviewVO review,
+//	        @ModelAttribute ReviewImageVO image,
+//	        HttpSession session,
+//	        @RequestParam(value = "uploadFiles", required = false) List<MultipartFile> uploadFiles,
+//	        HttpServletRequest request) {
+//	    try {
+//	        // 리뷰 작성자 설정 (로그인 안정화 후 주석 해제)
+//	        // String realName = (String) session.getAttribute("realName");
+//	        // review.setRealName(realName);
+//	        review.setRealName("페어리용자");
+//
+//	        // 리뷰 등록
+//	        int result = rService.insertReview(review);
+//
+//	        // 이미지 업로드 및 저장
+//	        if (uploadFiles != null && !uploadFiles.isEmpty()) {
+//	            for (MultipartFile uploadFile : uploadFiles) {
+//	                Map<String, Object> infoMap = saveFile(uploadFile, request);
+//	                String fileName = (String) infoMap.get("fileName");
+//	                String fileRename = (String) infoMap.get("fileRename");
+//	                String filePath = (String) infoMap.get("filePath");
+//	                long fileLength = (long) infoMap.get("fileSize");
+//
+//	                // 각 이미지 정보 저장
+//	                image.setFileName(fileName);
+//	                image.setFileRename(fileRename);
+//	                image.setFilePath(filePath);
+//	                image.setFileSize(fileLength);
+//	                image.setReviewNo(review.getReviewNo()); // 리뷰 번호 설정
+//
+//	                rService.insertImage(image);
+//	            }
+//	        }
+//
+//	        if (result > 0) {
+//	            // 등록한 글로 리다이렉트 (상세보기, sql문까지 완료 후 주석 해제)
+//	            int reviewNo = review.getReviewNo();
+//	            String redirectUrl = "/review/detail.ft?reviewNo=" + reviewNo;
+//	            mv.setViewName("redirect:" + redirectUrl);
+//	        } else {
+//	            mv.addObject("msg", "리뷰 등록 실패");
+//	            mv.setViewName("common/errorPage");
+//	        }
+//	    } catch (Exception e) {
+//	        mv.addObject("msg", e.getMessage());
+//	        mv.setViewName("common/errorPage");
+//	    }
+//	    return mv;
+//	}
+	
+//	@PostMapping("/review/insert.ft")
+//	public ModelAndView insertReview(ModelAndView mv
+//			, @ModelAttribute ReviewVO review
+//			, @ModelAttribute ReviewImageVO image
+//			, HttpSession session
+//			, @RequestParam(value = "uploadFile", required = false) MultipartFile uploadFile
+//			, HttpServletRequest request){
+//		try {
+//			// 로그인 안정화 후 주석 해제
+////			String realName = (String)session.getAttribute("realName");
+////			review.setRealName(realName);
+//			review.setRealName("페어리용자");
+//			
+//			int result = rService.insertReview(review);
+//			if (uploadFile != null && !uploadFile.getOriginalFilename().equals("")) {
+//				Map<String, Object> infoMap = this.saveFile(uploadFile, request);
+//				String fileName 	= (String) infoMap.get("fileName");
+//				String fileRename 	= (String) infoMap.get("fileRename");
+//				String filePath 	= (String) infoMap.get("filePath");
+//				long fileLength 	= (long) infoMap.get("fileSize");
+//				
+//				image.setFileName(fileName);
+//				image.setFileRename(fileRename);
+//				image.setFilePath(filePath);
+//				image.setFileSize(fileLength);
+//				// 각 이미지 정보 저장
+//                rService.insertImage(image);
+//			}			
+//			
+//			if (result > 0) {
+//				// 등록한 글로 리다이렉트 (상세보기, sql문까지 완료 후 주석 해제)
+//				int reviewNo = review.getReviewNo();				
+//				String redirectUrl = "/review/detail.ft?reviewNo=" + reviewNo;
+//				mv.setViewName("redirect:" + redirectUrl);
+//			} else {
+//				mv.addObject("msg", "리뷰 등록 실패");
+//				mv.setViewName("common/errorPage");
+//			}			
+//		} catch (Exception e) {
+//			mv.addObject("msg", e.getMessage());
+//			mv.setViewName("common/errorPage");
+//		}
+//		return mv;
+//	}
 	
 //	@PostMapping("/review/insert.ft")
 //	public ModelAndView insertReview(ModelAndView mv
@@ -278,6 +389,7 @@ public class ReviewController {
 			// 셀렉트박스에 필요한 데이터를 가져와서 모델에 추가 (임시적용)
 			List<String> ticketTypes = Arrays.asList("자유이용권", "오전이용권", "오후이용권");
 			mv.addObject("ticketTypes", ticketTypes);
+
 			
 			// 리뷰 목록 뷰로 이동
 			mv.setViewName("review/list"); // 뷰 이름 설정
@@ -288,6 +400,26 @@ public class ReviewController {
 		}
 		return mv;
     };
+    
+    // ===================
+    // 베스트 리뷰(조회수 기준)
+    // ===================
+    @GetMapping("/review/best")
+    public ModelAndView showBestReview(ModelAndView mv) {
+        try {
+            // 가장 조회수가 높은 리뷰를 가져옴
+            ReviewVO bestReview = rService.getBestReview(); // bestReview 객체를 ModelAndView에 추가
+            mv.addObject("bestReview", bestReview);
+            mv.setViewName("review/list"); // 뷰 이름 설정
+        } catch (Exception e) {
+            // 오류가 발생할 경우 처리
+            mv.addObject("msg", e.getMessage());
+            mv.setViewName("common/errorPage");
+        }
+        return mv;
+    }
+    
+    
     
     // ===================
  	// 리뷰 검색
@@ -342,30 +474,123 @@ public class ReviewController {
     // 파일 저장
     // ==============
     private Map<String, Object> saveFile(MultipartFile uploadFile, HttpServletRequest request) throws Exception {
-		String fileName = uploadFile.getOriginalFilename();
-//		String projectPath 	 = request.getSession().getServletContext().getRealPath("resources");
-		String projectPath 	 = "/Users/jeonggyuyu/git/FairyTown/src/main/webapp/resources";
-		String saveDirectory = projectPath + "/ruploadFiles";
-		File sDir 			 = new File(saveDirectory);
-		if (!sDir.exists()) {
-			sDir.mkdir(); 
-		}
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss"); 
-		String strResult = sdf.format(new Date(System.currentTimeMillis())); 
-		String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
-		String fileRename = strResult + "." + ext;
-		String savePath 	 = saveDirectory + "/" + fileRename;
-		File file = new File(savePath);
-		uploadFile.transferTo(file);
-		long fileLength = uploadFile.getSize();
-		Map<String, Object> infoMap = new HashMap<String, Object>();
-		infoMap.put("fileName"	, fileName);
-		infoMap.put("fileRename", fileRename);
-		infoMap.put("filePath"	, savePath);
-		infoMap.put("fileSize"	, fileLength);
-		return infoMap;
-	}
+        String fileName = uploadFile.getOriginalFilename();
+        // String projectPath = request.getSession().getServletContext().getRealPath("resources");
+        String projectPath = "/Users/jeonggyuyu/git/FairyTown/src/main/webapp/resources";
+        String saveDirectory = projectPath + "/ruploadFiles";
+        File sDir = new File(saveDirectory);
+        if (!sDir.exists()) {
+            sDir.mkdir(); 
+        }
+
+        String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
+        String fileRename = UUID.randomUUID().toString() + "." + ext;
+        String savePath = saveDirectory + "/" + fileRename;
+        File file = new File(savePath);
+        uploadFile.transferTo(file);
+        long fileLength = uploadFile.getSize();
+        Map<String, Object> infoMap = new HashMap<>();
+        infoMap.put("fileName", fileName);
+        infoMap.put("fileRename", fileRename);
+        infoMap.put("filePath", savePath);
+        infoMap.put("fileSize", fileLength);
+        return infoMap;
+    }
+//    private Map<String, Object> saveFile(MultipartFile uploadFile, HttpServletRequest request) throws Exception {
+//		String fileName = uploadFile.getOriginalFilename();
+////		String projectPath 	 = request.getSession().getServletContext().getRealPath("resources");
+//		String projectPath 	 = "/Users/jeonggyuyu/git/FairyTown/src/main/webapp/resources";
+//		String saveDirectory = projectPath + "/ruploadFiles";
+//		File sDir 			 = new File(saveDirectory);
+//		if (!sDir.exists()) {
+//			sDir.mkdir(); 
+//		}
+//		
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss"); 
+//		String strResult = sdf.format(new Date(System.currentTimeMillis())); 
+//		String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
+//		String fileRename = strResult + "." + ext;
+//		String savePath 	 = saveDirectory + "/" + fileRename;
+//		File file = new File(savePath);
+//		uploadFile.transferTo(file);
+//		long fileLength = uploadFile.getSize();
+//		Map<String, Object> infoMap = new HashMap<String, Object>();
+//		infoMap.put("fileName"	, fileName);
+//		infoMap.put("fileRename", fileRename);
+//		infoMap.put("filePath"	, savePath);
+//		infoMap.put("fileSize"	, fileLength);
+//		return infoMap;
+//	}
+    
+    // 다중 파일 저장
+    private List<Map<String, Object>> saveFiles(List<MultipartFile> uploadFiles, HttpServletRequest request) throws Exception {
+        List<Map<String, Object>> infoList = new ArrayList<>();
+        String projectPath = "/Users/jeonggyuyu/git/FairyTown/src/main/webapp/resources";
+        String saveDirectory = projectPath + "/ruploadFiles";
+        File sDir = new File(saveDirectory);
+        if (!sDir.exists()) {
+            sDir.mkdir(); 
+        }
+
+        for (MultipartFile uploadFile : uploadFiles) {
+            String fileName = uploadFile.getOriginalFilename();
+            String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
+            String fileRename = UUID.randomUUID().toString() + "." + ext;
+            String savePath = saveDirectory + "/" + fileRename;
+            File file = new File(savePath);
+            uploadFile.transferTo(file);
+            long fileLength = uploadFile.getSize();
+            Map<String, Object> infoMap = new HashMap<>();
+            infoMap.put("fileName", fileName);
+            infoMap.put("fileRename", fileRename);
+            infoMap.put("filePath", savePath);
+            infoMap.put("fileSize", fileLength);
+            infoList.add(infoMap);
+        }
+        return infoList;
+    }
+//    private List<Map<String, Object>> saveFiles(List<MultipartFile> uploadFiles, HttpServletRequest request) throws Exception {
+//        List<Map<String, Object>> infoList = new ArrayList<>();
+//        String projectPath = "/Users/jeonggyuyu/git/FairyTown/src/main/webapp/resources";
+//        String saveDirectory = projectPath + "/ruploadFiles";
+//        File sDir = new File(saveDirectory);
+//        if (!sDir.exists()) {
+//            sDir.mkdir(); 
+//        }
+//
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+//        for (MultipartFile uploadFile : uploadFiles) {
+//            String fileName = uploadFile.getOriginalFilename();
+//            String strResult = sdf.format(new Date(System.currentTimeMillis()));
+//            String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
+//            String fileRename = strResult + "." + ext;
+//            String savePath = saveDirectory + "/" + fileRename;
+//            File file = new File(savePath);
+//            uploadFile.transferTo(file);
+//            long fileLength = uploadFile.getSize();
+//            Map<String, Object> infoMap = new HashMap<>();
+//            infoMap.put("fileName", fileName);
+//            infoMap.put("fileRename", fileRename);
+//            infoMap.put("filePath", savePath);
+//            infoMap.put("fileSize", fileLength);
+//            infoList.add(infoMap);
+//        }
+//        return infoList;
+//    }
+    
+    // =================
+    // 다중 파일 업로드 처리
+    // =================
+    public ResponseEntity<?> uploadFiles(@RequestParam("files") List<MultipartFile> files, HttpServletRequest request) {
+        try {
+            List<Map<String, Object>> fileInfoList = saveFiles(files, request);
+            // 파일 업로드가 성공했을 때의 처리
+            return new ResponseEntity<>(fileInfoList, HttpStatus.OK);
+        } catch (Exception e) {
+            // 파일 업로드 중 오류가 발생했을 때의 처리
+            return new ResponseEntity<>("Failed to upload files", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     
     // ==============
     // 파일 삭제

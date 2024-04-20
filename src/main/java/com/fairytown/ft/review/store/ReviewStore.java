@@ -56,6 +56,8 @@ public interface ReviewStore {
 	List<ReviewVO> selectReviewsByKeyword(SqlSession session, RowBounds rowBounds, Map<String, String> paramMap);
 
 	void insertImage(SqlSession session, ReviewImageVO image);
+
+	ReviewVO selectBestReview(SqlSession session);
 	
 	/**
 	 * 유용해요 카운트 Store

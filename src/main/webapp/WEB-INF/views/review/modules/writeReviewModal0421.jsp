@@ -51,7 +51,7 @@
                                     <textarea class="form-control" name="reviewContent" id="reviewContent" rows="6"></textarea>
                                 </div>
                                 <div>
-                               	    <input type="file" name="uploadFiles" multiple>
+                                	<input type="file" name="uploadFile">
                                 </div>
                                 <div class="d-flex justify-content-center">
                                     <button type="submit" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef;">등록</button>
