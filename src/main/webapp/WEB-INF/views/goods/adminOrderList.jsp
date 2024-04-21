@@ -4,79 +4,119 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>주문 내역</title>
-		<style>
-			#order-list {
-				margin: auto;
-				width:1200px;
-			}
-			.list {
-			  color: lightgray;
-			}
-		</style>
-	</head>
-	<body>
-		<jsp:include page="../inc/header.jsp"></jsp:include>
-		<div id="order-list">
-			<h1 style="text-align:center;"><b>주문 내역</b></h1>
-			<br><br><br>
-					<c:if test="${totalCount eq 0 }">
-						<h3 style="text-align:center;"><b>주문내역이 존재하지 않습니다</b></h3>
-						<h5 style="text-align:center;"><a href="/goods/list.ft" class="list">지금 굿즈 보러 가기 &#129146;</a></h5>
-					</c:if>
-					<c:if test="${totalCount ne 0 }">	
-					<div id="totalCount">총 ${totalCount }개</div>
-					<br>
-					<!-- Default Table -->
-					<table class="table table-striped">
-						<tbody>	
-								<tr>
-									<td>주문 날짜</td>
-									<td>주문 번호</td>
-									<td>주문 상태</td>
-								</tr>
-							<c:forEach items="${oList }" var="oList" varStatus="i">
-								<tr>
-									<td><p class="goodsOrderDate">${oList.goodsOrderDate }</p></td>
-									<td><p class="goodsOrderCode"><a href="/goods/orderDetail.ft?goodsOrderCode=${oList.goodsOrderCode }">${oList.goodsOrderCode }</p></td>
-									<td width="170px">결제완료</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-					<br><br><br>
-					<div class="col-md-12">
-					<nav aria-label="Page navigation example">					
-						<ul class="pagination justify-content-center" style="font-weight: 600; ">
-							<c:if test="${pi.startNavi ne '1' }">
-								<li class="page-item">
-									<a class="page-link rounded-circle" href="/goods/orderList.ft?page=${pi.startNavi - 1 }" aria-label="Previous">
-									    <span aria-hidden="true">&laquo;</span>
-									</a>
-								</li>
-							</c:if>
-							<c:forEach begin="${pi.startNavi }" end="${pi.endNavi }" var="p">
-								<li class="page-item">
-									<a class="page-link rounded-circle mx-2" href="/goods/orderList.ft?page=${p }" style="border: none; color: #313131;">
-									${p }
-									</a>
-								</li>
-							</c:forEach>
-							<c:if test="${pi.endNavi ne pi.naviTotalCount }">
-								<li class="page-item">
-									<a class="page-link rounded-circle" href="/goods/orderList.ft?page=${pi.endNavi + 1 }" aria-label="Next">
-									<span aria-hidden="true">&raquo;</span>
-									</a>
-								</li>
-							</c:if>
-						</ul>
-					</nav>
-				</div>
-				</c:if>
+<head>
+<meta charset="UTF-8">
+<title>굿즈 주문 내역</title>
+
+	<!-- DataTables -->
+	<link rel="stylesheet" href="../resources/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet" href="../resources/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+	<link rel="stylesheet" href="../resources/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+</head>
+<body>
+	<jsp:include page="../inc/adminheader.jsp"></jsp:include>
+	<!-- Content Header -->
+	<div class="content-wrapper">
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>굿즈 주문 내역</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">DataTables</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+			<div class="card-body">
+                <table id="example2" class="table table-bordered table-hover">
+                  <thead>
+                  <tr>
+                    <td>주문 날짜</td>
+					<td>주문 번호</td>
+					<td>주문자</td>
+					<td>주문 상태</td>
+                  </tr>
+                  </thead>
+                  <tbody>
+	                  <c:forEach items="${oList }" var="oList" varStatus="i">
+						<tr>
+							<td><p class="goodsOrderDate">${oList.goodsOrderDate }</p></td>
+							<td><p class="goodsOrderCode"><a href="/admin/orderDetail.ft?goodsOrderCode=${oList.goodsOrderCode }">${oList.goodsOrderCode }</p></td>
+							<td>${oList.goodsOrderUserId }</td>
+							<td width="170px">결제완료</td>
+						</tr>
+					  </c:forEach>
+				 </tbody>
+                </table>
+              </div>
+			</div>	
 		</div>
-		<jsp:include page="../inc/footer.jsp"></jsp:include>
-		<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
-    </body>
+	</div>
+</div>
+</section>
+</div>
+<jsp:include page="../inc/adminfooter.jsp"></jsp:include>
+<!-- DataTables  & Plugins -->
+<script src="../resources/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../resources/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../resources/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../resources/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="../resources/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="../resources/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="../resources/plugins/jszip/jszip.min.js"></script>
+<script src="../resources/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="../resources/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="../resources/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="../resources/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="../resources/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script>
+  $(function () {
+    $('#example2').DataTable({
+		"paging": true,
+		"lengthChange": false,
+		"searching": true,
+		"ordering": true,
+		"info": true,
+		"autoWidth": true,
+		"responsive": true,
+		
+		language: {
+		    "decimal": "",
+		    "emptyTable": "테이블에 데이터가 없습니다",
+		    "info": "_TOTAL_개 항목 중 _START_부터 _END_까지 표시중",
+		    "infoEmpty": "0개 항목 중 0부터 0까지 표시중",
+		    "infoFiltered": "(_MAX_개 항목 중 필터링됨)",
+		    "infoPostFix": "",
+		    "thousands": ",",
+		    "lengthMenu": "_MENU_개 항목 표시",
+		    "loadingRecords": "로딩 중...",
+		    "processing": "처리 중...",
+		    "search": "검색:",
+		    "zeroRecords": "일치하는 레코드를 찾을 수 없습니다",
+		    "paginate": {
+		        "first": "처음",
+		        "last": "마지막",
+		        "next": "다음",
+		        "previous": "이전"
+		    },
+		    "aria": {
+		        "orderable": "이 열을 정렬하려면 클릭",
+		        "orderableReverse": "이 열을 역순으로 정렬하려면 클릭"
+		    }
+	    }
+    });
+  });
+</script>
+</body>
 </html>

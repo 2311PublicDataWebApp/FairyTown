@@ -32,6 +32,8 @@ public interface OrderStore {
 
 	void plusStock(SqlSession session, OrderVO order);
 
+	List<OrderVO> selectAdminOrderList(SqlSession session);
+
 
 	
 	

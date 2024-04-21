@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+	<mapper namespace="ChatMapper">
+		<insert id="insertaddMsg">
+			INSERT INTO CHAT_TBL
+			VALUES (SEQ_MSG_NO.NEXTVAL, #{chatUserId},#{msgSendId}, #{msgContents}, DEFAULT)
+		</insert>
+		<select id="selectMsgByChatId" resultType="ChatVO">
+			SELECT *
+			FROM CHAT_TBL
+			WHERE CHAT_USER_ID = #{chatUserId}
+			ORDER BY MSG_SEND_DATE ASC
+		</select>
+	</mapper>

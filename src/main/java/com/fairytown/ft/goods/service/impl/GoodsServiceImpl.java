@@ -88,4 +88,10 @@ public class GoodsServiceImpl implements GoodsService {
 		List<GoodsVO> searchList = gStore.sortSelectGoodsByKeyword(session, rowBounds, paramMap);
 		return searchList;
 	}
+
+	@Override
+	public List<GoodsVO> selectGoodsList() {
+		List<GoodsVO> gList = gStore.selectGoodsList(session);
+		return gList;
+	}
 }

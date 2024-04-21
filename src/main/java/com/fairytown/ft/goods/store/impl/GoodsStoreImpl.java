@@ -81,5 +81,11 @@ public class GoodsStoreImpl implements GoodsStore{
 		return sList;
 	}
 
+	@Override
+	public List<GoodsVO> selectGoodsList(SqlSession session) {
+		List<GoodsVO> gList = session.selectList("GoodsMapper.selectGoodsList");
+		return gList;
+	}
+
 
 }

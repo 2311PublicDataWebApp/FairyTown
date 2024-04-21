@@ -74,4 +74,10 @@ public class OrderServiceImpl implements OrderService {
 	public void plusStock(OrderVO order) {
 		oStore.plusStock(session, order);
 	}
+
+	@Override
+	public List<OrderVO> selectOrderList() {
+		List<OrderVO> oList = oStore.selectAdminOrderList(session);
+		return oList;
+	}
 }

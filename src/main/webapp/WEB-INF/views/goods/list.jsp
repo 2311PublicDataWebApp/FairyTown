@@ -84,7 +84,7 @@
 				<div class="row mt-3 mb-5" style="margin-top:300px;">
 				<div class="col-md-12">
 					<nav aria-label="Page navigation example">					
-						<ul class="pagination justify-content-center" style="font-weight: 600; ">
+						<ul id="pageul" class="pagination justify-content-center" style="font-weight: 600; ">
 							<c:if test="${pi.startNavi ne '1' }">
 								<li class="page-item">
 									<a class="page-link rounded-circle" href="/goods/list.ft?page=${pi.startNavi - 1 }" aria-label="Previous">
@@ -116,98 +116,35 @@
 		<!-- jQuery -->
 	    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 		<script>
-	
 			$("#sortType").on("change", function() {
-				
 				var sortType = $("#sortType option:selected").val();
-				debugger;
-				$.ajax({
-					url: "/goods/sortList.ft",
-					type: "GET",
-					data : {"sortType":sortType} ,
-					success: function(result) {
-						var goodscontainer = $(".goodscontainer");
-						goodscontainer.html("");
-						var cardBody;
-						var album;
-						var shadow;
-						var ul;
-						
-						
-						if(result.length > 0) {
-							for(var i in result) {
-								var goodsFileRenameVal = "<img src='../resources/guploadFiles/"+result[i].goodsFileRename+"' class='card-img-top' alt='...' style='height:200px;'>";
-								var goodsNameVal;
-								if (result[i].goodsStock !== 0) {
-									goodsNameVal = "<li class='list-group-item'><h5 class='card-title'><a href='/goods/detail.ft?goodsCode="+result[i].goodsCode+"'>"+result[i].goodsName+"</a></h5></li>";
-									 
-								} else {
-									goodsNameVal = "<li class='list-group-item'><h5 class='card-title'><a href='/goods/detail.ft?goodsCode="+result[i].goodsCode+"'>"+result[i].goodsName+"- 품절</a></h5></li>";
-								}
-								var goodsPriceVal = "<li class='list-group-item'><p class='card-text'>"+new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(result[i].goodsPrice)+"</p></li>";
-								
-								album = $("<div class='album py-5' style='float:left; margin: 0 30px 0 30px'>");
-								shadow = $("<div class='card shadow-sm' style='width: 18rem;'>");
-								cardBody = $("<div class='card-body'>");
-								ul = $("<ul class='list-group list-group-flush'>");
-								
-								ul.append(goodsNameVal);
-								ul.append(goodsPriceVal);
-								cardBody.append(ul);
-								shadow.append(goodsFileRenameVal);
-								shadow.append(cardBody);
-								album.append(shadow);
-								goodscontainer.append(album);
-							}
-							
-							if (pi.startNavi != 1) {
-								li = $("<li class='page-item'>");
-								a = $("<a onclick='oneMoreAjax();' class='page-link rounded-circle' href=''/goods/sortList.ft?page="+pi.startNavi+"' aria-label='Previous'>");
-								span = "<span aria-hidden='true'>&laquo;</span>";
-								a.append(span);
-								li.append(a);
-								ul.append(li);
-							}
-							
-							for (var p = pi.startNavi; p < pi.endNavi; p++) {
-								li = $("<li class='page-item'>");
-								a = $("<a onclick='oneMoreAjax();' class='page-link rounded-circle mx-2' href='/goods/sortList.ft?page="+p+"' style='border: none; color: #313131;'>");
-								span = p;
-								a.append(span);
-								li.append(a);
-								ul.append(li);
-							}
-							
-							
-							if (pi.endNavi != pi.naviTotalCount) {
-								li = $("<li class='page-item'>");
-								a = $("<a onclick='oneMoreAjax();' class='page-link rounded-circle' href='/goods/sortList.ft?page="+pi.endNavi + 1 +" aria-label='Next'>");
-								span = "<span aria-hidden='true'>&laquo;</span>";
-								a.append(span);
-								li.append(a);
-								ul.append(li);
-						}
-					
-					},
-					error: function() {
-						alert("실패")
-					}
-				});
+				oneMoreAjax(1, sortType);
 			});
-			function oneMoreAjax() {
+			function oneMoreAjax(page, sortType) {
 				$.ajax({
 					url: "/goods/sortList.ft",
 					type: "GET",
-					data : {"sortType":sortType} ,
-					success: function(result) {
+					data : {
+								"page":page,
+								"sortType":sortType
+							},
+					success: function(response) {
 						var goodscontainer = $(".goodscontainer");
 						goodscontainer.html("");
 						var cardBody;
 						var album;
 						var shadow;
-						var ul;
+						var ulg;
+						var ul = $("#pageul");
+						ul.html("");
+						var li;
+						var a;
+						var span;
 						
-						
+						var result = response.sortList;
+						var pi = response.pi;
+						var searchCondition = response.searchCondition;
+						var searchKeyword = response.searchKeyword;
 						if(result.length > 0) {
 							for(var i in result) {
 								var goodsFileRenameVal = "<img src='../resources/guploadFiles/"+result[i].goodsFileRename+"' class='card-img-top' alt='...' style='height:200px;'>";
@@ -223,11 +160,11 @@
 								album = $("<div class='album py-5' style='float:left; margin: 0 30px 0 30px'>");
 								shadow = $("<div class='card shadow-sm' style='width: 18rem;'>");
 								cardBody = $("<div class='card-body'>");
-								ul = $("<ul class='list-group list-group-flush'>");
+								ulg = $("<ul class='list-group list-group-flush'>");
 								
-								ul.append(goodsNameVal);
-								ul.append(goodsPriceVal);
-								cardBody.append(ul);
+								ulg.append(goodsNameVal);
+								ulg.append(goodsPriceVal);
+								cardBody.append(ulg);
 								shadow.append(goodsFileRenameVal);
 								shadow.append(cardBody);
 								album.append(shadow);
@@ -236,16 +173,16 @@
 							
 							if (pi.startNavi != 1) {
 								li = $("<li class='page-item'>");
-								a = $("<a onclick='oneMoreAjax();' class='page-link rounded-circle' href=''/goods/sortList.ft?page="+pi.startNavi+"' aria-label='Previous'>");
+								a = $("<a onclick='oneMoreAjax();' class='page-link rounded-circle' href='javascript:void(0);' aria-label='Previous'>");
 								span = "<span aria-hidden='true'>&laquo;</span>";
 								a.append(span);
 								li.append(a);
 								ul.append(li);
 							}
 							
-							for (var p = pi.startNavi; p < pi.endNavi; p++) {
+							for (var p = pi.startNavi; p <= pi.endNavi; p++) {
 								li = $("<li class='page-item'>");
-								a = $("<a onclick='oneMoreAjax();' class='page-link rounded-circle mx-2' href='/goods/sortList.ft?page="+p+"' style='border: none; color: #313131;'>");
+								a = $("<a onclick='oneMoreAjax("+p+", \""+sortType+"\");' class='page-link rounded-circle mx-2' href='javascript:void(0);' style='border: none; color: #313131;'>");
 								span = p;
 								a.append(span);
 								li.append(a);
@@ -255,11 +192,12 @@
 							
 							if (pi.endNavi != pi.naviTotalCount) {
 								li = $("<li class='page-item'>");
-								a = $("<a onclick='oneMoreAjax();' class='page-link rounded-circle' href='/goods/sortList.ft?page="+pi.endNavi + 1 +" aria-label='Next'>");
+								a = $("<a onclick='oneMoreAjax();' class='page-link rounded-circle' href='javascript:void(0);' aria-label='Next'>");
 								span = "<span aria-hidden='true'>&laquo;</span>";
 								a.append(span);
 								li.append(a);
 								ul.append(li);
+							}
 						}
 					
 					},

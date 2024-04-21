@@ -135,6 +135,22 @@ public class OrderController {
 			return mv;
 		}
 	    
+	    // 주문 상세조회
+	    @GetMapping("/admin/orderDetail.ft")
+	    public ModelAndView showAdminOrderDetail(ModelAndView mv
+	    		, @RequestParam("goodsOrderCode") String goodsOrderCode) {
+			try {
+				List<OrderVO> oList = oService.selectByOrderCode(goodsOrderCode);
+				mv.addObject("oList", oList);
+				mv.setViewName("goods/adminOrderDetail");
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+				mv.addObject("msg", e.getMessage()).setViewName("common/errorPage");
+			}
+			return mv;
+		}
+	    
 	    // 주문 목록
  		@GetMapping("/goods/orderList.ft")
  	    public ModelAndView ShowOrderList(ModelAndView mv, @ModelAttribute OrderVO order, HttpSession session,
@@ -151,6 +167,23 @@ public class OrderController {
  				mv.addObject("totalCount", totalCount);
  				mv.addObject("pi", pi);
  				mv.setViewName("goods/orderlist");
+ 			} catch (Exception e) {
+ 				// TODO: handle exception
+ 				mv.addObject("msg", e.getMessage());
+ 				mv.setViewName("common/errorPage");
+ 			}
+ 			return mv;
+ 	    };
+ 	    
+ 	    // 어드민 주문 목록
+ 		@GetMapping("/admin/orderList.ft")
+ 	    public ModelAndView ShowAdminOrderList(ModelAndView mv, @ModelAttribute OrderVO order, HttpSession session,
+ 	            @RequestParam(value="page", 
+ 	            required=false, defaultValue="1") Integer currentPage) {
+ 			try {
+ 				List<OrderVO> oList = oService.selectOrderList();
+ 				mv.addObject("oList", oList);
+ 				mv.setViewName("goods/adminOrderList");
  			} catch (Exception e) {
  				// TODO: handle exception
  				mv.addObject("msg", e.getMessage());

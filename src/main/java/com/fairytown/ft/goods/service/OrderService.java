@@ -29,4 +29,6 @@ public interface OrderService {
 
 	void plusStock(OrderVO order);
 
+	List<OrderVO> selectOrderList();
+
 }
