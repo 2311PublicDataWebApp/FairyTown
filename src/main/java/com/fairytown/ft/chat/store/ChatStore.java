@@ -20,6 +20,10 @@ public interface ChatStore {
 
 	List<ChatVO> selectMsgByChatId(SqlSession session, String chatUserId);
 
+	void updateMsg(SqlSession session, ChatVO chat);
+
+	int deleteMsg(SqlSession session, ChatVO chat);
+
 
 
 	

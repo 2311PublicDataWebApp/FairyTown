@@ -14,6 +14,10 @@ public interface ChatService {
 
 	List<ChatVO> selectMsgByChatId(String chatUserId);
 
+	void updateMsg(ChatVO chat);
+
+	int deleteMsg(ChatVO chat);
+
 	
 
 }

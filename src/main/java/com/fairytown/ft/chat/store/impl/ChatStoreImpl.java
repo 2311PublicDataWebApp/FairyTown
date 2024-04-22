@@ -34,6 +34,17 @@ public class ChatStoreImpl implements ChatStore {
 		return msgList;
 	}
 
+	@Override
+	public void updateMsg(SqlSession session, ChatVO chat) {
+		session.update("ChatMapper.updateMsg", chat);
+	}
+
+	@Override
+	public int deleteMsg(SqlSession session, ChatVO chat) {
+		int result = session.delete("ChatMapper.deleteMsg", chat);
+		return result;
+	}
+
 	
 
 

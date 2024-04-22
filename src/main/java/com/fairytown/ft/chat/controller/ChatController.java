@@ -37,10 +37,23 @@ public class ChatController {
 		public int addMsg(@ModelAttribute ChatVO chat, HttpSession session) throws Exception {
 			int result = 0;
 			UserVO uOne = (UserVO) session.getAttribute("user");
+			
 			if(uOne != null) {
 				chat.setMsgSendId(uOne.getUserId());
 				result = cService.insertaddMsg(chat);
+				if (uOne.getUserAdmin() == "ADMIN") {
+					cService.updateMsg(chat);
+				}
 			}
+			return result;
+		}
+		
+		// 메시지 삭제
+		@ResponseBody
+		@PostMapping(value = "/chat/deleteMsg.ft")
+		public int deleteMsg(@ModelAttribute ChatVO chat, HttpSession session) throws Exception {
+			int result = 0;
+			result = cService.deleteMsg(chat);
 			return result;
 		}
 		

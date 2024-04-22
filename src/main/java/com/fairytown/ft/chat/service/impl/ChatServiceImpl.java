@@ -40,6 +40,17 @@ public class ChatServiceImpl implements ChatService {
 		List<ChatVO> msgList = cStore.selectMsgByChatId(session, chatUserId);
 		return msgList;
 	}
+
+	@Override
+	public void updateMsg(ChatVO chat) {
+		cStore.updateMsg(session, chat);
+	}
+
+	@Override
+	public int deleteMsg(ChatVO chat) {
+		int result = cStore.deleteMsg(session, chat);
+		return result;
+	}
 	
 	
 }

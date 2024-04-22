@@ -6,7 +6,7 @@
 	<mapper namespace="ChatMapper">
 		<insert id="insertaddMsg">
 			INSERT INTO CHAT_TBL
-			VALUES (SEQ_MSG_NO.NEXTVAL, #{chatUserId},#{msgSendId}, #{msgContents}, DEFAULT)
+			VALUES (SEQ_MSG_NO.NEXTVAL, #{chatUserId},#{msgSendId}, #{msgContents}, DEFAULT, DEFAULT)
 		</insert>
 		<select id="selectMsgByChatId" resultType="ChatVO">
 			SELECT *
@@ -14,4 +14,10 @@
 			WHERE CHAT_USER_ID = #{chatUserId}
 			ORDER BY MSG_SEND_DATE ASC
 		</select>
+		<update id="updateMsg">
+			UPDATE CHAT_TBL SET ANSWER = 'Y' WHERE CHAT_USER_ID = #{chatUserId}
+		</update>
+		<delete id="deleteMsg">
+			DELETE FROM CHAT_TBL WHERE CHAT_USER_ID = #{chatUserId}
+		</delete>
 	</mapper>

@@ -22,4 +22,5 @@ public class ChatVO {
 	private String msgContents;
 	private Timestamp msgSendDate;
 	private String chatUserId;
+	private String answer;
 }

@@ -33,11 +33,14 @@
 	        <article id="sub">
 				<div id="divChatParent" style="background-color:#ffffff; overflow:scroll; height: 440px; padding:10px; padding-left: 20px; border: solid 1px #e1e3e9;">
 					<div id="divChatData" style=""></div>
-					
-				</div>
-				<div class="t-c" style="width: 100%; height: 10%; padding: 10px;">
-					<button class="btn btn-outline-secondary" type="button" id="disconn" style="width:20%; background-color: #FFF612; border: 1px solid #ccc; border-radius:5px; padding: 5px 10px; margin-left:10px; position:relative; bottom:50px">채팅 종료</button>
-					<button class="btn btn-outline-secondary" type="button" id="chatTime" style="width:20%; background-color: #FFF612; border: 1px solid #ccc; border-radius:5px; padding: 5px 10px; margin-left:10px; position:relative; bottom:50px">운영 시간</button>
+					<div class="">
+						<img width="60" height="50" src="../resources/guploadFiles/profile.png" alt="">
+						<div class="padding-10 mt-10 bor-round shadow" style="max-width: 50%; word-wrap: break-word; word-break: break-word; display:inline-block; background-color:#f7f5f5; border-radius: 10px; padding: 10px 20px; margin-bottom:10px;">
+						안녕하세요,<br>
+						모험과 신비의 마을 페어리타운입니다<br>
+						궁금하신 내용이 있으시면 채팅 상담을 받아보세요!
+						</div>
+					</div>
 				</div>
 				<div class="t-c" style="width: 100%; height: 10%; padding: 10px;">
 					<input type="hidden" name="userId" value="<%= userId %>">
@@ -60,25 +63,7 @@
 	        const username = $("input[name='myId']").val();
 	
 	        $("#disconn").on("click", (e) => {
-	        	var chatUserId = $("input[name='userId']").val();
-	        	if(confirm("채팅 상담 종료 시 채팅 내역들이 모두 사라집니다. 채팅 상담을 종료하시겠습니까?")) {	
-		        	websocket.close();
-		        	window.close();
-		        	$.ajax({
-						url: "/chat/deleteMsg.ft",
-						type: "POST",
-						data : {
-									"chatUserId":chatUserId						
-								},
-						success: function() {
-							
-						},
-						error: function() {
-							alert("실패")
-						}
-					});
-				  }
-	        	
+	            disconnect();
 	        })
 	
 	        $("#button-send").on("click", (e) => {
@@ -101,10 +86,6 @@
 					type:"post",
 					data:{"chatUserId" : chatUserId},
 					success: function(msgList){
-						if (msgList.length == 0) {
-							var str = username + ":"+ username +"님이 입장하셨습니다.";
-				            websocket.send(str);
-						}
 		    			var count = msgList.length;
 		    			
 		    			var $divChatData = $("#divChatData");
@@ -122,7 +103,6 @@
 			    			console.log(typeof myId);
 		    				
 			    			var msgSendDate = new Date(msgList[i].msgSendDate); //가져온 데이터 날짜
-			    			
 	    					var msgDayOfWeek = week[new Date(msgSendDate).getDay()]; //가져온 데이터 요일
 		    				
 	    					
@@ -266,8 +246,14 @@
 		    			
 		    		},
 		    		error: function(){
-		    			var str = username + ":"+ username +"님이 입장하셨습니다.";
-			            websocket.send(str);
+		    			var $divChatData = $("#divChatData");
+		    			var divDate = '<div class="t-c" style="text-align:center; margin:0 auto;">' 
+										+ '<div class="shadow mt-10 mb-10" style="display:inline-block; border-radius: 20px; background-color:#ffffff; opacity:0.8; padding: 10px 30px 10px;">'
+												+ year + "년 " + month + "월 " + day + "일 " + dayOfWeek + "요일"
+											+ '</div>'
+										+'</div>';
+		    			$divChatData.append(divDate);
+		    			prevDay = dateString;
 		    		}
 				});
 			}
