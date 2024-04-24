@@ -252,13 +252,13 @@
 			</head>
 
 			<body>
-				<!-- 로딩 화면 -->
-<!-- 				    <div id="loading-screen"> -->
-<!-- 				        <img alt="" src="../resources/dist/img/loading.gif" style="text-align: center; width: 250px; height: 250px; margin-left: 200px;"/> -->
-<!-- 				        <br> -->
-<!-- 				        <img src="../resources/dist/img/mainLogo.png" style="text-align: center; "/> -->
-<!-- <!-- 				        <p style="margin-top: 700px; float: left; margin-left: -900px;">Loading...</p> --> -->
-<!-- 				    </div> -->
+				로딩 화면
+				    <div id="loading-screen">
+				        <img alt="" src="../resources/dist/img/loading.gif" style="text-align: center; width: 250px; height: 250px; margin-left: 200px;"/>
+				        <br>
+				        <img src="../resources/dist/img/mainLogo.png" style="text-align: center; "/>
+<!-- 				        <p style="margin-top: 700px; float: left; margin-left: -900px;">Loading...</p> -->
+				    </div>
 <!-- 			<div id="main-content" style="display: none;"> -->
 				<jsp:include page="./inc/header.jsp"></jsp:include>
 				
@@ -286,13 +286,13 @@
 				  </div>
 				  <div class="carousel-inner">
 				    <div class="carousel-item active">
-				      <img src="../resources/dist/img/slides-1.jpg" style="width: 100%; height: 700px;" alt="...">
+				      <img src="../resources/dist/img/bbaner1.jpg" style="width: 100%; height: 700px;" alt="...">
 				    </div>
 				    <div class="carousel-item">
-				      <img src="../resources/dist/img/slides-2.jpg"  style="width: 100%; height: 700px;" alt="...">
+				      <img src="../resources/dist/img/bbaner6.jpg"  style="width: 100%; height: 700px;" alt="...">
 				    </div>
 				    <div class="carousel-item">
-				      <img src="../resources/dist/img/slides-3.jpg"  style="width: 100%; height: 700px;" alt="...">
+				      <img src="../resources/dist/img/bbaner7.jpg"  style="width: 100%; height: 700px;" alt="...">
 				    </div>
 				  </div>
 				  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -321,27 +321,27 @@
 				<div class="line"></div>
 				
 		<!-- 아코디언 -->
-		<div class="accordion-banner" style="margin-top: 30px; width: 1900px; margin-left: -300px;">
+		<div class="accordion-banner" style="margin-top: 30px; width: 1900px; margin-left: -300px; height: 500px;">
 		    <div class="accordion-item">
-		        <img src="../resources/dist/img/slides-3.jpg" alt="Image 1">
+		        <img src="../resources/dist/img/dropp.jpg" alt="Image 1">
 		        <div class="accordion-content">
 		            <p>Content 1</p>
 		        </div>
 		    </div>
 		    <div class="accordion-item">
-		        <img src="../resources/dist/img/slides-3.jpg" alt="Image 2">
+		        <img src="../resources/dist/img/tis.jpg" alt="Image 2">
 		        <div class="accordion-content">
 		            <p>Content 2</p>
 		        </div>
 		    </div>
 		    <div class="accordion-item">
-		        <img src="../resources/dist/img/slides-3.jpg" alt="Image 3">
+		        <img src="../resources/dist/img/byking.jpg" alt="Image 3">
 		        <div class="accordion-content">
 		            <p>Content 3</p>
 		        </div>
 		    </div>
 		    <div class="accordion-item">
-		        <img src="../resources/dist/img/slides-3.jpg" alt="Image 4">
+		        <img src="../resources/dist/img/roller.jpg" alt="Image 4">
 		        <div class="accordion-content">
 		            <p>Content 4</p>
 		        </div>
@@ -361,6 +361,7 @@
 		<p style="text-align: center; margin-top: 100px; font-size: 50px;">페어리타운 <b>리뷰를 부탁해!</b></p>
 		<p style="text-align: center; font-size: 20px; color: #999999;">생생한 리뷰로 체험하는 페어리타운</p>
 		
+		<a  type="button" style=" margin-top: -100px; margin-left: 1040px; width: 200px; height: 50px;   border: none;  color: black;" href="/review/list.ft" >> 리뷰 더보기 </a>
 		<div class="hover01" style="margin-left: -300px;">
 		<figure>
 		<img src="../resources/dist/img/slides-2.jpg" style="width: 300px; height: 300px; margin-left: 440px; margin-top: 40px;">
@@ -381,7 +382,6 @@
 		<img src="../resources/dist/img/slides-2.jpg" style="width: 300px; height: 300px; margin-left: 1140px; margin-top: -440px;">
 		</figure>
 		</div>
-		<button style="margin-top: 0px; margin-left: 530px; width: 200px; height: 50px; border-radius: 30px;" onclick="review/list.ft">리뷰 더 보러가기</button>
 		
 		<div class="line" style="margin-top: 100px;"></div>
 		

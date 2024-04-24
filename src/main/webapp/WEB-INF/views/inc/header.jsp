@@ -21,6 +21,9 @@
         <!-- Option 1: Include in HTML -->
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
         <style>
+
+	
+
         	.body {
         		position: releative;
         	}
@@ -281,11 +284,11 @@
 <!-- 				  </button> -->
 				
 				  <ul class="dropdown-menu" style="width: 200px; height: 430px; border: 0px; background-image: url('../resources/dist/img/backcloud.jpg');">
-				    <img src="../resources/dist/img/opening.png" style="width: 280px; height: 210px; margin-top: -110px; margin-right: 20px; position: absolute;" />
-				    <li><a class="dropdown-item"  href="#" style="height: 100px; margin-top: 40px; width: 90%; margin-left: 10px; background-color: #FDC3D2; border-radius: 15px; margin-bottom: 10px; ">Action</a></li>
-				    <li><a class="dropdown-item" href="#" style="height: 100px; width: 90%; margin-left: 10px; background-color: #FDC3D2; border-radius: 15px; margin-bottom: 10px;">Action two</a></li>
-				    <li><a class="dropdown-item" href="#" style="height: 100px; width: 90%; margin-left: 10px; background-color: #FDC3D2; border-radius: 15px; margin-bottom: 10px;">Action three</a></li>
-				    <img src="../resources/dist/img/clouds.png" style="width: 550px; height: 430px; margin-top: -70px; margin-left: -180px; position: absolute;" />
+				    <img src="../resources/dist/img/opening.png" style="width: 280px; height: 210px; margin-top: -150px; margin-right: 20px; position: absolute;" />
+				    <li><a class="dropdown-item"  href="#" style="height: 100px; margin-top: 40px; width: 90%; margin-left: 10px;  border-radius: 15px; margin-bottom: 10px;" ><img src="../resources/dist/img/btn-top.png" style="width:80px; margin-left: 30px; margin-top: 10px;"></a></li>
+				    <li><input type="hidden" name="userId" value="${user.userId }"><a class="dropdown-item"  href="javascript:void(0);" onclick="chatFunction()" style="height: 100px; margin-top: 40px; width: 90%; margin-left: 10px; background-color: #FDC3D2; border-radius: 15px; margin-bottom: 10px; ">상담원 채팅</a></li>
+				    <li><a class="dropdown-item" href="#" style="height: 100px; width: 90%; margin-left: 10px;  border-radius: 15px; margin-bottom: 10px;"><img src="../resources/dist/img/ticket.png" style="width:200px; margin-top: -53px; margin-left: 30px;"><p style="margin-left: 20px; margin-top:-110px;">티켓 구매</p></a></li>
+				    <img src="../resources/dist/img/clouds.png" style="width: 550px; height: 430px; margin-top: -60px; margin-left: -180px; position: absolute;" />
 				  </ul>
 				</div>
 			</div>
@@ -418,6 +421,11 @@
 				<c:if test = "${user.userId ne null }">
 					<a href="/user/logout.ft" class="btn-2" style="border-radius: 10px; text-align: center; margin-top: -15px; margin-right: -20px;">로그아웃</a>
 				</c:if>
+				<c:if test="${user.userId ne null }">
+						<c:if test="${user.userId eq 'admin' }">
+						<a href="/adminTableSample.ft" class="btn-2" style="border-radius: 10px; text-align: center; margin-top: -15px; margin-right: -20px;">관리자페이지</a>
+							</c:if>
+									</c:if>
 <!-- 					background-color: #FAC0CF; -->
 					<!-- End of Button 2 -->
         </header>
@@ -426,6 +434,17 @@
         <br><br><br><br><br><br><br><br><br><br>
     <!-- <div class="b-example-divider"></div> -->
 </main>
+	<script>
+		function chatFunction() {
+			var userId = $("input[name='userId']").val();
+			if (userId == "") {
+				alert("로그인이 필요합니다.");
+			} else {
+				let options = "location=no, toolbar=no, scrollbars=no, resizable=no, status=no, menubar=no, width=460, height=735, top=550, left=1500";
+				 window.open("/chat.ft?userId=${user.userId}","_blank", options);
+			}
+		}
+	</script>
     <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>

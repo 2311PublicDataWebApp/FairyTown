@@ -865,24 +865,11 @@
             <div class="card-body p-0">
               <div class="mailbox-controls">
                 <!-- Check all button -->
-                <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="far fa-square"></i>
-                </button>
+                
                 <div class="btn-group">
-                  <button type="button" class="btn btn-default btn-sm">
-                    <i class="far fa-trash-alt"></i>
-                  </button>
+                  
                 </div>
-                <!-- /.btn-group -->
-                <div class="float-right">
-                  1-50/200
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-sm">
-                      <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <button type="button" class="btn btn-default btn-sm">
-                      <i class="fas fa-chevron-right"></i>
-                    </button>
-                  </div>
+               
                   <!-- /.btn-group -->
                 </div>
                 <!-- /.float-right -->
@@ -899,8 +886,8 @@
 <!--                       </div> -->
                     </td>
                     <td class="mailbox-star"><a href="#"><i class="fas fa-star text-warning"></i></a></td>
-                    <td class="mailbox-name"><a href="/qna/detail.ft?qnaNo=${qna.qnaNo }">${qna.qnaWriter }</a></td>
-                    <td class="mailbox-subject">${qna.qnaContent }
+                    <td class="mailbox-name">${sessionScope.user.userId}</td>
+                    <td class="mailbox-subject"><a href="/qna/detail.ft?qnaNo=${qna.qnaNo }">${qna.qnaContent }</a>
                     </td>
                     <td class="mailbox-attachment"></td>
                     <td>${qna.qnaStatus }</td>
@@ -909,6 +896,29 @@
                   </c:forEach>
                   </tbody>
                 </table>
+                <!--페이지네이션 위치 -->
+				<div style="text-align: center; margin-top: 30px; margin-bottom: 20px; ">
+				<tr align="center">
+					<td colspan="5">
+						<c:if test="${pInfo.startNavi ne '1' }">
+							<a href="/qna/adminList.ft?page=${pInfo.startNavi - 1 }">[이전]</a>
+						</c:if>
+						<c:forEach begin="${pInfo.startNavi }" end="${pInfo.endNavi }" var="p">
+							<a href="/qna/adminList.ft?page=${p }">${p }</a>
+						</c:forEach>
+						<c:if test="${pInfo.endNavi ne pInfo.naviTotalCount }">
+							<a href="/qna/adminList.ft?page=${pInfo.endNavi + 1 }">[다음]</a>
+						</c:if>
+						<script>
+						function showInsertForm() {
+							// 공지사항 글쓰기 페이지 이동
+							location.href="/qna/insert.ft";
+						}
+						</script>
+					</td>
+				</tr>
+
+				</div>
                 <!-- /.table -->
               </div>
               <!-- /.mail-box-messages -->
@@ -916,21 +926,7 @@
             <!-- /.card-body -->
             <div class="card-footer p-0">
               <div class="mailbox-controls">
-                <!-- Check all button -->
-                <!-- <button type="button" class="btn btn-default btn-sm checkbox-toggle">
-                  <i class="far fa-square"></i>
-                </button>
-                <div class="btn-group">
-                  <button type="button" class="btn btn-default btn-sm">
-                    <i class="far fa-trash-alt"></i>
-                  </button>
-                  <button type="button" class="btn btn-default btn-sm">
-                    <i class="fas fa-reply"></i>
-                  </button>
-                  <button type="button" class="btn btn-default btn-sm">
-                    <i class="fas fa-share"></i>
-                  </button>
-                </div> -->
+               
                 <!-- /.btn-group -->
                   </div>
                   <!-- /.btn-group -->

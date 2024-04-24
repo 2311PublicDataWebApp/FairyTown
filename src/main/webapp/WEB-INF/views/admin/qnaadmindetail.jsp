@@ -19,6 +19,7 @@
 		  <!-- icheck bootstrap -->
 		  <!-- <link rel="stylesheet" href="../resources/plugins/icheck-bootstrap/icheck-bootstrap.min.css"> -->
 		  <link rel="stylesheet" href="../../resources/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+		  
 		</head>
 		<body class="hold-transition sidebar-mini">
 		<div class="wrapper">
@@ -857,15 +858,46 @@
 		              </div>
 		              <!-- /.card-header -->
 		              <div class="card-body">
+		                	<form action="/qna/adminModify.ft" method="post" enctype="multipart/form-data">
+		                <input type="hidden" name="qnaNo" value="${qna.qnaNo }">
 		                <div class="form-group">
-		                  <input class="form-control" placeholder="To:">
+		                  <input class="form-control" type="text" name="qnaName" value="${qna.qnaName }">
 		                </div>
 		                <div class="form-group">
-		                  <input class="form-control" placeholder="Subject:">
+		                  <textarea class="form-control" rows="4" cols="51" name="qnaContent">${qna.qnaContent }</textarea>
 		                </div>
+
+						     <div class="form-group">
+							     <!-- 기존 상태를 보여주는 입력 필드 -->
+							    <input type="text" name="qnaStatus" value="${qna.qnaStatus}" readonly>
+							    
+							    <!-- 상태를 수정할 수 있는 입력 필드 -->
+							   <select id="qnaStatusSelect" name="updatedQnaStatus">
+							        <option value="답변대기">답변대기</option>
+							        <option value="답변완료">답변 완료</option>
+							        <!-- 다른 상태 옵션들을 추가 -->
+							    </select>
+							    </div>
+						    
+<!-- 						    상태를 수정할 수 있는 입력 필드 -->
+<!-- 						    <select name="updatedQnaStatus"> -->
+<!-- 						        <option value="처리 중">처리 중</option> -->
+<!-- 						        <option value="답변완료">답변 완료</option> -->
+<!-- 						        다른 상태 옵션들을 추가 -->
+<!-- 						    </select> -->
+    					<div class="float-right">
+								<input type="submit"  class="btn btn-primary" value="등록하기">
+<!-- 		                  <button type="submit" value="submit" class="btn btn-primary">완료</button> -->
+		                </div>
+		              </form>
+						</div>
+
+		                <br>
+		                
+		                	<br>
 						<!--댓글 -->
 						<!-- 댓글 목록 -->
-								<table width="1000" border="0" id="qnaReplyTable">
+								<table width="1000" border="0" id="qnaReplyTable" style="margin-left: 35px;">
 									<tbody>
 						<%-- 			<c:forEach items="${rList }" var="reply">
 							 				<tr>
@@ -887,12 +919,12 @@
 									<table width="500" border="0">
 										<tr>
 											<td>
-												<input type="text" name="qnaReplyContent" id="qnaReplyContent" size="110">
+												<input type="text" name="qnaReplyContent" id="qnaReplyContent" size="110" style=" margin-left: 20px;">
 											</td>
 											<td>
 						<!-- 					<input type="submit" value="등록하기"> -->
 												<button id="rSubmit" style="margin-left: 20px; height: 43px; width:100px; border-radius: 10px; background-color: #007BFF; border: none;
-				  color: #fff;													">등록하기</button>
+				  color: #fff;													">답변</button>
 											</td>
 									</table>
 						<!-- 	</form> -->
@@ -902,10 +934,9 @@
 		              </div>
 		              <!-- /.card-body -->
 		              <div class="card-footer">
-		                <div class="float-right">
-		                  <button type="submit" class="btn btn-primary"><i class="far fa-envelope"></i> Send</button>
-		                </div>
-		                <button type="reset" class="btn btn-default"><i class="fas fa-times"></i> Discard</button>
+		                
+		                <button type="reset" class="btn btn-default" onclick="showQnaList();"><i class="fas fa-times"></i> 취소</button>
+		              </div>
 		              </div>
 		              <!-- /.card-footer -->
 		            </div>
@@ -1114,6 +1145,32 @@
 					}
 				});
 			});
+			
+			function showQnaList() {
+				location.href = "/qna/adminList.ft";
+			}
+			
+			
+			// 페이지가 로드될 때 실행될 함수
+			window.onload = function() {
+			    // 입력 필드 요소 가져오기
+			    var inputField = document.querySelector('.form-group input[name="qnaStatus"]');
+			    
+			    // 입력 필드가 포커스를 얻었을 때 발생하는 이벤트 리스너 추가
+			    inputField.addEventListener('focus', function(event) {
+			        // 입력 필드의 값이 비어있으면 "답변완료"로 설정
+			        if (event.target.value === '') {
+			            event.target.value = '답변완료';
+			        }
+			    });
+			};
+			
+			// 셀렉트 박스의 onchange 이벤트 핸들러
+		    document.getElementById('qnaStatusSelect').addEventListener('change', function() {
+		        // 선택된 옵션의 값을 읽어와서 hidden 입력 필드에 설정
+		        var selectedStatus = this.value;
+		        document.querySelector('input[name="qnaStatus"]').value = selectedStatus;
+		    });
 		</script>
 		</body>
 		</html>
