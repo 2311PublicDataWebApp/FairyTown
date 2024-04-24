@@ -182,7 +182,7 @@
 			.dropdown:hover .dropdown-content {
 			  display: block;
 			}
-			[class*="btn-"] {
+			header [class*="btn-"] {
 				position: relative;
 				display: inline-block;
 				width: 100%;
@@ -416,7 +416,21 @@
 					<a href="/user/register.ft" class="btn-2" style="border-radius: 10px; text-align: center; margin-top: -15px; margin-right: -20px;">회원가입</a>
 				</c:if>
 				<c:if test = "${user.userId ne null }">
-					<a href="/user/logout.ft" class="btn-2" style="border-radius: 10px; text-align: center; margin-top: -15px; margin-right: -20px;">로그아웃</a>
+					<c:if test="${user.loginSt == 'K' }">
+						<a href="https://kauth.kakao.com/oauth/logout?client_id=14b775c94ce2cca9ae295f299b970238&logout_redirect_uri=http://127.0.0.1:8899/user/logout.ft"
+						class="btn-2" style="border-radius: 10px; text-align: center; margin-top: -15px; margin-right: -20px;">
+							로그아웃
+						</a>
+					</c:if>
+					<c:if test="${user.loginSt == 'B' }">
+						<a href="/user/logout.ft" class="btn-2" style="border-radius: 10px; text-align: center; margin-top: -15px; margin-right: -20px;">로그아웃</a>
+					</c:if>
+					<c:if test="${user.userAdmin == 'USER' }">
+						<a href="/user/mypage.ft" class="btn-2" style="border-radius: 10px; text-align: center; margin-top: -15px; margin-right: -20px;">마이페이지</a>
+					</c:if>
+					<c:if test="${user.userAdmin == 'ADMIN' }">
+						<a href="/admin/userlist.ft" class="btn-2" style="border-radius: 10px; text-align: center; margin-top: -15px; margin-right: -20px;">관리자 페이지</a>
+					</c:if>
 				</c:if>
 <!-- 					background-color: #FAC0CF; -->
 					<!-- End of Button 2 -->

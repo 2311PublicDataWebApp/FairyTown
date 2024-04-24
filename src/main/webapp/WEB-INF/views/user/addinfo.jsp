@@ -12,16 +12,16 @@
 </style>
 </head>
 <body>
-	<form action="/user/register.ft" method="post">
+	<form action="/user/addinfo.ft" method="post">
 			<h1>회원가입</h1>	
 			<ul>
 				<li>
 					<label>이름</label>
-					<input type="text" name="realName" value="${nickname}" disabled="disabled">
+					<input type="text" name="realName" value="${nickname}" readonly="readonly">
 				</li>
 				<li>
 					<label>아이디</label>
-					<input type="text" name="userId" id="username" value="${kakaoId}" disabled="disabled">
+					<input type="text" name="userId" id="username" value="${kakaoId}" readonly="readonly">
 				</li>
 				<li>
 					<label>비밀번호</label>
@@ -57,7 +57,7 @@
 				</li>
 				<li>
 					<label for="email">이메일</label>
-					<input type="text" class="form-control" name="userEmail1" value="${email}" placeholder="이메일" >
+					<input type="text" class="form-control" name="userEmail" value="${email}" placeholder="이메일" readonly="readonly">
 				</li>
 			</ul>	
 			<input type="submit" value="회원가입" id="signup-btn" disabled>
@@ -78,6 +78,7 @@
 			    }
 	
 			    userPw.addEventListener('keyup', function() {
+			    	validateForm();
 			        var strongPasswordMessage = document.querySelector('.strongPassword-message');
 			        if(userPw.value.length >= 8 && /[a-zA-Z]/.test(userPw.value) && /\d/.test(userPw.value) && /[@$!%*#?&]/.test(userPw.value)) {
 			        	strongPasswordMessage.classList.add('hide');
@@ -87,6 +88,7 @@
 			    });
 	
 			    userPwRetype.addEventListener('keyup', function() {
+			    	validateForm();
 			        var mismatchMessage = document.querySelector('.mismatch-message');
 			        if(userPw.value === userPwRetype.value) {
 			            mismatchMessage.classList.add('hide');

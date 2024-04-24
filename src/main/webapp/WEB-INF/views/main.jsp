@@ -264,19 +264,6 @@
 				
 
 		<div class="container">
-			${userId }
-			<c:if test="${user eq null }">
-				<form action="/user/login.ft" method="post" name="loginForm">
-					<input type="text" name="userId" placeholder="ID를 입력하세요">
-					<input type="password" name="userPw"  placeholder="PW를 입력하세요">
-					<input type="submit" name="login" value="login">
-				</form>
-			</c:if>
-			<c:if test="${user ne null }">
-				<form action="/user/logout.ft" method="post">
-					<button type="submit">로그아웃</button>							
-				</form>
-			</c:if>
 				<!-- 배너 -->
 				<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" style=" z-index:1; margin-top: -155px;margin-top: -155px; width: 1900px; margin-left:-310px;">
 				  <div class="carousel-indicators">

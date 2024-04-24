@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.Data;
 
+@SuppressWarnings("serial")
 @Data
 public class UserVO implements UserDetails{
 	private String	userId;
@@ -26,29 +27,13 @@ public class UserVO implements UserDetails{
 	private Date	userDate;
 	private String	realName;
 	
+	// 토큰을 위한 멤버 변수 추가
+    private String accessToken;
+    private String refreshToken;
+	
 	//검색 필터
 	private String	keyword;
 	private String	type;
-	
-	
-	// 빈 값 확인 메서드
-    public boolean isEmpty() {
-        return userId == null || userId.isEmpty() &&
-               userPw == null || userPw.isEmpty() &&
-               userEmail == null || userEmail.isEmpty() &&
-               userPhone == null || userPhone.isEmpty() &&
-               loginSt == null || loginSt.isEmpty() &&
-               userBirthDate == null &&
-               userSt == null || userSt.isEmpty() &&
-               zipCode == 0 &&
-               userAddress == null || userAddress.isEmpty() &&
-               detailAddress == null || detailAddress.isEmpty() &&
-               userAdmin == null || userAdmin.isEmpty() &&
-               userDate == null &&
-               realName == null || realName.isEmpty() &&
-               keyword == null || keyword.isEmpty() &&
-               type == null || type.isEmpty();
-    }
 
     @Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -86,7 +71,7 @@ public class UserVO implements UserDetails{
 	}
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return true;
+	    // userSt 값이 "B"인 경우 로그인을 실패하도록 false를 반환
+	    return !"B".equals(this.userSt);
 	}
 }

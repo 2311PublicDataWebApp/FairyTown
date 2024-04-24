@@ -7,25 +7,16 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
 
 import com.fairytown.ft.common.PageInfo;
+import com.fairytown.ft.user.config.AccountLockedException;
 import com.fairytown.ft.user.domain.vo.KakaoProfile;
 import com.fairytown.ft.user.domain.vo.UserVO;
 import com.fairytown.ft.user.store.UserStore;
@@ -38,12 +29,6 @@ public class UserService implements UserDetailsService{
 
 	@Autowired
 	private UserStore uStore;
-	
-//	@Override
-//	public UserVO checkuserLogin(UserVO uOne) {
-//		UserVO user = uStore.checkuserLogin(session, uOne);
-//		return user;
-//	}
 
 	//회원가입 메서드
 	public int insertUser(UserVO user) {
@@ -221,7 +206,8 @@ public class UserService implements UserDetailsService{
 			String userEmail = kakao_account.getAsJsonObject().get("email").getAsString();
 			String userNickname = properties.getAsJsonObject().get("nickname").getAsString();
 			
-//			userInfo.setId(id);
+			userInfo.setProvider("kakao");
+			userInfo.setProviderId(userInfo.getProvider() + id);
 			userInfo.setKakaoEmail(userEmail);
 			userInfo.setKakaoNickname(userNickname);
 		} catch (IOException e) {
@@ -242,6 +228,8 @@ public class UserService implements UserDetailsService{
 
 	    if (user == null) {
 	        throw new UsernameNotFoundException("해당 유저를 찾을 수 없습니다.");
+	    } else if(user.getUserSt().equals("B")) {
+	    	throw new AccountLockedException("활동이 정지된 회원입니다.");
 	    }
 
 	    return user;
