@@ -29,5 +29,4 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         // 로그인 후 리다이렉션
         response.sendRedirect("/");
     }
-
 }

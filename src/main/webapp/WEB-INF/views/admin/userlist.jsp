@@ -33,12 +33,6 @@
                        </span>
                    </form>
                  </div>
-                   <div class="ml-auto form-inline">
-                    	<form action="/admin/userdelete.ft" method="post">
-                    		<input type="hidden" id="check-delete-users" name="check-delete-users">
-                    		<button type="submit" class="btn btn-danger" onclick="getDeleteUsers();">회원 탈퇴 처리</button>
-                    	</form>
-             		</div>
                </div>
                <br>
                    <div id="board-list">
@@ -53,20 +47,33 @@
                                    <th scope="col">생년월일</th>
                                    <th scope="col">활동상태</th>
                                    <th scope="col">가입일</th>
-                                   <th scope="col">선택/해제</th>
+                                   <th scope="col">세션 상태</th>
                                </tr>
                                </thead>
                                <tbody>
                                <c:forEach items="${uList}" var="user" varStatus="i">
 	                               <tr>
-	                                   <td>${user.realName}</td>
-	                                   <td>${user.userId}</td>
-	                                   <td>${user.userEmail}</td>
-	                                   <td>${user.userPhone}</td>
-	                                   <td>${user.userBirthDate}</td>
-	                                   <td>${user.userSt}</td>
-	                                   <td>${user.userDate}</td>
-	                                   <td><input type="checkbox" name="select-user" value="${user.userId}"></td>
+	                                   <td><a href="javascript:void(0);" onclick="pop('${user.userId}');">${user.realName}</a></td>
+	                                   <td><a href="javascript:void(0);" onclick="pop('${user.userId}');">${user.userId}</a></td>
+	                                   <td><a href="javascript:void(0);" onclick="pop('${user.userId}');">${user.userEmail}</a></td>
+	                                   <td><a href="javascript:void(0);" onclick="pop('${user.userId}');">${user.userPhone}</a></td>
+	                                   <td><a href="javascript:void(0);" onclick="pop('${user.userId}');">${user.userBirthDate}</a></td>
+	                                   <td><a href="javascript:void(0);" onclick="pop('${user.userId}');">${user.userSt}</a></td>
+	                                   <td><a href="javascript:void(0);" onclick="pop('${user.userId}');">${user.userDate}</a></td>
+	                                   <td>
+	                                   		<c:if test="${user.loginSt == 'K'}">
+	                                   			Kakao
+	                                   		</c:if>
+	                                   		<c:if test="${user.loginSt == 'B'}">
+	                                   			Normal
+	                                   		</c:if>
+	                                   		<c:if test="${user.loginSt == 'N'}">
+	                                   			Naver
+	                                   		</c:if>
+	                                   		<c:if test="${user.loginSt == 'G'}">
+	                                   			Google
+	                                   		</c:if>
+	                                   </td>
 	                               </tr>
                                </c:forEach>
                                </tbody>
@@ -106,31 +113,11 @@
            </div>
        </div>
     </main>
-    <script>
-	    function getDeleteMembers(){
-			// 체크된 input 요소 선택
-			var checkedCheckboxes = document.querySelectorAll('input[name="select-user"]:checked');
-	
-			// 체크된 input 요소의 값을 저장할 배열
-			var checkedValues = [];
-	
-			// 각 체크된 input 요소의 값을 배열에 추가
-			checkedCheckboxes.forEach(function(checkbox) {
-			    checkedValues.push(checkbox.value);
-			});
-	
-			// 배열에 저장된 값 확인
-			console.log(checkedValues);
-			
-			//체크 된 회원 없을 시 오류 메세지 출력
-			if(checkedValues.length == 0){
-				alert("체크된 회원이 없습니다.");
-			}
-			else{
-				//배열을 구분자 ,로 연결시켜 문자열로 hidden타입 input태그에 저장
-				document.getElementById('check-delete-users').value = checkedValues.join(',');
-		    }
-		}
+    <script type="text/javascript">
+    	function pop(userId)
+    	{
+        	window.open("/admin/userdetail.ft?userId=" + userId, "pop", "width=400,height=500,history=no,resizable=no,status=no,scrollbars=yes,menubar=no")
+    	}
     </script>
 </body>
 </html>

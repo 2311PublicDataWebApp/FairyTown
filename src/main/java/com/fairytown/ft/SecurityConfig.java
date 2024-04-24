@@ -5,11 +5,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.fairytown.ft.user.config.CustomAuthenticationFailureHandler;
 import com.fairytown.ft.user.config.CustomAuthenticationSuccessHandler;
 
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -39,8 +38,8 @@ public class SecurityConfig {
 	        .passwordParameter("userPw")
 	        .loginProcessingUrl("/user/login.ft")
 	        .defaultSuccessUrl("/", true)
-	        .failureUrl("/common/error.ft")
-	        .successHandler(new CustomAuthenticationSuccessHandler()) // 여기에 커스텀 핸들러 추가
+	        .failureHandler(new CustomAuthenticationFailureHandler()) //로그인 실패 커스텀 핸들러
+	        .successHandler(new CustomAuthenticationSuccessHandler()) //로그인 성공 커스텀 핸들러
 	        .permitAll()
 	    );
 	    return http.build();

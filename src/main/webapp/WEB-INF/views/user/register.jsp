@@ -5,83 +5,101 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>회원가입</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 		<style type="text/css">
 			.hide {
 				display: none;
 			}
+			#main{
+				position: relative;
+    			bottom: 200px;
+			}
+			#footer{
+				position: relative;
+    			bottom: 200px;
+			}
 		</style>
 	</head>
 	<body>
-		<form action="/user/register.ft" method="post">
-			<h1>회원가입</h1>	
-			<ul>
-				<li>
-					<label>이름</label>
-					<input type="text" name="realName">
-				</li>
-				<li>
-					<label>아이디</label>
-					<input type="text" name="userId" id="username">
-					<div class="success-message hide">사용할 수 있는 아이디입니다</div>
-    				<div class="failure-message hide">아이디는 4~12글자이어야 합니다</div>
-    				<div class="failure-message2 hide">영어 또는 숫자만 가능합니다</div>
-				</li>
-				<li>
-					<label>비밀번호</label>
-					<input type="text" name="userPw" id="password">
-					<div class="strongPassword-message hide">8글자 이상, 영문, 숫자, 특수문자(@$!%*#?&)를 사용하세요</div>
-				</li>
-				<li>
-					<label>비밀번호 확인</label>
-					<input type="text" id="password-retype">
-					<div class="mismatch-message hide">비밀번호가 일치하지 않습니다</div>
-				</li>
-				<li>
-					<label>전화번호</label>
-					<input type="text" name="userPhone">
-				</li>
-				<li>
-					<label>우편번호</label>
-					<input type="text" id="sample6_postcode" placeholder="우편번호" name="zipCode">
-					<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-				<span id="guide" style="color:#999;display:none"></span>
-				</li>
-				<li>
-					<label>주소</label>
-					<input type="text" id="sample6_address" placeholder="도로명주소" name="userAddress">
-				</li>
-				<li>
-					<label>상세주소</label>
-					<input type="text" id="sample6_detailAddress" placeholder="상세주소" name="detailAddress">
-				</li>
-				<li>
-					<label>생년월일</label>
-					<input type="date" name="userBirthDate">
-				</li>
-				<li>
-					<input type="hidden" id="user-email" name="userEmail">                 
-					<input type="hidden" id="email-auth" value="false">
-					<label for="email">이메일</label>
-					<input type="text" class="form-control" name="userEmail1" id="userEmail1" placeholder="이메일" >
-					<select class="form-control" name="userEmail2" id="userEmail2" >
-					<option>@naver.com</option>
-					<option>@daum.net</option>
-					<option>@gmail.com</option>
-					<option>@hanmail.com</option>
-					<option>@yahoo.co.kr</option>
-					</select>
-					<button type="button" class="btn btn-primary" id="mail-Check-Btn">인증번호 전송</button>
-				</li>
-				<li>
-					<label>인증번호</label>
-					<input class="form-control mail-check-input" placeholder="인증번호 6자리" disabled="disabled" maxlength="6">
-					<button type="button" class="btn btn-success" id="verify-Code-Btn" disabled="disabled">인증번호 확인</button>
-				</li>
-			</ul>	
-			<input type="submit" value="회원가입" id="signup-btn" disabled>
-		</form>
+	<header>
+		<jsp:include page="../inc/header.jsp"></jsp:include>	
+	</header>
+		<main class="container mt-5" id="main">
+			<form action="/user/register.ft" method="post">
+				<h1 class="mb-4">회원가입</h1>	
+				<div class="mb-3">
+					<label for="realName" class="form-label">이름</label>
+					<input type="text" class="form-control" id="realName" name="realName">
+				</div>
+				<div class="mb-3">
+					<label for="username" class="form-label">아이디</label>
+					<input type="text" class="form-control" id="username" name="userId">
+					<div class="form-text success-message hide">사용할 수 있는 아이디입니다.</div>
+					<div class="form-text failure-message hide">아이디는 4~12글자이어야 합니다.</div>
+					<div class="form-text failure-message2 hide">영어 또는 숫자만 가능합니다.</div>
+				</div>
+				<div class="mb-3">
+					<label for="password" class="form-label">비밀번호</label>
+					<input type="password" class="form-control" id="password" name="userPw">
+					<div class="form-text strongPassword-message hide">8글자 이상, 영문, 숫자, 특수문자(@$!%*#?&)를 사용하세요.</div>
+				</div>
+				<div class="mb-3">
+					<label for="password-retype" class="form-label">비밀번호 확인</label>
+					<input type="password" class="form-control" id="password-retype">
+					<div class="form-text mismatch-message hide">비밀번호가 일치하지 않습니다.</div>
+				</div>
+				<div class="mb-3">
+					<label for="userPhone" class="form-label">전화번호</label>
+					<input type="text" class="form-control" id="userPhone" name="userPhone">
+				</div>
+				<div class="mb-3">
+					<label for="sample6_postcode" class="form-label">우편번호</label>
+					<input type="text" class="form-control" id="sample6_postcode" placeholder="우편번호" name="zipCode">
+					<button type="button" class="btn btn-secondary" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
+				</div>
+				<div class="mb-3">
+					<label for="sample6_address" class="form-label">주소</label>
+					<input type="text" class="form-control" id="sample6_address" placeholder="도로명주소" name="userAddress">
+				</div>
+				<div class="mb-3">
+					<label for="sample6_detailAddress" class="form-label">상세주소</label>
+					<input type="text" class="form-control" id="sample6_detailAddress" placeholder="상세주소" name="detailAddress">
+				</div>
+				<div class="mb-3">
+					<label for="userBirthDate" class="form-label">생년월일</label>
+					<input type="date" class="form-control" name="userBirthDate">
+				</div>
+				<div class="mb-3">
+					<input type="hidden" value="false" id="email-auth">
+					<input type="hidden" id="user-email" name="userEmail">
+					<label for="userEmail1" class="form-label">이메일</label>
+					<div class="input-group">
+						<input type="text" class="form-control" id="userEmail1" placeholder="이메일">
+						<select class="form-select" id="userEmail2">
+							<option>@naver.com</option>
+							<option>@daum.net</option>
+							<option>@gmail.com</option>
+							<option>@hanmail.com</option>
+							<option>@yahoo.co.kr</option>
+						</select>
+						<button type="button" class="btn btn-primary" id="mail-Check-Btn">인증번호 전송</button>
+					</div>
+				</div>
+				<div class="mb-3">
+					<label for="verificationCode" class="form-label">인증번호</label>
+					<div class="input-group">
+						<input type="text" class="form-control mail-check-input" placeholder="인증번호 6자리" disabled="disabled" maxlength="6">
+						<button type="button" class="btn btn-success" id="verify-Code-Btn" disabled="disabled">인증번호 확인</button>
+					</div>
+				</div>
+				<button type="submit" class="btn btn-primary" id="signup-btn" disabled="disabled">회원가입</button>
+			</form>
+		</main>
+		<footer id="footer">
+			<jsp:include page="../inc/footer.jsp"></jsp:include>		
+		</footer>
 		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-		<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 		<script>
 		 	var emailAuth = document.getElementById('email-auth');
 			document.addEventListener("DOMContentLoaded", function() {
@@ -96,7 +114,11 @@
 			        var isPwMatch = userPw.value === userPwRetype.value;
 			        var isEmailAuth = emailAuth.value === 'true';
 
-			        signupBtn.disabled = !(isValidUserId && isValidUserPw && isPwMatch && isEmailAuth);
+			        if(!(isValidUserId && isValidUserPw && isPwMatch && isEmailAuth)){
+			        	signupBtn.disabled = true;
+			        } else{
+			        	signupBtn.disabled = false;
+			        }
 			    }
 			    userId.addEventListener('keyup', function() {
 			        var successMessage = document.querySelector('.success-message');
@@ -188,6 +210,7 @@
 				        if(data.ok) { // HTTP 상태 코드가 200-299인 경우
 				            alert('인증에 성공하였습니다.');
 				            emailAuth.value = 'true';
+				            console.log("성공");
 				            $('#user-email').val(completeEmail);
 				            validateForm();
 				         // 인증 성공 시 회원가입 버튼을 활성화
