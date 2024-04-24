@@ -35,6 +35,8 @@ public interface ReviewService {
 
 	List<ReviewVO> selectReviewList(NoticePageInfo pi);
 
+	List<ReviewVO> selectReviewList(NoticePageInfo pi, String sortType);
+	
 	/**
 	 * 조회수 카운트 Service
 	 * @param reviewNo
@@ -72,6 +74,10 @@ public interface ReviewService {
 	void insertImage(ReviewImageVO image);
 
 	ReviewVO getBestReview();
+
+	List<ReviewVO> getTopLikedReviews();
+
+	List<ReviewVO> getReviewsForPage(int i);
 
 
 }

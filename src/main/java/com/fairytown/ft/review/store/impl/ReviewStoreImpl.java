@@ -8,6 +8,8 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.fairytown.ft.common.PageInfo;
+import com.fairytown.ft.goods.domain.vo.GoodsVO;
 import com.fairytown.ft.notice.domain.vo.NoticePageInfo;
 import com.fairytown.ft.notice.domain.vo.NoticeVO;
 import com.fairytown.ft.review.domain.vo.ReviewImageVO;
@@ -36,13 +38,12 @@ public class ReviewStoreImpl implements ReviewStore{
 	    ReviewVO review = session.selectOne("ReviewMapper.selectImagesByReviewNo", reviewNo);
 	    return review;
 	}
-
-
-	@Override
-	public int deleteReview(SqlSession session, int reviewNo) {
-		int result = session.delete("ReviewMapper.deleteReview", reviewNo);
-		return result;
-	}
+	
+//	@Override
+//	public int deleteReview(SqlSession session, int reviewNo) {
+//		int result = session.delete("ReviewMapper.deleteReviewTransaction", reviewNo);
+//		return result;
+//	}
 
 	@Override
 	public int selectTotalCount(SqlSession session) {
@@ -57,6 +58,15 @@ public class ReviewStoreImpl implements ReviewStore{
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		List<ReviewVO> rList = session.selectList("ReviewMapper.selectReviewList", null, rowBounds);
 		return rList;
+	}
+	
+	@Override
+	public List<ReviewVO> selectReviewList(SqlSession session, NoticePageInfo pi, String sortType) {
+		int limit = pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<ReviewVO> sortList = session.selectList("ReviewMapper.sortReviewByType", sortType, rowBounds);
+		return sortList;
 	}
 
 	@Override
@@ -94,8 +104,38 @@ public class ReviewStoreImpl implements ReviewStore{
 
 	@Override
 	public ReviewVO selectBestReview(SqlSession session) {
-		ReviewVO bestReview = session.selectOne("reviewMapper.selectBestReview");
+		ReviewVO bestReview = session.selectOne("ReviewMapper.selectBestReview");
 		return bestReview;
+	}
+
+	@Override
+	public List<ReviewVO> getTopLikedReviews(SqlSession session) {
+		List<ReviewVO> lList = session.selectList("ReviewMapper.selectTopLikedReview");
+		return lList;
+	}
+
+	@Override
+	public List<ReviewVO> getReviews(SqlSession session, int startIdx, int endIdx) {
+		// startIdx부터 endIdx까지의 범위에 해당하는 리뷰 목록 반환
+        // 매퍼에서 정의한 쿼리를 실행하여 데이터베이스에서 리뷰 목록을 가져옴
+	    RowBounds rowBounds = new RowBounds(startIdx, endIdx - startIdx); // 시작 인덱스와 가져올 개수 설정
+        List<ReviewVO> reviewList = session.selectList("ReviewMapper.getReviewsInRange", null, rowBounds);
+        return reviewList;
+	}
+
+	@Override
+	public int deleteReview(SqlSession session, int reviewNo) {
+		return session.delete("ReviewMapper.deleteReview", reviewNo);
+	}
+
+	@Override
+	public int deleteUserLikedReview(SqlSession session, int reviewNo) {
+		return session.delete("ReviewMapper.deleteUserLikedReview", reviewNo);
+	}
+
+	@Override
+	public int deleteReviewImage(SqlSession session, int reviewNo) {
+		return session.delete("ReviewMapper.deleteReviewImage", reviewNo);
 	}	
 	
 //	@Override

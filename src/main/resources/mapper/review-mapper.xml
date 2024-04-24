@@ -54,7 +54,16 @@
 		<result property="updateDate" column="UPDATE_DATE"/>
 		<result property="thumbnailPath" column="THUMBNAIL_PATH"/>
 	</resultMap>
-  
+ 
+<!-- startIdx부터 endIdx까지의 범위에 해당하는 리뷰 목록을 가져오는 쿼리 -->
+<select id="getReviewsInRange" resultMap="reviewResultMap">
+    SELECT * FROM (
+        SELECT ROW_NUMBER() OVER (ORDER BY REVIEW_NO DESC) AS RN, R.*
+        FROM REVIEW_TBL R
+    )
+    WHERE RN BETWEEN #{startIdx} AND #{endIdx} <!-- startIdx와 endIdx 사이의 범위 지정 -->
+    ORDER BY RN ASC <!-- 페이지 내 순서대로 정렬 -->
+</select>
   
   <select id="selectImagesByReviewNo" resultMap="reviewResultMap">
     SELECT
@@ -108,22 +117,43 @@
 	 , #{fileType}, DEFAULT, #{thumbnailPath} )
 	</insert>
 	
-	<!-- 리뷰 삭제 쿼리 -->
-	<delete id="deleteReview">
-		DELETE FROM REVIEW_TBL
-		WHERE REVIEW_NO = #{reviewNo }
+
+	<!-- deleteReview 매퍼 -->
+	<delete id="deleteReview" parameterType="int">
+	    DELETE FROM REVIEW_TBL
+	    WHERE REVIEW_NO = #{reviewNo}
 	</delete>
+	
+	<!-- deleteUserLikedReview 매퍼 -->
+	<delete id="deleteUserLikedReview" parameterType="int">
+	    DELETE FROM USER_LIKED_REVIEWS
+	    WHERE REVIEW_NO = #{reviewNo}
+	</delete>
+	
+	<!-- deleteReviewImage 매퍼 -->
+	<delete id="deleteReviewImage" parameterType="int">
+	    DELETE FROM REVIEW_IMAGE_TBL
+	    WHERE REVIEW_NO = #{reviewNo}
+	</delete>
+
 	
 	<!-- 리뷰 번호에 해당하는 리뷰를 조회-->
 	<select id="selectByReviewNo" resultMap="reviewResultMap">
 		SELECT * FROM REVIEW_TBL WHERE REVIEW_NO = #{reviewNo }
 	</select>
 	
-	<!-- 가장 조회수가 높은 하나의 게시물을 조회 -->
+	<!-- 가장 조회수가 높은 하나의 게시물을 조회(베스트 리뷰) -->
 	<select id="selectBestReview" resultMap="reviewResultMap">
-    SELECT * FROM (
-    SELECT * FROM REVIEW_TBL ORDER BY view_count DESC
-	) WHERE ROWNUM = 1;
+	    SELECT * FROM (
+	    SELECT * FROM REVIEW_TBL ORDER BY VIEW_COUNT DESC
+		) WHERE ROWNUM = 1
+	</select>
+	
+	<!-- 가장 좋아요가 높은 3개의 게시물을 조회(추천 리뷰) -->
+	<select id="selectTopLikedReview" resultMap="reviewResultMap">
+		SELECT * FROM (
+        SELECT * FROM REVIEW_TBL ORDER BY LIKE_COUNT DESC
+   		 ) WHERE ROWNUM &lt;= 3
 	</select>
   
   
@@ -170,22 +200,21 @@
 	</update> -->
   
 	
-	<!-- 총 리뷰 개수를 조회하는 SQL 쿼리 -->
+	<!-- 총 리뷰 개수 조회 -->
 	<select id="selectTotalCount" resultType="_int">
 		SELECT COUNT(*) FROM REVIEW_TBL
 	</select>
 	
-	<!-- 리뷰 리스트를 조회하는 SQL 쿼리 -->
+	<!-- 리뷰 리스트 조회 -->
 	<select id="selectReviewList" resultMap="reviewResultMap">
 		SELECT * FROM REVIEW_TBL ORDER BY REVIEW_NO DESC
 	</select>
-	<!-- 리뷰 번호에 해당하는 이미지를 조회 --><!-- 리뷰 번호에 해당하는 이미지를 조회 -->
-	<!-- 리뷰 번호에 해당하는 이미지를 조회 --><!-- 리뷰 번호에 해당하는 이미지를 조회 -->
+	<!-- 리뷰 번호에 해당하는 이미지를 조회 -->
 	<select id="selectReviewImageList" resultMap="reviewImageResultMap">
 		SELECT * FROM REVIEW_IMAGE_TBL WHERE REVIEW_NO = #{reviewNo}
 	</select>	
 	
-	<!-- 검색 조건에 따라 공지사항의 총 개수를 조회하는 SQL 쿼리 -->
+	<!-- 검색 조건에 따라 라뷰의 총 개수를 조회 -->
 	<select id="searchTotalCount" resultType="_int">
 		SELECT COUNT(*) FROM REVIEW_TBL
 		<if test="searchCondition =='all'">		
@@ -205,7 +234,7 @@
 		</if> 
 	</select>
 	
-	<!-- 특정 키워드에 따라 공지사항을 조회하는 SQL 쿼리 -->
+	<!-- 특정 키워드에 따라 리뷰를 조회 -->
 	<select id="selectReviewsByKeyword" resultMap="reviewResultMap">
 		SELECT * FROM REVIEW_TBL
 		<if test="searchCondition =='all'">		
@@ -224,6 +253,21 @@
 		</if>
 		ORDER BY REVIEW_NO DESC
 	</select>	
+	
+	
+	<!-- 리뷰 정렬 -->
+	<select id="sortReviewByType" resultType="ReviewVO">
+		SELECT * FROM REVIEW_TBL
+		<if test="sortType =='recentReviewSort'">		
+			ORDER BY REVIEW_NO DESC
+		</if>
+		<if test="sortType == 'likeCountSort'">		
+			ORDER BY LIKE_COUNT DESC
+		</if>
+		<if test="sortType == 'viewCountSort'">	
+			ORDER BY VIEW_COUNT DESC
+		</if>
+	</select>
 	
 		
 	  

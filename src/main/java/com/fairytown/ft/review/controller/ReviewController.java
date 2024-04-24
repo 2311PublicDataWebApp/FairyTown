@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -104,9 +105,10 @@ public class ReviewController {
 
 	        if (result > 0) {
 	            // 등록한 글로 리다이렉트 (상세보기, sql문까지 완료 후 주석 해제)
-	            int reviewNo = review.getReviewNo();
-	            String redirectUrl = "/review/detail.ft?reviewNo=" + reviewNo;
-	            mv.setViewName("redirect:" + redirectUrl);
+//	            int reviewNo = review.getReviewNo();
+//	            String redirectUrl = "/review/detail.ft?reviewNo=" + reviewNo;
+//	            mv.setViewName("redirect:" + redirectUrl);
+	        	mv.setViewName("redirect:/review/list.ft");
 	        } else {
 	            mv.addObject("msg", "리뷰 등록 실패");
 	            mv.setViewName("common/errorPage");
@@ -117,131 +119,6 @@ public class ReviewController {
 	    }
 	    return mv;
 	}
-	
-//	@PostMapping("/review/insert.ft")
-//	public ModelAndView insertReview(ModelAndView mv,
-//	        @ModelAttribute ReviewVO review,
-//	        @ModelAttribute ReviewImageVO image,
-//	        HttpSession session,
-//	        @RequestParam(value = "uploadFiles", required = false) List<MultipartFile> uploadFiles,
-//	        HttpServletRequest request) {
-//	    try {
-//	        // 리뷰 작성자 설정 (로그인 안정화 후 주석 해제)
-//	        // String realName = (String) session.getAttribute("realName");
-//	        // review.setRealName(realName);
-//	        review.setRealName("페어리용자");
-//
-//	        // 리뷰 등록
-//	        int result = rService.insertReview(review);
-//
-//	        // 이미지 업로드 및 저장
-//	        if (uploadFiles != null && !uploadFiles.isEmpty()) {
-//	            for (MultipartFile uploadFile : uploadFiles) {
-//	                Map<String, Object> infoMap = saveFile(uploadFile, request);
-//	                String fileName = (String) infoMap.get("fileName");
-//	                String fileRename = (String) infoMap.get("fileRename");
-//	                String filePath = (String) infoMap.get("filePath");
-//	                long fileLength = (long) infoMap.get("fileSize");
-//
-//	                // 각 이미지 정보 저장
-//	                image.setFileName(fileName);
-//	                image.setFileRename(fileRename);
-//	                image.setFilePath(filePath);
-//	                image.setFileSize(fileLength);
-//	                image.setReviewNo(review.getReviewNo()); // 리뷰 번호 설정
-//
-//	                rService.insertImage(image);
-//	            }
-//	        }
-//
-//	        if (result > 0) {
-//	            // 등록한 글로 리다이렉트 (상세보기, sql문까지 완료 후 주석 해제)
-//	            int reviewNo = review.getReviewNo();
-//	            String redirectUrl = "/review/detail.ft?reviewNo=" + reviewNo;
-//	            mv.setViewName("redirect:" + redirectUrl);
-//	        } else {
-//	            mv.addObject("msg", "리뷰 등록 실패");
-//	            mv.setViewName("common/errorPage");
-//	        }
-//	    } catch (Exception e) {
-//	        mv.addObject("msg", e.getMessage());
-//	        mv.setViewName("common/errorPage");
-//	    }
-//	    return mv;
-//	}
-	
-//	@PostMapping("/review/insert.ft")
-//	public ModelAndView insertReview(ModelAndView mv
-//			, @ModelAttribute ReviewVO review
-//			, @ModelAttribute ReviewImageVO image
-//			, HttpSession session
-//			, @RequestParam(value = "uploadFile", required = false) MultipartFile uploadFile
-//			, HttpServletRequest request){
-//		try {
-//			// 로그인 안정화 후 주석 해제
-////			String realName = (String)session.getAttribute("realName");
-////			review.setRealName(realName);
-//			review.setRealName("페어리용자");
-//			
-//			int result = rService.insertReview(review);
-//			if (uploadFile != null && !uploadFile.getOriginalFilename().equals("")) {
-//				Map<String, Object> infoMap = this.saveFile(uploadFile, request);
-//				String fileName 	= (String) infoMap.get("fileName");
-//				String fileRename 	= (String) infoMap.get("fileRename");
-//				String filePath 	= (String) infoMap.get("filePath");
-//				long fileLength 	= (long) infoMap.get("fileSize");
-//				
-//				image.setFileName(fileName);
-//				image.setFileRename(fileRename);
-//				image.setFilePath(filePath);
-//				image.setFileSize(fileLength);
-//				// 각 이미지 정보 저장
-//                rService.insertImage(image);
-//			}			
-//			
-//			if (result > 0) {
-//				// 등록한 글로 리다이렉트 (상세보기, sql문까지 완료 후 주석 해제)
-//				int reviewNo = review.getReviewNo();				
-//				String redirectUrl = "/review/detail.ft?reviewNo=" + reviewNo;
-//				mv.setViewName("redirect:" + redirectUrl);
-//			} else {
-//				mv.addObject("msg", "리뷰 등록 실패");
-//				mv.setViewName("common/errorPage");
-//			}			
-//		} catch (Exception e) {
-//			mv.addObject("msg", e.getMessage());
-//			mv.setViewName("common/errorPage");
-//		}
-//		return mv;
-//	}
-	
-//	@PostMapping("/review/insert.ft")
-//	public ModelAndView insertReview(ModelAndView mv
-//			, @ModelAttribute ReviewVO review
-//			, HttpSession session
-//			, HttpServletRequest request){
-//		try {
-//			// 로그인 안정화 후 주석 해제
-////			String realName = (String)session.getAttribute("realName");
-////			review.setRealName(realName);
-//			review.setRealName("페어리용자");
-//			
-//			int result = rService.insertReview(review);
-//			if (result > 0) {
-//				// 등록한 글로 리다이렉트 (상세보기, sql문까지 완료 후 주석 해제)
-//				int reviewNo = review.getReviewNo();				
-//				String redirectUrl = "/review/detail.ft?reviewNo=" + reviewNo;
-//				mv.setViewName("redirect:" + redirectUrl);
-//			} else {
-//				mv.addObject("msg", "리뷰 등록 실패");
-//				mv.setViewName("common/errorPage");
-//			}			
-//		} catch (Exception e) {
-//			mv.addObject("msg", e.getMessage());
-//			mv.setViewName("common/errorPage");
-//		}
-//		return mv;
-//	}
 	
 	// ===================
  	// 리뷰 상세보기
@@ -293,45 +170,7 @@ public class ReviewController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage());
         }
-    }
-
-//    @ResponseBody
-//    @PostMapping("/review/unlike/{reviewNo}")
-//    public ResponseEntity<String> unlikeReview(@PathVariable("reviewNo") int reviewNo) {
-//        try {
-//            // 좋아요 수 업데이트
-//            rService.decreaseLikeCount(reviewNo);
-//            return ResponseEntity.ok("Success");
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage());
-//        }
-//    }
-//    
-    
-//     @ResponseBody
-//	 @GetMapping("/review/updateLikeCountByAction")
-//	 public String likeReview(@RequestParam("reviewNo") int reviewNo) {
-//	     // 좋아요 수 업데이트
-//	     rService.updateLikeCount(reviewNo);
-//	
-//	     // 리뷰 상세 페이지로 리다이렉트
-//	     return "redirect:/review/detail.ft?reviewNo=" + reviewNo;
-//	 }
-	
-	 // 좋아요 수 업데이트를 처리하는 메서드
-//	 @ResponseBody
-//	 @GetMapping("/review/updateLikeCountByMap")
-//	 public ResponseEntity<String> updateLikeCount(@RequestParam("reviewNo") int reviewNo,
-//	                                               @RequestParam("action") String action) {
-//	     try {
-//	         // 좋아요 수 업데이트를 서비스에 요청
-//	         rService.updateLikeCount(reviewNo, action);
-//	         return ResponseEntity.ok("Success");
-//	     } catch (Exception e) {
-//	         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage());
-//	     }
-//	 }
-	    
+    }   
     
     // ===================
  	// 리뷰 수정 페이지
@@ -345,18 +184,18 @@ public class ReviewController {
  	// 리뷰 삭제
  	// ===================
     @GetMapping("review/delete.ft")
-    public ModelAndView deleteReview(ModelAndView mv, int reviewNo) {
-    	try {
-			int result = rService.deleteReview(reviewNo);
-			if (result > 0) {
-				mv.setViewName("redirect:/review/list.ft");
-			}else {
-				mv.addObject("msg", "데이터가 존재하지 않습니다.").setViewName("common/errorPage");
-			}
-		} catch (Exception e) {
-			mv.addObject("msg", e.getMessage()).setViewName("common/errorPage");
-		}
-    	return mv;
+    public ModelAndView deleteReview(ModelAndView mv, @RequestParam("reviewNo") int reviewNo) {
+        try {
+            int result = rService.deleteReview(reviewNo);
+            if (result > 0) {
+                mv.setViewName("redirect:/review/list.ft");
+            } else {
+                mv.addObject("msg", "데이터가 존재하지 않습니다.").setViewName("common/errorPage");
+            }
+        } catch (Exception e) {
+            mv.addObject("msg", e.getMessage()).setViewName("common/errorPage");
+        }
+        return mv;
     }
     
     // ===================
@@ -370,16 +209,27 @@ public class ReviewController {
 			int totalCount = rService.getTotalCount();
 			mv.addObject("totalCount", totalCount); // 모델에 totalCount 속성 추가
 			
-			
 			// 페이지 정보를 생성
 			NoticePageInfo pi = this.getPageInfo(currentPage, totalCount);
 			
 			// 현재 페이지에 해당하는 리뷰 목록을 가져옴
 			List<ReviewVO> rList = rService.selectReviewList(pi);
+			// 정렬
+			List<ReviewVO> sortList = rService.selectReviewList(pi);
 			// 모델에 리뷰 목록과 페이지 정보를 추가
 			mv.addObject("rList", rList);
-			mv.addObject("pi", pi);
-						
+			mv.addObject("sortList", sortList);
+			mv.addObject("pi", pi);	
+			
+			
+			// 베스트 리뷰(top1)
+			ReviewVO bestReview = rService.getBestReview(); // bestReview 객체를 ModelAndView에 추가
+            mv.addObject("bestReview", bestReview);
+			
+			// 추천 리뷰 리스트(best3)
+			List<ReviewVO> lList = rService.getTopLikedReviews();
+	    	mv.addObject("lList", lList);
+			
 			// 작성하기
 			review.setRealName("페어리용자");
 //			// * 로그인 안정화 후 주석 해제
@@ -389,7 +239,6 @@ public class ReviewController {
 			// 셀렉트박스에 필요한 데이터를 가져와서 모델에 추가 (임시적용)
 			List<String> ticketTypes = Arrays.asList("자유이용권", "오전이용권", "오후이용권");
 			mv.addObject("ticketTypes", ticketTypes);
-
 			
 			// 리뷰 목록 뷰로 이동
 			mv.setViewName("review/list"); // 뷰 이름 설정
@@ -401,15 +250,42 @@ public class ReviewController {
 		return mv;
     };
     
-    // ===================
-    // 베스트 리뷰(조회수 기준)
-    // ===================
-    @GetMapping("/review/best")
-    public ModelAndView showBestReview(ModelAndView mv) {
+    // ==============
+    // 리뷰 리스트(정렬)
+    // ==============
+    @GetMapping("/review/sortedList.ft")
+    public ModelAndView showSortedReviewList(ModelAndView mv, ReviewVO review,
+            @RequestParam(value="page", required=false, defaultValue="1") Integer currentPage,
+            @RequestParam("sortType") String sortType) {
         try {
-            // 가장 조회수가 높은 리뷰를 가져옴
+            // 전체 리뷰 개수를 가져옴
+            int totalCount = rService.getTotalCount();
+            mv.addObject("totalCount", totalCount); // 모델에 totalCount 속성 추가
+            
+            // 페이지 정보를 생성
+            NoticePageInfo pi = this.getPageInfo(currentPage, totalCount);
+            
+            // 현재 페이지에 해당하는 리뷰 목록을 가져옴
+            List<ReviewVO> sortList = rService.selectReviewList(pi, sortType);
+            // 모델에 정렬된 리뷰 목록과 페이지 정보를 추가
+            mv.addObject("sortList", sortList);
+            mv.addObject("pi", pi);   
+            
+            // 베스트 리뷰(top1)
             ReviewVO bestReview = rService.getBestReview(); // bestReview 객체를 ModelAndView에 추가
             mv.addObject("bestReview", bestReview);
+            
+            // 추천 리뷰 리스트(best3)
+            List<ReviewVO> lList = rService.getTopLikedReviews();
+            mv.addObject("lList", lList);
+            
+            // 작성하기
+            review.setRealName("페어리용자");
+            // 셀렉트박스에 필요한 데이터를 가져와서 모델에 추가 (임시적용)
+            List<String> ticketTypes = Arrays.asList("자유이용권", "오전이용권", "오후이용권");
+            mv.addObject("ticketTypes", ticketTypes);
+            
+            // 리뷰 목록 뷰로 이동
             mv.setViewName("review/list"); // 뷰 이름 설정
         } catch (Exception e) {
             // 오류가 발생할 경우 처리
@@ -420,6 +296,59 @@ public class ReviewController {
     }
     
     
+ // 이전 페이지에 대한 리뷰 목록 반환 핸들러 메서드
+    @GetMapping("/review/previous")
+    public String getPreviousPageReviews(@RequestParam("currentPage") int currentPage, Model model) {
+        int previousPage = currentPage - 1; // 이전 페이지 번호 계산
+        List<ReviewVO> reviews = rService.getReviewsForPage(previousPage); // 이전 페이지에 대한 리뷰 목록 가져오기
+        model.addAttribute("reviews", reviews); // 리뷰 목록 모델에 추가
+        model.addAttribute("currentPage", previousPage); // 이전 페이지 번호를 모델에 추가
+        return "review/list"; // 이전 페이지에 대한 리뷰 목록이 표시되는 뷰의 이름을 반환
+    }
+
+    // 다음 페이지에 대한 리뷰 목록 반환 핸들러 메서드
+    @GetMapping("/review/next")
+    public String getNextPageReviews(@RequestParam("currentPage") int currentPage, Model model) {
+        int nextPage = currentPage + 1; // 다음 페이지 번호 계산
+        List<ReviewVO> reviews = rService.getReviewsForPage(nextPage); // 다음 페이지에 대한 리뷰 목록 가져오기
+        model.addAttribute("reviews", reviews); // 리뷰 목록 모델에 추가
+        model.addAttribute("currentPage", nextPage); // 다음 페이지 번호를 모델에 추가
+        return "review/list"; // 다음 페이지에 대한 리뷰 목록이 표시되는 뷰의 이름을 반환
+    }
+    
+    // ===================
+    // 추천 리뷰 리스트(best3)
+    // ===================
+//    @GetMapping("topLikedReviews")
+//    public String getTopLikedReviews(Model model) {
+//    	List<ReviewVO> lList = rService.getTopLikedReviews();
+//    	model.addAttribute("lList", lList);
+//    	return "review/list"; 
+////    	return "topLikedReviews";
+//    }
+    
+    // ===================
+    // 베스트 리뷰(조회수 기준)
+    // ===================
+//    @GetMapping("/review/best")
+//    @ResponseBody
+//    public ModelAndView showBestReview(ModelAndView mv) {
+//        try {
+//            // 가장 조회수가 높은 리뷰를 가져옴
+//            ReviewVO bestReview = rService.getBestReview(); // bestReview 객체를 ModelAndView에 추가
+//            mv.addObject("bestReview", bestReview);            	
+//            if (bestReview == null) {
+//            	mv.addObject("noBestReviewMessage", "베스트 리뷰가 없습니다.");
+//            } 
+//            mv.setViewName("review/list"); // 뷰 이름 설정
+//            // bestReview가 제대로 작동하는지 체크
+//        } catch (Exception e) {
+//            // 오류가 발생할 경우 처리
+//            mv.addObject("msg", e.getMessage());
+//            mv.setViewName("common/errorPage");
+//        }
+//        return mv;
+//    }
     
     // ===================
  	// 리뷰 검색
@@ -432,6 +361,10 @@ public class ReviewController {
 		// 전체 리뷰 개수를 가져옴
 		int totalCounts = rService.getTotalCount();
 		mv.addObject("totalCounts", totalCounts); // 모델에 totalCounts 속성 추가
+		
+		// 추천 리뷰 리스트(best3)
+		List<ReviewVO> lList = rService.getTopLikedReviews();
+    	mv.addObject("lList", lList);
 		
  		Map<String, String> paramMap = new HashMap<String, String>();
  		paramMap.put("searchCondition", searchCondition);
@@ -468,7 +401,6 @@ public class ReviewController {
 				endNavi);
 		return pi;
 	}		
-
     
     // ==============
     // 파일 저장
@@ -496,33 +428,10 @@ public class ReviewController {
         infoMap.put("fileSize", fileLength);
         return infoMap;
     }
-//    private Map<String, Object> saveFile(MultipartFile uploadFile, HttpServletRequest request) throws Exception {
-//		String fileName = uploadFile.getOriginalFilename();
-////		String projectPath 	 = request.getSession().getServletContext().getRealPath("resources");
-//		String projectPath 	 = "/Users/jeonggyuyu/git/FairyTown/src/main/webapp/resources";
-//		String saveDirectory = projectPath + "/ruploadFiles";
-//		File sDir 			 = new File(saveDirectory);
-//		if (!sDir.exists()) {
-//			sDir.mkdir(); 
-//		}
-//		
-//		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss"); 
-//		String strResult = sdf.format(new Date(System.currentTimeMillis())); 
-//		String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
-//		String fileRename = strResult + "." + ext;
-//		String savePath 	 = saveDirectory + "/" + fileRename;
-//		File file = new File(savePath);
-//		uploadFile.transferTo(file);
-//		long fileLength = uploadFile.getSize();
-//		Map<String, Object> infoMap = new HashMap<String, Object>();
-//		infoMap.put("fileName"	, fileName);
-//		infoMap.put("fileRename", fileRename);
-//		infoMap.put("filePath"	, savePath);
-//		infoMap.put("fileSize"	, fileLength);
-//		return infoMap;
-//	}
     
+    // =============
     // 다중 파일 저장
+    // =============
     private List<Map<String, Object>> saveFiles(List<MultipartFile> uploadFiles, HttpServletRequest request) throws Exception {
         List<Map<String, Object>> infoList = new ArrayList<>();
         String projectPath = "/Users/jeonggyuyu/git/FairyTown/src/main/webapp/resources";
@@ -549,34 +458,6 @@ public class ReviewController {
         }
         return infoList;
     }
-//    private List<Map<String, Object>> saveFiles(List<MultipartFile> uploadFiles, HttpServletRequest request) throws Exception {
-//        List<Map<String, Object>> infoList = new ArrayList<>();
-//        String projectPath = "/Users/jeonggyuyu/git/FairyTown/src/main/webapp/resources";
-//        String saveDirectory = projectPath + "/ruploadFiles";
-//        File sDir = new File(saveDirectory);
-//        if (!sDir.exists()) {
-//            sDir.mkdir(); 
-//        }
-//
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-//        for (MultipartFile uploadFile : uploadFiles) {
-//            String fileName = uploadFile.getOriginalFilename();
-//            String strResult = sdf.format(new Date(System.currentTimeMillis()));
-//            String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
-//            String fileRename = strResult + "." + ext;
-//            String savePath = saveDirectory + "/" + fileRename;
-//            File file = new File(savePath);
-//            uploadFile.transferTo(file);
-//            long fileLength = uploadFile.getSize();
-//            Map<String, Object> infoMap = new HashMap<>();
-//            infoMap.put("fileName", fileName);
-//            infoMap.put("fileRename", fileRename);
-//            infoMap.put("filePath", savePath);
-//            infoMap.put("fileSize", fileLength);
-//            infoList.add(infoMap);
-//        }
-//        return infoList;
-//    }
     
     // =================
     // 다중 파일 업로드 처리
