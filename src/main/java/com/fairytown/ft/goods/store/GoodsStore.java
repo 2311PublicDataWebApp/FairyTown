@@ -31,6 +31,8 @@ public interface GoodsStore {
 
 	List<GoodsVO> sortSelectGoodsByKeyword(SqlSession session, RowBounds rowBounds, Map<String, String> paramMap);
 
+	List<GoodsVO> selectGoodsList(SqlSession session);
+
 	
 	
 	

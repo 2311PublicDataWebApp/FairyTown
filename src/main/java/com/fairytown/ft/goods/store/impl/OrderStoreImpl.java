@@ -72,5 +72,11 @@ public class OrderStoreImpl implements OrderStore{
 		session.update("OrderMapper.plusStock", order);
 	}
 
+	@Override
+	public List<OrderVO> selectAdminOrderList(SqlSession session) {
+		List<OrderVO> oList = session.selectList("OrderMapper.selectAdminOrderList");
+		return oList;
+	}
+
 
 }
