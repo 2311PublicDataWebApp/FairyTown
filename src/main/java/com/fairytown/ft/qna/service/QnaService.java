@@ -24,4 +24,7 @@ public interface QnaService {
 	
 	// 문의 추가
 	int insertQna(QnaVO qna);
+	
+	
+	
 }

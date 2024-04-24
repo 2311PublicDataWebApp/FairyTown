@@ -21,11 +21,15 @@
 	</delete>
 	
 	<update id="updateQna">
-			UPDATE QNA_TBL SET QNA_NAME = #{qnaName }, QNA_CONTENT = #{qnaContent } WHERE QNA_NO = #{qnaNo }
+			UPDATE QNA_TBL SET QNA_NAME = #{qnaName }, QNA_CONTENT = #{qnaContent }, QNA_STATUS = #{qnaStatus} WHERE QNA_NO = #{qnaNo }
 	</update>
 	
 	<insert id="insertQna">
 			INSERT INTO QNA_TBL VALUES(SEQ_QNA_NO.NEXTVAL, #{qnaName }, #{qnaContent }, #{qnaWriter }, #{qnaStatus }, DEFAULT)
 	</insert>
+	
+	  <insert id="insertQnaStatus" parameterType="String">
+        INSERT INTO QNA_TBL (QNA_STATUS) VALUES (#{qnaStatus})
+    </insert>
 	
 </mapper>

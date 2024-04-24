@@ -60,5 +60,9 @@ public class QnaServiceImpl implements QnaService {
 		int result = qStore.insertQna(session, qna);
 		return result;
 	}
+
+	
+	
+	
 		
 }

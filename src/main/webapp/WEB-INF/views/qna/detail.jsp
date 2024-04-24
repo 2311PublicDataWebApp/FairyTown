@@ -22,7 +22,7 @@
 			</li>
 			<li>
 				<label>작성자</label>
-				<span>${qna.qnaWriter }</span>
+				<span>${userId}</span>
 			</li>
 			<li>
 				<label>내용</label>

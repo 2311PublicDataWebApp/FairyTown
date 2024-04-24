@@ -65,52 +65,56 @@
 	     	</div>
 <!-- 	      <small class="text-muted">with faded secondary text</small> -->
 	    </h3>
-		<button type="button"  onclick="showInsertForm();" style="margin-left: 1420px; height: 43px; width:100px; border-radius: 10px; background-color: #ACE0F8; border: none;
+		<button type="button"  onclick="showInsertForm();" style="margin-left: 1520px; height: 43px; width:100px; border-radius: 10px; background-color: #ACE0F8; border: none;
 				  color: #fff; margin-top: 1px;  ">문의하기</button>
-	    <button id="btn-all-close" style="margin-right: 250px;">모두 닫기</button>
+<!-- 	    <button id="btn-all-close" style="margin-right: 250px;">모두 닫기</button> -->
 	    <br>
-	    <table class="table table-bordered table-striped table-Light table-hover" style="width:70%; margin-left: 320px; margin-top: 20px;">
-	      <thead class="thead-light text-center">
-	        <tr>
-	          <th>번호</th>
-	          <th>제목</th>
-	          <th>작성자</th>
-	          <th>날짜</th>
-	          <th>상태</th>
-	        </tr>
-	      </thead>
-	      <tbody class="text-center">
-	      <c:forEach items="${qList}" var="qna" varStatus="i">
-	        <tr>
-	          <td>${qna.qnaNo }</td>
-	          <td class="text-left" width="50%">
-	            <div class="panel-faq-container">
-	              <p class="panel-faq-title" style="color: black;">${qna.qnaName }</p>
-	              <div class="panel-faq-answer">
-	                <p style="color: #4372FE; font-weight: bold;">문의내용</p>
-	                <p>
-	                	${qna.qnaContent }
-	                </p>
-	                <p style="color: #4372FE; font-weight: bold;">답변</p>
-	                <c:forEach items="${rList}" var="reply" varStatus="j">
-	                <p>
-	                	<table width="550" border="1" id="qnaReplyTable">
-						<tbody>
-							
-						</tbody>
-					</table>
-	                </p>
-	                </c:forEach>
-	              </div>
-	            </div>
-	          </td>
-	          <td>${qna.qnaWriter }</td>
-	          <td style="color: #868e96;">${qna.qnaDate }</td>
-	          <td style="color: #4372FE; font-weight: bold;">${qna.qnaStatus }</td>
-	        </tr>
-	      </c:forEach>
-	      </tbody>
-	    </table>
+	   <table class="table table-bordered table-striped table-Light table-hover" style="width:70%; margin-left: 320px; margin-top: 20px;">
+    <thead class="thead-light text-center">
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>날짜</th>
+            <th>상태</th>
+        </tr>
+    </thead>
+    <tbody class="text-center">
+
+			      <c:forEach items="${qList}" var="qna" varStatus="i">
+					    <tr>
+					        <td>${qna.qnaNo}</td>
+					        <td class="text-left" width="50%">
+					            <div class="panel-faq-container">
+					                <p class="panel-faq-title" style="color: black;">${qna.qnaName}</p>
+					                <div class="panel-faq-answer">
+					                    <p style="color: #4372FE; font-weight: bold;">문의내용</p>
+					                    <p>${qna.qnaContent}</p>
+					                    <a href="javascript:void(0)" onclick="toggleReplyList(${qna.qnaNo})">답변 ></a>
+					                </div>
+					            </div>
+					        </td>
+					        <td>${qna.qnaWriter}</td> <!-- 문의 작성자 출력 -->
+					        <td style="color: #868e96;">${qna.qnaDate}</td>
+					        <td style="color: #4372FE; font-weight: bold;">
+					            ${qna.qnaStatus}
+					                    <div>
+					                       <c:if test="${sessionScope.user.userId eq qna.qnaWriter}">
+					                            <button type="button" onclick="showModifyPage(${qna.qnaNo}, '${qna.qnaStatus}');">수정하기</button>
+					                        </c:if>
+					                    </div>
+					        </td>
+					    </tr>
+					    <tr>
+					        <td colspan="5">
+					            <div id="replyContainer_${qna.qnaNo}" class="reply-list" style="display: none;"></div>
+					        </td>
+					    </tr>
+					</c:forEach>
+
+    </tbody>
+</table>
+
 	    <!--페이지네이션 위치 -->
 				<div style="margin-left: 940px; margin-top: 30px; ">
 				<tr align="center">
@@ -163,7 +167,53 @@
 			  	  });
 			  	}
 			  	
-			  	
+			  	function toggleReplyList(qnaNo) {
+			        var replyContainer = $("#replyContainer_" + qnaNo);
+			        if (replyContainer.is(":visible")) {
+			            replyContainer.hide();
+			        } else {
+			            replyContainer.show();
+			            getReplyList(qnaNo);
+			        }
+			    }
+
+			    function getReplyList(qnaNo) {
+			        $.ajax({
+			            url: "/qreply/list.ft",
+			            data: { "refQnaNo": qnaNo },
+			            type: "GET",
+			            success: function(result) {
+			                var replyContainer = $("#replyContainer_" + qnaNo);
+			                replyContainer.empty();
+			                if (result.length > 0) {
+			                    for (var i in result) {
+			                        var qnaReplyWriterVal = result[i].qnaReplyWriter;
+			                        var qnaReplyContentVal = result[i].qnaReplyContent;
+			                        var qnaReplyDateVal = result[i].qnaReplyDate;
+			                        var qnaReplyNoVal = result[i].qnaReplyNo;
+			                        var replyHTML = '<div class="reply">' +
+			                                        '<p><strong>' + qnaReplyWriterVal + '</strong></p>' +
+			                                        '<p>' + qnaReplyContentVal + '</p>' +
+			                                        '<p>' + qnaReplyDateVal + '</p>' +
+			                                        '<p>' +
+			                                        '</p>' +
+			                                        '</div>';
+			                        replyContainer.append(replyHTML);
+			                    }
+			                }
+			            },
+			            error: function() {
+			                alert("서버 통신 실패!");
+			            }
+			        });
+			    }
+				
+			    function showModifyPage(qnaNo, qnaStatus) {
+			        location.href = "/qna/modify.ft?qnaNo=" + qnaNo + "&qnaStatus=" + encodeURIComponent(qnaStatus);
+			    }
+
+			    
+			    
 	  	</script>
 	</body>
 </html>
