@@ -51,6 +51,18 @@ public class ChatServiceImpl implements ChatService {
 		int result = cStore.deleteMsg(session, chat);
 		return result;
 	}
+
+	@Override
+	public List<ChatVO> selectChatList() {
+		List<ChatVO> cList = cStore.selectChatList(session);
+		return cList;
+	}
+
+	@Override
+	public List<ChatVO> selectNoChatList() {
+		List<ChatVO> cList = cStore.selectNoChatList(session);
+		return cList;
+	}
 	
 	
 }

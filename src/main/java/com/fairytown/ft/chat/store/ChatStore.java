@@ -24,6 +24,10 @@ public interface ChatStore {
 
 	int deleteMsg(SqlSession session, ChatVO chat);
 
+	List<ChatVO> selectChatList(SqlSession session);
+
+	List<ChatVO> selectNoChatList(SqlSession session);
+
 
 
 	

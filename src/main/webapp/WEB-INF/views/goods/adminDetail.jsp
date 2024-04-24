@@ -37,14 +37,13 @@
     <section class="content">
       <div class="container-fluid">
         <div class="row">
-         <div class="col-3"></div>
-          <div class="col-6">
+          <div class="col-12">
             <div class="card">
 			<div class="card-body">
 				<button type="button" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef;" onclick="showModifyPage();">수정</button>
 				<button type="button" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef;" onclick="deleteGoods();">삭제</button>
 				<button type="button" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef;" onclick="showGoodsList();">목록</button>
-                <table id="example2" class="table table-bordered table-hover">
+                <table id="example2" class="table table-bordered table-hover" style="margin-top:10px;">
                   <tbody>
 	                  <tbody>
 							<tr>

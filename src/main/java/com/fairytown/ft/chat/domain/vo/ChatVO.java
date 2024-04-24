@@ -1,5 +1,6 @@
 package com.fairytown.ft.chat.domain.vo;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 import lombok.AllArgsConstructor;

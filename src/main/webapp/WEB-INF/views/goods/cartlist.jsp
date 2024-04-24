@@ -70,16 +70,31 @@
 							<tr>
 								<td style="padding: 30px 0">
 									<div class="checkBox">
-									   <input type="checkbox" name="chBox" class="chBox" value="${cart.cartNum}" data-cartNum="${cart.cartNum}" />
+										<c:if test="${cart.goodsStock ne 0 }">
+										   <input type="checkbox" name="chBox" class="chBox" value="${cart.cartNum}" data-cartNum="${cart.cartNum}" />
+										</c:if>
 									</div>
 								</td>
-								<td><img src="../resources/guploadFiles/${cart.goodsFileRename }" width="100px" height="70px"></td>
+								<td style="position:relative;">
+									<c:if test="${cart.goodsStock ne 0 }">
+										<img src="../resources/guploadFiles/${cart.goodsFileRename }" width="100px" height="70px">
+									</c:if>
+									<c:if test="${cart.goodsStock eq 0 }">
+										<img src="../resources/guploadFiles/${cart.goodsFileRename }" width="100px" height="70px" style="filter: brightness(50%);">
+										<img src="../resources/guploadFiles/soldout.png" style="width:35%; position: absolute; top: 10px; left: 10px;">
+									</c:if>
+								</td>
 								<td style="padding: 30px 0">${cart.cartGoodsCode }</td>
 								<td style="padding: 30px 0"><a href="/goods/detail.ft?goodsCode=${cart.cartGoodsCode }">${cart.goodsName }</a></td>
 								<td style="padding: 30px 0">₩<fmt:formatNumber value="${cart.goodsPrice }" pattern="###,###,###"/></td>
 								<td style="padding: 30px 0">
 									<input type="hidden" value="${cart.goodsPrice}">
-									<input id="numBox${i.count}" name="numBox${i.count}" class="numBox${i.count}" type="number" min="1" max="${cart.goodsStock}" value="${cart.cartStock }"/>
+									<c:if test="${cart.goodsStock eq 0 }">
+										<input id="numBox${i.count}" name="numBox${i.count}" class="numBox${i.count}" type="number" min="0" max="${cart.goodsStock}" value="0"/>
+									</c:if>
+									<c:if test="${cart.goodsStock ne 0 }">
+										<input id="numBox${i.count}" name="numBox${i.count}" class="numBox${i.count}" type="number" min="1" max="${cart.goodsStock}" value="${cart.cartStock }"/>
+									</c:if>
 									<input type="hidden" value="${cart.cartNum}" name="cartNum${i.count}" id="cartNum${i.count}" class="cartNum${i.count}">
 								</td>
 								<td style="padding: 30px 0">₩<fmt:formatNumber pattern="###,###,###" value="${cart.goodsPrice * cart.cartStock}" /></td>

@@ -20,27 +20,30 @@
 		<div id="goods-search">
 			<div class="goodscontainer">
 			<h1 style="text-align:center;"><b>페어리타운 온라인 굿즈 스토어</b></h1>
-			<br><br><br><br><br>				
+			<br><br>
+			<div style="margin-left:900px;"><button type="button" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef;" onclick="showCart();"><i class="bi bi-cart4" style="float:left;"></i>&nbsp내 장바구니</button></div>
+			<br><br><br>				
 				<c:forEach items="${sList }" var="goods" varStatus="i">
-						<div class="album py-5" style="float:left; margin: 0 30px 0 30px">
+						<div class="album py-5" onclick="detailGoods(${goods.goodsCode })" style="float:left; margin: 0 30px 0 30px">
 						        <div>
 									<c:if test="${goods.goodsStock ne 0 }">						
-										<div class="card shadow-sm" style="width: 18rem;">
+										<div class="card shadow-sm" style="width: 18rem; position: relative;">
 										  <img src="../resources/guploadFiles/${goods.goodsFileRename }" class="card-img-top" alt="..." style="height:200px;">
 										  <div class="card-body">
 										   <ul class="list-group list-group-flush">
-											    <li class="list-group-item"> <h5 class="card-title"><a href="/goods/detail.ft?goodsCode=${goods.goodsCode }">${goods.goodsName }</a></h5></li>
+											    <li class="list-group-item"> <h5 class="card-title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><a href="/goods/detail.ft?goodsCode=${goods.goodsCode }">${goods.goodsName }</a></h5></li>
 											    <li class="list-group-item"><p class="card-text">₩<fmt:formatNumber value="${goods.goodsPrice }" pattern="###,###,###"/></p></li>
 											</ul>
 										  </div>
 										</div>
 									</c:if>
 									<c:if test="${goods.goodsStock eq 0 }">						
-										<div class="card" style="width: 18rem;">
-										  <img src="../resources/guploadFiles/${goods.goodsFileRename }" class="card-img-top" alt="..." style="height:200px;">
+										<div class="card" style="width: 18rem; position: relative;">
+										  <img src="../resources/guploadFiles/${goods.goodsFileRename }" class="card-img-top" alt="..." style="height:200px; filter: brightness(50%);">
+										  <img src="../resources/guploadFiles/soldout.png" style="width:100%; position: absolute; top: 10px; left: 0;">
 										  <div class="card-body">
 										   <ul class="list-group list-group-flush">
-											    <li class="list-group-item"> <h5 class="card-title"><a href="/goods/detail.ft?goodsCode=${goods.goodsCode }">${goods.goodsName } - 품절</a></a></h5></li>
+											    <li class="list-group-item"> <h5 class="card-title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><a href="/goods/detail.ft?goodsCode=${goods.goodsCode }">${goods.goodsName }</a></a></h5></li>
 											    <li class="list-group-item"><p class="card-text">₩<fmt:formatNumber value="${goods.goodsPrice }" pattern="###,###,###"/></p></li>
 											</ul>
 										  </div>
@@ -115,6 +118,12 @@
 		<jsp:include page="../inc/footer.jsp"></jsp:include>
 		<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 		<script>
+		function detailGoods(goodsCode) {
+			location.href = "/goods/detail.ft?goodsCode="+goodsCode;
+		}
+		function showCart() {
+			location.href = "/goods/cartList.ft";
+		}
 		$("#sortType").on("change", function() {
 			var sortType = $("#sortType option:selected").val();
 			var searchCondition = $("select[name='searchCondition']").val();
@@ -152,18 +161,18 @@
 							var searchKeyword = response.searchKeyword;
 							if(result.length > 0) {
 								for(var i in result) {
-									var goodsFileRenameVal = "<img src='../resources/guploadFiles/"+result[i].goodsFileRename+"' class='card-img-top' alt='...' style='height:200px;'>";
-									var goodsNameVal;
+									var goodsFileRenameVal;
 									if (result[i].goodsStock !== 0) {
-										goodsNameVal = "<li class='list-group-item'><h5 class='card-title'><a href='/goods/detail.ft?goodsCode="+result[i].goodsCode+"'>"+result[i].goodsName+"</a></h5></li>";
+										goodsFileRenameVal = "<img src='../resources/guploadFiles/"+result[i].goodsFileRename+"' class='card-img-top' alt='...' style='height:200px;'>";
 										 
 									} else {
-										goodsNameVal = "<li class='list-group-item'><h5 class='card-title'><a href='/goods/detail.ft?goodsCode="+result[i].goodsCode+"'>"+result[i].goodsName+"- 품절</a></h5></li>";
+										goodsFileRenameVal = "<img src='../resources/guploadFiles/"+result[i].goodsFileRename+"' class='card-img-top' alt='...' style='height:200px; filter: brightness(50%);'><img src='../resources/guploadFiles/soldout.png' style='width:100%; position: absolute; top: 10px; left: 0;'>";
 									}
+									var goodsNameVal = "<li class='list-group-item'><h5 class='card-title' style='white-space: nowrap; overflow: hidden; text-overflow: ellipsis;'><a href='/goods/detail.ft?goodsCode="+result[i].goodsCode+"'>"+result[i].goodsName+"</a></h5></li>";
 									var goodsPriceVal = "<li class='list-group-item'><p class='card-text'>"+new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(result[i].goodsPrice)+"</p></li>";
 									
-									album = $("<div class='album py-5' style='float:left; margin: 0 30px 0 30px'>");
-									shadow = $("<div class='card shadow-sm' style='width: 18rem;'>");
+									album = $("<div class='album py-5' onclick='detailGoods("+result[i].goodsCode+")' style='float:left; margin: 0 30px 0 30px'>");
+									shadow = $("<div class='card shadow-sm' style='width: 18rem; position: relative;'>");
 									cardBody = $("<div class='card-body'>");
 									ulg = $("<ul class='list-group list-group-flush'>");
 									
@@ -178,7 +187,7 @@
 								
 								if (pi.startNavi != 1) {
 									li = $("<li class='page-item'>");
-									a = $("<a onclick='oneMoreAjax();' class='page-link rounded-circle' href='javascript:void(0);' aria-label='Previous'>");
+									a = $("<a onclick='oneMoreAjax(\""+searchCondition+"\",\""+searchKeyword+"\","+(pi.startNavi-1)+", \""+sortType+"\");' class='page-link rounded-circle' href='javascript:void(0);' aria-label='Previous'>");
 									span = "<span aria-hidden='true'>&laquo;</span>";
 									a.append(span);
 									li.append(a);
@@ -187,7 +196,7 @@
 								
 								for (var p = pi.startNavi; p <= pi.endNavi; p++) {
 									li = $("<li class='page-item'>");
-									a = $("<a onclick='oneMoreAjax("+searchCondition+","+searchKeyword+","+p+", \""+sortType+"\");' class='page-link rounded-circle mx-2' href='javascript:void(0);' style='border: none; color: #313131;'>");
+									a = $("<a onclick='oneMoreAjax(\""+searchCondition+"\",\""+searchKeyword+"\","+p+", \""+sortType+"\");' class='page-link rounded-circle mx-2' href='javascript:void(0);' style='border: none; color: #313131;'>");
 									span = p;
 									a.append(span);
 									li.append(a);
@@ -197,8 +206,8 @@
 								
 								if (pi.endNavi != pi.naviTotalCount) {
 									li = $("<li class='page-item'>");
-									a = $("<a onclick='oneMoreAjax();' class='page-link rounded-circle' href='javascript:void(0);' aria-label='Next'>");
-									span = "<span aria-hidden='true'>&laquo;</span>";
+									a = $("<a onclick='oneMoreAjax(\""+searchCondition+"\",\""+searchKeyword+"\","+(pi.endNavi+1)+", \""+sortType+"\");' class='page-link rounded-circle' href='javascript:void(0);' aria-label='Next'>");
+									span = "<span aria-hidden='true'>&raquo;</span>";
 									a.append(span);
 									li.append(a);
 									ul.append(li);

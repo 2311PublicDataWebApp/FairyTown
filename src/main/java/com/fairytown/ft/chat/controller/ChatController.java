@@ -15,6 +15,7 @@ import com.fairytown.ft.chat.domain.vo.ChatVO;
 import com.fairytown.ft.chat.service.ChatService;
 import com.fairytown.ft.goods.domain.vo.CartVO;
 import com.fairytown.ft.goods.domain.vo.GoodsVO;
+import com.fairytown.ft.goods.domain.vo.OrderVO;
 import com.fairytown.ft.user.domain.vo.UserVO;
 
 import jakarta.servlet.http.HttpSession;
@@ -41,7 +42,7 @@ public class ChatController {
 			if(uOne != null) {
 				chat.setMsgSendId(uOne.getUserId());
 				result = cService.insertaddMsg(chat);
-				if (uOne.getUserAdmin() == "ADMIN") {
+				if ("ADMIN".equals(uOne.getUserAdmin())) {
 					cService.updateMsg(chat);
 				}
 			}
@@ -64,5 +65,38 @@ public class ChatController {
 			List<ChatVO> msgList = cService.selectMsgByChatId(chatUserId);
 			return msgList;
 		}
+		
+		// 어드민 채팅 목록
+ 		@GetMapping("/admin/chatList.ft")
+ 	    public ModelAndView ShowAdminChatList(ModelAndView mv, @ModelAttribute ChatVO chat, HttpSession session,
+ 	            @RequestParam(value="page", 
+ 	            required=false, defaultValue="1") Integer currentPage) {
+ 			try {
+ 				List<ChatVO> cList = cService.selectChatList();
+ 				mv.addObject("cList", cList);
+ 				mv.setViewName("goods/adminChatList");
+ 			} catch (Exception e) {
+ 				// TODO: handle exception
+ 				mv.addObject("msg", e.getMessage());
+ 				mv.setViewName("common/errorPage");
+ 			}
+ 			return mv;
+ 	    };
+ 	    // 어드민 답장 안 한 채팅 목록
+ 	    @GetMapping("/admin/noAnswerChat.ft")
+ 	    public ModelAndView ShowAdminNoChatList(ModelAndView mv, @ModelAttribute ChatVO chat, HttpSession session,
+ 	    		@RequestParam(value="page", 
+ 	    		required=false, defaultValue="1") Integer currentPage) {
+ 	    	try {
+ 	    		List<ChatVO> cList = cService.selectNoChatList();
+ 	    		mv.addObject("cList", cList);
+ 	    		mv.setViewName("goods/adminNoChatList");
+ 	    	} catch (Exception e) {
+ 	    		// TODO: handle exception
+ 	    		mv.addObject("msg", e.getMessage());
+ 	    		mv.setViewName("common/errorPage");
+ 	    	}
+ 	    	return mv;
+ 	    };
 
 }

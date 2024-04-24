@@ -45,6 +45,18 @@ public class ChatStoreImpl implements ChatStore {
 		return result;
 	}
 
+	@Override
+	public List<ChatVO> selectChatList(SqlSession session) {
+		List<ChatVO> cList = session.selectList("ChatMapper.selectChatList");
+		return cList;
+	}
+
+	@Override
+	public List<ChatVO> selectNoChatList(SqlSession session) {
+		List<ChatVO> cList = session.selectList("ChatMapper.selectNoChatList");
+		return cList;
+	}
+
 	
 
 

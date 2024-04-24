@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>굿즈 목록</title>
+<title>상담 채팅 내역</title>
 
 	<!-- DataTables -->
 	<link rel="stylesheet" href="../resources/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
@@ -21,12 +21,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>굿즈 목록</h1>
+            <h1>답장하지 않은 상담 채팅 내역</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">DataTables</li>
+              <li class="breadcrumb-item active"><a href="/admin/chatList.ft">상담 채팅 내역</a></li>
+              <li class="breadcrumb-item active">답장하지 않은 상담 채팅 내역</li>
             </ol>
           </div>
         </div>
@@ -36,28 +37,22 @@
     <section class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-12">
+        	<div class="col-3"></div>
+          <div class="col-6">
             <div class="card">
 			<div class="card-body">
-			<div style="text-align:right; margin-bottom:10px;">
-				<button type="button" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef;" onclick="GoodsInsert();">등록</button>
-			</div>
                 <table id="example2" class="table table-bordered table-hover">
                   <thead>
                   <tr>
-                    <th>상품코드</th>
-					<th>상품명</th>
-					<th>상품가격</th>
-					<th>상품재고</th>
+                    <th>번호</th>
+					<th>채팅방 유저</th>
                   </tr>
                   </thead>
                   <tbody>
-	                  <c:forEach items="${gList }" var="goods" varStatus="i">  
+	                  <c:forEach items="${cList }" var="chat" varStatus="i">  
 	                  <tr>
-	                    <td>${goods.goodsCode }</td>
-						<td><a href="/admin/goodsDetail.ft?goodsCode=${goods.goodsCode }">${goods.goodsName }</a></td>
-						<td>₩<fmt:formatNumber value="${goods.goodsPrice }" pattern="###,###,###"/></td>
-					  	<td>${goods.goodsStock }</td>
+	                    <td>${i.count }</th>
+						<td><input type="hidden" value="${chat.chatUserId }" id="userId"><a href="#" onclick="chatFunction()">${chat.chatUserId }</a></td>
 					  </tr>
 					  </c:forEach>
 				 </tbody>
@@ -65,6 +60,7 @@
               </div>
 			</div>	
 		</div>
+		<div class="col-3"></div>
 	</div>
 </div>
 </section>
@@ -83,11 +79,6 @@
 <script src="../resources/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="../resources/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="../resources/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-<script>
-function GoodsInsert() {
-	location.href = "/admin/goodsInsert.ft";
-}
-</script>
 <script>
   $(function () {
     $('#example2').DataTable({
@@ -126,5 +117,12 @@ function GoodsInsert() {
     });
   });
 </script>
+	<script>
+		function chatFunction() {
+			var userId = document.getElementById('userId').value;
+			let options = "location=no, toolbar=no, scrollbars=no, resizable=no, status=no, menubar=no, width=460, height=735, top=550, left=1500";
+			 window.open("/chat.ft?userId="+userId,"_blank", options);
+		}
+	</script>
 </body>
 </html>

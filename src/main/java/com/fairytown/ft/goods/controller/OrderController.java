@@ -135,7 +135,7 @@ public class OrderController {
 			return mv;
 		}
 	    
-	    // 주문 상세조회
+	    // 어드민 주문 상세조회
 	    @GetMapping("/admin/orderDetail.ft")
 	    public ModelAndView showAdminOrderDetail(ModelAndView mv
 	    		, @RequestParam("goodsOrderCode") String goodsOrderCode) {

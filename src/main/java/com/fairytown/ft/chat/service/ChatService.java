@@ -18,6 +18,10 @@ public interface ChatService {
 
 	int deleteMsg(ChatVO chat);
 
+	List<ChatVO> selectChatList();
+
+	List<ChatVO> selectNoChatList();
+
 	
 
 }

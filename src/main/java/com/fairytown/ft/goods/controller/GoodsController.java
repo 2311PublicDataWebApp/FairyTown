@@ -163,7 +163,7 @@ public class GoodsController {
 	 		paramMap.put("searchCondition", searchCondition);
 	 		paramMap.put("searchKeyword", searchKeyword);
 	 		int totalCount = gService.getTotalCount(paramMap);
-	 		PageInfo pi = this.getPageInfo(currentPage, totalCount);
+	 		PageInfo pi = this.get9PageInfo(currentPage, totalCount);
 	 		List<GoodsVO> searchList = gService.searchGoodsByKeyword(pi, paramMap);
 	 		mv.addObject("sList", searchList);
 	 		mv.addObject("pi", pi);
@@ -252,7 +252,7 @@ public class GoodsController {
 	 			}
 	 			int result = gService.updateGoods(goods);
 	 			if (result > 0) {
-	 				mv.setViewName("redirect:/goods/detail.ft?goodsCode=" + goodsCode);
+	 				mv.setViewName("redirect:/admin/goodsDetail.ft?goodsCode=" + goodsCode);
 	 			} else {
 	 				mv.addObject("msg", "데이터가 존재하지 않습니다.");
 	 				mv.setViewName("common/errorPage");

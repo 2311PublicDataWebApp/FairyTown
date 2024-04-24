@@ -88,6 +88,7 @@
 				</div>
 				<br><br>
 				<div class="d-flex col-md-12 justify-content-end">
+					<button type="button" class="btn" style="background-color: #FAFAFA; margin-right:10px; border-color: #e9ecef;" onclick="GoodsList();">목록</button>
 					<button type="submit" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef;">등록</button>
 				</div>
 			</form>
@@ -150,6 +151,11 @@
 	    }
     });
   });
+</script>
+<script>
+function GoodsList() {
+	location.href = "/admin/goodsList.ft";
+}
 </script>
 <script>
 		var myEditor;

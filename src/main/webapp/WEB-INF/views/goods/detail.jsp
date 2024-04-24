@@ -22,6 +22,11 @@
 		<jsp:include page="../inc/header.jsp"></jsp:include>
 		<div id="goods-detail">
 			<h1 style="text-align:center;"><b>굿즈 상세 정보</b></h1>
+			<br><br>
+			<div style="margin-left:990px;">
+				<button type="button" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef;" onclick="showGoodsList();">&nbsp굿즈 목록</button>
+				<button type="button" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef;" onclick="showCart();"><i class="bi bi-cart4" style="float:left;"></i>&nbsp내 장바구니</button>
+			</div>
 			<br><br><br>
 					<br>
 					<div class="thumbnail" style="float:left; margin: 0 50px 0 0;">				
@@ -48,14 +53,26 @@
 							</tr>
 							<tr>
 								<td><h3>구입 수량</h3></td>
-								<td><input class="numBox" type="number" min="1" max="${goods.goodsStock}" value="1" /> </td>
+								<td>
+									<c:if test="${goods.goodsStock ne 0 }">
+										<input class="numBox" type="number" min="1" max="${goods.goodsStock}" value="1" />
+									</c:if>
+									<c:if test="${goods.goodsStock eq 0 }">
+										<input class="numBox" type="number" min="0" max="${goods.goodsStock}" value="0" />
+									</c:if>
+								</td>
 							</tr>
 						</tbody>
 					</table>
-					<button type="button" id="addCart_btn" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef; margin:30px 0 0 250px; padding: 10px 10px"><h3><i class="bi bi-cart4" style="float:left;"></i>&nbsp카트에 담기</button></h3>
+					<c:if test="${goods.goodsStock ne 0 }">					
+						<button type="button" id="addCart_btn" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef; margin:30px 0 0 250px; padding: 10px 10px"><h3><i class="bi bi-cart4" style="float:left;"></i>&nbsp카트에 담기</button></h3>
+					</c:if>
+					<c:if test="${goods.goodsStock eq 0 }">
+						<button type="button" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef; margin:30px 0 0 270px; padding: 10px 30px"><h3>품절</button></h3>
+					</c:if>
 					<br><br><br><br><br><br><br><br><br>
 					<div style="background-color:#ACE0F8; height:80px; display: flex; justify-content: center"><h3 style="text-align:center; padding: 20px 0 0 0; color:white;">상 세 설 명</h3></div>
-					<div style="margin:auto;">${goods.goodsContent }</div>
+					<div style="margin:auto; text-align:center;">${goods.goodsContent }</div>
 		</div>
 		<br><br><br>
 		<jsp:include page="../inc/footer.jsp"></jsp:include>
@@ -90,6 +107,10 @@
 			});
 		</script>
 		<script type="text/javascript">
+			function showCart() {
+				location.href = "/goods/cartList.ft";
+			}
+			
 			function showModifyPage() {
 				var goodsCode = "${goods.goodsCode }";
 				location.href = "/goods/modify.ft?goodsCode=" + goodsCode;

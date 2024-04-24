@@ -95,8 +95,8 @@
 				</div>
 				<br><br>
 				<div class="d-flex col-md-12 justify-content-end">
+					<button type="button" class="btn" style="background-color: #FAFAFA; margin-right:10px; border-color: #e9ecef;" onclick="GoodsList();">목록</button>
 					<button type="submit" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef;">수정</button>
-					<button type="button" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef;" onclick="showGoodsList();">목록</button>
 				</div>
 			</form>
 		</div>
@@ -121,6 +121,11 @@
 <script src="../resources/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="../resources/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="../resources/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script>
+	function GoodsList() {
+		location.href = "/admin/goodsList.ft";
+	}
+</script>
 <script>
   $(function () {
     $('#example2').DataTable({
