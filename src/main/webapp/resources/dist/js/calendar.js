@@ -13,6 +13,7 @@
         setDate,
         daysLen = days.length;
 // options should like '2014-01-01'
+	var endDate = new Date(today.getTime() + (10 * 24 * 60 * 60 * 1000));
     function Calendar(selector, options) {
         this.options = options;
         this.draw();
@@ -78,27 +79,20 @@
             }
 
 	        // +10일까지의 날짜를 선택 가능하도록 "selectable" 아이디를 부여합니다.
-			var endDate = new Date(year, month, day + 9); 
-			if ((j >= day + startDay) && (j <= day + startDay + 9) && (new Date(year, month, j - day - startDay + 1) <= endDate) && (month === today.getMonth()) && (year === today.getFullYear())) {
-			    days[j].id = "selectable";
-			}
-
+	        var currentDate = new Date(year, month, j - startDay + 1); // 현재 날짜
+	        if(currentDate >= today && currentDate <= endDate && days[j].id !== "disabled") { 
+	            days[j].id = "selectable";
+	        }
         }
     };
     
 	Calendar.prototype.clickDay = function(o) {
-	    var selected = document.getElementsByClassName("selected"),
-	        len = selected.length;
-	    
-	    // 현재 달의 시작일과 종료일 설정
-	    var startDate = new Date(year, month, day); 
-	    var endDate = new Date(year, month, day + 10); 
-	    
-	    // 클릭한 날짜 설정
-	    var clickedDate = new Date(year, month, o.innerHTML);
-	    
-	    // 클릭한 날짜가 현재 달의 시작일과 종료일 사이에 있는지 확인
-	    if (clickedDate >= startDate && clickedDate <= endDate && month === today.getMonth() && year === today.getFullYear()) {
+    	// 클릭한 날짜의 아이디가 "selectable"인지 확인합니다.
+		if ((o.id === "selectable" || o.id === "today")) {
+	        var selected = document.getElementsByClassName("selected"),
+	            len = selected.length;
+	        
+	        // 선택된 날짜를 표시합니다.
 	        if (len !== 0) {
 	            selected[0].className = "";
 	        }
@@ -107,10 +101,10 @@
 	        this.drawHeader(o.innerHTML);
 	        this.setCookie('selected_day', 1);
 	    } else {
-	        alert("예약은 당일로부터 10일간만 가능합니다!");
+	        // "selectable" 아이디가 아닌 경우 예약이 불가능하다는 메시지를 표시합니다.
+	        alert("해당 날짜는 예약이 불가능합니다.");
 	    }
 	};
-
     
     Calendar.prototype.preMonth = function() {
         if(month < 1){ 

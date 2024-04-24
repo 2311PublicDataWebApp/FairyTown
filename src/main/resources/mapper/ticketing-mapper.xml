@@ -38,5 +38,11 @@
   		SET PURCHASE_SUCCESS = 'C'
 		WHERE TICKETING_CODE = #{ticketingCode}
   	</update>
-  	
+  	<select id="TicketingList" resultMap="TicketingResultMap">
+  		SELECT * FROM TICKETING_TBL
+  	</select>
+  	<select id="TicketingDetail" resultMap="TicketingResultMap">
+  		SELECT * FROM TICKETING_TBL
+  		WHERE TICKETING_CODE = #{ticketCode}
+  	</select>
   </mapper>

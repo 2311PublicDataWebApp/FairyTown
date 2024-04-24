@@ -2,6 +2,7 @@ package com.fairytown.ft.ticketing.service;
 
 import java.util.List;
 
+import com.fairytown.ft.common.PageInfo;
 import com.fairytown.ft.ticket.domain.vo.TicketVO;
 import com.fairytown.ft.ticketing.domain.vo.TicketingVO;
 import com.fairytown.ft.user.domain.vo.UserVO;
@@ -42,5 +43,20 @@ public interface TicketingService {
 	 * @return
 	 */
 	TicketVO selectByTicketNo(Integer ticketNo);
+
+	/**
+	 * 관리자 - 티켓팅조회
+	 * @return
+	 */
+	List<TicketingVO> TicketingList();
+
+	/**
+	 * 관리자 티켓 결제상세 뷰
+	 * @param ticketCode
+	 * @return
+	 */
+	TicketingVO TicketingDetail(String ticketCode);
+
+	List<TicketingVO> ticketingListSelectPage(UserVO user, PageInfo pInfo);
 
 }

@@ -29,6 +29,13 @@ public class BookingStoreImpl implements BookingStore{
 		return result;
 	}
 
+	// 예약 개별 수정
+	@Override
+	public int bookingUpdateOne(SqlSession session, BookingVO bbOne) {
+		int result = session.update("BookingMapper.bookingUpdateOne", bbOne);
+		return result;
+	}
+
 	// 예약 전체 삭제
 	@Override
 	public int bookingDelete(SqlSession session,  String userId) {
@@ -38,13 +45,47 @@ public class BookingStoreImpl implements BookingStore{
 
 	// 기본예약 예약
 	@Override
-	public int bookingBasic(SqlSession session, List<RideVO> rideList) {
+	public int bookingBasic(SqlSession session, List<BookingVO> bookingList) {
 	    int totalCount = 0;
-	    for (RideVO ride : rideList) {
-	        int result = session.insert("BookingMapper.bookingBasic", ride);
+	    for (BookingVO booking : bookingList) {
+	        int result = session.insert("BookingMapper.bookingBasic", booking);
 	        totalCount += result;
 	    }
 	    return totalCount;
+	}
+
+	// 관리자 놀이기구 예약관리
+	@Override
+	public List<BookingVO> BookingList(SqlSession session) {
+		List<BookingVO> bList = session.selectList("BookingMapper.BookingList");
+		return bList;
+	}
+
+	// 관리자 놀이기구 상세 뷰
+	@Override
+	public BookingVO BookingDetail(SqlSession session, String bookingNumber) {
+		BookingVO bOne = session.selectOne("BookingMapper.BookingDetail",bookingNumber);
+		return bOne;
+	}
+
+	// 관리자 놀이기구 예약 수정 
+	@Override
+	public BookingVO adminBookingUpdate(SqlSession session,BookingVO bbOne) {
+		int result = session.update("BookingMapper.adminBookingUpdate", bbOne);
+		if (result > 0) {
+			String bookingNumber = String.valueOf(bbOne.getBookingNumber());
+			BookingVO bOne = this.BookingDetail(session, bookingNumber);
+			return bOne;
+		}else {
+	        throw new RuntimeException("Failed to update booking.");
+		}
+	}
+
+	// 관리자 놀이기구 예약 삭제
+	@Override
+	public int adminBookingDelete(SqlSession session, BookingVO bbOne) {
+		int result = session.delete("BookingMapper.adminBookingDelete", bbOne);
+		return result;
 	}
 
 	@Override
@@ -52,7 +93,11 @@ public class BookingStoreImpl implements BookingStore{
 		int limit = pInfo.getBoardLimit();
 		int offset = (pInfo.getCurrentPage() - 1) * pInfo.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		List<BookingVO> bListP = session.selectList("BookingMapper.BookingListSelect", user, rowBounds); 
+		List<BookingVO> bListP = session.selectList("BookingMapper.BookingListSelect", user, rowBounds);
+		for (BookingVO booking : bListP) {
+			RideVO ride = session.selectOne("com.fairytown.ft.ride.store.RideStore.selectByRideId",booking.getRideId());
+			booking.setRide(ride);
+		}
 		return bListP;
 	}
 }

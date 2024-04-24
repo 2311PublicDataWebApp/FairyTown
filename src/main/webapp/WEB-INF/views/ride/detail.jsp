@@ -21,7 +21,6 @@
 		<input type="hidden" name="rideStatus" value="${rList.rideStatus}">
 		<input type="hidden" name="rideLimit" value="${rList.rideLimit}">
 
-
         <!-- 타이틀 영역 -->
                 <table class="title_tbl" align="center">
                     <tr>

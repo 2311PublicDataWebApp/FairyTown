@@ -2,9 +2,11 @@ package com.fairytown.ft.ticketing.store.impl;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.fairytown.ft.common.PageInfo;
 import com.fairytown.ft.ticket.domain.vo.TicketVO;
 import com.fairytown.ft.ticketing.domain.vo.TicketingVO;
 import com.fairytown.ft.ticketing.store.TicketingStore;
@@ -53,6 +55,29 @@ public class TicketingStoreImpl implements TicketingStore{
 		TicketVO ticketOne = session.selectOne("com.fairytown.ft.ticket.store.TicketStore.selectByTicketNumber", ticketNumber);
 		ticketOne.setTicketNo(ticketNumber.toString());
 		return ticketOne;
+	}
+
+	// 관리자 - 티켓팅조회
+	@Override
+	public List<TicketingVO> TicketingList(SqlSession session) {
+		List<TicketingVO> tingList = session.selectList("TicketingMapper.TicketingList");
+		return tingList;
+	}
+
+	// 관리자 티켓 결제상세 뷰
+	@Override
+	public TicketingVO TicketingDetail(SqlSession session, String ticketCode) {
+		TicketingVO tingOne = session.selectOne("TicketingMapper.TicketingDetail",ticketCode);
+		return tingOne;
+	}
+
+	@Override
+	public List<TicketingVO> ticketingListSelectPage(SqlSession session, UserVO user, PageInfo pInfo) {
+		int limit = pInfo.getBoardLimit();
+		int offset = (pInfo.getCurrentPage() - 1) * pInfo.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<TicketingVO> tingListP = session.selectList("TicketingMapper.ticketingListSelect", user, rowBounds); 
+		return tingListP;
 	}
 
 }

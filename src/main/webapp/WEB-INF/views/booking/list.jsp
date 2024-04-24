@@ -8,8 +8,43 @@
 <title>예약 - 예약조회</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="../resources/dist/css/booking.css">
+<style>
+/* 모달 스타일 */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    right: 0; 
+    top: 0;
+    width: 16.666%; 
+    height: 100%; 
+    background-color: rgba(0,0,0,0.4); 
+}
+
+/* 모달 내용 */
+.modal-content-list {
+    background-color: #fefefe; 
+    position: fixed; 
+    right: 0; 
+    top: 0;
+    margin: 20%; 
+    padding: 20px;
+    border: 1px solid #888;
+}
+
+
+</style>
 </head>
 <body>
+<c:if test="${user eq null}">
+    <script>
+        if (confirm('로그인 후 이용 가능한 서비스입니다. 이동하시겠습니까?')) {
+            window.location.href = '/user/login.ft';
+        } else {
+            history.back();
+        }
+    </script>
+</c:if>
 	<!-- 공통 / 헤더 -->
 	<jsp:include page="../inc/header.jsp"></jsp:include>
 
@@ -36,7 +71,7 @@
 		            <div class="row p-2 bg-white border rounded">
 		                <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="https://i.imgur.com/QpjAiHq.jpg"></div>
 		                <div class="col-md-6 mt-1">
-		                	<h4>놀이기구 이름 : 아직안나와 아직안나와</h4>
+		                	<h4>놀이기구 이름 : ${booking.ride.rideName }</h4>
 							<div class="mt-1 mb-4 spec-1"><span>놀이기구 상세화면<br></span></div>
 							<h5>예약 인원 : ${booking.bookingPeople }</h5>
 		                    <h5>예약 날짜 : ${booking.bookingDate }</h5>
@@ -46,9 +81,11 @@
 		                    </div>
 		                </div>
 		                <div class="col-md-3 border-left mt-5">
-		                    <h6 class="text-success">탑승제한 : 아직안나와 아직안나와</h6>
+		                    <h6 class="text-success">탑승제한 : ${booking.ride.rideLimit }</h6>
 		                    <div class="d-flex flex-column mt-4 booking-button"><button class="btn btn-primary btn-sm" type="button" onclick="deleteBookingOne(${booking.bookingNumber })">취소</button></div>
-		                    <div class="d-flex flex-column mt-4 booking-button"><button class="btn btn-primary btn-sm" type="button">인원 변경</button></div>
+		                    <div class="d-flex flex-column mt-4 booking-button">
+								<button class="btn btn-primary btn-sm" type="button" onclick="openModal('${booking.bookingNumber}', '${booking.bookingPeople}')">인원 변경</button>
+							</div>
 		                </div>
 		            </div>
 		            
@@ -99,6 +136,20 @@
 	    </div>
 	</div>
   
+  	<!-- 공통 / 풋터 -->	
+	<jsp:include page="../inc/footer.jsp"></jsp:include>
+	
+	<div id="myModal" class="modal">
+	  <div class="modal-content-list">
+	    <p id="bookingInfo"></p>
+	    <script>
+	      var bookingInfo = document.getElementById("bookingInfo");
+	      bookingInfo.innerHTML = '<input type="hidden" id="bookingNumberInput" readonly> 예약 인원: <input type="text" id="bookingPeopleInput">';
+	    </script>
+	    <button onclick="updateBooking()">변경</button>
+	  </div>
+	</div>
+	
     <script>
     	// 예약 개별 삭제
     	function deleteBookingOne(bookingNumber) {
@@ -118,6 +169,7 @@
 	    	    });
     	    }
     	}
+    	
     	// 예약 전체 삭제
     	function deleteBooking(userId) {
     		var confirmDelete = confirm("정말 모든 예약을 취소하시겠습니까?");
@@ -136,8 +188,51 @@
 	    	    });
     		}
     	}
+    	// 모달 창 열기
+		function openModal(bookingNumber, bookingPeople) {
+		  // 모달 요소 가져오기
+		  var modal = document.getElementById("myModal");
+		  // 예약 번호와 예약 인원 input 박스에 값 설정
+		  document.getElementById("bookingNumberInput").value = bookingNumber;
+		  document.getElementById("bookingPeopleInput").value = bookingPeople;
+		  // 모달 열기
+		  modal.style.display = "block";
+		}
+
+    	// 모달 창 닫기
+    	function closeModal() {
+    	    var modal = document.getElementById("myModal");
+    	    modal.style.display = "none";
+    	}
+    	// 모달 영역 외부를 클릭했을 때 모달을 닫는 이벤트 처리
+    	window.onclick = function(event) {
+    	    var modal = document.getElementById('myModal');
+    	    if (event.target == modal) {
+    	        modal.style.display = "none";
+    	    }
+    	}
+
+    	function updateBooking() {
+   		  // 변경된 예약 번호와 예약 인원 가져오기
+   		  var bookingNumber = document.getElementById("bookingNumberInput").value;
+   		  var bookingPeople = document.getElementById("bookingPeopleInput").value;
+
+   		  // AJAX를 사용하여 변경된 값을 서버에 전달
+   		  $.ajax({
+   		    url: '/booking/update.ft',
+   		    type: 'POST',
+   		    data: { bookingNumber: bookingNumber, bookingPeople: bookingPeople },
+   		    success: function(response) {
+   		      alert(response);
+   		      location.reload(); // 페이지 새로고침
+   		    },
+   		    error: function(xhr, status, error) {
+   		      console.error('Error:', error);
+   		    }
+   		  });
+   		}
+
     </script>
-	<!-- 공통 / 풋터 -->	
-	<jsp:include page="../inc/footer.jsp"></jsp:include>
+
 </body>
 </html>

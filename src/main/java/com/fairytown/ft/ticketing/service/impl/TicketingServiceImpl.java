@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fairytown.ft.common.PageInfo;
 import com.fairytown.ft.ticket.domain.vo.TicketVO;
 import com.fairytown.ft.ticketing.domain.vo.TicketingVO;
 import com.fairytown.ft.ticketing.service.TicketingService;
@@ -51,6 +52,26 @@ public class TicketingServiceImpl implements TicketingService {
 	public TicketVO selectByTicketNo(Integer ticketNo) {
 		TicketVO ticketOne = tingStore.selectByTicketNo(session, ticketNo);
 		return ticketOne;
+	}
+
+	// 관리자 - 티켓팅조회
+	@Override
+	public List<TicketingVO> TicketingList() {
+		List<TicketingVO> tingList = tingStore.TicketingList(session);
+		return tingList;
+	}
+
+	// 관리자 티켓 결제상세 뷰
+	@Override
+	public TicketingVO TicketingDetail(String ticketCode) {
+		TicketingVO tingOne = tingStore.TicketingDetail(session, ticketCode);
+		return tingOne;
+	}
+
+	@Override
+	public List<TicketingVO> ticketingListSelectPage(UserVO user, PageInfo pInfo) {
+		List<TicketingVO> tingListP = tingStore.ticketingListSelectPage(session, user, pInfo);
+		return tingListP;
 	}
 
 }

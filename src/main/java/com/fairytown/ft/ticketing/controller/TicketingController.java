@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.fairytown.ft.common.PageInfo;
 import com.fairytown.ft.ticket.domain.vo.TicketVO;
-import com.fairytown.ft.ticket.service.TicketService;
 import com.fairytown.ft.ticketing.domain.vo.TicketingVO;
 import com.fairytown.ft.ticketing.service.TicketingService;
 import com.fairytown.ft.user.domain.vo.UserVO;
@@ -32,16 +33,16 @@ public class TicketingController {
 	private TicketingService tingService;
 	@Autowired
 	private UserService uService;
-	@Autowired
-	private TicketService tService;
 	
 	// 티켓팅 입력 진행 뷰
 	@GetMapping("/ticketing/regist.ft")
 	public String ticketingRegistView(Model model, @RequestParam(name = "ticketNo", required = false) Integer ticketNo, HttpServletRequest request) {
-		// 페이지 진입시 로그인이 되어있어야 합니다
 		try {
 			HttpSession session = request.getSession();
 			UserVO uOne = (UserVO) session.getAttribute("user");
+			if (uOne == null) {
+				return "ticketing/regist";
+			}
 			UserVO user = uService.selectUser(uOne.getUserId());
 			TicketVO ticketOne = new TicketVO();
 			if(ticketNo == null || ticketNo == 0) {
@@ -107,15 +108,22 @@ public class TicketingController {
 	}
 	// 결제 내역 리스트 뷰
 	@GetMapping("/ticketing/list.ft")
-	public String ticketingListView(Model model, HttpServletRequest request) {
-		// 페이지 진입시 로그인이 되어있어야 합니다.
+	public String ticketingListView(Model model, HttpServletRequest request,
+			@RequestParam(value="page", required=false, defaultValue="1") Integer currentPage) {
 		try {
 			HttpSession session = request.getSession();
 			UserVO uOne = (UserVO) session.getAttribute("user");
+			if (uOne == null) {
+				return "ticketing/list";
+			}
 			UserVO user = uService.selectUser(uOne.getUserId());	
 			List<TicketingVO> tingList = tingService.ticketingListSelect(user);
+			int totalCount = tingList.size();
+			PageInfo pInfo = this.getPageInfo(currentPage, totalCount);
+			List<TicketingVO> tingListP = tingService.ticketingListSelectPage(user, pInfo);
 			model.addAttribute("user", user);
-			model.addAttribute("tingList", tingList);
+			model.addAttribute("pi", pInfo);
+			model.addAttribute("tingList", tingListP);
 			return "ticketing/list";
 		} catch (Exception e) {
 			model.addAttribute("msg", e.getMessage());
@@ -142,5 +150,33 @@ public class TicketingController {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("예외 발생: " + e.getMessage());
 		}
 	}
+	// 관리자 티켓 결제관리 뷰
+	@GetMapping("/admin/ticketing/list.ft")
+	public String adminTicketingListView(Model model) {
+		try {
+			List<TicketingVO> tingList = tingService.TicketingList();
+			model.addAttribute("tingList", tingList);
+			return "admin/ticketinglist";
+		} catch (Exception e) {
+			model.addAttribute("msg", e.getMessage());
+			return "common/errorPage";
+		}
+	}
+	// 관리자 티켓 결제상세 뷰
+	@GetMapping("admin/ticketing/detail.ft")
+	public ResponseEntity<TicketingVO> adminTicketingDetail(@RequestParam("ticketingCode") String ticketingCode) {
+		try {
+			TicketingVO tingOne = tingService.TicketingDetail(ticketingCode);
+	        return ResponseEntity.ok(tingOne);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
 
+	// 페이징
+	private PageInfo getPageInfo(Integer currentPage, int totalCount) {
+		int boardLimit = 5; // 한 페이지당 보여줄 게시물의 갯수
+		PageInfo pi = new PageInfo(currentPage, totalCount, boardLimit);
+		return pi;
+	}
 }

@@ -300,31 +300,33 @@ public class RideController {
 		}
 	 	
 	 	
-//		놀이기구 상세
-//		ride/detail.ft
-	 	@GetMapping("/ride/detail.ft")
-		public ModelAndView selectrideuserdetail(ModelAndView mv,
-				@RequestParam("rideId") int rideId) {
-			try {
-				RideVO rList = rService.selectUserRideByRideId(rideId);
-				List<RimgVO> rImg = rService.selectUserImgByRideId(rideId);
-					mv.addObject("rList", rList);
-					mv.addObject("rImg", rImg);
-					mv.setViewName("ride/detail");
-			} catch (Exception e) {
-				mv.addObject("msg", e.getMessage());
-				mv.setViewName("common/errorPage");
-			}
-			return mv;
-		}
+//      놀이기구 상세
+//      ride/detail.ft
+       @GetMapping("/ride/detail.ft")
+      public ModelAndView selectrideuserdetail(ModelAndView mv,
+              @RequestParam("rideId") int rideId) {
+          try {
+              RideVO rList = rService.selectUserRideByRideId(rideId);
+              List<RimgVO> rImg = rService.selectUserImgByRideId(rideId);
+                  mv.addObject("rList", rList);
+                  mv.addObject("rImg", rImg);
+                  mv.setViewName("ride/detail");
+          } catch (Exception e) {
+              mv.addObject("msg", e.getMessage());
+              mv.setViewName("common/errorPage");
+          }
+          return mv;
+      }
+
+       @PostMapping("/ride/detail.ft")
+       public String showRideDetailForBooking(@ModelAttribute RideVO ride, HttpSession session) {
+           List<RideVO> rideList = new ArrayList<>();
+           rideList.add(ride);
+           session.setAttribute("rideList", rideList);
+           return "redirect:/booking/basic.ft";
+       }
+
 	 	
-	 	@PostMapping("/ride/detail.ft")
-	       public String showRideDetailForBooking(@ModelAttribute RideVO ride, HttpSession session) {
-	           List<RideVO> rideList = new ArrayList<>();
-	           rideList.add(ride);
-	           session.setAttribute("rideList", rideList);
-	           return "redirect:/booking/basic.ft";
-	       }
 	
 
 	

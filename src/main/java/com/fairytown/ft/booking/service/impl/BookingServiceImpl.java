@@ -35,6 +35,13 @@ public class BookingServiceImpl implements BookingService{
 		return result;
 	}
 
+	// 예약 개별 수정
+	@Override
+	public int bookingUpdateOne(BookingVO bbOne) {
+		int result = bStore.bookingUpdateOne(session, bbOne);
+		return result;
+	}
+
 	// 예약 전체 삭제
 	@Override
 	public int bookingDelete(String userId) {
@@ -44,8 +51,35 @@ public class BookingServiceImpl implements BookingService{
 
 	// 기본예약 예약
 	@Override
-	public int bookingBasic(List<RideVO> rideList) {
-		int result = bStore.bookingBasic(session, rideList);
+	public int bookingBasic(List<BookingVO> bookingList) {
+		int result = bStore.bookingBasic(session, bookingList);
+		return result;
+	}
+	// 관리자 놀이기구 예약관리
+	@Override
+	public List<BookingVO> BookingList() {
+		List<BookingVO> bList = bStore.BookingList(session);
+		return bList;
+	}
+
+	// 관리자 놀이기구 상세 뷰
+	@Override
+	public BookingVO BookingDetail(String bookingNumber) {
+		BookingVO bOne = bStore.BookingDetail(session, bookingNumber);
+		return bOne;
+	}
+
+	// 관리자 놀이기구 예약 수정
+	@Override
+	public BookingVO adminBookingUpdate(BookingVO bbOne) {
+		BookingVO bOne = bStore.adminBookingUpdate(session, bbOne);
+		return bOne;
+	}
+
+	// 관리자 놀이기구 예약 삭제
+	@Override
+	public int adminBookingDelete(BookingVO bbOne) {
+        int result = bStore.adminBookingDelete(session, bbOne);
 		return result;
 	}
 
@@ -54,5 +88,6 @@ public class BookingServiceImpl implements BookingService{
 		List<BookingVO> bListP = bStore.BookingListSelectPage(session, user, pInfo);
 		return bListP;
 	}
+
 	
 }

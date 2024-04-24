@@ -9,10 +9,14 @@
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="../resources/plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
+<<<<<<< HEAD
   <link rel="stylesheet" href="../resources/dist/css/adminlte.min.css">
+=======
+  <link rel="stylesheet" href="../../resources/dist/css/adminlte.min.css">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+>>>>>>> refs/remotes/origin/sawoojin0424
   
 </head>
 <body class="hold-transition sidebar-mini">
@@ -99,8 +103,8 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="/admin.ft" class="brand-link">
-      <img src="../resources/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">BYKING 관리화면</span>
+      <img src="../../resources/dist/img/AdminMainLogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light">FAIRYTOWN 관리</span>
     </a>
 
     <!-- Sidebar -->
@@ -125,7 +129,7 @@
                with font-awesome or any other icon font library -->
 		<li class="nav-header">아마 대쉬보드</li>               
           <li class="nav-item menu-open">
-            <a href="/admin.ft" class="nav-link active">
+            <a href="/admin.ft" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 임시 첫화면
@@ -134,7 +138,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/admin.ft" class="nav-link active">
+                <a href="/admin.ft" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>임시 첫화면</p>
                 </a>
@@ -151,38 +155,39 @@
 			<li class="nav-header">회원관리</li>
 			<li class="nav-item">
 	            <a href="/admin/userlist.ft" class="nav-link">
-	              <i class="nav-icon far fa-calendar-alt"></i>
+	              <i class="nav-icon fa-solid fa-users"></i>
 	              <p>회원관리</p>
 	            </a>
 			</li>
 			<li class="nav-item">
 	            <a href="/admin/blacklist.ft" class="nav-link">
-	              <i class="nav-icon far fa-calendar-alt"></i>
+	              <i class="nav-icon fa-solid fa-user-slash"></i>
 	              <p>블랙리스트 관리</p>
 	            </a>
 			</li>
           <li class="nav-header">전시관리</li>
 			<li class="nav-item">
 	            <a href="#" class="nav-link">
-	              <i class="nav-icon far fa-calendar-alt"></i>
+	              <i class="nav-icon fa-solid fa-newspaper"></i>
 	              <p>배너 관리</p>
 	            </a>
 			</li>
 			<li class="nav-item">
 	            <a href="/admin/review/list.ft" class="nav-link">
-	              <i class="nav-icon far fa-calendar-alt"></i>
+	              <i class="nav-icon fa-solid fa-face-smile"></i>
 	              <p>리뷰 관리</p>
 	            </a>
 			</li>
 			<li class="nav-item">
-	            <a href="#" class="nav-link">
-	              <i class="nav-icon far fa-calendar-alt"></i>
+	            <a href="/admin/goodsList.ft" class="nav-link">
+	              <i class="nav-icon fa-solid fa-store"></i>
 	              <p>굿즈샵 상품 관리</p>
 	            </a>
 			</li>
 			<li class="nav-item">
 	            <a href="/admin/ridelist.ft" class="nav-link">
 	              <i class="nav-icon far fa-calendar-alt"></i>
+	              <i class="nav-icon fa-solid fa-landmark-flag"></i>
 	              <p>놀이기구 관리</p>
 	            </a>
 			</li>
@@ -194,7 +199,7 @@
 			</li>
 			<li class="nav-item">
 	            <a href="/admin/ticketlist.ft" class="nav-link">
-	              <i class="nav-icon far fa-calendar-alt"></i>
+	              <i class="nav-icon fa-solid fa-ticket"></i>
 	              <p>티켓 관리</p>
 	            </a>
 			</li>															          
@@ -207,26 +212,26 @@
 			</li>
           	<li class="nav-item">
 	            <a href="/admin/ticketing/list.ft" class="nav-link">
-	              <i class="nav-icon far fa-calendar-alt"></i>
+	              <i class="nav-icon fa-solid fa-cash-register"></i>
 	              <p>티켓 결제관리</p>
 	            </a>
 			</li>
           	<li class="nav-item">
-	            <a href="#" class="nav-link">
-	              <i class="nav-icon far fa-calendar-alt"></i>
+	            <a href="/admin/orderList.ft" class="nav-link">
+	              <i class="nav-icon fa-solid fa-cart-flatbed"></i>
 	              <p>굿즈샵 주문관리</p>
 	            </a>
 			</li>						
           <li class="nav-header">고객센터</li>
           	<li class="nav-item">
 	            <a href="/admin/notice/list.ft" class="nav-link">
-	              <i class="nav-icon far fa-calendar-alt"></i>
+	              <i class="nav-icon fa-solid fa-bell"></i>
 	              <p>공지사항 관리</p>
 	            </a>
 			</li>
           	<li class="nav-item">
 	            <a href="#" class="nav-link">
-	              <i class="nav-icon far fa-calendar-alt"></i>
+	              <i class="nav-icon fa-solid fa-comments"></i>
 	              <p>1:1문의 관리</p>
 	            </a>
 			</li>			          
@@ -239,11 +244,38 @@
 
 </div>
 <!-- ./wrapper -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
 
+    var currentPageUrl = window.location.pathname;
+    var navLinks = document.querySelectorAll('.nav-link');
+    // 모든 네비게이션 항목을 반복하면서 active 클래스를 적용합니다.
+    navLinks.forEach(function(link) {
+        // 현재 항목의 href 속성값을 가져옵니다.
+        var linkUrl = link.getAttribute('href');
+
+        // 현재 페이지와 항목의 href가 일치하는 경우에 active 클래스를 추가합니다.
+        if (linkUrl === currentPageUrl) {
+            link.classList.add('active');
+
+            // 부모 요소의 상위 nav-item이 있는 경우에도 active 클래스를 추가합니다.
+            var parentNav = link.closest('.nav-item');
+            if (parentNav) {
+                parentNav.classList.add('active');
+                parentNav.classList.add('menu-open');
+            }
+        } else {
+            // 현재 페이지와 일치하지 않는 항목의 active 클래스를 삭제합니다.
+            link.classList.remove('active');
+        }
+    });
+});
+
+</script>
 <!-- jQuery -->
-<script src="../resources/plugins/jquery/jquery.min.js"></script>
+<script src="../../resources/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="../resources/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../resources/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../resources/dist/js/adminlte.min.js"></script>
 <script src="../resources/plugins/select2/js/select2.full.min.js"></script>
