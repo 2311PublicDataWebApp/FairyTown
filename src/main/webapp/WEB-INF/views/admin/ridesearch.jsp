@@ -6,40 +6,54 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>[ADMIN] 놀이기구</title>
+<!-- DataTables -->
+	<link rel="stylesheet" href="../resources/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet" href="../resources/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+	<link rel="stylesheet" href="../resources/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 </head>
 <body>
-	<!-- 공통 / 헤더 -->
-	<jsp:include page="../inc/header.jsp"></jsp:include>
-
-		<!-- 어드민 타이틀 영역 -->
-			<div class="admTitle">
-				<table class="title_tbl">
-					<tr>
-						<td class="titleFirst"><h2>놀이기구</h2></td>
-					</tr>
-					<tr>
-						<td class="titleSecond"><h4>놀이기구 조회</h4></td>
-					</tr>
-				</table>
+<!-- 공통 / 헤더 -->
+	<jsp:include page="../inc/adminheader.jsp"></jsp:include>
+<!-- Content Header -->
+	<div class="content-wrapper">
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>놀이기구 목록</h1>
+          </div>
+          	<!-- breadcrumb -->
+			<div class="col-sm-6">
+				<ol class="breadcrumb float-sm-right">
+					<li class="breadcrumb-item"><a href="#">놀이기구 관리</a></li>
+					<li class="breadcrumb-item active">놀이기구 목록</li>
+				</ol>
 			</div>
+			<!-- breadcrumb -->
+        </div>
+      </div>
+    </section>
 		
-		<!-- 컨텐츠 영역 -->
-			<div class="content">
-				
-				<!-- 목록 테이블 -->
-				<table class="table_ride_list">
-					<tr>
-						<td colspan="5"><input type="button" name="rideregist" onClick="showRegist();" value="등록하기"></td>
-						<td colspan="6">총 ${totalCount}개</td>
+		<!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+			<div class="card-body">
+                <table id="example2" class="table table-bordered table-hover">
+                  <thead>
+                  <tr> 
+						<td colspan="5">
+						<input type="button" name="rideregist" style="margin-left:90%" class="btn btn-secondary" onClick="showRegist();" value="등록하기">
+						</td>
 					</tr>
-					
 					<tr>
-						<td>번호</td>
-						<td>놀이기구명</td>
-						<td>탑승제한</td>
-						<td>운휴상태</td>
-						<td>등록일</td>
+					<th style="width:80px; text-align:center;">번호</th>
+				<th style="width:120px; text-align:center;">놀이기구명</th>
+				<th style="width:240px; text-align:center;">탑승제한</th>
+				<th style="width:80px; text-align:center;">운휴상태</th>
+				<th style="width:80px; text-align:center;">등록일</th>
 					</tr>
 					
 					<!-- 	등록된 운영 휴무 계획이 있는 경우 -->
@@ -47,27 +61,27 @@
 							<c:when test="${fn:length(sList) != 0 }">
 								<c:forEach items="${sList }" var="ride" varStatus="i">
 									<tr class="ride_list_tr">
-										<td class="list_first_td">
-											<a href="/admin/ridedetail.ft?rideId=${ride.rideId }">${i.count }</a>
+										<td class="list_first_td" style="text-align:center;">
+											<a href="/admin/ridedetail.ft?rideId=${ride.rideId }" style="color:black;">${i.count }</a>
 										</td>
-										<td class="list_second_td">
-											<a href="/admin/ridedetail.ft?rideId=${ride.rideId }">${ride.rideName }</a>
+										<td class="list_second_td" style="text-align:center;">
+											<a href="/admin/ridedetail.ft?rideId=${ride.rideId }" style="color:black;">${ride.rideName }</a>
 										</td>
-										<td class="list_third_td">
-											<a href="/admin/ridedetail.ft?rideId=${ride.rideId }">${ride.rideLimit}</a>
+										<td class="list_third_td" style="text-align:center;">
+											<a href="/admin/ridedetail.ft?rideId=${ride.rideId }" style="color:black;">${ride.rideLimit}</a>
 										</td>
 										<c:set var="rStatus" value="${ride.rideStatus }" />
 											<c:if test="${rStatus eq 'Y' }">
-												<td class="list_fifth_td"><a
-													href="/admin/ridedetail.ft?rideId=${ride.rideId }">정상운행</a></td>
+												<td class="list_fifth_td" style="text-align:center;"><a
+													href="/admin/ridedetail.ft?rideId=${ride.rideId }" style="color:black;">정상운행</a></td>
 											</c:if>
 											<c:if test="${rStatus eq 'N'}">
-												<td class="list_third_td"><a
-													href="/admin/ridedetail.ft?rideId=${ride.rideId }">임시휴무</a></td>
+												<td class="list_third_td" style="text-align:center;"><a
+													href="/admin/ridedetail.ft?rideId=${ride.rideId }" style="color:black;">임시휴무</a></td>
 											</c:if>
 										
-										<td class="list_sixth_td">
-											<a href="/admin/ridedetail.ft?rideId=${ride.rideId }">${ride.rideDate}</a>
+										<td class="list_sixth_td" style="text-align:center;">
+											<a href="/admin/ridedetail.ft?rideId=${ride.rideId }" style="color:black;">${ride.rideDate}</a>
 										</td>
 									</tr>
 								</c:forEach>
@@ -76,13 +90,13 @@
 								<tr align="center" class="pgn">
 									<td colspan="5">
 										<c:if test="${pi.startNavi ne '1' }">
-											<a href="/admin/ridesearch.ft?page=${pi.startNavi - 1 }">[이전]</a>
+											<a href="/admin/ridesearch.ft?page=${pi.startNavi - 1 }" style="color:black;">[이전]</a>
 										</c:if> 
 										<c:forEach begin="${pi.startNavi }" end="${pi.endNavi }" var="p">
-											<a href="/admin/ridesearch.ft?page=${p }">${p }</a>
+											<a href="/admin/ridesearch.ft?page=${p }" style="color:black;">${p }</a>
 										</c:forEach> 
 											<c:if test="${pi.endNavi ne pi.naviTotalCount }">
-												<a href="/admin/ridesearch.ft?page=${pi.endNavi + 1 }">[다음]</a>
+												<a href="/admin/ridesearch.ft?page=${pi.endNavi + 1 }" style="color:black;">[다음]</a>
 											</c:if>
 									</td>
 								</tr>
@@ -93,14 +107,14 @@
 										<p class="nullmsg_search">
 											검색된 놀이기구가 없습니다.<br>
 										</p>
-										<button type="button" class="empty_reg_btn"
+										<button type="button" class="empty_reg_btn btn btn-secondary"
 											onClick="showRegist();">등록하기</button>
 							</c:otherwise>
 						</c:choose>
 										
 				<tr>				
 				<!-- 검색 영역 -->
-					<td colspan="5">
+					<td align="center" colspan="5">
 					    <form class="search_form" action="/admin/ridesearch.ft" name="search_form" method="post">
 							<input type="hidden" name="page" value="1">
 							<div class="search_select">
@@ -114,15 +128,24 @@
 							<div class="search_button">
 								<div class="input">
 									<input type="search" name="searchKeyword" id="searchKeyword" value="${searchKeyword }">
-									<input type="submit" class="btn" onClick="return Checkalert();" value="검색"/>
-									<input type="button" class="btn search_reset"  onClick="removeWord();" value="초기화"/>
+									<button type="submit" class="btn btn-secondary" onClick="Checkalert();">검색</button>
+									<input type="button" class="btn btn-default"  onClick="removeWord();" value="초기화"/>
 								</div>
-							</div>
-						</form>
-					</td>
-				</tr>
-			</table>
+									</div>
+								</form>
+						</td> 
+					</tr>
+                  </tbody>
+                  <tfoot>
+                </table>
+              </div>
+			</div>	
 		</div>
+	</div>
+</div>
+</section>
+</div>
+<jsp:include page="../inc/adminfooter.jsp"></jsp:include>
 	
 		<script>
 		// 검색 목록 페이지 사용 JS : Checkalert(),removeWord(),showRegist()
@@ -149,9 +172,7 @@
 				}
 						 
 		</script>
-	  
-	<!-- 공통 / 풋터 -->
-	<jsp:include page="../inc/footer.jsp"></jsp:include>
+
 	
 </body>
 </html>

@@ -2,61 +2,139 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>[ADMIN] 휴무일 정보</title>
+<!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../resources/plugins/fontawesome-free/css/all.min.css">
+  <!-- daterange picker -->
+  <link rel="stylesheet" href="../resources/plugins/daterangepicker/daterangepicker.css">
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="../resources/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- Bootstrap Color Picker --> 
+  <link rel="stylesheet" href="../resources/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
+  <!-- Tempusdominus Bootstrap 4 -->
+  <link rel="stylesheet" href="../resources/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="../resources/plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="../resources/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+  <!-- Bootstrap4 Duallistbox -->
+  <link rel="stylesheet" href="../resources/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
+  <!-- BS Stepper -->
+  <link rel="stylesheet" href="../resources/plugins/bs-stepper/css/bs-stepper.min.css">
+  <!-- dropzonejs -->
+  <link rel="stylesheet" href="../resources/plugins/dropzone/min/dropzone.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../resources/dist/css/adminlte.min.css">
 </head>
-<body>
+<body class="hold-transition sidebar-mini">
 	<!-- 공통 / 헤더 -->
-	<jsp:include page="../inc/header.jsp"></jsp:include>
-
-		<form action="/admin/closeregist.ft" method="post" name="closeForm">
+	<jsp:include page="../inc/adminheader.jsp"></jsp:include>
+	<div class="content-wrapper">
 			
-		<!-- 어드민 타이틀 영역 -->
-			<div class="admTitle">
-				<table class="title_tbl">
-					<tr>
-						<td class="titleFirst"><h2>운휴정보</h2></td>
-					</tr>
-					<tr>
-						<td class="titleSecond"><h4>휴무일 상세정보</h4></td>
-					</tr>
-				</table>
-			</div>
-		
-		<!-- 컨텐츠 영역 -->
-			<div class="content">
-			<input type="hidden" name="rideId" value="rideId">
-				<table class="table_close">
-					<tr>
-						<td>놀이기구명 <sup style="color: red">*</sup>: </td>
-						<td>
-							<span>${close.rideName }</span>
-						</td>
-					</tr>
-					<tr>
-						<td>날짜 <sup style="color: red">*</sup>: </td>
-						<td><span>${close.closeDate }</span>
-					</tr>
-					<tr>
-						<td>사유 : </td>
-						<td>
-							<span>${close.closeReason }</span>
-							
-						</td>
-					</tr>
-					<tr>
-						<td colspan="5">
-							<input type="reset" value="이전으로" onClick="goBack();">
-							<input type="button" value="수정하기" onclick="modifyClose(${close.rideId});">
-							<input type="button" value="삭제하기" onclick="deleteClose(${close.rideId});">
-						</td>
-					</tr>
-				</table>
-			</div>
-		</form>
+	<section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>휴무일 상세정보</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">운휴정보</a></li>
+              <li class="breadcrumb-item"><a href="#">휴무일 상세정보</a></li>
+              <li class="breadcrumb-item active">${close.rideName }</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <!-- Default box -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">휴무일 상세정보</h3>
+              </div>
+              <div class="card-body">
+	               <table>
+		              	<tr>
+							<td style="text-align:right;">놀이기구명 <sup style="color: red">*</sup> : </td>
+							<td><span>&nbsp;&nbsp;${close.rideName }</span></td>
+						</tr>
+						<tr>
+							<td style="text-align:right;">날짜 <sup style="color: red">*</sup> : </td>
+							<td><span>&nbsp;&nbsp;${close.closeDate }</span></td>
+						</tr>
+						<tr>
+							<td style="text-align:right;">사유 : </td>
+							<td>
+							    <c:choose>
+							        <c:when test="${close.closeReason == 'all'}">&nbsp;&nbsp;전체</c:when>
+							        <c:when test="${close.closeReason == 'regular'}">&nbsp;&nbsp;정기휴무</c:when>
+							        <c:when test="${close.closeReason == 'disaster'}">&nbsp;&nbsp;천재지변</c:when>
+							        <c:when test="${close.closeReason == 'outoforder'}">&nbsp;&nbsp;기기수리</c:when>
+							        <c:when test="${close.closeReason == 'vacation'}">&nbsp;&nbsp;담당자부재</c:when>
+							        <c:when test="${close.closeReason == 'etc'}">&nbsp;&nbsp;기타</c:when>
+							    </c:choose>
+							   </td>
+						</tr>
+					</table>
+              </div>
+              <!-- /.card-body -->
+              <div class="card-footer">
+              	<input type="button" value="목록으로" class="btn btn-secondary" onClick="goMenu();">
+				<input type="button" value="수정하기"  class="btn btn-secondary"  onclick="return modifyClose(${close.rideId});">
+				<input type="button" value="삭제하기"  class="btn btn-secondary"  onclick="return deleteClose(${close.rideId});">
+               </div>
+              <!-- /.card-footer-->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+	
+
+		<!-- jQuery -->
+<script src="../resources/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../resources/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Select2 -->
+<script src="../resources/plugins/select2/js/select2.full.min.js"></script>
+<!-- Bootstrap4 Duallistbox -->
+<script src="../resources/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+<!-- InputMask -->
+<script src="../resources/plugins/moment/moment.min.js"></script>
+<script src="../resources/plugins/inputmask/jquery.inputmask.min.js"></script>
+<!-- date-range-picker -->
+<script src="../resources/plugins/daterangepicker/daterangepicker.js"></script>
+<!-- bootstrap color picker -->
+<script src="../resources/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="../resources/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Bootstrap Switch -->
+<script src="../resources/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+<!-- BS-Stepper -->
+<script src="../resources/plugins/bs-stepper/js/bs-stepper.min.js"></script>
+<!-- dropzonejs -->
+<script src="../resources/plugins/dropzone/min/dropzone.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../resources/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../resources/dist/js/demo.js"></script>
+										
 	
 		<script>
 		//상세 페이지 사용 JS : Checkalert(),goBack()
@@ -74,16 +152,10 @@
 						location.href = "/admin/closemodify.ft?rideId="+rideId;
 				}
 		
-		
-			function goBack() {
-				history.back();
+			function goMenu(){
+				location.href = "/admin/closelist.ft";
 			}
-
-	
-			
 		
 		</script>
-	<!-- 공통 / 풋터 -->
-	<jsp:include page="../inc/footer.jsp"></jsp:include>
 </body>
 </html>

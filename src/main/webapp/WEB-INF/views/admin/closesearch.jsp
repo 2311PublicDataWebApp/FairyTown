@@ -10,66 +10,88 @@
 </head>
 <body>
 	<!-- 공통 / 헤더 -->
-	<jsp:include page="../inc/header.jsp"></jsp:include>
+	<jsp:include page="../inc/adminheader.jsp"></jsp:include>
 
 			
 		<!-- 어드민 타이틀 영역 -->
-			<div class="admTitle">
-				<table class="title_tbl">
-					<tr>
-						<td class="titleFirst"><h2>운휴정보</h2></td>
-					</tr>
-					<tr>
-						<td class="titleSecond"><h4>운휴정보 목록</h4></td>
-					</tr>
-				</table>
-			</div>
+			<div class="content-wrapper">
+		    <section class="content-header">
+		      <div class="container-fluid">
+		        <div class="row mb-2">
+		          <div class="col-sm-6">
+		            <h1>휴무일 목록</h1>
+		          </div>
+		          	<!-- breadcrumb -->
+					<div class="col-sm-6">
+						<ol class="breadcrumb float-sm-right">
+							<li class="breadcrumb-item"><a href="#">운휴정보</a></li>
+							<li class="breadcrumb-item active">휴무일 목록</li>
+						</ol>
+					</div>
+					<!-- breadcrumb -->
+		        </div>
+		      </div>
+		    </section>
 		
 		<!-- 컨텐츠 영역 -->
-			<div class="content">
-				
-				<!-- 목록 테이블 -->
-				<table class="table_ride_list">
-					<tr>
-						<td colspan="5"><input type="button" name="closeregist" onClick="showRegist();" value="휴무 등록"></td>
-					</tr>
-					
-					<tr>
-						<td>번호</td>
-						<td>놀이기구명</td>
-						<td>휴무일시</td>
-						<td>사유</td>
-						<td>현재상태</td>
-					</tr>
-					
+			<!-- Main content -->
+		    <section class="content">
+		      <div class="container-fluid">
+		        <div class="row">
+		          <div class="col-12">
+		            <div class="card">
+					<div class="card-body">
+		                <table id="example2" class="table table-bordered table-hover">
+		                  <thead>
+		                  <tr>
+		          			 <td colspan="5"><input type="button" class="btn btn-secondary"  name="closeregist" onClick="showRegist();" value="휴무등록"></td>
+		                  </tr>
+		                  <tr>
+								<th>번호</th>
+								<th>놀이기구명</th>
+								<th>휴무일시</th>
+								<th>사유</th>
+								<th>현재상태</th>
+							</tr>
+		                  </thead>
+		                  <tbody>
+							
 					<!-- 	등록된 운영 휴무 계획이 있는 경우 -->
 					<c:choose>
 							<c:when test="${fn:length(cList) != 0 }">
 								<c:forEach items="${cList }" var="close" varStatus="i">
 									<tr class="close_list_tr">
 										<td class="list_first_td">
-											<a href="/admin/closedetail.ft?rideId=${close.rideId }">${i.count }</a>
+											<a href="/admin/closedetail.ft?rideId=${close.rideId }" style="color:black;">${i.count }</a>
 										</td>
 										<td class="list_second_td">
-											<a href="/admin/closedetail.ft?rideId=${close.rideId }">${close.rideName }</a>
+											<a href="/admin/closedetail.ft?rideId=${close.rideId }" style="color:black;">${close.rideName }</a>
 										</td>
 										<td class="list_third_td">
-											<a href="/admin/closedetail.ft?rideId=${close.rideId }">${close.closeDate}</a>
+											<a href="/admin/closedetail.ft?rideId=${close.rideId }" style="color:black;">${close.closeDate}</a>
 										</td>
 										
 										<td class="list_fourth_td">
-											<a href="/adminclosedetail.ft?rideId=${close.rideId }">${close.closeReason}</a>
+											<a href="/adminclosedetail.ft?rideId=${close.rideId }" style="color:black;">
+											<c:choose>
+										        <c:when test="${close.closeReason == 'all'}">전체</c:when>
+										        <c:when test="${close.closeReason == 'regular'}">정기휴무</c:when>
+										        <c:when test="${close.closeReason == 'disaster'}">천재지변</c:when>
+										        <c:when test="${close.closeReason == 'outoforder'}">기기수리</c:when>
+										        <c:when test="${close.closeReason == 'vacation'}">담당자부재</c:when>
+										        <c:when test="${close.closeReason == 'etc'}">기타</c:when>
+										    </c:choose></a>
 										</td>
 
 										<c:set var="rStatus" value="${close.rideStatus }" />
 										<c:if test="${rStatus eq 'Y' }">
 											<td class="list_fifth_td"><a
-												href="/admin/closedetail.ft?rideId=${close.rideId }">정상 운영</a>
+												href="/admin/closedetail.ft?rideId=${close.rideId }" style="color:black;">정상운행</a>
 											</td>
 										</c:if>
 										<c:if test="${rStatus eq 'N'}">
 											<td class="list_fifth_td"><a
-												href="/adminclosedetail.ft?rideId=${close.rideId }">임시 휴무</a>
+												href="/adminclosedetail.ft?rideId=${close.rideId }" style="color:black;">임시휴무</a>
 											</td>
 										</c:if>
 									</tr>
@@ -95,7 +117,7 @@
 										<p class="nullmsg_search">
 											검색된 휴무 일정이 없습니다.<br>
 										</p>
-										<button type="button" class="empty_reg_btn"
+										<button type="button" class="empty_reg_btn btn btn-secondary"
 											onclick="showRegist();">휴무 일정 등록하기</button>
 							</c:otherwise>
 						</c:choose>
@@ -105,7 +127,7 @@
 			<tr>
 				<td colspan="5">
 					<div class="search_box">
-					    <form class="search_form" action="/admin/closesearch.ft" name="search_form" method="get">
+					    <form class="search_form" action="/admin/closesearch.ft" name="search_form" method="post">
 							<div class="search_select">
 								<select class="form-select" name="searchCondition"  id="searchcon">
 									<option value="all" 			<c:if test="${searchCondition == 'all'}">selected</c:if>>전체</option>
@@ -119,17 +141,25 @@
 							<div class="search_button">
 								<div class="input">
 									<input type="search" name="searchKeyword" id="searchKeyword" value="${searchKeyword }">
-									<button type="submit" class="btn" onClick="return Checkalert();">검색</button>
-									<button type="reset" class="btn search_reset"  onClick="removeWord();">초기화</button>
-								</div>
+									<button type="submit" class="btn btn-secondary" onClick="return Checkalert();">검색</button>
+									<button type="button" class="btn search_reset btn-secondary"  onClick="removeWord();">초기화</button>
 							</div>
-						</form>
-					</div>
-				</td>
-			</tr>
-		</table>
+									</div>
+								</form>
+							</div>
+						</td> 
+					</tr>
+                  </tbody>
+                  <tfoot>
+                </table>
+              </div>
+			</div>	
+		</div>
 	</div>
-	
+</div>
+</section>
+</div>
+<jsp:include page="../inc/adminfooter.jsp"></jsp:include>
 	<script>
 		
 		// 검색 목록 페이지 사용 JS : Checkalert,removeWord(),showRegist()
@@ -141,7 +171,7 @@
 					return false;
 
 				}
-		
+		}
 				function removeWord(){
 				    if( search_form.searchKeyword.value != "" ) {
 				    	search_form.searchKeyword.value="";
@@ -152,11 +182,10 @@
 				function showRegist(){
 					location.href = "/admin/closeregist.ft";
 					}
-				}		
+						
 	</script>
 	  
 	<!-- 공통 / 풋터 -->
-	<jsp:include page="../inc/footer.jsp"></jsp:include>
 	
 </body>
 </html>

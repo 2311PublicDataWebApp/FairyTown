@@ -24,7 +24,7 @@
 		INSERT INTO RIDE_IMG_TBL
 		VALUES(SEQ_RIMG_NO.NEXTVAL,#{rideId},
 		#{rideImgName},#{rideImgRename},#{rideImgFilepath}
-		,#{rideImgFilelength},DEFAULT)
+		,#{rideImgFilelength},DEFAULT,DEFAULT,DEFAULT,DEFAULT)
 	</insert>
 
 	
@@ -47,11 +47,14 @@
 		UPDATE RIDE_IMG_TBL 
 		SET 
 		RIDE_IMG_NO = #{rideImgNo}, 
-		RIDE_IMG_NAME = #{rideImgName }, 
-		RIDE_IMG_RENAME = #{rideImgRename }, 
+		RIDE_IMG_NAME = #{rideImgName}, 
+		RIDE_IMG_RENAME = #{rideImgRename}, 
 		RIDE_IMG_FILEPATH = #{rideImgFilepath}, 
-		RIDE_IMG_FILELENGTH = #{rideImgFilelength }, 
-		DISPLAY_YN = #{display_yn}, 
+		RIDE_IMG_FILELENGTH = #{rideImgFilelength}, 
+		DISPLAY_YN = #{displayYn}, 
+		DISPLAY_SEQ = #{displaySeq}, 
+		THUMB_LIST = #{thumbList}, 
+		THUMB_BeST = #{thumbBest} 
 		WHERE RIDE_ID = #{rideId }
 	</update>
 	
@@ -80,8 +83,8 @@
 	<select id="selectRideList" resultMap="rideResultMap">
 		SELECT * FROM RIDE_TBL ORDER BY RIDE_DATE DESC
 	</select>
-		<select id="selectRideImgList" resultMap="rimgResultMap">
-		SELECT * FROM RIDE_IMG_TBL
+	<select id="selectRideImgList" resultMap="rimgResultMap">
+		SELECT * FROM RIDE_IMG_TBL WHERE RIDE_ID = #{rideId }
 	</select>
 	
 	<select id="selectUserRideList" resultMap="rideResultMap">
@@ -89,7 +92,7 @@
 	</select>
 	
 	<select id="selectUserRideImg" resultMap="rimgResultMap">
-		SELECT * FROM RIDE_IMG_TBL 
+		SELECT * FROM RIDE_IMG_TBL WHERE DISPLAY_YN = 'Y'
 	</select>
 	
 	
@@ -106,11 +109,11 @@
 		SELECT * FROM RIDE_TBL WHERE RIDE_ID = #{rideId }
 	</select>
 	<select id="selectUserImgByRideId" resultMap="rimgResultMap">
-		SELECT * FROM RIDE_IMG_TBL WHERE RIDE_ID = #{rideId }
+		SELECT * FROM RIDE_IMG_TBL WHERE RIDE_ID = #{rideId } 
 	</select>
 
 	
-<!-- 	검색 -->
+<!-- 	검색 -->	
 	<select id="searchRideByKeyword" resultMap="rideResultMap">
 		SELECT * FROM RIDE_TBL
 		<if test="searchCondition =='all'">		
@@ -150,26 +153,26 @@
   
   
 	 <select id="searchcloseByKeyword" resultMap="rideResultMap">
-		SELECT * FROM RIDE_TBL
-		<if test="searchCondition =='all'">		
-			WHERE RIDE_NAME LIKE '%'||#{searchKeyword}||'%'
-			WHERE CLOSE_REASON LIKE '%'||#{searchKeyword}||'%'
-			WHERE CLOSE_DATE LIKE '%'||#{searchKeyword}||'%'
-			OR RIDE_STATUS LIKE '%'||#{searchKeyword}||'%'
-		</if>
-		<if test="searchCondition == 'rideName'">		
-			WHERE RIDE_NAME LIKE '%'||#{searchKeyword}||'%'
-		</if>
-		<if test="searchCondition == 'closeReason'">		
-			WHERE CLOSE_REASON LIKE '%'||#{searchKeyword}||'%'
-		</if>
-		<if test="searchCondition == 'closeDate'">		
-			WHERE CLOSE_DATE LIKE '%'||#{searchKeyword}||'%'
-		</if>
- 		<if test="searchCondition == 'rideStatus'">		
-			WHERE RIDE_STATUS LIKE '%'||#{searchKeyword}||'%'
-		</if>
-		ORDER BY CLOSE_DATE DESC
+	    SELECT * FROM RIDE_TBL
+	    <if test="searchCondition =='all'">
+	        WHERE (RIDE_NAME LIKE '%'||#{searchKeyword}||'%' OR
+	               CLOSE_REASON LIKE '%'||#{searchKeyword}||'%' OR
+	               CLOSE_DATE LIKE '%'||#{searchKeyword}||'%' OR
+	               RIDE_STATUS LIKE '%'||#{searchKeyword}||'%')
+	    </if>
+	    <if test="searchCondition == 'rideName'">
+	        WHERE RIDE_NAME LIKE '%'||#{searchKeyword}||'%'
+	    </if>
+	    <if test="searchCondition == 'closeReason'">
+	        WHERE CLOSE_REASON LIKE '%'||#{searchKeyword}||'%'
+	    </if>
+	    <if test="searchCondition == 'closeDate'">
+	        WHERE CLOSE_DATE LIKE '%'||#{searchKeyword}||'%'
+	    </if>
+	    <if test="searchCondition == 'rideStatus'">
+	        WHERE RIDE_STATUS LIKE '%'||#{searchKeyword}||'%'
+	    </if>
+	    ORDER BY CLOSE_DATE DESC
 	</select>
    	
   	<select id="selectCloseList" resultMap="rideResultMap">
@@ -232,6 +235,9 @@
   	<result property="rideImgFilepath" column="RIDE_IMG_FILEPATH"/>
   	<result property="rideImgFilelength" column="RIDE_IMG_FILELENGTH"/>
   	<result property="displayYn" column="DISPLAY_YN"/>
+  	<result property="displaySeq" column="DISPLAY_SEQ"/>
+  	<result property="thumbList" column="THUMB_LIST"/>
+  	<result property="thumbBest" column="THUMB_BEST"/>
   </resultMap>
   
   

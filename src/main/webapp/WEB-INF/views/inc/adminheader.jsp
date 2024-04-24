@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="../resources/plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../resources/dist/css/adminlte.min.css">
+  
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -180,13 +181,13 @@
 	            </a>
 			</li>
 			<li class="nav-item">
-	            <a href="/admin/booking/list.ft" class="nav-link">
+	            <a href="/admin/ridelist.ft" class="nav-link">
 	              <i class="nav-icon far fa-calendar-alt"></i>
 	              <p>놀이기구 관리</p>
 	            </a>
 			</li>
 			<li class="nav-item">
-	            <a href="/admin/closedetail.ft" class="nav-link">
+	            <a href="/admin/closelist.ft" class="nav-link">
 	              <i class="nav-icon far fa-calendar-alt"></i>
 	              <p>운휴관리</p>
 	            </a>
@@ -245,5 +246,7 @@
 <script src="../resources/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../resources/dist/js/adminlte.min.js"></script>
+<script src="../resources/plugins/select2/js/select2.full.min.js"></script>
+
 </body>
 </html>

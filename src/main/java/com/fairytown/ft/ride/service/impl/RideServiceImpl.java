@@ -77,8 +77,8 @@ public class RideServiceImpl implements RideService {
 	}
 	@Override
 	public List<RimgVO> selectImgByRideId(int rideId) {
-		List<RimgVO> rimg = rStore.selectImgByRideId(rideId);
-		return rimg;
+		List<RimgVO> rImg = rStore.selectImgByRideId(rideId);
+		return rImg;
 	}
 	// 검색
 	@Override
@@ -137,7 +137,7 @@ public class RideServiceImpl implements RideService {
 	
 		@Override
 		public List<RimgVO> selectRideImgList(int rideId) {
-			List<RimgVO> rList = rStore.selectRideImgList();
+			List<RimgVO> rList = rStore.selectRideImgList(rideId);
 			return rList;
 		}
 
@@ -194,14 +194,14 @@ public class RideServiceImpl implements RideService {
 
 		@Override
 		public List<RimgVO> selectUserRideImg() {
-			List<RimgVO> rimg = rStore.selectUserRideImg();
-			return rimg;
+			List<RimgVO> rImg = rStore.selectUserRideImg();
+			return rImg;
 		}
 
 
 		@Override
-		public List<RideVO> selectUserRideByRideId(int rideId) {
-			List<RideVO> ride = rStore.selectUserRideByRideId(rideId);
+		public RideVO selectUserRideByRideId(int rideId) {
+			RideVO ride = rStore.selectUserRideByRideId(rideId);
 			return ride;
 		}
 
@@ -210,6 +210,13 @@ public class RideServiceImpl implements RideService {
 		public List<RimgVO> selectUserImgByRideId(int rideId) {
 			List<RimgVO> rList = rStore.selectUserImgByRideId(rideId);
 			return rList;
+		}
+
+
+		@Override
+		public int modifyRideImg(List<RimgVO> rImg) {
+			int result = rStore.modifyRideImg(rImg);
+			return result;
 		}
 
 

@@ -50,7 +50,6 @@ public class RideController {
 		        @ModelAttribute RimgVO rImg,
 		        HttpSession session,
 		        @RequestParam(value = "uploadFile", required = false) List<MultipartFile> uploadFile,
-//		        @RequestParam("rideId") Integer rideId,
 		        HttpServletRequest request) {
 		    try {
 		    	int result = 0;
@@ -65,10 +64,10 @@ public class RideController {
 			            rImg.setRideImgFilepath((String) infoMap.get("filePath"));
 			            rImg.setRideImgFilelength((long) infoMap.get("fileSize"));
 			            result += rService.insertRideImg(rImg);
+			            count++;
 			        }
 		    		if (result > 0) {
 		    			mv.setViewName("redirect:/admin/ridelist.ft");
-		    			count++;
 		    		} else {
 		    			mv.addObject("msg", "등록이 완료되지 못했습니다.");
 		    			mv.setViewName("common/errorPage");
@@ -113,10 +112,7 @@ public class RideController {
 		
 //		놀이기구 상세
 //		/admin/ridedetail.ft
-//		@GetMapping("/admin/ridedetail.ft")
-//		public String showRdetailPage() {
-//			return "/admin/ridedetail";
-//		}
+
 
 		@GetMapping("/admin/ridedetail.ft")
 		public ModelAndView selectridedetail(ModelAndView mv,
@@ -129,9 +125,6 @@ public class RideController {
 					mv.addObject("ride", ride);
 					mv.addObject("rImg", rImg);
 					mv.setViewName("admin/ridedetail");
-				} else {
-					mv.addObject("msg", "데이터가 존재하지 않았습니다.");
-					mv.setViewName("common/errorPage");
 				}
 			} catch (Exception e) {
 				mv.addObject("msg", e.getMessage());
@@ -190,55 +183,80 @@ public class RideController {
 //		놀이기구 수정
 //		//admin/ridemodify.ft
 	 	@GetMapping("/admin/ridemodify.ft")
-		public String showModifyRide(Model model,
-	 		@RequestParam("rideId") int rideId) {
+		public ModelAndView showModifyRide(ModelAndView mv,
+				@RequestParam("rideId") int rideId
+				) {
+	 	 	try {
 	 	 		RideVO ride = rService.selectByRideId(rideId);
-	 	 		List<RimgVO> rimg = rService.selectRideImgList(rideId);
-	 	 		model.addAttribute("ride", ride);
-	 	 		model.addAttribute("rimg", rimg);
-	 			return "admin/ridemodify";
+	 	 		List<RimgVO> rImg = rService.selectRideImgList(rideId);
+	 	 		mv.addObject("ride", ride);
+	 	 		mv.addObject("rImg", rImg);
+	 	 		mv.setViewName("admin/ridemodify");
+				
+			} catch (Exception e) {
+				mv.addObject("msg", e.getMessage());
+				mv.setViewName("common/errorPage") ;
+			}
+	 	 	return mv;
 		}
 	 	
-	 	 @PostMapping("/admin/ridemodify.ft")
-	     public ModelAndView modifyRide(ModelAndView mv, 
-	    		@ModelAttribute RideVO ride,
-	    		@ModelAttribute RimgVO rImg,
-	    		@ModelAttribute ArrayList<RimgVO> rImgList,
-	 			@RequestParam(value = "reloadFile", required = false) MultipartFile reloadFile, HttpServletRequest request,
-	 			@RequestParam("rideId") Integer rideId, int count) {
-	 		try {
-	 			if (reloadFile != null && !reloadFile.isEmpty()) {
-	 				String fileName = rImg.getRideImgRename();
-	 				if (fileName != null) {
-	 					this.deleteFile(request, fileName);
-	 				}
-	 				Map<String, Object> infoMap = this.saveMultiFile(reloadFile, request, count);
-	 				String rideFilename = (String) infoMap.get("fileName");
-	 				rImg.setRideImgName(rideFilename);
-	 				rImg.setRideImgRename((String) infoMap.get("fileRename"));
-	 				rImg.setRideImgFilepath((String) infoMap.get("filePath"));
-	 				rImg.setRideImgFilelength((long) infoMap.get("fileSize"));
-	 			}
-	 			int result = rService.modifyRide(ride);
-	 			result+= rService.modifyRideImg(rImg);
-	 			if (result > 0) {
-	 				mv.setViewName("redirect:/admin/ridedetail.ft?rideId=" + ride.getRideId());
-	 			} else {
-	 				mv.addObject("msg", "데이터가 존재하지 않습니다.");
-	 				mv.setViewName("common/errorPage");
-	 			}
-	 		} catch (Exception e) {
-	 			mv.addObject("msg", e.getMessage()).setViewName("common/errorPage");
-	 		}
-	 		return mv;
+	 	
+	 	@PostMapping("/admin/ridemodify.ft")
+	 	public ModelAndView modifyRide(ModelAndView mv, 
+	 	                              @ModelAttribute RideVO ride,
+	 	                              @ModelAttribute List<RimgVO> rImg,
+	 	                              @RequestParam(value = "reloadFile", required = false) MultipartFile[] reloadFiles, 
+	 	                              HttpServletRequest request,
+	 	                              @RequestParam("rideId") Integer rideId, int count) {
+	 	    try {
+	 	        // 파일 수정 로직
+	 	        for (int i = 0; i < reloadFiles.length; i++) {
+	 	            MultipartFile reloadFile = reloadFiles[i];
+	 	            if (reloadFile != null && !reloadFile.isEmpty()) {
+	 	                String fileName = rImg.get(i).getRideImgRename();
+	 	                if (fileName != null) {
+	 	                    this.deleteFile(request, fileName);
+	 	                }
+	 	                Map<String, Object> infoMap = this.saveMultiFile(reloadFile, request, count);
+	 	                String rideFilename = (String) infoMap.get("fileName");
+	 	                rImg.get(i).setRideImgName(rideFilename);
+	 	                rImg.get(i).setRideImgRename((String) infoMap.get("fileRename"));
+	 	                rImg.get(i).setRideImgFilepath((String) infoMap.get("filePath"));
+	 	                rImg.get(i).setRideImgFilelength((long) infoMap.get("fileSize"));
+	 	            }
+	 	        }
+
+	 	        // 데이터베이스 수정 로직
+	 	        int result = rService.modifyRide(ride);
+	 	        result += rService.modifyRideImg(rImg);
+	 	        if (result > 0) {
+	 	            mv.setViewName("redirect:/admin/ridedetail.ft?rideId=" + ride.getRideId());
+	 	        } else {
+	 	            mv.addObject("msg", "데이터가 존재하지 않습니다.");
+	 	            mv.setViewName("common/errorPage");
+	 	        }
+	 	    } catch (Exception e) {
+	 	        mv.addObject("msg", e.getMessage()).setViewName("common/errorPage");
+	 	    }
+	 	    return mv;
 	 	}
-	 	 
-	 	 
+	 	
+	    // 파일 삭제
+	    private void deleteFile(HttpServletRequest request, String fileName) {
+			String rPath = request.getSession().getServletContext().getRealPath("resources");
+			String delFilePath = rPath + "\\nuploadFiles\\" + fileName;
+			File delFile = new File(delFilePath);
+			if (delFile.exists()) {
+				delFile.delete();
+			}
+			
+		}
 	 	
 		//		놀이기구 삭제
 //		/admin/ridedelete.ft
 	 	@GetMapping("/admin/ridedelete.ft")
-	    public ModelAndView deleteride(ModelAndView mv, int rideId) {
+	    public ModelAndView deleteride(ModelAndView mv, 
+	    		@RequestParam("rideId") int rideId) {
 			try {
 				int result = rService.deleteRide(rideId);
 				if (result > 0) {
@@ -268,8 +286,8 @@ public class RideController {
 		        int totalCount = rService.getTotalCount();
 		        PageInfo pi = new PageInfo(currentPage, totalCount, 10);
 		        List<RideVO> rlist = rService.selectUserRideList(pi);
-		        List<RimgVO> rimg = rService.selectUserRideImg();
-		        mv.addObject("rimg", rimg);
+		        List<RimgVO> rImg = rService.selectUserRideImg();
+		        mv.addObject("rImg", rImg);
 		        mv.addObject("rlist", rlist);
 		        mv.addObject("pi", pi);
 		        mv.addObject("totalCount", totalCount);
@@ -284,23 +302,15 @@ public class RideController {
 	 	
 //		놀이기구 상세
 //		ride/detail.ft
-	 	
 	 	@GetMapping("/ride/detail.ft")
 		public ModelAndView selectrideuserdetail(ModelAndView mv,
-				@RequestParam("rideId") int rideId,
-				RideVO ride) {
+				@RequestParam("rideId") int rideId) {
 			try {
-				List<RideVO> rList = rService.selectUserRideByRideId(rideId);
+				RideVO rList = rService.selectUserRideByRideId(rideId);
 				List<RimgVO> rImg = rService.selectUserImgByRideId(rideId);
-				ride.setRideId(ride.getRideId());
-				if (ride != null) {
 					mv.addObject("rList", rList);
 					mv.addObject("rImg", rImg);
 					mv.setViewName("ride/detail");
-				} else {
-					mv.addObject("msg", "데이터가 존재하지 않았습니다.");
-					mv.setViewName("common/errorPage");
-				}
 			} catch (Exception e) {
 				mv.addObject("msg", e.getMessage());
 				mv.setViewName("common/errorPage");
@@ -308,12 +318,13 @@ public class RideController {
 			return mv;
 		}
 	 	
-	 	@PostMapping("ride/detail.ft")
-	 	public String showridedetailforbk(RideVO ride, ModelAndView mv) {
-	 		mv.addObject(ride);
-	 		return "booking/basic";
-	 	}
-	 	
+	 	@PostMapping("/ride/detail.ft")
+	       public String showRideDetailForBooking(@ModelAttribute RideVO ride, HttpSession session) {
+	           List<RideVO> rideList = new ArrayList<>();
+	           rideList.add(ride);
+	           session.setAttribute("rideList", rideList);
+	           return "redirect:/booking/basic.ft";
+	       }
 	
 
 	
@@ -448,6 +459,7 @@ public class RideController {
 	 	 		model.addAttribute("close", close);
 	 			return "admin/closemodify";
 		}
+	 	
 	 	 @PostMapping("/admin/closemodify.ft")
 	     public ModelAndView modifyClose(ModelAndView mv, 
 	    		 @ModelAttribute RideVO close,
@@ -471,7 +483,8 @@ public class RideController {
 //		휴무 삭제
 //		admin/closedelete.ft
 	 	@GetMapping("/admin/closedelete.ft")
-	    public ModelAndView deleteclose(ModelAndView mv, int rideId) {
+	    public ModelAndView deleteclose(ModelAndView mv,
+	    		@RequestParam("rideId") int rideId) {
 			try {
 				int result = rService.deleteclose(rideId);
 				if (result > 0) {
@@ -489,16 +502,6 @@ public class RideController {
 	
 //	-----------------------------------------기타 필요 코드
 	 	
-	 	
-    // 파일 삭제
-    private void deleteFile(HttpServletRequest request, String fileName) {
-		String rPath = request.getSession().getServletContext().getRealPath("resources");
-		String delFilePath = rPath + "\\nuploadFiles\\" + fileName;
-		File delFile = new File(delFilePath);
-		if (delFile.exists()) {
-			delFile.delete();
-		}
-		
-	}
+
 	
 }

@@ -19,6 +19,10 @@ public class RimgVO {
 	private String rideImgFilepath;
 	private long rideImgFilelength;
 	private String displayYn;
+	private int displaySeq;
+	private String thumbList;
+	private String thumbBest;
 
 
+	
 }

@@ -1,0 +1,146 @@
+@charset "UTF-8";
+.title{
+	margin-left:46%;
+	margin-bottom:40px;
+}
+.title h2{
+	font-size: 40px;
+	font-weight:bold;
+	}
+
+main{height:150px;}
+
+hr{
+	margin:6rem 9rem 0rem 9rem;
+	width:60%;
+border:1px solid black;}
+
+h4{margin-left:47%;}
+
+.imgbox {
+margin-left:100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+}
+
+.title_rotate{
+	 transform: rotate(-15deg);
+	 display:inline-block;
+	 margin-left:21.5%;
+	 padding-top:10px;
+	 margin-bottom:0;
+	 font-size:1.10em;
+}
+
+.content_item_box{
+	margin-top:75px;
+	margin-left:100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+}
+.cit_bottom{margin-bottom:80px;
+	margin-top:50px;}
+
+.categories_more{
+	width:100px;
+	margin-left:50%;
+	padding:3px 5px 5px 4px;
+	margin-bottom:50px;
+	border-radius:50%;
+	border:1px solid gray;
+}
+
+.categories_more a{
+	text-decoration:none;
+	color:black;
+	margin-left:16px;
+	font-size:0.8em;
+}
+.categories_more a:hover{
+	color:gray
+}
+
+.img_first,
+.img_second,
+.img_third {
+  position: relative;
+  display: inline-block;
+}
+
+.img_first img,
+.img_second img,
+.img_third img {
+  display: block;
+  width: 300px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.img_first .hover,
+.img_second .hover,
+.img_third .hover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.img_first:hover img,
+.img_second:hover img,
+.img_third:hover img {
+  filter: brightness(50%);
+}
+
+.img_first:hover .hover,
+.img_second:hover .hover,
+.img_third:hover .hover {
+  opacity: 1;
+}
+
+.img_first .hover h2,
+.img_first .hover h4,
+.img_second .hover h2,
+.img_second .hover h4,
+.img_third .hover h2,
+.img_third .hover h4 {
+  margin: 0;
+  padding: 0;
+}
+
+
+.title_tbl{
+	  margin: 0;
+  padding: 0;
+  width:100%;
+}
+.attr_title{
+	margin-top:30px;
+	margin-left:45%;
+}
+.attr_desc{
+	color:gray;
+	text-align:center;
+	width:500px;
+	margin-top:50px;
+	margin-left:35%;
+}
+.attr_all{
+	width:100%
+}
+.attr_desc_left{
+	width:60%;
+}
+.attr_desc_right{width:60%;}

@@ -42,12 +42,12 @@
             <span>청소년보호책임자 : 바이킹</span>
             <span>발행.편집인 : 바이킹</span>
         </p>
-        <p style="margin-left:2100px;">
-            <span>㈜페어리타운</span>
-            <span>대표이사 : 바이킹</span>
-            <span>사업자등록번호 : 123-45-67890</span>
-            <span>페어리타운미디어 인터넷신문등록번호 : 서울특별시 아012345</span>
-            <span>발행/등록년월일 : 2024.04.09</span></p>
+<!--         <p style="margin-left:2100px;"> -->
+<!--             <span>㈜페어리타운</span> -->
+<!--             <span>대표이사 : 바이킹</span> -->
+<!--             <span>사업자등록번호 : 123-45-67890</span> -->
+<!--             <span>페어리타운미디어 인터넷신문등록번호 : 서울특별시 아012345</span> -->
+<!--             <span>발행/등록년월일 : 2024.04.09</span></p> -->
     </div>
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>

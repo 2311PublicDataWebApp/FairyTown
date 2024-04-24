@@ -21,7 +21,7 @@ public interface RideStore {
 	int deleteRide(int rideId);
 
 	List<RideVO> selectRideList(RowBounds rb);
-	List<RimgVO> selectRideImgList();
+	List<RimgVO> selectRideImgList(int rideId);
 	
 	RideVO selectByRideId(int rideId);
 	List<RimgVO> selectImgByRideId(int rideId);
@@ -31,7 +31,7 @@ public interface RideStore {
 	List<RideVO> searchRideByKeyword(RowBounds rb, Map<String, String> paramMap);
 
 	int selectTotalCount();
-
+	
 	int searchTotalCount(Map<String, String> paramMap);
 
 	// 운휴 관련
@@ -47,6 +47,7 @@ public interface RideStore {
 	List<RimgVO> selectUserRideImg();
 	
 	List<RimgVO> selectUserImgByRideId(int rideId);
-	List<RideVO> selectUserRideByRideId(int rideId);
+	RideVO selectUserRideByRideId(int rideId);
+	int modifyRideImg(List<RimgVO> rImg);
 
 }

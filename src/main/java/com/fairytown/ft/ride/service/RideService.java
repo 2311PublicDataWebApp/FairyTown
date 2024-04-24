@@ -55,8 +55,9 @@ public interface RideService {
 	int getCloseTotalCount(Map<String, String> paramMap);
 	List<RimgVO> selectUserRideImg();
 	
-	List<RideVO> selectUserRideByRideId(int rideId);
+	RideVO selectUserRideByRideId(int rideId);
 	List<RimgVO> selectUserImgByRideId(int rideId);
+	int modifyRideImg(List<RimgVO> rImg);
 
 
 	

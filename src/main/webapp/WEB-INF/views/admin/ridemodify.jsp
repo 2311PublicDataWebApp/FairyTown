@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
@@ -7,127 +7,337 @@
 <head>
 <meta charset="UTF-8">
 <title>[ADMIN] 놀이기구</title>
+<!-- Google Font: Source Sans Pro -->
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<!-- Font Awesome -->
+<link rel="stylesheet"
+	href="../resources/plugins/fontawesome-free/css/all.min.css">
+<!-- daterange picker -->
+<link rel="stylesheet"
+	href="../resources/plugins/daterangepicker/daterangepicker.css">
+<!-- iCheck for checkboxes and radio inputs -->
+<link rel="stylesheet"
+	href="../resources/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+<!-- Bootstrap Color Picker -->
+<link rel="stylesheet"
+	href="../resources/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
+<!-- Tempusdominus Bootstrap 4 -->
+<link rel="stylesheet"
+	href="../resources/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+<!-- Select2 -->
+<link rel="stylesheet"
+	href="../resources/plugins/select2/css/select2.min.css">
+<link rel="stylesheet"
+	href="../resources/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+<!-- Bootstrap4 Duallistbox -->
+<link rel="stylesheet"
+	href="../resources/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
+<!-- BS Stepper -->
+<link rel="stylesheet"
+	href="../resources/plugins/bs-stepper/css/bs-stepper.min.css">
+<!-- dropzonejs -->
+<link rel="stylesheet"
+	href="../resources/plugins/dropzone/min/dropzone.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="../resources/dist/css/adminlte.min.css">
 </head>
 <body>
 	<!-- 공통 / 헤더 -->
-	<jsp:include page="../inc/header.jsp"></jsp:include>
+	<jsp:include page="../inc/adminheader.jsp"></jsp:include>
 
-		<form action="/admin/ridemodify.ft" method="post" name="rideForm"  enctype="multipart/form-data" onSubmit="return Checkform()">
-			
-		<!-- 어드민 타이틀 영역 -->
-			<div class="admTitle">
-				<table class="title_tbl">
-					<tr>
-						<td class="titleFirst"><h2>놀이기구</h2></td>
-					</tr>
-					<tr>
-						<td class="titleSecond"><h4>기구 수정 및 삭제</h4></td>
-					</tr>
-				</table>
-			</div>
-		
-		<!-- 컨텐츠 영역 -->
-			<div class="content">
-<%-- 				<input type="hidden" name="rideImgNo" value="${rimg.rideImgNo }"> --%>
-<%-- 				<input type="hidden" name="rideImgName" value="${rimg.rideImgName }"> --%>
-<%-- 				<input type="hidden" name="rideImgRename" value="${rimg.rideImgRename }"> --%>
-<%-- 				<input type="hidden" name="rideImgFilepath" value="${rimg.rideImgFilepath }"> --%>
-<%-- 				<input type="hidden" name="rideImgFilelength" value="${rimg.rideImgFilelength }"> --%>
-<%-- 				<input type="hidden" name="displayYn" value="${rimg.displayYn }"> --%>
-				<table class="table_ride">
-					<tr>
-						<td>놀이기구명 : </td>
-						<td><input type="text" name="rideName" value="${ride.rideName}"></td>
-					</tr>
-					<tr>
-						<td>설명 : </td>
-						<td><input type="text" name="rideDescription" value="${ride.rideDescription}"></td>
-					</tr>
-					<tr>
-						<td>탑승인원 : </td>
-						<td><input type="number" name="rideCount" value="${ride.rideCount}"></td>
-					</tr>
-					<tr>
-						<td>탑승제한 : </td>
-						<td><input type="text" name="rideLimit" value="${ride.rideLimit}"></td>
-					</tr>
-					<tr>
-						<td>운휴정보 : </td>
-						<td>  
-							<input type="checkbox" id="Available" value="Y" name="rideStatus" onClick='checkOnlyOne(this)' <c:if test="${ride.rideStatus eq 'Y'}">checked</c:if>>
-  							<label for="Available">정상운행&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-  							<input type="checkbox" id="NotAvailable"  value="N" name="rideStatus" onClick='checkOnlyOne(this)'<c:if test="${ride.rideStatus eq 'N'}">checked</c:if>>
-  							<label for="NotAvailable">임시휴무</label>
-  						</td>
-					</tr>
-					<tr>
-						<td>이미지 : </td>
-						<td><input type="file" name="rideImgName" value="${rimg.rideImgName}"></td>
-					</tr>	
-					<tr>
-						<td>X좌표 : </td>
-						<td><input type="text" name="rideX"  value="${ride.rideX}"></td>
-					</tr>
-					<tr>
-						<td>Y좌표 : </td>
-						<td><input type="text" name="rideY"  value="${ride.rideY}"></td>
-					</tr>
-				</table>
-				
-				<input type="button" value="이전으로" onClick="goBack();">
-				<input type="submit" value="수정하기" onClick="submitAlert();">
-				<input type="button" value="삭제하기" onClick="deleteRide(${ride.rideId});">
-			</div>
+	<!-- 어드민 타이틀 영역 -->
+	<div class="content-wrapper">
+		<form action="/admin/ridemodify.ft" method="post" name="rideForm"
+			enctype="multipart/form-data">
+
+			<section class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1>놀이기구 수정</h1>
+						</div>
+						<!-- breadcrumb -->
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item"><a href="#">놀이기구 정보</a></li>
+								<li class="breadcrumb-item active">놀이기구 수정</li>
+							</ol>
+						</div>
+						<!-- breadcrumb -->
+					</div>
+				</div>
+			</section>
+			<!-- Main content -->
+			<section class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<input type="hidden" name="rideId" value="${ride.rideId}">
+						<!-- left column -->
+						<div class="col-md-10">
+							<div class="card card-secondary">
+								<div class="card-header">
+									<h3 class="card-title">놀이기구 수정</h3>
+								</div>
+								<div class="card-body">
+									<div class="row">
+										<div class="col-sm-10">
+											<div class="form-group">
+												<table class="table_ride">
+
+													<tr>
+														<td>
+															<div class="form-group row">
+																<label class="col-sm-6 col-form-label">놀이기구명 <sup
+																	style="color: red">*</sup>
+																</label>
+																<div class="col-sm-12">
+																	<input type="text" class="form-control" name="rideName"
+																		value="${ride.rideName }" placeholder="놀이기구명을 입력해주세요">
+																</div>
+															</div>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<div class="form-group row">
+																<label class="col-sm-4 col-form-label">설명</label>
+																<div class="col-sm-12">
+																	<textarea class="form-control" rows="10" 
+																		placeholder="설명을 입력해주세요" name="rideDescription">${ride.rideDescription}</textarea>
+																</div>
+															</div>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<div class="form-group row">
+																<label class="col-sm-4 col-form-label">탑승인원</label>
+																<div class="col-sm-8">
+																	<input type="number" class="form-control"
+																		value="${ride.rideCount}" name="rideCount"
+																		style="width: 80px;" value="0"  oninput="this.value = Math.max(0, this.value)">
+																</div>
+															</div>
+														</td>
+														</tr>
+														<tr>
+														<td>
+															<div class="form-group row">
+																<label class="col-sm-6 col-form-label">탑승제한 <sup
+																	style="color: red">*</sup></label>
+																<div class="col-sm-12">
+																	<textarea class="form-control" rows="10"
+																		placeholder="탑승제한을 입력해주세요" name="rideLimit">${ride.rideLimit }</textarea>
+																</div>
+															</div>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<div class="form-group row">
+																<label class="col-sm-10 col-form-label">현재상태</label>
+																<div class="form-check">
+																	<input class="form-check-input" type="checkbox"
+																		id="Available" value="Y" name="rideStatus"
+																		onClick='checkOnlyOne(this)'
+																		<c:if test="${ride.rideStatus eq 'Y'}">checked</c:if>>
+																	<label class="form-check-label" for="Available">정상운행&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+																	<input type="checkbox" class="form-check-input"
+																		id="NotAvailable" value="N" name="rideStatus"
+																		onClick='checkOnlyOne(this)'
+																		<c:if test="${ride.rideStatus eq 'N'}">checked</c:if>>
+																	<label class="form-check-label" for="NotAvailable">임시휴무</label>
+																</div>
+															</div>
+														</td>
+													</tr>
+
+													<tr id="fileInputs">
+														<th>이미지</th>
+														<td>
+														<c:forEach var="img" items="${rImg}">
+														    <img src="../resources/nuploadFiles/${img.rideImgRename}" style="width:100px; height:100px;" alt="이미지">
+															<input type="hidden" name="rideImgNo" value="${img.rideImgNo}">
+															<input type="hidden" name="rideImgName" value="${img.rideImgName}">
+															<input type="hidden" name="rideImgRename" value="${img.rideImgRename}"> 
+															<input type="hidden" name="rideImgFilepath" value="${img.rideImgFilepath}">
+															<input type="hidden" name="rideImgFilelength" value="${img.rideImgFilelength}">
+															<input type="hidden" name="displayYn" value="${img.displayYn}">
+													   	</c:forEach>
+													   	<br>
+															
+															<br> <input type="file"
+															name="reloadFile">
+														<button type="button" class="btn btn-secondary"
+																onclick="addFileInput();">파일 추가</button></td>
+													</tr>
+													<tr>
+														<td>
+															<div class="form-group row">
+																<label class="col-sm-4 col-form-label">X좌표 : </label>
+																<div class="col-sm-12">
+																	<input type="text" class="form-control" name="rideX"
+																		placeholder="소수점 포함 12자까지 입력 가능합니다."
+																		value="${ride.rideX}">
+																</div>
+															</div>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<div class="form-group row">
+																<label class="col-sm-4 col-form-label">Y좌표 : </label>
+																<div class="col-sm-12">
+																	<input type="text" class="form-control" name="rideY"
+																		placeholder="소수점 포함 12자까지 입력 가능합니다."
+																		value="${ride.rideY}">
+																</div>
+															</div>
+														</td>
+													</tr>
+
+												</table>
+
+												<input type="button" value="목록으로" class="btn btn-default"
+													onClick="goMenu();"> <input type="submit"
+													value="수정하기" class="btn btn-secondary"
+													onClick="return submitAlert();"> <input
+													type="button" value="삭제하기" class="btn btn-default"
+													onClick="deleteRide(${ride.rideId});">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
 		</form>
+	</div>
+	<script src="../resources/plugins/jquery/jquery.min.js"></script>
+	<!-- Bootstrap 4 -->
+	<script src="../resources/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<!-- Select2 -->
+	<script src="../resources/plugins/select2/js/select2.full.min.js"></script>
+	<!-- Bootstrap4 Duallistbox -->
+	<script
+		src="../resources/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+	<!-- InputMask -->
+	<script src="../resources/plugins/moment/moment.min.js"></script>
+	<script src="../resources/plugins/inputmask/jquery.inputmask.min.js"></script>
+	<!-- date-range-picker -->
+	<script src="../resources/plugins/daterangepicker/daterangepicker.js"></script>
+	<!-- bootstrap color picker -->
+	<script
+		src="../resources/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+	<!-- Tempusdominus Bootstrap 4 -->
+	<script
+		src="../resources/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+	<!-- Bootstrap Switch -->
+	<script
+		src="../resources/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+	<!-- BS-Stepper -->
+	<script src="../resources/plugins/bs-stepper/js/bs-stepper.min.js"></script>
+	<!-- dropzonejs -->
+	<script src="../resources/plugins/dropzone/min/dropzone.min.js"></script>
+	<!-- AdminLTE App -->
+	<script src="../resources/dist/js/adminlte.min.js"></script>
+	<!-- AdminLTE for demo purposes -->
+	<script src="../resources/dist/js/demo.js"></script>
+	<script>
+		//수정 페이지 사용 JS : goBack(), Checkform(), submitAlert(),checkOnlyOne()
 	
-		<script>
-			
-		function goBack(){
+		function checkOnlyOne(element) {
+  
+		  const checkboxes 
+		      = document.getElementsByName("rideStatus");
+		  
+			  checkboxes.forEach((cb) => {
+			    cb.checked = false;
+			  })
+			  
+			  element.checked = true;
+		}
+		
+		function goMenu(){
+			location.href = "/admin/ridelist.ft";
+		};
+		
+		function goBack() {
 			history.back();
 		}
-		
-		function checkOnlyOne(element) {
-			  
-			  const checkboxes 
-			      = document.getElementsByName("rideStatus");
-			  
-				  checkboxes.forEach((cb) => {
-				    cb.checked = false;
-				  })
-				  
-				  element.checked = true;
+
+		function Checkform() {
+
+			if (rideForm.rideName.value == "") {
+
+				rideForm.rideName.focus();
+				alert("놀이기구명을 입력해주세요.");
+				return false;
+
 			}
-		
-				
-			function deleteRide(rideId)=>{
-				location.href="admin/ridedelete.ft?rideId="+rideId;
+
+			if (rideForm.rideLimit.value == "") {
+
+				rideForm.rideLimit.focus();
+				alert("탑승제한을 등록해주세요.");
+
+				return false;
+
 			}
 			
-			function Checkform() {
-
-				if (ticketForm.ticketName.value == "") {
-					ticketForm.ticketName.focus();
-					alert("티켓 이름을 입력해주세요.");
-					return false;
-				}
-
-				if (ticketForm.ticketAdult.value == "") {
-					ticketForm.ticketAdult.focus();
-					alert("어른 가격을 등록해주세요.");
-					return false;
-				}
+				
 		}
-		
+		function goMenu(){
+			location.href = "/admin/ridelist.ft";
+		};
 		function submitAlert(){
-			if(confirm("등록하시겠습니까?")){
+			if(confirm("수정하시겠습니까?")){
 				return true;
 			} else{
 				return false;
 			}
 		}
+		
+		function deleteride(rideId){
+			if(confirm("삭제하시겠습니까?")){
+				location.href = "/admin/ridedelete.ft?rideId="+rideId;
+				alert("정상적으로 삭제되었습니다.");
+			}else{
+				alert("삭제를 취소하셨습니다.");
+			}
+		}
+
+		var maxFileInputs = 3; // 최대 파일 입력란 개수
+var fileInputCount = 1; // 현재 파일 입력란 개수
+
+function addFileInput() {
+	if (fileInputCount < maxFileInputs) {
+		var fileInputsDiv = document.getElementById("fileInputs");
+		var newFileInput = document.createElement("input");
+		newFileInput.type = "file";
+		newFileInput.name = "uploadFile"; // 이 이름은 서버에서 파일을 처리할 때 사용됩니다.
+		var newRow = document.createElement("tr");
+		var newTd1 = document.createElement("th");
+		var newTd2 = document.createElement("th");
+		newTd1.textContent = "추가이미지 :";
+		newTd2.appendChild(newFileInput);
+		newRow.appendChild(newTd1);
+		newRow.appendChild(newTd2);
+		fileInputsDiv.parentNode.insertBefore(newRow, fileInputsDiv.nextSibling);
+		fileInputCount++;
+	} else {
+		alert("최대 " + maxFileInputs + "개까지만 추가할 수 있습니다.");
+	}
+}
+
 		</script>
-	  
+
+
 	<!-- 공통 / 풋터 -->
-	<jsp:include page="../inc/footer.jsp"></jsp:include>
+	<jsp:include page="../inc/adminfooter.jsp"></jsp:include>
 </body>
 </html>

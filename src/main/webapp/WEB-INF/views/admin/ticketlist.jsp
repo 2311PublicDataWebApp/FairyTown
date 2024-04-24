@@ -7,71 +7,95 @@
 <head>
 <meta charset="UTF-8">
 <title>[ADMIN] 티켓 관리</title>
+<!-- DataTables -->
+	<link rel="stylesheet" href="../resources/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet" href="../resources/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+	<link rel="stylesheet" href="../resources/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 </head>
 <body>
 	<!-- 공통 / 헤더 -->
-	<jsp:include page="../inc/header.jsp"></jsp:include>
-
-		<!-- 어드민 타이틀 영역 -->
-			<div class="admTitle">
-				<table class="title_tbl">
-					<tr>
-						<td class="titleFirst"><h2>티켓 관리</h2></td> 
-					</tr>
-					<tr>
-						<td class="titleSecond"><h4>티켓 목록</h4></td>
-					</tr>
-				</table>
+	<jsp:include page="../inc/adminheader.jsp"></jsp:include>
+<!-- Content Header -->
+	<div class="content-wrapper">
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>티켓 목록</h1>
+          </div>
+          	<!-- breadcrumb -->
+			<div class="col-sm-6">
+				<ol class="breadcrumb float-sm-right">
+					<li class="breadcrumb-item"><a href="#">티켓 관리</a></li>
+					<li class="breadcrumb-item active">티켓 목록</li>
+				</ol>
 			</div>
+			<!-- breadcrumb -->
+        </div>
+      </div>
+    </section>
 		
-		<!-- 컨텐츠 영역 -->
-			<div class="content">
-				<!-- 목록 영역 -->
-				<table class="table_ride_list">
-					<tr>
-						<td colspan="6"><input type="button" name="ticketregist" onClick="showRegist();" value="티켓 등록"></td>
-						<td colspan="6">총 ${totalCount}개</td>
-					</tr>
-					
-					<tr>
-						<td>번호</td>
-						<td>티켓이름</td>
-						<td>티켓설명</td>
-						<td>어른가격</td>
-						<td>사용여부</td>
-						<td>등록일</td>
-					</tr>
-					
+		<!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+			<div class="card-body">
+                <table id="example2" class="table table-bordered table-hover">
+                  <thead>
+                  <tr>
+          			 <td colspan="6">
+          			 <input type="button" class="btn btn-secondary" style="margin-left:89%;" name="ticketregist" onClick="showRegist();" value="티켓등록"></td>
+                  </tr>
+                  <tr>
+						<th style="width:80px; text-align:center;">번호</th>
+						<th style="width:120px; text-align:center;">티켓명</th>
+						<th style="width:240px; text-align:center;">티켓설명</th>
+						<th style="width:80px; text-align:center;">어른가격</th>
+						<th style="width:80px; text-align:center;">사용여부</th>
+						<th style="width:80px; text-align:center;">등록일</th>
+						</tr>
+                  </thead>
+                  <tbody style="text-align:center;">
 					<!-- 	등록된 티켓이 있는 경우 -->
 					<c:choose>
 							<c:when test="${fn:length(tList) != 0 }">
 								<c:forEach items="${tList }" var="ticket" varStatus="i">
 									<tr class="ticket_list_tr">
 										<td class="list_first_td">
-											<a href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">${i.count }</a>
-										</td>
+											<a href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }" style="color:black;">${i.count }</a>
+										</td>	
 										<td class="list_second_td">
-											<a href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">${ticket.ticketName }</a>
+											<a href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }" style="color:black;">${ticket.ticketName }</a>
 										</td>
 										<td class="list_third_td">
-											<a href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">${ticket.ticketDetail}</a>
+											<a href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }" style="color:black;">
+											<c:choose>
+									            <c:when test="${fn:length(ticket.ticketDetail) > 50}">
+									                ${fn:substring(ticket.ticketDetail, 0, 70)}...
+									            </c:when>
+									            <c:otherwise>
+									                ${ticket.ticketDetail}
+									            </c:otherwise>
+									        </c:choose></a>
 										</td>
 										<td class="list_fourth_td">
-											<a href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">${ticket.ticketAdult}</a>
+											<a href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }" style="color:black;">${ticket.ticketAdult}</a>
 										</td>
 										
 										<c:set var="tStatus" value="${ticket.ticketStatus }" />
 										<c:if test="${tStatus eq 'Y' }">
 											<td class="list_fifth_td"><a
-												href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">사용중</a></td>
+												href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }" style="color:black;">사용중</a></td>
 										</c:if>
 										<c:if test="${tStatus ne 'Y'}">
 											<td class="list_third_td"><a
-												href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">사용안함</a></td>
+												href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }" style="color:black;">사용안함</a></td>
 										</c:if>
 										
 										<td class="list_sixth_td">
-											<a href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">${ticket.ticketDate}</a>
+											<a href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }" style="color:black;">${ticket.ticketDate}</a>
 										</td>
 									</tr>
 								</c:forEach>
@@ -80,10 +104,10 @@
 								<tr class="pgn">
 								    <td colspan="6">
 								        <c:if test="${pi.startNavi ne 1}">
-								            <a href="/admin/ticketlist.ft?page=${pi.startNavi - 1}">[이전]</a>
+								            <a href="/admin/ticketlist.ft?page=${pi.startNavi - 1}" style="color:black;">[이전]</a>
 								        </c:if> 
 								        <c:forEach begin="${pi.startNavi}" end="${pi.endNavi}" var="p">
-								            <a href="/admin/ticketlist.ft?page=${p}">${p}</a>
+								            <a href="/admin/ticketlist.ft?page=${p}" style="color:black;">${p}</a>
 								        </c:forEach> 
 								        <c:if test="${pi.endNavi ne pi.naviTotalCount}">
 								            <a href="/admin/ticketlist.ft?page=${pi.endNavi + 1}">[다음]</a>
@@ -98,7 +122,7 @@
 										<p class="nullmsg_list">
 											등록된 티켓이 없습니다.<br>
 										</p>
-										<input type="button" name="ticketregist" onClick="showRegist();" value="티켓 등록">
+										<input type="button" name="ticketregist"  class="btn btn-secondary" onClick="showRegist();" value="티켓 등록">
 										</td>
 								</tr>
 							</c:otherwise>
@@ -119,34 +143,93 @@
 									<div class="search_button">
 										<div class="input">
 											<input type="search" name="searchKeyword" placeholder="검색어를 입력해주세요">
-											<button type="submit" class="btn" onClick="return Checkalert();">검색</button>
+											<button type="submit" class="btn btn-secondary" onClick="return Checkalert();">검색</button>
 										</div>
 									</div>
 								</form>
 							</div>
 						</td> 
-					</tr>		
-				</table>
-			</div>
-	<script>
+					</tr>
+                  </tbody>
+                  <tfoot>
+                </table>
+              </div>
+			</div>	
+		</div>
+	</div>
+</div>
+</section>
 		
-		//목록 페이지 사용 JS : Checkalert(),showRegist()
-		
-			function Checkalert() {
-				if (search_form.searchKeyword.value == "") {
-					search_form.searchKeyword
-							.focus();
-					alert("검색어를 입력해주세요.");
-					return false;
-				}
-			}
-	
-			function showRegist() {
-		        location.href = "/admin/ticketregist.ft";
-		    }	
-	</script>
+</div>			
 	  
 	<!-- 공통 / 풋터 -->
-	<jsp:include page="../inc/footer.jsp"></jsp:include>
+	<jsp:include page="../inc/adminfooter.jsp"></jsp:include>
+<!-- DataTables  & Plugins -->
+<script src="../resources/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../resources/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../resources/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../resources/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="../resources/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="../resources/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="../resources/plugins/jszip/jszip.min.js"></script>
+<script src="../resources/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="../resources/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="../resources/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="../resources/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="../resources/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script>
+
+//목록 페이지 사용 JS : Checkalert(),showRegist()
+
+	function Checkalert() {
+		if (search_form.searchKeyword.value == "") {
+			search_form.searchKeyword
+					.focus();
+			alert("검색어를 입력해주세요.");
+			return false;
+		}
+	}
+
+	function showRegist() {
+        location.href = "/admin/ticketregist.ft";
+    }
+	
+  $(function () {
+    $('#example2').DataTable({
+		"paging": true,
+		"lengthChange": false,
+		"searching": true,
+		"ordering": true,
+		"info": true,
+		"autoWidth": true,
+		"responsive": true,
+		
+		language: {
+		    "decimal": "",
+		    "emptyTable": "테이블에 데이터가 없습니다",
+		    "info": "_TOTAL_개 항목 중 _START_부터 _END_까지 표시중",
+		    "infoEmpty": "0개 항목 중 0부터 0까지 표시중",
+		    "infoFiltered": "(_MAX_개 항목 중 필터링됨)",
+		    "infoPostFix": "",
+		    "thousands": ",",
+		    "lengthMenu": "_MENU_개 항목 표시",
+		    "loadingRecords": "로딩 중...",
+		    "processing": "처리 중...",
+		    "search": "검색:",
+		    "zeroRecords": "일치하는 레코드를 찾을 수 없습니다",
+		    "paginate": {
+		        "first": "처음",
+		        "last": "마지막",
+		        "next": "다음",
+		        "previous": "이전"
+		    },
+		    "aria": {
+		        "orderable": "이 열을 정렬하려면 클릭",
+		        "orderableReverse": "이 열을 역순으로 정렬하려면 클릭"
+		    }
+	    }
+    });
+  });
+</script>
 </body>
 </html>

@@ -10,39 +10,54 @@
 </head>
 <body>
 	<!-- 공통 / 헤더 -->
-	<jsp:include page="../inc/header.jsp"></jsp:include>
+	<jsp:include page="../inc/adminheader.jsp"></jsp:include>
 
 			
-		<!-- 어드민 타이틀 영역 -->
-			<div class="admTitle">
-				<table class="title_tbl">
-					<tr>
-						<td class="titleFirst"><h2>티켓 관리</h2></td>
-					</tr>
-					<tr>
-						<td class="titleSecond"><h4>티켓 목록</h4></td>
-					</tr>
-				</table>
-			</div>
+			<!-- 어드민 타이틀 영역 -->
+			<div class="content-wrapper">
+		    <section class="content-header">
+		      <div class="container-fluid">
+		        <div class="row mb-2">
+		          <div class="col-sm-6">
+		            <h1>티켓 목록</h1>
+		          </div>
+		          	<!-- breadcrumb -->
+					<div class="col-sm-6">
+						<ol class="breadcrumb float-sm-right">
+							<li class="breadcrumb-item"><a href="#">티켓정보</a></li>
+							<li class="breadcrumb-item active">티켓 목록</li>
+						</ol>
+					</div>
+					<!-- breadcrumb -->
+		        </div>
+		      </div>
+		    </section>
 		
 		<!-- 컨텐츠 영역 -->
-			<div class="content">
-				
-				<!-- 목록 테이블 -->
-				<table class="table_ride_list">
-					<tr>
-						<td colspan="6"><input type="button" name="ticketregist" onClick="showRegist();" value="티켓 등록"></td>
-						<td colspan="6">총 ${totalCount}개</td>
-					</tr>
-					
-					<tr>
-						<td>번호</td>
-						<td>티켓이름</td>
-						<td>티켓설명</td>
-						<td>어른가격</td>
-						<td>사용여부</td>
-						<td>등록일</td>
-					</tr>
+			<!-- Main content -->
+		    <section class="content">
+		      <div class="container-fluid">
+		        <div class="row">
+		          <div class="col-12">
+		            <div class="card">
+					<div class="card-body">
+		                <table id="example2" class="table table-bordered table-hover">
+		                  <thead>
+		                  <tr>
+		          			 <td colspan="6">
+		          			 <input type="button" style="margin-left:89%;" class="btn btn-secondary"  name="ticketregist" onClick="showRegist();" value="티켓등록"></td>
+		                  </tr>
+		                  <tr>
+				<th style="width:80px; text-align:center;">번호</th>
+						<th style="width:120px; text-align:center;">티켓명</th>
+						<th style="width:240px; text-align:center;">티켓설명</th>
+						<th style="width:80px; text-align:center;">어른가격</th>
+						<th style="width:80px; text-align:center;">사용여부</th>
+						<th style="width:80px; text-align:center;">등록일</th>
+						</tr>
+	                  </thead>
+	                  <tbody style="text-align:center;">
+							
 					
 					<!-- 	등록된 티켓이 있는 경우 -->
 					<c:choose>
@@ -50,28 +65,28 @@
 								<c:forEach items="${sList }" var="ticket" varStatus="i">
 									<tr class="ticket_list_tr">
 										<td class="list_first_td">
-											<a href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">${i.count }</a>
+											<a href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }" style="color:black;">${i.count }</a>
 										</td>
 										<td class="list_second_td">
-											<a href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">${ticket.ticketName }</a>
+											<a href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }" style="color:black;">${ticket.ticketName }</a>
 										</td>
 										<td class="list_third_td">
-											<a href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">${ticket.ticketDetail}</a>
+											<a href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }" style="color:black;">${ticket.ticketDetail}</a>
 										</td>
 										<td class="list_fourth_td">
-											<a href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">${ticket.ticketAdult}</a>
+											<a href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }" style="color:black;">${ticket.ticketAdult}</a>
 										</td>
 									<c:set var="tStatus" value="${ticket.ticketStatus }" />
 										<c:if test="${tStatus eq 'Y' }">
 											<td class="list_fifth_td"><a
-												href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">사용중</a></td>
+												href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }" style="color:black;">사용중</a></td>
 										</c:if>
 										<c:if test="${tStatus ne 'Y'}">
 											<td class="list_third_td"><a
-												href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">사용안함</a></td>
+												href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }" style="color:black;">사용안함</a></td>
 										</c:if>
 										<td class="list_sixth_td">
-											<a href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }">${ticket.ticketDate}</a>
+											<a href="/admin/ticketdetail.ft?ticketNo=${ticket.ticketNo }" style="color:black;">${ticket.ticketDate}</a>
 										</td>
 									
 									</tr>
@@ -80,13 +95,13 @@
 								<tr align="center" class="pgn">
 									<td colspan="6">
 										<c:if test="${pi.startNavi ne '1' }">
-											<a href="/admin/ticketsearch.ft?page=${pi.startNavi - 1 }">[이전]</a>
+											<a href="/admin/ticketsearch.ft?page=${pi.startNavi - 1 }" style="color:black;">[이전]</a>
 										</c:if> 
 										<c:forEach begin="${pi.startNavi }" end="${pi.endNavi }" var="p">
-											<a href="/admin/ticketsearch.ft?page=${p }">${p }</a>
+											<a href="/admin/ticketsearch.ft?page=${p }" style="color:black;">${p }</a>
 										</c:forEach> 
 											<c:if test="${pi.endNavi ne pi.naviTotalCount }">
-												<a href="/admin/ticketsearch.ft?page=${pi.endNavi + 1 }">[다음]</a>
+												<a href="/admin/ticketsearch.ft?page=${pi.endNavi + 1 }" style="color:black;">[다음]</a>
 											</c:if>
 									</td>
 								</tr>
@@ -120,17 +135,26 @@
 							<div class="search_button">
 								<div class="input">
 									<input type="search" name="searchKeyword" id="searchKeyword" value="${searchKeyword }">
-									<button type="submit" class="btn" onClick="Checkalert();">검색</button>
-									<input type="button" class="btn search_reset"  onClick="removeWord();" value="초기화"/>
+									<button type="submit" class="btn btn-secondary" onClick="Checkalert();">검색</button>
+									<input type="button" class="btn btn-default"  onClick="removeWord();" value="초기화"/>
 								</div>
+									</div>
+								</form>
 							</div>
-						</form>
-					</div>
-				</td>
-			</tr>
-		</table>
+						</td> 
+					</tr>
+                  </tbody>
+                  <tfoot>
+                </table>
+              </div>
+			</div>	
+		</div>
 	</div>
-	
+</div>
+</section>
+</div>
+<jsp:include page="../inc/adminfooter.jsp"></jsp:include>
+
 	<script>
 		
 		// 검색 목록 페이지 사용 JS : Checkalert,removeWord(),showRegist()
@@ -158,7 +182,6 @@
 	</script>
 	  
 	<!-- 공통 / 풋터 -->
-	<jsp:include page="../inc/footer.jsp"></jsp:include>
 	
 </body>
 </html>
