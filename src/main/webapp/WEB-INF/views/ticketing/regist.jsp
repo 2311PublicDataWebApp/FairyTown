@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,6 +8,15 @@
 	<title>티켓결제-입력</title>
 </head>
 <body>
+<c:if test="${user eq null}">
+    <script>
+        if (confirm('로그인 후 이용 가능한 서비스입니다. 이동하시겠습니까?')) {
+            window.location.href = '/user/login.ft';
+        } else {
+            history.back();
+        }
+    </script>
+</c:if>
 	<!-- 공통 / 헤더 -->
 	<jsp:include page="../inc/header.jsp"></jsp:include>
 	<div class="regist-container">

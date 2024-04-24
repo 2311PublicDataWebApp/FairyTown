@@ -24,6 +24,13 @@ public interface BookingService {
 	int bookingDeleteOne(String bookingNumber);
 
 	/**
+	 * 예약 개별 수정
+	 * @param bookingNumber
+	 * @return
+	 */
+	int bookingUpdateOne(BookingVO bbOne);
+
+	/**
 	 * 예약 전체 삭제
 	 * @return result
 	 */
@@ -31,10 +38,37 @@ public interface BookingService {
 
 	/**
 	 * 기본예약 예약
-	 * @param rideList
+	 * @param bookingList
 	 * @return result
 	 */
-	int bookingBasic(List<RideVO> rideList);
+	int bookingBasic(List<BookingVO> bookingList);
+
+	/**
+	 * 관리자 놀이기구 예약관리
+	 * @return
+	 */
+	List<BookingVO> BookingList();
+	
+	/**
+	 * 관리자 놀이기구 상세 뷰
+	 * @param bookingNumber
+	 * @return
+	 */
+	BookingVO BookingDetail(String bookingNumber);
+
+	/**
+	 * 관리자 놀이기구 예약 수정
+	 * @param bookingNumber
+	 * @return
+	 */
+	BookingVO adminBookingUpdate(BookingVO bbOne);
+
+	/**
+	 * 관리자 놀이기구 예약 삭제
+	 * @param bbOne
+	 * @return
+	 */
+	int adminBookingDelete(BookingVO bbOne);
 
 	List<BookingVO> BookingListSelectPage(UserVO user, PageInfo pInfo);
 

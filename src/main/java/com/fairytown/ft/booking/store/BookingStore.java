@@ -28,6 +28,14 @@ public interface BookingStore {
 	int bookingDeleteOne(SqlSession session, String bookingNumber);
 
 	/**
+	 * 예약 개별 수정
+	 * @param session
+	 * @param bookingNumber
+	 * @return
+	 */
+	int bookingUpdateOne(SqlSession session, BookingVO bbOne);
+
+	/**
 	 * 예약 전체 삭제
 	 * @param session
 	 * @return result
@@ -40,8 +48,40 @@ public interface BookingStore {
 	 * @param rideList
 	 * @return result
 	 */
-	int bookingBasic(SqlSession session, List<RideVO> rideList);
+	int bookingBasic(SqlSession session, List<BookingVO> bookingList);
+	
+	/**
+	 * 관리자 놀이기구 예약관리
+	 * @param session
+	 * @return
+	 */
+	List<BookingVO> BookingList(SqlSession session);
+
+	/**
+	 * 관리자 놀이기구 상세 뷰
+	 * @param session
+	 * @param bookingNumber
+	 * @return
+	 */
+	BookingVO BookingDetail(SqlSession session, String bookingNumber);
+
+	/**
+	 * 관리자 놀이기구 예약 수정
+	 * @param session
+	 * @param bookingNumber
+	 * @return
+	 */
+	BookingVO adminBookingUpdate(SqlSession session, BookingVO bbOne);
+
+	/**
+	 * 관리자 놀이기구 예약 삭제
+	 * @param session
+	 * @param bbOne
+	 * @return
+	 */
+	int adminBookingDelete(SqlSession session, BookingVO bbOne);
 
 	List<BookingVO> BookingListSelectPage(SqlSession session, UserVO user, PageInfo pInfo);
+
 
 }

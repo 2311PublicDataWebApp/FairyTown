@@ -21,13 +21,33 @@
 		DELETE BOOKING_TBL
 		WHERE BOOKING_NUMBER= #{bookingNumber }
 	</delete>
+	<update id="bookingUpdateOne">
+  		UPDATE BOOKING_TBL 
+  		SET BOOKING_PEOPLE = #{bookingPeople}
+		WHERE BOOKING_NUMBER = #{bookingNumber}
+	</update>
 	<delete id="bookingDelete">
 		DELETE BOOKING_TBL
 		WHERE USER_ID= #{userId }
 	</delete>
 	<insert id="bookingBasic">
 	    INSERT INTO BOOKING_TBL
-	    VALUES (SEQ_BOOKING_NUMBER.NEXTVAL, #{userId}, #{ticketCode}, #{rideId}, #{bookingDate}, #{bookingTime}, #{bookingPeople})
+	    VALUES (SEQ_BOOKING_NUMBER.NEXTVAL, #{userId}, #{ticketCode}, #{rideId}, #{bookingDate}, DEFAULT, #{bookingPeople})
 	</insert>
-
+  	<select id="BookingList" resultMap="BookingResultMap">
+  		SELECT * FROM BOOKING_TBL
+  	</select>
+  	<select id="BookingDetail" resultMap="BookingResultMap">
+  		SELECT * FROM BOOKING_TBL
+  		WHERE BOOKING_NUMBER = #{bookingNumber}
+  	</select>  	
+  	<update id="adminBookingUpdate">
+  		UPDATE BOOKING_TBL 
+  		SET BOOKING_PEOPLE = #{bookingPeople}
+		WHERE BOOKING_NUMBER = #{bookingNumber}
+  	</update>
+  	<delete id="adminBookingDelete">
+  		DELETE BOOKING_TBL
+  		WHERE BOOKING_NUMBER = #{bookingNumber}
+  	</delete>
 </mapper>

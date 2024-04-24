@@ -1,0 +1,48 @@
+body {
+    background: #eee;
+}
+.ratings i {
+    font-size: 16px;
+    color: red;
+}
+.strike-text {
+    color: red;
+    text-decoration: line-through;
+}
+.product-image {
+    width: 100%;
+}
+.dot {
+    height: 7px;
+    width: 7px;
+    margin-left: 6px;
+    margin-right: 6px;
+    margin-top: 3px;
+    background-color: blue;
+    border-radius: 50%;
+    display: inline-block;
+}
+.spec-1 {
+    color: #938787;
+    font-size: 15px;
+}
+h5 {
+    font-weight: 400;
+}
+.para {
+    font-size: 16px;
+}
+button.btn.btn-primary.btn-sm {
+    max-width: 50%;
+    margin: auto;
+}
+.booking-button.mr-2.flex-grow-1 {
+   	margin-left: 21%;
+}
+.d-flex.justify-content-center.mt-4 {
+   padding-top: 50px;
+   padding-bottom: 100px;
+}
+.d-flex.justify-content-center.row.booking-main {
+    margin-top: -140px;
+}

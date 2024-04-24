@@ -200,8 +200,8 @@ public class RideServiceImpl implements RideService {
 
 
 		@Override
-		public List<RideVO> selectUserRideByRideId(int rideId) {
-			List<RideVO> ride = rStore.selectUserRideByRideId(rideId);
+		public RideVO selectUserRideByRideId(int rideId) {
+			RideVO ride = rStore.selectUserRideByRideId(rideId);
 			return ride;
 		}
 

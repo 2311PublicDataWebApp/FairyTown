@@ -282,37 +282,32 @@ public class RideController {
 		}
 	 	
 	 	
-//		놀이기구 상세
-//		ride/detail.ft
-	 	
-	 	@GetMapping("/ride/detail.ft")
-		public ModelAndView selectrideuserdetail(ModelAndView mv,
-				@RequestParam("rideId") int rideId,
-				RideVO ride) {
-			try {
-				List<RideVO> rList = rService.selectUserRideByRideId(rideId);
-				List<RimgVO> rImg = rService.selectUserImgByRideId(rideId);
-				ride.setRideId(ride.getRideId());
-				if (ride != null) {
-					mv.addObject("rList", rList);
-					mv.addObject("rImg", rImg);
-					mv.setViewName("ride/detail");
-				} else {
-					mv.addObject("msg", "데이터가 존재하지 않았습니다.");
-					mv.setViewName("common/errorPage");
-				}
-			} catch (Exception e) {
-				mv.addObject("msg", e.getMessage());
-				mv.setViewName("common/errorPage");
-			}
-			return mv;
-		}
-	 	
-	 	@PostMapping("ride/detail.ft")
-	 	public String showridedetailforbk(RideVO ride, ModelAndView mv) {
-	 		mv.addObject(ride);
-	 		return "booking/basic";
-	 	}
+//      놀이기구 상세
+//      ride/detail.ft
+       @GetMapping("/ride/detail.ft")
+      public ModelAndView selectrideuserdetail(ModelAndView mv,
+              @RequestParam("rideId") int rideId) {
+          try {
+              RideVO rList = rService.selectUserRideByRideId(rideId);
+              List<RimgVO> rImg = rService.selectUserImgByRideId(rideId);
+                  mv.addObject("rList", rList);
+                  mv.addObject("rImg", rImg);
+                  mv.setViewName("ride/detail");
+          } catch (Exception e) {
+              mv.addObject("msg", e.getMessage());
+              mv.setViewName("common/errorPage");
+          }
+          return mv;
+      }
+
+       @PostMapping("/ride/detail.ft")
+       public String showRideDetailForBooking(@ModelAttribute RideVO ride, HttpSession session) {
+           List<RideVO> rideList = new ArrayList<>();
+           rideList.add(ride);
+           session.setAttribute("rideList", rideList);
+           return "redirect:/booking/basic.ft";
+       }
+
 	 	
 	
 

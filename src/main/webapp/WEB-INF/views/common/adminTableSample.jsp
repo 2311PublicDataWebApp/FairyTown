@@ -448,13 +448,6 @@
                     <td>-</td>
                     <td>C</td>
                   </tr>
-                  <tr>
-                    <td>Other browsers</td>
-                    <td>All others</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>U</td>
-                  </tr>
                   </tbody>
                   <tfoot>
                   <tr>
@@ -465,7 +458,7 @@
                     <th>CSS grade</th>
                   </tr>
                   </tfoot>
-                </table>
+                  </table>
               </div>
 			</div>	
 		</div>

@@ -21,7 +21,7 @@
 			<div class="row">
 				<div class="col-md-10">
 					<div class="elegant-calencar d-md-flex">
-						<div class="wrap-header d-flex align-items-center img" style="background-image: url(images/bg.jpg);">
+						<div class="wrap-header d-flex align-items-center img" style="background-image: url(../../resources/dist/img/calenderBg.png);">
 						<p id="reset">Today</p>
 					<div id="header" class="p-0">
 					<div class="head-info">
