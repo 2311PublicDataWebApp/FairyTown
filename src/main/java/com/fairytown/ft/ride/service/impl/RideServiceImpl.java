@@ -220,6 +220,13 @@ public class RideServiceImpl implements RideService {
 		}
 
 
+		@Override
+		public int deleteRideImg(int rideId) {
+			int result = rStore.deleteRideImg(rideId);
+			return result;
+		}
+
+
 	
 
 

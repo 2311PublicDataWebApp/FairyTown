@@ -204,31 +204,33 @@ public class RideController {
 	 	@PostMapping("/admin/ridemodify.ft")
 	 	public ModelAndView modifyRide(ModelAndView mv, 
 	 	                              @ModelAttribute RideVO ride,
-	 	                              @ModelAttribute List<RimgVO> rImg,
-	 	                              @RequestParam(value = "reloadFile", required = false) MultipartFile[] reloadFiles, 
-	 	                              HttpServletRequest request,
-	 	                              @RequestParam("rideId") Integer rideId, int count) {
+	 	                              @RequestParam("rideImgRename") List<String> rideImgRename,
+	 	                              @RequestParam(value = "reloadFile", required = false) List<MultipartFile> reloadFiles, 
+	 	                              HttpServletRequest request) {
 	 	    try {
 	 	        // 파일 수정 로직
-	 	        for (int i = 0; i < reloadFiles.length; i++) {
-	 	            MultipartFile reloadFile = reloadFiles[i];
-	 	            if (reloadFile != null && !reloadFile.isEmpty()) {
-	 	                String fileName = rImg.get(i).getRideImgRename();
-	 	                if (fileName != null) {
-	 	                    this.deleteFile(request, fileName);
-	 	                }
-	 	                Map<String, Object> infoMap = this.saveMultiFile(reloadFile, request, count);
+	 	    	int result = rService.modifyRide(ride);
+	 	    	if (reloadFiles.size() > 0) {
+	 	    		for(String fileName : rideImgRename) {
+	 	    			if (fileName != null) {
+	 	    				this.deleteFile(request, fileName);
+	 	    			}
+	 	    		}
+	 	    		result = rService.deleteRideImg(ride.getRideId());
+		 	        for (int i = 0; i < reloadFiles.size(); i++) {
+		 	            MultipartFile reloadFile = reloadFiles.get(i);
+	 	                Map<String, Object> infoMap = this.saveMultiFile(reloadFile, request, i);
+	 	                RimgVO rImg = new RimgVO();
+	 	                rImg.setRideId(ride.getRideId());
 	 	                String rideFilename = (String) infoMap.get("fileName");
-	 	                rImg.get(i).setRideImgName(rideFilename);
-	 	                rImg.get(i).setRideImgRename((String) infoMap.get("fileRename"));
-	 	                rImg.get(i).setRideImgFilepath((String) infoMap.get("filePath"));
-	 	                rImg.get(i).setRideImgFilelength((long) infoMap.get("fileSize"));
+	 	                rImg.setRideImgName(rideFilename);
+	 	                rImg.setRideImgRename((String) infoMap.get("fileRename"));
+	 	                rImg.setRideImgFilepath((String) infoMap.get("filePath"));
+	 	                rImg.setRideImgFilelength((long) infoMap.get("fileSize"));
+	 	                result = rService.insertRideImg(rImg);
 	 	            }
 	 	        }
-
 	 	        // 데이터베이스 수정 로직
-	 	        int result = rService.modifyRide(ride);
-	 	        result += rService.modifyRideImg(rImg);
 	 	        if (result > 0) {
 	 	            mv.setViewName("redirect:/admin/ridedetail.ft?rideId=" + ride.getRideId());
 	 	        } else {

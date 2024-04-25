@@ -183,7 +183,6 @@
 			</li>
 			<li class="nav-item">
 	            <a href="/admin/ridelist.ft" class="nav-link">
-	              <i class="nav-icon far fa-calendar-alt"></i>
 	              <i class="nav-icon fa-solid fa-landmark-flag"></i>
 	              <p>놀이기구 관리</p>
 	            </a>

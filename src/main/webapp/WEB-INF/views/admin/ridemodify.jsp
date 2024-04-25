@@ -158,12 +158,12 @@
 														<td>
 														<c:forEach var="img" items="${rImg}">
 														    <img src="../resources/nuploadFiles/${img.rideImgRename}" style="width:100px; height:100px;" alt="이미지">
-															<input type="hidden" name="rideImgNo" value="${img.rideImgNo}">
-															<input type="hidden" name="rideImgName" value="${img.rideImgName}">
+<%-- 															<input type="hidden" name="rideImgNo" value="${img.rideImgNo}"> --%>
+<%-- 															<input type="hidden" name="rideImgName" value="${img.rideImgName}"> --%>
 															<input type="hidden" name="rideImgRename" value="${img.rideImgRename}"> 
-															<input type="hidden" name="rideImgFilepath" value="${img.rideImgFilepath}">
-															<input type="hidden" name="rideImgFilelength" value="${img.rideImgFilelength}">
-															<input type="hidden" name="displayYn" value="${img.displayYn}">
+<%-- 															<input type="hidden" name="rideImgFilepath" value="${img.rideImgFilepath}"> --%>
+<%-- 															<input type="hidden" name="rideImgFilelength" value="${img.rideImgFilelength}"> --%>
+<%-- 															<input type="hidden" name="displayYn" value="${img.displayYn}"> --%>
 													   	</c:forEach>
 													   	<br>
 															
@@ -319,7 +319,7 @@ function addFileInput() {
 		var fileInputsDiv = document.getElementById("fileInputs");
 		var newFileInput = document.createElement("input");
 		newFileInput.type = "file";
-		newFileInput.name = "uploadFile"; // 이 이름은 서버에서 파일을 처리할 때 사용됩니다.
+		newFileInput.name = "reloadFile"; // 이 이름은 서버에서 파일을 처리할 때 사용됩니다.
 		var newRow = document.createElement("tr");
 		var newTd1 = document.createElement("th");
 		var newTd2 = document.createElement("th");

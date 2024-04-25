@@ -65,4 +65,5 @@ public interface RideService {
 
 
 	RideVO selectUserRideByRideId(int rideId);
+	int deleteRideImg(int rideId);
 }

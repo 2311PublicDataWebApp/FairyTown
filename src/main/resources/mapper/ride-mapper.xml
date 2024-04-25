@@ -38,7 +38,7 @@
 		RIDE_STATUS = #{rideStatus }, 
 		RIDE_DATE = #{rideDate }, 
 		RIDE_LIMIT = #{rideLimit }, 
-		RIDE_X = #{rideX }  
+		RIDE_X = #{rideX },
 		RIDE_Y = #{rideY }  
 		WHERE RIDE_ID = #{rideId}
 	</update>
@@ -61,7 +61,10 @@
   	<delete id="deleteRide">
 		DELETE FROM RIDE_TBL WHERE RIDE_ID = #{rideId}
 	</delete>
-  <select id="selectTotalCount" resultType="_int">
+	<delete id="deleteRideImg">
+		DELETE FROM RIDE_IMG_TBL WHERE RIDE_ID = #{rideId}
+	</delete>
+  	<select id="selectTotalCount" resultType="_int">
 		SELECT COUNT(*) FROM RIDE_TBL
 	</select>
 	
