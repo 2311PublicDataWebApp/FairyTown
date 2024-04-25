@@ -13,17 +13,16 @@
 	<main>
        <div class="col-md-10" id="" style="display: flex; justify-content: center;">
        <div class="container mt-3" id="member-manager">
-           <h3>회원 관리</h3>
+           <h3>블랙리스트 관리</h3>
            <hr>
            <div class="input-group mr-sm-2">
                <div class="form-inline">
-               	<form class="form-inline" id="search" action="/admin/userlist.ft" method="GET">
+               	<form class="form-inline" id="search" action="/admin/blacklist.ft" method="GET">
                        <span class="input-group-prepend">
                            <select class="custom-select" name="type">
                                <option value="name" selected>이름</option>
                                <option value="id">아이디</option>
                                <option value="email">이메일</option>
-                               <option value="userSt">활동상태</option>
                            </select>
                        </span>
                        <input class="form-control" type="search" placeholder="검색어를 입력하세요" aria-label="Search"
@@ -31,8 +30,10 @@
                        <span class="input-group-append">
                            <button class="btn btn-outline-success" type="submit">검색</button>
                        </span>
-                       	<input type="hidden" id="check-black-users" name="check-black-users">
-						<a href="javascript:void(0);" onclick="getBlackUsers();">블랙 리스트</a>
+                   </form>
+                   <form action="/admin/white.ft" method="post">
+                   	<input type="hidden" id="check-white-users" name="check-white-users">
+                   	<button type="submit" class="btn btn-dark" onclick="getWhiteUsers();">블랙 리스트 해제</button>
                    </form>
                  </div>
                </div>
@@ -48,36 +49,23 @@
                                    <th scope="col">연락처</th>
                                    <th scope="col">생년월일</th>
                                    <th scope="col">활동상태</th>
-                                   <th scope="col">가입일</th>
-                                   <th scope="col">세션 상태</th>
+                                   <th scope="col">정지일</th>
+                                   <th scope="col">정지 종료일</th>
                                    <th scope="col">선택/해제</th>
                                </tr>
                                </thead>
                                <tbody>
-                               <c:forEach items="${uList}" var="user" varStatus="i">
+                               <c:forEach items="${userWithBlackList}" var="userWithBlackList" varStatus="i">
 	                               <tr>
-	                                   <td><a href="javascript:void(0);" onclick="pop('${user.userId}');">${user.realName}</a></td>
-	                                   <td><a href="javascript:void(0);" onclick="pop('${user.userId}');">${user.userId}</a></td>
-	                                   <td><a href="javascript:void(0);" onclick="pop('${user.userId}');">${user.userEmail}</a></td>
-	                                   <td><a href="javascript:void(0);" onclick="pop('${user.userId}');">${user.userPhone}</a></td>
-	                                   <td><a href="javascript:void(0);" onclick="pop('${user.userId}');">${user.userBirthDate}</a></td>
-	                                   <td><a href="javascript:void(0);" onclick="pop('${user.userId}');">${user.userSt}</a></td>
-	                                   <td><a href="javascript:void(0);" onclick="pop('${user.userId}');">${user.userDate}</a></td>
-	                                   <td>
-	                                   		<c:if test="${user.loginSt == 'K'}">
-	                                   			Kakao
-	                                   		</c:if>
-	                                   		<c:if test="${user.loginSt == 'B'}">
-	                                   			Normal
-	                                   		</c:if>
-	                                   		<c:if test="${user.loginSt == 'N'}">
-	                                   			Naver
-	                                   		</c:if>
-	                                   		<c:if test="${user.loginSt == 'G'}">
-	                                   			Google
-	                                   		</c:if>
-	                                   </td>
-	                                   <td><input type="checkbox" name="select-user" value="${user.userId}"></td>
+	                                   <td><a href="javascript:void(0);" onclick="pop('${userWithBlackList.user.userId}');">${userWithBlackList.user.realName}</a></td>
+	                                   <td><a href="javascript:void(0);" onclick="pop('${userWithBlackList.user.userId}');">${userWithBlackList.user.userId}</a></td>
+	                                   <td><a href="javascript:void(0);" onclick="pop('${userWithBlackList.user.userId}');">${userWithBlackList.user.userEmail}</a></td>
+	                                   <td><a href="javascript:void(0);" onclick="pop('${userWithBlackList.user.userId}');">${userWithBlackList.user.userPhone}</a></td>
+	                                   <td><a href="javascript:void(0);" onclick="pop('${userWithBlackList.user.userId}');">${userWithBlackList.user.userBirthDate}</a></td>
+	                                   <td><a href="javascript:void(0);" onclick="pop('${userWithBlackList.user.userId}');">${userWithBlackList.user.userSt}</a></td>
+	                                   <td><a href="javascript:void(0);" onclick="pop('${userWithBlackList.user.userId}');">${userWithBlackList.blackList.regiDate}</a></td>
+	                                   <td><a href="javascript:void(0);" onclick="pop('${userWithBlackList.user.userId}');">${userWithBlackList.blackList.stopDate}</a></td>
+	                                   <td><input type="checkbox" name="select-user" value="${userWithBlackList.user.userId}"></td>
 	                               </tr>
                                </c:forEach>
                                </tbody>
@@ -86,26 +74,26 @@
 							<c:if test="${not empty keyword}">
 							    <td colspan="8">
 							        <c:if test="${pInfo.startNavi ne '1'}">
-							            <a href="/admin/userlist.ft?page=${pInfo.startNavi - 1}&type=${pInfo.type}&keyword=${pInfo.keyword}">[이전]</a>
+							            <a href="/admin/blacklist.ft?page=${pInfo.startNavi - 1}&type=${pInfo.type}&keyword=${pInfo.keyword}">[이전]</a>
 							        </c:if>
 							        <c:forEach begin="${pInfo.startNavi}" end="${pInfo.endNavi}" var="p">
-							            <a href="/admin/userlist.ft?page=${p}&type=${pInfo.type}&keyword=${pInfo.keyword}">${p}</a>
+							            <a href="/admin/blacklist.ft?page=${p}&type=${pInfo.type}&keyword=${pInfo.keyword}">${p}</a>
 							        </c:forEach>
 							        <c:if test="${pInfo.endNavi ne pInfo.naviTotalCount}">
-							            <a href="/admin/userlist.ft?page=${pInfo.endNavi + 1}&type=${pInfo.type}&keyword=${pInfo.keyword}">[다음]</a>
+							            <a href="/admin/blacklist.ft?page=${pInfo.endNavi + 1}&type=${pInfo.type}&keyword=${pInfo.keyword}">[다음]</a>
 							        </c:if>
 							    </td>
 							</c:if>
 							<c:if test="${empty keyword}">
 							    <td colspan="8">
 							        <c:if test="${pInfo.startNavi ne '1'}">
-							            <a href="/admin/userlist.ft?page=${pInfo.startNavi - 1}&type=${pInfo.type}&keyword=${pInfo.keyword}">[이전]</a>
+							            <a href="/admin/blacklist.ft?page=${pInfo.startNavi - 1}&type=${pInfo.type}&keyword=${pInfo.keyword}">[이전]</a>
 							        </c:if>
 							        <c:forEach begin="${pInfo.startNavi}" end="${pInfo.endNavi}" var="p">
-							            <a href="/admin/userlist.ft?page=${p}&type=${pInfo.type}&keyword=${pInfo.keyword}">${p}</a>
+							            <a href="/admin/blacklist.ft?page=${p}&type=${pInfo.type}&keyword=${pInfo.keyword}">${p}</a>
 							        </c:forEach>
 							        <c:if test="${pInfo.endNavi ne pInfo.naviTotalCount}">
-							            <a href="/admin/userlist.ft?page=${pInfo.endNavi + 1}&type=${pInfo.type}&keyword=${pInfo.keyword}">[다음]</a>
+							            <a href="/admin/blacklist.ft?page=${pInfo.endNavi + 1}&type=${pInfo.type}&keyword=${pInfo.keyword}">[다음]</a>
 							        </c:if>
 							    </td>
 							</c:if>
@@ -118,26 +106,13 @@
        </div>
     </main>
     <script type="text/javascript">
-    	//유저 정보 상세조회 창 열기
     	function pop(userId)
     	{
-        	window.open("/admin/userdetail.ft?userId=" + userId, "pop", "width=400,height=500,history=no,resizable=no,status=no,scrollbars=yes,menubar=no")
+        	window.open("/admin/blackdetail.ft?userId=" + userId, "pop", "width=400,height=500,history=no,resizable=no,status=no,scrollbars=yes,menubar=no")
     	}
     	
-    	//블랙리스트 등록 창 열기
-    	function popBlack() {
-		    // hidden input에서 값 가져오기
-		    var blackUsersValue = document.getElementById('check-black-users').value;
-		
-		    // 새 창을 열기 위한 URL 생성
-		    var newWindowUrl = '/admin/blackreason.ft?blackUsers=' + blackUsersValue;
-		
-		    // 새 창 열기
-		    window.open(newWindowUrl, "pop", "width=1000,height=1000,history=no,resizable=no,status=no,scrollbars=yes,menubar=no")
-		}
-    	
-    	//블랙리스트 등록할 회원 목록 얻기
-    	function getBlackUsers(){
+    	//블랙리스트 해제할 유저 목록
+    	function getWhiteUsers(){
     		// 체크된 input 요소 선택
     		var checkedCheckboxes = document.querySelectorAll('input[name="select-user"]:checked');
 
@@ -157,9 +132,7 @@
     			alert("체크된 회원이 없습니다.");
     		}
     		else{
-    			//배열을 구분자 ,로 연결시켜 문자열로 hidden타입 input태그에 저장
-    			document.getElementById('check-black-users').value = checkedValues.join(',');
-    			popBlack();
+    			document.getElementById('check-white-users').value = checkedValues.join(',');
     	    }
     	}
     </script>

@@ -432,14 +432,9 @@
 						<a href="/user/mypage.ft" class="btn-2" style="border-radius: 10px; text-align: center; margin-top: -15px; margin-right: -20px;">마이페이지</a>
 					</c:if>
 					<c:if test="${user.userAdmin == 'ADMIN' }">
-						<a href="/admin/userlist.ft" class="btn-2" style="border-radius: 10px; text-align: center; margin-top: -15px; margin-right: -20px;">관리자 페이지</a>
+						<a href="/adminTableSample.ft" class="btn-2" style="border-radius: 10px; text-align: center; margin-top: -15px; margin-right: -20px;">관리자 페이지</a>
 					</c:if>
 				</c:if>
-				<c:if test="${user.userId ne null }">
-						<c:if test="${user.userId eq 'admin' }">
-						<a href="/adminTableSample.ft" class="btn-2" style="border-radius: 10px; text-align: center; margin-top: -15px; margin-right: -20px;">관리자페이지</a>
-							</c:if>
-									</c:if>
 <!-- 					background-color: #FAC0CF; -->
 					<!-- End of Button 2 -->
         </header>

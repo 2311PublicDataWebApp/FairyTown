@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import com.fairytown.ft.common.PageInfo;
 import com.fairytown.ft.user.config.AccountLockedException;
+import com.fairytown.ft.user.domain.vo.BlackListVO;
 import com.fairytown.ft.user.domain.vo.KakaoProfile;
 import com.fairytown.ft.user.domain.vo.UserVO;
 import com.fairytown.ft.user.store.UserStore;
@@ -88,7 +90,10 @@ public class UserService implements UserDetailsService{
 
 	//유저 목록 조회
 	public List<UserVO> selectUserList(PageInfo pi) {
-		List<UserVO> uList = uStore.selectUserList(pi);
+		int limit = pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<UserVO> uList = uStore.selectUserList(rowBounds, pi);
 		return uList;
 	}
 
@@ -104,7 +109,10 @@ public class UserService implements UserDetailsService{
 	}
 
 	public List<UserVO> searchUserList(PageInfo pi) {
-		List<UserVO> uList = uStore.searchUserList(pi);
+		int limit = pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<UserVO> uList = uStore.searchUserList(rowBounds, pi);
 		return uList;
 	}
 	
@@ -233,5 +241,81 @@ public class UserService implements UserDetailsService{
 	    }
 
 	    return user;
+	}
+
+	//블랙리스트 등록
+	public int blackInsertUser(BlackListVO blackList) {
+		int result = uStore.blackInsertUser(blackList);
+		return result;
+	}
+
+	//정지로 회원 활동 상태 변경
+	public void changeBlack(String userId) {
+		uStore.changeBlack(userId);
+	}
+	
+	//블랙리스트 유저 수
+	public int getBlackTotalCount() {
+		int result = uStore.getBlackTotalCount();
+		return result;
+	}
+
+	//회원의 정지정보 조회
+	public List<BlackListVO> selectBlackList(PageInfo pi) {
+		int limit = pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<BlackListVO> bList = uStore.selectBlackList(rowBounds, pi);
+		return bList;
+	}
+	
+	//정지 회원의 정보 조회
+	public List<UserVO> selectUserListBlack(PageInfo pi) {
+		int limit = pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<UserVO> uList = uStore.selectUserListBlack(rowBounds, pi);
+		return uList;
+	}
+
+	//정지 회원 정보 검색 수 조회
+	public int getSearchBlackTotalCount(UserVO user) {
+		int result = uStore.getSearchBlackTotalCount(user);
+		return result;
+	}
+	
+	//검색된 정지 회원의 정보 조회
+	public List<UserVO> searchUserListBlack(PageInfo pi) {
+		int limit = pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<UserVO> uList = uStore.searchUserListBlack(rowBounds, pi);
+		return uList;
+	}
+
+	//검색된 회원의 정지 정보 조회
+	public List<BlackListVO> searchBlackList(PageInfo pi) {
+		int limit = pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<BlackListVO> bList = uStore.searchBlackList(rowBounds, pi);
+		return bList;
+	}
+	
+	//정지 상태 유저 정지 해제
+	public void whiteUser(String userId) {
+		uStore.whiteUser(userId);
+	}
+
+	//블랙리스트 삭제
+	public int deleteBlack(String userId) {
+		int result = uStore.deleteBlack(userId);
+		return result;
+	}
+
+	//블랙리스트 정보 상세 조회
+	public BlackListVO selectBlack(String userId) {
+		BlackListVO user = uStore.selectBlack(userId);
+		return user;
 	}
 }

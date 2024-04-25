@@ -4,24 +4,109 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
   <mapper namespace="com.fairytown.ft.user.store.UserStore">
+  	<select id="selectBlack">
+  		SELECT * FROM BLACKLIST_TBL
+  		WHERE USER_ID = #{userId}
+  	</select>
+  	
+  	<delete id="deleteBlack">
+  		DELETE FROM BLACKLIST_TBL
+  		WHERE USER_ID = #{userId}
+  	</delete>
   
+  	<update id="whiteUser">
+  		UPDATE USER_TBL
+  		SET USER_ST = 'N'
+  		WHERE USER_ID = #{userId}
+  	</update>
+  
+  	<select id="searchBlackList" resultType="BlackListVO">
+  		SELECT * FROM BLACKLIST_TBL
+		LEFT JOIN USER_TBL ON USER_TBL.USER_ID = BLACKLIST_TBL.USER_ID
+		WHERE
+	    <if test="type == 'name'">
+	        REAL_NAME LIKE '%'||#{keyword}||'%' 
+	    </if>
+	    <if test="type == 'id'">
+	        USER_TBL.USER_ID LIKE '%'||#{keyword}||'%'  
+	    </if>
+	    <if test="type == 'email'">
+	        USER_TBL.USER_EMAIL LIKE '%'||#{keyword}||'%'
+	    </if>
+  	</select>
+  
+  	<select id="searchUserListBlack" resultType="userVO">
+  		SELECT * FROM USER_TBL
+		RIGHT JOIN BLACKLIST_TBL ON USER_TBL.USER_ID = BLACKLIST_TBL.USER_ID
+		WHERE
+	    <if test="type == 'name'">
+	        REAL_NAME LIKE '%'||#{keyword}||'%' 
+	    </if>
+	    <if test="type == 'id'">
+	        BLACKLIST_TBL.USER_ID LIKE '%'||#{keyword}||'%'  
+	    </if>
+	    <if test="type == 'email'">
+	        USER_TBL.USER_EMAIL LIKE '%'||#{keyword}||'%'
+	    </if>
+  	</select>
+  
+  	<select id="getSearchBlackTotalCount" resultType="int">
+	    SELECT COUNT(*)
+		FROM BLACKLIST_TBL b
+		LEFT JOIN USER_TBL u ON b.USER_ID = u.USER_ID
+	    <where>
+	        <choose>
+	            <when test="type == 'name'">
+	                REAL_NAME LIKE '%'||#{keyword}||'%' 
+	            </when>
+	            <when test="type == 'id'">
+	                u.USER_ID LIKE '%'||#{keyword}||'%'  
+	            </when>
+	            <when test="type == 'email'">
+	                u.USER_EMAIL LIKE '%'||#{keyword}||'%'
+	            </when>
+	        </choose>
+	    </where>
+	</select>
+  
+  	<select id="selectBlackList" resultType="BlackListVO">
+  		SELECT * FROM BLACKLIST_TBL
+		LEFT JOIN USER_TBL ON BLACKLIST_TBL.USER_ID = USER_TBL.USER_ID
+  	</select>
+  
+  	<select id="selectUserListBlack" resultType="userVO">
+  		SELECT * FROM USER_TBL
+		RIGHT JOIN BLACKLIST_TBL ON USER_TBL.USER_ID = BLACKLIST_TBL.USER_ID
+  	</select>
+  	
+  	<select id="getBlackTotalCount" resultType="int">
+  		SELECT COUNT(*) FROM BLACKLIST_TBL
+  	</select>
+  	
+  	<insert id="blackInsertUser">
+  		INSERT INTO BLACKLIST_TBL (BLACKLIST_NO, USER_ID, REASON, REGI_DATE, STOP_DATE)
+  		VALUES(
+  			SEQ_BLACKLIST_NO.NEXTVAL,
+  			#{userId},
+  			#{reason},
+  			#{regiDate},
+  			#{stopDate}
+  		)
+  	</insert>
+  	<update id="changeBlack">
+  		UPDATE USER_TBL
+  		SET USER_ST = 'B'
+  		WHERE USER_ID = #{userId}
+  	</update>
+  	
   	<select id="selectUserList" resultType="userVO">
-  		SELECT *
-		FROM (
-		    SELECT t.*, ROW_NUMBER() OVER (ORDER BY USER_ID DESC NULLS LAST) AS rn
-		    FROM USER_TBL t
-		)
-		WHERE rn BETWEEN #{startRow} AND #{endRow}
+  		SELECT * FROM USER_TBL
 	</select>
 	
 	<select id="searchUserList" resultType="userVO">
 	    SELECT * 
-	    FROM (
-	        SELECT t.*, ROW_NUMBER() OVER (ORDER BY USER_ID DESC NULLS LAST) AS rn
-	        FROM USER_TBL t
-	    ) tmp
-	    WHERE rn BETWEEN #{startRow} AND #{endRow}
-	    AND
+	    FROM USER_TBL
+	    WHERE
 	    <if test="type == 'name'">
 	        REAL_NAME LIKE '%'||#{keyword}||'%' 
 	    </if>
