@@ -25,9 +25,9 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active"><a href="/admin/chatList.ft">상담 채팅 내역</a></li>
-              <li class="breadcrumb-item active">답장하지 않은 상담 채팅 내역</li>
+              <li class="breadcrumb-item"><a href="#">채팅 상담 관리</a></li>
+              <li class="breadcrumb-item active"><a href="/admin/chatList.ft">채팅 상담 내역</a></li>
+              <li class="breadcrumb-item active">답장하지 않은 채팅 상담 내역</li>
             </ol>
           </div>
         </div>

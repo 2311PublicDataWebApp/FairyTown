@@ -24,8 +24,13 @@
 			<h1 style="text-align:center;"><b>굿즈 상세 정보</b></h1>
 			<br><br>
 			<div style="margin-left:990px;">
-				<button type="button" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef;" onclick="showGoodsList();">&nbsp굿즈 목록</button>
-				<button type="button" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef;" onclick="showCart();"><i class="bi bi-cart4" style="float:left;"></i>&nbsp내 장바구니</button>
+				<c:if test="${user.userId ne null }">
+					<button type="button" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef;" onclick="showCart();"><i class="bi bi-cart4" style="float:left;"></i>&nbsp내 장바구니</button>
+					<button type="button" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef;" onclick="showGoodsList();">&nbsp굿즈 목록</button>
+				</c:if>
+				<c:if test="${user.userId eq null }">
+				 	<button type="button" class="btn" style="margin-left: 100px;background-color: #FAFAFA; border-color: #e9ecef;" onclick="showGoodsList();">&nbsp굿즈 목록</button>
+				</c:if>
 			</div>
 			<br><br><br>
 					<br>

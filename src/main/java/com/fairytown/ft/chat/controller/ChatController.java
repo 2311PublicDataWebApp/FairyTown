@@ -1,12 +1,24 @@
 package com.fairytown.ft.chat.controller;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -98,5 +110,69 @@ public class ChatController {
  	    	}
  	    	return mv;
  	    };
+ 	    
+ 	    
+ 	  @ResponseBody
+ 	  @RequestMapping(value="/weather/info.ft")
+ 	  public String weather() throws Exception {
+ 	      LocalDateTime now = LocalDateTime.now();
+
+ 	      // 쿼리스트링 셋팅을 위한 초기 시간 설정
+ 	      LocalDateTime targetTime = now;
+ 	      String responseData = null;
+
+ 	      while (true) {
+ 	    	  System.out.println("targetTime : " + targetTime);
+ 	          // 날짜 포맷을 지정
+ 	          DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+ 	          DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH00");
+
+ 	          String dateFormatterStr = targetTime.format(dateFormatter);
+ 	          String timeFormatterStr = targetTime.format(timeFormatter);
+
+ 	          // 쿼리스트링 셋팅
+ 	          String reqURL = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst";
+ 	          reqURL += "?serviceKey=AzT5taFN%2BwtHgXa3vYxvhgOxoeZrkWGJrXpWRlPZUpznN8FtuMJscPRchXzIJyoei4l64%2BcmYegdF4NOOYLY1g%3D%3D";
+ 	          reqURL += "&numOfRows=10";
+ 	          reqURL += "&pageNo=1";
+ 	          reqURL += "&base_date=" + dateFormatterStr;
+ 	          reqURL += "&base_time=" + timeFormatterStr;
+ 	          reqURL += "&nx=64";
+ 	          reqURL += "&ny=120";
+ 	          reqURL += "&dataType=json";
+
+ 	          URL request = new URL(reqURL);
+ 	          HttpURLConnection conn = (HttpURLConnection) request.openConnection();
+ 	          conn.setRequestMethod("GET");
+
+ 	          BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+ 	          responseData = "";
+ 	          String line;
+ 	          while ((line = br.readLine()) != null) {
+ 	              responseData += line;
+ 	          }
+ 	          br.close();
+ 	          conn.disconnect();
+ 	          System.out.println("reqURL: " + reqURL);
+ 	          System.out.println("responseData: " + responseData);
+
+ 	          // JSON 파싱
+ 	          JSONParser parser = new JSONParser();
+ 	          JSONObject jsonObject = (JSONObject) parser.parse(responseData);
+ 	          JSONObject response = (JSONObject) jsonObject.get("response");
+ 	          JSONObject header = (JSONObject) response.get("header");
+ 	          String resultCode = (String) header.get("resultCode");
+
+ 	          if (resultCode.equals("00")) {
+ 	              // 결과 코드가 00이면 반복문 종료
+ 	              break;
+ 	          } else {
+ 	              // 결과 코드가 00이 아니면 이전 시간으로 설정하여 다시 시도
+ 	              targetTime = targetTime.minusHours(1);
+ 	          }
+ 	      }
+
+ 	      return responseData;
+ 	  }
 
 }

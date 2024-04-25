@@ -25,5 +25,7 @@ public class RideVO {
 	private Date closeDate;
 	private String closeReason;
 	private String closeYn;
-	
+	private Integer courseNo;
+    private String courseUser;
+    private String rideImgRename;
 }

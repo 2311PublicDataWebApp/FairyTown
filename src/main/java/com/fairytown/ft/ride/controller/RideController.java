@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fairytown.ft.common.PageInfo;
 import com.fairytown.ft.ride.service.RideService;
+import com.fairytown.ft.user.domain.vo.UserVO;
 import com.fairytown.ft.ride.domain.vo.RideVO;
 import com.fairytown.ft.ride.domain.vo.RimgVO;
 
@@ -32,6 +34,71 @@ public class RideController {
 
 	@Autowired
 	private RideService rService;
+	
+	//코스  담기
+    @ResponseBody
+    @PostMapping(value = "/ride/addCourse.ft")
+    public int addCourse(@ModelAttribute RideVO ride, HttpSession session, @RequestParam("rideId") Integer rideId) throws Exception {
+        int result = 0;
+        UserVO uOne = (UserVO) session.getAttribute("user");
+        if(uOne != null) {
+            ride.setCourseUser(uOne.getUserId());
+            result = rService.addCourse(ride);
+        } 
+        return result;
+    }
+    
+    //코스 삭제
+    @ResponseBody
+    @PostMapping(value = "/ride/deleteCourse.ft")
+    public int deleteCourse(@ModelAttribute RideVO ride, HttpSession session, @RequestParam("rideId") Integer rideId) throws Exception {
+        int result = 0;
+        UserVO uOne = (UserVO) session.getAttribute("user");
+        if(uOne != null) {
+            ride.setCourseUser(uOne.getUserId());
+            result = rService.deleteCourse(ride);
+        }
+        return result;
+    }
+    
+    @PostMapping(value = "/delete/course.ft")
+    public ModelAndView deleteCourseMap(ModelAndView mv, @ModelAttribute RideVO ride, HttpSession session, @RequestParam("rideId") Integer rideId) throws Exception {
+    	try {
+    		int result = 0;
+    		UserVO uOne = (UserVO) session.getAttribute("user");
+            if(uOne != null) {
+                ride.setCourseUser(uOne.getUserId());
+                result = rService.deleteCourse(ride);
+            }
+            if (result > 0) {
+            	mv.setViewName("redirect:/ride/course.ft");
+            }
+ 		} catch (Exception e) {
+ 			// TODO: handle exception
+ 			mv.addObject("msg", e.getMessage());
+ 			mv.setViewName("common/errorPage");
+ 		}
+    	return mv;
+    }
+    
+   
+    
+    // 지도
+ 	@GetMapping("/ride/course.ft")
+     public ModelAndView ShowCourseList(ModelAndView mv, HttpSession session, @ModelAttribute RideVO ride) {
+ 		try {
+ 			UserVO uOne = (UserVO) session.getAttribute("user");
+ 			ride.setCourseUser(uOne.getUserId());
+ 			List<RideVO> cList = rService.selectCourseList(ride);
+ 			mv.addObject("cList", cList);
+ 			mv.setViewName("ride/course");
+ 		} catch (Exception e) {
+ 			// TODO: handle exception
+ 			mv.addObject("msg", e.getMessage());
+ 			mv.setViewName("common/errorPage");
+ 		}
+ 		return mv;
+     };
 	
 	// --------- [어드민] ---------
 
@@ -305,12 +372,17 @@ public class RideController {
 //      놀이기구 상세
 //      ride/detail.ft
        @GetMapping("/ride/detail.ft")
-      public ModelAndView selectrideuserdetail(ModelAndView mv,
+      public ModelAndView selectrideuserdetail(ModelAndView mv, HttpSession session, @ModelAttribute RideVO ride,
               @RequestParam("rideId") int rideId) {
           try {
               RideVO rList = rService.selectUserRideByRideId(rideId);
+              UserVO uOne = (UserVO) session.getAttribute("user");
+              ride.setCourseUser(uOne.getUserId());
+              ride.setRideId(rideId);
+              List<RideVO> cList = rService.selectCourse(ride);
               List<RimgVO> rImg = rService.selectUserImgByRideId(rideId);
                   mv.addObject("rList", rList);
+                  mv.addObject("cList", cList);
                   mv.addObject("rImg", rImg);
                   mv.setViewName("ride/detail");
           } catch (Exception e) {

@@ -225,6 +225,33 @@ public class RideServiceImpl implements RideService {
 			int result = rStore.deleteRideImg(rideId);
 			return result;
 		}
+		
+			@Override
+		public int addCourse(RideVO ride) {
+			  int result = rStore.addCourse(ride);
+	          return result;
+		}
+
+
+		@Override
+		public int deleteCourse(RideVO ride) {
+			int result = rStore.deleteCourse(ride);
+	          return result;
+		}
+
+
+		@Override
+		public List<RideVO> selectCourse(RideVO ride) {
+			List<RideVO> cList = rStore.selectCourse(ride);
+			return cList;
+		}
+
+
+		@Override
+		public List<RideVO> selectCourseList(RideVO ride) {
+			List<RideVO> cList = rStore.selectCourseList(ride);
+			return cList;
+		}
 
 
 	

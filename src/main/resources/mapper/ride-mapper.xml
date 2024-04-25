@@ -5,6 +5,27 @@
   
   <mapper namespace="com.fairytown.ft.ride.store.RideStore">
 
+  		<insert id="addCourse">
+            INSERT INTO COURSE_TBL
+            VALUES(SEQ_COURSE_NO.NEXTVAL, #{rideId }, #{courseUser })
+        </insert>
+        
+        <delete id="deleteCourse">
+            DELETE FROM COURSE_TBL
+            WHERE RIDE_NO = #{rideId } AND COURSE_USER = #{courseUser }
+        </delete>
+        <select id="selectCourse" resultMap="rideResultMap">
+            SELECT * FROM COURSE_TBL
+            WHERE RIDE_NO = #{rideId } AND COURSE_USER = #{courseUser }
+        </select>
+        <select id="selectCourseList" resultMap="rideResultMap">
+			SELECT *
+			FROM COURSE_TBL C
+			JOIN RIDE_TBL R ON C.RIDE_NO = R.RIDE_ID
+			JOIN RIDE_IMG_TBL I ON R.RIDE_ID = I.RIDE_ID
+			WHERE C.COURSE_USER = #{courseUser }
+			AND I.THUMB_LIST = 'Y'
+        </select>
   
 <!--    놀이기구 관련	  -->
 		<!--   	등록 -->
