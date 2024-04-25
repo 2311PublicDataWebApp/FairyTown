@@ -94,4 +94,11 @@ public class GoodsServiceImpl implements GoodsService {
 		List<GoodsVO> gList = gStore.selectGoodsList(session);
 		return gList;
 	}
+	
+	@Override
+	public List<GoodsVO> selectTop4Goods() {
+            // 데이터베이스에서 상위 4개 상품을 가져오는 로직을 구현하여 데이터베이스에서 조회합니다.
+            List<GoodsVO> gList = gStore.selectTop4Goods(session);
+            return gList;
+    }
 }

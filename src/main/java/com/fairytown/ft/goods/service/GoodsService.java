@@ -29,5 +29,6 @@ public interface GoodsService {
 	List<GoodsVO> sortSearchGoodsByKeyword(PageInfo pi, Map<String, String> paramMap);
 
 	List<GoodsVO> selectGoodsList();
-
+	
+	List<GoodsVO> selectTop4Goods();
 }

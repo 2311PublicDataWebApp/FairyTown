@@ -33,7 +33,7 @@ public interface GoodsStore {
 
 	List<GoodsVO> selectGoodsList(SqlSession session);
 
-	
+	List<GoodsVO> selectTop4Goods(SqlSession session);
 	
 	
 }

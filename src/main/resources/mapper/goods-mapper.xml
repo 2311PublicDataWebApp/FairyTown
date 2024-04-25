@@ -107,4 +107,17 @@
 		<delete id="deleteGoods">
 			DELETE FROM GOODS_TBL WHERE GOODS_CODE = #{goodsCode }
 		</delete>
+		
+		<select id="selectTop4Goods" resultType="GoodsVO">
+            <![CDATA[
+                SELECT * FROM (
+                    SELECT * FROM GOODS_TBL ORDER BY GOODS_CODE DESC
+                ) WHERE ROWNUM <= 4
+            ]]>
+        </select>
+		
+		
+		
+		
+		
 	</mapper>
