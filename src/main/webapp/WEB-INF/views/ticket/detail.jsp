@@ -2,11 +2,13 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>티켓</title>
+<link rel="stylesheet" type="text/css" href="../resources/css/ride.css">
 </head>
 <body>
 	<!-- 공통 / 헤더 -->
@@ -18,9 +20,6 @@
 			<div class="Title">
 				<table class="title_tbl">
 					<tr>
-						<td class="titleFirst"><h2>티켓</h2></td>
-					</tr>
-					<tr>
 						<td class="titleSecond"><h4>티켓 상세</h4></td>
 					</tr>
 				</table>
@@ -29,60 +28,27 @@
 		<!-- 컨텐츠 영역 -->
 			<div class="content">
 			<input type="hidden" name="ticketNo" value="${ticket.ticketNo }">
-				<table class="table_close">
+				<table class="table_ticket_detail">
 					<tr>
-						<td>티켓명＊ : </td>
-						<td>
-							<span>${ticket.ticketName }</span>
-						</td>
-					</tr>
-					<tr>
-						<td>티켓설명 : </td>
-						<td><span>${ticket.ticketDetail }</span>
-					</tr>
-					<tr>
-						<td>제휴카드 : </td>
-						<td>
-							<span>${ticket.ticketCard }</span>
-						</td>
-					</tr>
-					
-					<tr>
-						<td>어른 가격* : </td>
-						<td>
-							<span>${ticket.ticketAdult}</span>
-						</td>
-					</tr>
-					<tr>
-						<td>청소년 가격 : </td>
-						<td>
-							<span>${ticket.ticketTeen}</span>
-						</td>
-					</tr>
-					<tr>
-						<td>어린이 가격 : </td>
-						<td>
-							<span>${ticket.ticketChild}</span>
-						</td>
-					</tr>
-					<tr>
-						<td>사용상태 : </td>
-						<td>
-							<span>${ticket.ticketStatus}</span>
-						</td>
-					</tr>
-					<tr>
-						<td>이미지 : </td>
-						<td>
+						<td style="width:60%; text-align:center;">
 						<img src="../resources/nuploadFiles/${ticket.ticketImgRename }" alt="이미지">
 						</td>
+						<td>
+						<ul style="list-style:none;">
+						<li style="font-size:1.5rem;"><b>${ticket.ticketName }</b></li>
+						<li>${ticket.ticketDetail }</li>
+						<li>${ticket.ticketCard }</li>
+						<li>어른 : <fmt:formatNumber value="${ticket.ticketAdult}" type="number" pattern="#,##0"/>원</li>
+						<li>청소년 : <fmt:formatNumber value="${ticket.ticketTeen}" type="number" pattern="#,##0"/>원</li>
+						<li>유아 : <fmt:formatNumber value="${ticket.ticketChild}" type="number" pattern="#,##0"/>원</li>
+						</ul>
+						</td>
 					</tr>
 					
-					
 					<tr>
-						<td colspan="5">
-							<input type="reset" value="이전으로" onClick="goBack();">
-							<input type="button"  onClick="showTicketing(${ticket.ticketNo});" value="구매하기">
+						<td colspan="5" align="center" style="padding-left:35%;" >
+							<input type="reset" value="이전으로" class="btn btn-secondary" onClick="goBack();">
+							<input type="button"  class="btn btn-dark" onClick="showTicketing(${ticket.ticketNo});" value="구매하기">
 						</td>
 					</tr>
 				</table>

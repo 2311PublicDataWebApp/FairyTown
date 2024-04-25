@@ -76,22 +76,15 @@
                         <div class="col-md-6">
                             <div class="card card-secondary">
                                 <div class="card-header">
-                                    <h3 class="card-title">휴무일 등록</h3>
+                                    <h3 class="card-title">휴무일 수정</h3>
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label>놀이기구명 <sup style="color: red">*</sup>
-                                                </label> <select class="form-control select_ride" name="rideId">
-                                                    <option value="all">전체</option>
-                                                    <c:if test="${fn:length(close) != 0 }">
-                                                        <c:forEach items="${close }" var="close" varStatus="i">
-                                                            <option value="${close.rideId}"
-                                                                <c:if test="${rideId == close.rideId}">selected</c:if>>${close.rideName}</option>
-                                                        </c:forEach>
-                                                    </c:if>
-                                                </select>
+                                                </label>
+                                                <span>&nbsp;&nbsp;${close.rideName }</span>
                                             </div>
                                             <div class="form-group">
                                                 <label>날짜 <sup style="color: red">*</sup></label>
@@ -113,7 +106,7 @@
                                             <div class="form-group">
                                                 <label>사유</label>
                                                 <c:set var="cReason" value="${close.closeReason }" />
-                                                <select class="select_ride" name="closeReason"
+                                                <select class="form-control select_ride" name="closeReason"
                                                     id="closeReason">
                                                     <c:choose>
                                                         <c:when test="${cReason == 'all'}">

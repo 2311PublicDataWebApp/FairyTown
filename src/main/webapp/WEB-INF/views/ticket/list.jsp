@@ -2,11 +2,13 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>티켓</title>
+<link rel="stylesheet" type="text/css" href="../resources/css/ride.css">
 </head>
 <body>
 	<!-- 공통 / 헤더 -->
@@ -15,9 +17,6 @@
 		<!--  타이틀 영역 -->
 			<div class="Title">
 				<table class="title_tbl">
-					<tr>
-						<td class="titleFirst"><h2>티켓 관리</h2></td> 
-					</tr>
 					<tr>
 						<td class="titleSecond"><h4>티켓 목록</h4></td>
 					</tr>
@@ -34,42 +33,39 @@
 							<c:when test="${fn:length(tList) != 0 }">
 								<c:forEach items="${tList }" var="ticket" varStatus="i">
 										<tr>
-										<td>
+										<td align="left" style="width:10%">
 										<a href="/ticket/detail.ft?ticketNo=${ticket.ticketNo}">
 										<img src="../resources/nuploadFiles/${ticket.ticketImgRename }" alt="이미지"></a><br>
 										</td>
-										<td>
+										<td  style="color: black; width:45%">
+										<a href="/ticket/detail.ft?ticketNo=${ticket.ticketNo}">
 											<ul style="list-style-type:none;">
-												<li>${ticket.ticketName}</li>
-												<li>${ticket.ticketDetail}</li>
-												<li>${ticket.ticketAdult }</li>
-												<li>${ticket.ticketCard }</li>
+												<li style="color:black;"><h3>${ticket.ticketName}</h3></li>
+												<li style="color:black; width:80%;">${ticket.ticketName}은? <br>${ticket.ticketDetail}</li>
+											<li style="color:black;">어른 기준 가격 : <fmt:formatNumber value="${ticket.ticketAdult}" type="number" pattern="#,##0"/> 원</li>
+												   <c:choose>
+									                <c:when test="${empty ticket.ticketCard}" >
+									                    제휴카드 : 없음
+									                </c:when>
+									                <c:otherwise>
+									                    제휴카드 : ${ticket.ticketCard }
+									                </c:otherwise>
+									            </c:choose>
 											</ul>
+											</a>
 										</td>
 										<td>
 											<ul style="list-style-type:none;">
 												<li><input type="hidden" name="ticketNo" value="${ticket.ticketNo} "></li>
 												<li></li>
-												<li><input type="button"  onClick="showTicketing(${ticket.ticketNo});" value="구매하기"></li>
+												<li><input type="button" class="btn  btn-outline-secondary" style="font-size:1.2rem; padding:10px 15px;" onClick="showDetail(${ticket.ticketNo});" value="상세보기"></li>
+												<li><input type="button" class="btn btn-dark" style="font-size:1.2rem; margin-top:10px; padding:10px 15px;" onClick="showTicketing(${ticket.ticketNo});" value="구매하기"></li>
 											</ul>
 										</td>
 									</tr>
 								
 								</c:forEach>
 
-									<tr class="pgn">
-									    <td colspan="3">
-									        <c:if test="${pi.startNavi ne 1}">
-									            <a href="/ticket/list.ft?page=${pi.startNavi - 1}">[이전]</a>
-									        </c:if> 
-									        <c:forEach begin="${pInfo.startNavi}" end="${pi.endNavi}" var="p">
-									            <a href="/ticket/list.ft?page=${p}">${p}</a>
-									        </c:forEach> 
-									        <c:if test="${pi.endNavi ne pi.naviTotalCount}">
-									            <a href="/ticket/list.ft?page=${pi.endNavi + 1}">[다음]</a>
-									        </c:if>
-									    </td>
-									</tr>	
 							</c:when>
 							<c:otherwise>
 								<tr>
@@ -94,6 +90,11 @@
 			function showTicketing(ticketNo){
 		        location.href = "/ticketing/regist.ft?ticketNo="+ticketNo;
 		    }	
+			
+			function showDetail(ticketNo){
+		        location.href = "/ticket/detail.ft?ticketNo="+ticketNo;
+		    }	
+	
 	
 	</script>
 	  

@@ -35,6 +35,8 @@ public class RideController {
 	@Autowired
 	private RideService rService;
 	
+	
+	
 	//코스  담기
     @ResponseBody
     @PostMapping(value = "/ride/addCourse.ft")
@@ -99,6 +101,8 @@ public class RideController {
  		}
  		return mv;
      };
+	
+	
 	
 	// --------- [어드민] ---------
 
@@ -369,20 +373,16 @@ public class RideController {
 		}
 	 	
 	 	
+	 	
 //      놀이기구 상세
 //      ride/detail.ft
        @GetMapping("/ride/detail.ft")
-      public ModelAndView selectrideuserdetail(ModelAndView mv, HttpSession session, @ModelAttribute RideVO ride,
+      public ModelAndView selectrideuserdetail(ModelAndView mv,
               @RequestParam("rideId") int rideId) {
           try {
               RideVO rList = rService.selectUserRideByRideId(rideId);
-              UserVO uOne = (UserVO) session.getAttribute("user");
-              ride.setCourseUser(uOne.getUserId());
-              ride.setRideId(rideId);
-              List<RideVO> cList = rService.selectCourse(ride);
               List<RimgVO> rImg = rService.selectUserImgByRideId(rideId);
                   mv.addObject("rList", rList);
-                  mv.addObject("cList", cList);
                   mv.addObject("rImg", rImg);
                   mv.setViewName("ride/detail");
           } catch (Exception e) {
