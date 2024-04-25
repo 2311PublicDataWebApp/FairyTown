@@ -1,6 +1,8 @@
 package com.fairytown.ft.user.store;
 
+import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -52,6 +54,9 @@ public interface UserStore {
 
 	//검색 유저 목록 조회
 	List<UserVO> searchUserList(PageInfo pi);
+
+	// 관리자 대쉬보드
+	List<Map<String, Object>> adminUserBoard(Date today);
 	
 
 

@@ -46,17 +46,17 @@
 		                <div class="col-md-3 mt-1"><img src="../resources/nuploadFiles/${ting.ticket.ticketImgRename }" alt="티켓이미지"></div>
 		                <div class="col-md-6 mt-1">
 		                	<h4>티켓이름 : ${ting.ticket.ticketName }</h4>
-							<div class="mt-1 mb-4 spec-1"><span>티켓 코드 : ${ting.ticketingCode }<br></span></div>
+							<div class="mt-1 mb-3 spec-1"><span>티켓 코드 : ${ting.ticketingCode }<br></span></div>
 							<h5>예약일 : ${ting.reservationDate }</h5>
 		                    <h5>결제 금액 : ${ting.purchasePrice }</h5>
 		                    <div class="mt-1 mb-1 spec-1"><span class="dot"></span><span>어른 : ${ting.adult }</span></div>
 		                    <div class="mt-1 mb-1 spec-1"><span class="dot"></span><span>청소년 : ${ting.teenager }</span></div>
 		                    <div class="mt-1 mb-1 spec-1"><span class="dot"></span><span>어린이 : ${ting.child }</span></div>
-		                    <div class="d-flex flex-row mt-5">
+		                    <div class="d-flex flex-row mt-3">
 		                        <div class="ratings mr-2"></div><span>결제일 : ${ting.purchaseDate }</span>
 		                    </div>
 		                </div>
-		                <div class="col-md-3 border-left mt-5">
+		                <div class="col-md-3 border-left mt-4" style="padding-left: 10%;">
 		                    <h6 class="text-success">결제 상태 : ${ting.purchaseSuccess == 'C' ? '취소됨' : '결제됨'} </h6>
 							<c:if test="${ting.purchaseSuccess == 'Y'}">
 			                    <div class="d-flex flex-column mt-4 booking-button"><button class="btn btn-primary btn-sm" type="button" onclick="cancleTicketingCode(${ting.ticketingCode })">취소하기</button></div>

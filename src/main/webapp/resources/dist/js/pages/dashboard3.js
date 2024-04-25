@@ -76,15 +76,23 @@ $(function () {
       }
     }
   })
+  
+  	var currentDate = new Date();
+	var labels = [];
+	for (var i = 6; i >= 0; i--) {
+	    var date = new Date(currentDate);
+	    date.setDate(currentDate.getDate() - i);
+	    labels.push(date.getDate() + '일'); // 날짜를 라벨 배열에 추가
+	}
 
-  var $visitorsChart = $('#visitors-chart')
+  var $usersChart = $('#users-chart')
   // eslint-disable-next-line no-unused-vars
-  var visitorsChart = new Chart($visitorsChart, {
+  var usersChart = new Chart($usersChart, {
     data: {
-      labels: ['18th', '20th', '22nd', '24th', '26th', '28th', '30th'],
+      labels: labels,
       datasets: [{
         type: 'line',
-        data: [100, 120, 170, 167, 180, 177, 160],
+        data: listUser,
         backgroundColor: 'transparent',
         borderColor: '#007bff',
         pointBorderColor: '#007bff',
@@ -92,17 +100,6 @@ $(function () {
         fill: false
         // pointHoverBackgroundColor: '#007bff',
         // pointHoverBorderColor    : '#007bff'
-      },
-      {
-        type: 'line',
-        data: [60, 80, 70, 67, 80, 77, 100],
-        backgroundColor: 'tansparent',
-        borderColor: '#ced4da',
-        pointBorderColor: '#ced4da',
-        pointBackgroundColor: '#ced4da',
-        fill: false
-        // pointHoverBackgroundColor: '#ced4da',
-        // pointHoverBorderColor    : '#ced4da'
       }]
     },
     options: {
@@ -129,7 +126,7 @@ $(function () {
           },
           ticks: $.extend({
             beginAtZero: true,
-            suggestedMax: 200
+            suggestedMax: Math.max.apply(null, listUser)
           }, ticksStyle)
         }],
         xAxes: [{

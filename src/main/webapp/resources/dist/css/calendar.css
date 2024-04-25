@@ -8385,12 +8385,12 @@ td#selectable {
 }
 .register {
     margin-left: -120px;
-    margin-top: -100px;
+    margin-top: -150px;
     float: left;
 }
 .regist-submit-btn {
     padding: 2% 10%; 
-    margin-top: 40%;
+	margin-top: 7%;
     border-radius: 10px;
     background-color: #ACE0F8;
     color: white;

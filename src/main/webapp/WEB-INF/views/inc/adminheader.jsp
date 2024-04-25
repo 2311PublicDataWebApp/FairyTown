@@ -124,12 +124,12 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-		<li class="nav-header">아마 대쉬보드</li>               
+		<li class="nav-header">관리메뉴</li>               
           <li class="nav-item menu-open">
             <a href="/admin.ft" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                임시 첫화면
+                대쉬보드
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -137,13 +137,13 @@
               <li class="nav-item">
                 <a href="/admin.ft" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>임시 첫화면</p>
+                  <p>대쉬보드</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="/adminTableSample.ft" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>관리자 테이블 샘플</p>
+                  <p>관리자 테이블 양식</p>
                 </a>
               </li>
             </ul>
@@ -183,7 +183,6 @@
 			</li>
 			<li class="nav-item">
 	            <a href="/admin/ridelist.ft" class="nav-link">
-	              <i class="nav-icon far fa-calendar-alt"></i>
 	              <i class="nav-icon fa-solid fa-landmark-flag"></i>
 	              <p>놀이기구 관리</p>
 	            </a>
@@ -228,8 +227,14 @@
 			</li>
           	<li class="nav-item">
 	            <a href="#" class="nav-link">
-	              <i class="nav-icon fa-solid fa-comments"></i>
+	              <i class="nav-icon fa-solid fa-message"></i>
 	              <p>1:1문의 관리</p>
+	            </a>
+			</li>
+          	<li class="nav-item">
+	            <a href="/admin/chatList.ft" class="nav-link">
+	              <i class="nav-icon fa-solid fa-comments"></i>
+	              <p>채팅 상담 관리</p>
 	            </a>
 			</li>			          
         </ul>

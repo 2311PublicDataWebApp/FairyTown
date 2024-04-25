@@ -49,6 +49,7 @@
 					<label for="child" class="form-label">어린이</label>
 					<input type="number" class="form-control" id="child" name="child" value="0">
 				</div>
+				<br><p>30명 이상의 단체 예약은<br>고객센터에 문의해주세요.</p>
 				<button type="submit" class="regist-submit-btn">결제화면으로</button>
 			</form>
 		</div>
@@ -56,7 +57,11 @@
 	<!-- 공통 / 풋터 -->	
 	<jsp:include page="../inc/footer.jsp"></jsp:include>
 	<script>
-	
+	document.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // 기본 동작 차단
+        }
+    });
 	// 인원 제한
     var adultInput = document.getElementById("adult");
     var teenagerInput = document.getElementById("teenager");
@@ -92,7 +97,7 @@
             adultInput.value = prevAdultValue;
             teenagerInput.value = prevTeenagerValue;
             childInput.value = prevChildValue;
-            alert("30명 이상의 단체 예약은 고객센터로 문의 바랍니다.");
+
         } else {
             prevAdultValue = adultValue;
             prevTeenagerValue = teenagerValue;
