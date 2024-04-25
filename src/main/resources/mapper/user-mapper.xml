@@ -149,7 +149,15 @@
 	</insert>
   
   
-  
-  
+	<!-- 관리자 대쉬보드 -->
+  	<select id="adminUserBoard" resultType="java.util.Map">
+		<![CDATA[
+		    SELECT COUNT(*)
+		    FROM USER_TBL
+		    WHERE USER_DATE >= #{today} - INTERVAL '6' DAY AND USER_DATE <= #{today}
+		    GROUP BY TO_DATE(USER_DATE, 'YYYY-MM-DD')
+		    ORDER BY TO_DATE(USER_DATE, 'YYYY-MM-DD')
+		]]>
+  	</select>
   
   </mapper>

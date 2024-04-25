@@ -7,7 +7,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -233,5 +235,11 @@ public class UserService implements UserDetailsService{
 	    }
 
 	    return user;
+	}
+
+	// 관리자 대쉬보드
+	public List<Map<String,Object>> adminUserBoard(Date today) {
+		List<Map<String,Object>> listUser = uStore.adminUserBoard(today);
+		return listUser;
 	}
 }
