@@ -62,13 +62,13 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public List<ReviewVO> selectReviewList(NoticePageInfo pi) {
+	public List<ReviewVO> selectReviewList(PageInfo pi) {
 		List<ReviewVO> rList = rStore.selectReviewList(session, pi);
 		return rList;
 	}
 	
 	@Override
-	public List<ReviewVO> selectReviewList(NoticePageInfo pi, String sortType) {
+	public List<ReviewVO> selectReviewList(PageInfo pi, String sortType) {
 		List<ReviewVO> sortList = rStore.selectReviewList(session, pi, sortType);
 		return sortList;
 	}
@@ -107,7 +107,7 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public List<ReviewVO> searchReviewsByKeyword(NoticePageInfo pi, Map<String, String> paramMap) {
+	public List<ReviewVO> searchReviewsByKeyword(PageInfo pi, Map<String, String> paramMap) {
 		int limit = pi.getBoardLimit();
 		int offset = (pi.getCurrentPage() - 1) * limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);

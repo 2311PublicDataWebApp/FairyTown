@@ -12,7 +12,7 @@
 	<div class="row mt-3 mb-5" style="margin-top:300px;">
     <div class="col-md-12">
         <nav aria-label="Page navigation example">                    
-            <ul class="pagination justify-content-center" style="font-weight: 600; ">
+            <ul id="pageul" class="pagination justify-content-center" style="font-weight: 600; ">
                 <c:if test="${pi.startNavi ne '1' }">
                     <li class="page-item">
                         <a class="page-link rounded-circle" href="/review/list.ft?page=${pi.startNavi - 1 }" aria-label="Previous">

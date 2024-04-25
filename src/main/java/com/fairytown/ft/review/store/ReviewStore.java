@@ -6,7 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 
-import com.fairytown.ft.notice.domain.vo.NoticePageInfo;
+import com.fairytown.ft.common.PageInfo;
 import com.fairytown.ft.review.domain.vo.ReviewImageVO;
 import com.fairytown.ft.review.domain.vo.ReviewVO;
 
@@ -38,9 +38,9 @@ public interface ReviewStore {
 
 	int selectTotalCount(SqlSession session);
 
-	List<ReviewVO> selectReviewList(SqlSession session, NoticePageInfo pi);
+	List<ReviewVO> selectReviewList(SqlSession session, PageInfo pi);
 
-	List<ReviewVO> selectReviewList(SqlSession session, NoticePageInfo pi, String sortType);
+	List<ReviewVO> selectReviewList(SqlSession session, PageInfo pi, String sortType);
 	
 	/**
 	 * 조회수 카운트 Store
