@@ -45,14 +45,14 @@ public class GoodsController {
 		@Autowired
 		private GoodsService gService;
 	
-		// 굿즈 등록 페이지 이동
-		@GetMapping("/goods/insert.ft")
+		// 어드민 굿즈 등록 페이지 이동
+		@GetMapping("/admin/goodsInsert.ft")
 		public String showWriteForm() {
-			return "goods/regist";
+			return "goods/adminRegist";
 		}
 		
-		// 굿즈 등록
-		@PostMapping("/goods/insert.ft")
+		// 어드민 굿즈 등록
+		@PostMapping("/admin/goodsInsert.ft")
 		public ModelAndView insertGoods(ModelAndView mv
 				, @ModelAttribute GoodsVO goods
 				, @RequestParam("goodsStock") int goodsStock
@@ -75,9 +75,9 @@ public class GoodsController {
 				}
 				int result = gService.insertGoods(goods);
 				if (result > 0) {
-					mv.setViewName("redirect:/goods/list.ft");
+					mv.setViewName("redirect:/admin/goodsList.ft");
 				} else {
-					mv.addObject("msg", "공지사항 등록이 완료되지 못했습니다.");
+					mv.addObject("msg", "굿즈 등록이 완료되지 못했습니다.");
 					mv.setViewName("common/errorPage");
 				}
 			} catch (Exception e) {
@@ -88,6 +88,7 @@ public class GoodsController {
 			return mv;
 		}
 		
+		// ck에디터 파일 업로드
 		@ResponseBody
 		@RequestMapping(value = "/goods/ckUpload", method = {RequestMethod.POST, RequestMethod.GET})
 		public String fileUpload(Model model,  
@@ -120,7 +121,7 @@ public class GoodsController {
 	            required=false, defaultValue="1") Integer currentPage) {
 			try {
 				int totalCount = gService.getTotalCount();
-				PageInfo pInfo = this.getPageInfo(currentPage, totalCount);
+				PageInfo pInfo = this.get9PageInfo(currentPage, totalCount);
 				List<GoodsVO> gList = gService.selectGoodsList(pInfo);
 				mv.addObject("gList", gList);
 				mv.addObject("pi", pInfo);
@@ -132,8 +133,26 @@ public class GoodsController {
 			}
 			return mv;
 	    };
+	    
+	    // 어드민 굿즈 목록
+ 		@GetMapping("/admin/goodsList.ft")
+ 	    public ModelAndView ShowAdminGoodsList(ModelAndView mv,
+ 	            @RequestParam(value="page", 
+ 	            required=false, defaultValue="1") Integer currentPage) {
+ 			try {
+ 				int totalCount = gService.getTotalCount();
+ 				List<GoodsVO> gList = gService.selectGoodsList();
+ 				mv.addObject("gList", gList);
+ 				mv.setViewName("goods/adminList");
+ 			} catch (Exception e) {
+ 				// TODO: handle exception
+ 				mv.addObject("msg", e.getMessage());
+ 				mv.setViewName("common/errorPage");
+ 			}
+ 			return mv;
+ 	    };
 		
-	    // 공지사항 검색
+	    // 굿즈 검색
 	 	@GetMapping(value="/goods/search.ft")
 	 	public ModelAndView searchGoodsList(ModelAndView mv
 	 			, @RequestParam("searchCondition") String searchCondition
@@ -144,7 +163,7 @@ public class GoodsController {
 	 		paramMap.put("searchCondition", searchCondition);
 	 		paramMap.put("searchKeyword", searchKeyword);
 	 		int totalCount = gService.getTotalCount(paramMap);
-	 		PageInfo pi = this.getPageInfo(currentPage, totalCount);
+	 		PageInfo pi = this.get9PageInfo(currentPage, totalCount);
 	 		List<GoodsVO> searchList = gService.searchGoodsByKeyword(pi, paramMap);
 	 		mv.addObject("sList", searchList);
 	 		mv.addObject("pi", pi);
@@ -154,7 +173,7 @@ public class GoodsController {
 	 		return mv;
 	 	}
 	 	
-	 	// 공지 상세조회
+	 	// 굿즈 상세조회
 	    @GetMapping("/goods/detail.ft")
 	    public ModelAndView showGoodsDetail(ModelAndView mv
 	    		, @RequestParam("goodsCode") Integer goodsCode) {
@@ -172,15 +191,34 @@ public class GoodsController {
 			}
 			return mv;
 		}
+	    
+	    // 어드민 굿즈 상세조회
+	    @GetMapping("/admin/goodsDetail.ft")
+	    public ModelAndView showAdminGoodsDetail(ModelAndView mv
+	    		, @RequestParam("goodsCode") Integer goodsCode) {
+	    	try {
+	    		GoodsVO goods = gService.selectByGoodsCode(goodsCode);
+	    		if (goods != null) {
+	    			mv.addObject("goods", goods).setViewName("goods/adminDetail");
+	    		} else {
+	    			mv.addObject("msg", "데이터 불러오기가 완료되지 못했습니다.");
+	    			mv.setViewName("common/errorPage");
+	    		}
+	    	} catch (Exception e) {
+	    		// TODO: handle exception
+	    		mv.addObject("msg", e.getMessage()).setViewName("common/errorPage");
+	    	}
+	    	return mv;
+	    }
 	 	
-	 	// 공지 수정 페이지 이동
-	    @GetMapping("/goods/modify.ft")
+	 	// 어드민 굿즈 수정 페이지 이동
+	    @GetMapping("/admin/goodsModify.ft")
 	    public ModelAndView showModifyForm(ModelAndView mv, @RequestParam("goodsCode") Integer goodsCode) {
 			try {
 				GoodsVO goods = gService.selectByGoodsCode(goodsCode);
 				if (goods != null) {
 					mv.addObject("goods", goods);
-					mv.setViewName("goods/modify");
+					mv.setViewName("goods/adminModify");
 				} else {
 					mv.addObject("msg", "데이터 불러오기가 완료되지 못했습니다.");
 					mv.setViewName("common/errorPage");
@@ -192,8 +230,8 @@ public class GoodsController {
 			return mv;
 		}
 	    
-	 	// 공지 수정
-	 	@PostMapping("/goods/modify.ft")
+	 	// 어드민 굿즈 수정
+	 	@PostMapping("/admin/goodsModify.ft")
 	    public ModelAndView updateGoods(ModelAndView mv, @ModelAttribute GoodsVO goods, @RequestParam("goodsStock") int goodsStock, @RequestParam("goodsCode") Integer goodsCode, 
 	 			@RequestParam(value = "reloadFile", required = false) MultipartFile reloadFile, HttpServletRequest request) {
 	 		try {
@@ -214,7 +252,7 @@ public class GoodsController {
 	 			}
 	 			int result = gService.updateGoods(goods);
 	 			if (result > 0) {
-	 				mv.setViewName("redirect:/goods/detail.ft?goodsCode=" + goodsCode);
+	 				mv.setViewName("redirect:/admin/goodsDetail.ft?goodsCode=" + goodsCode);
 	 			} else {
 	 				mv.addObject("msg", "데이터가 존재하지 않습니다.");
 	 				mv.setViewName("common/errorPage");
@@ -226,13 +264,13 @@ public class GoodsController {
 	 		return mv;
 	 	}
 	 	
-	 	// 공지 삭제
-	    @GetMapping("/goods/delete.ft")
+	 	// 어드민 굿즈 삭제
+	    @GetMapping("/admin/goodsDelete.ft")
 	    public ModelAndView deleteGoods(ModelAndView mv, @RequestParam("goodsCode") Integer goodsCode) {
 	 		try {
 	 			int result = gService.deleteGoods(goodsCode);
 	 			if (result > 0) {
-	 				mv.setViewName("redirect:/goods/list.ft");
+	 				mv.setViewName("redirect:/admin/goodsList.ft");
 	 			} else {
 	 				mv.addObject("msg", "데이터가 존재하지 않습니다.").setViewName("common/errorPage");
 	 			}
@@ -242,6 +280,60 @@ public class GoodsController {
 	 		}
 	 		return mv;
 	 	}
+	    
+	    // 굿즈 정렬
+	    @ResponseBody
+	    @GetMapping(value="/goods/sortList.ft")
+	    public Map<String, Object> sortGoods(
+	            @RequestParam(value="page", 
+	            required=false, defaultValue="1") Integer currentPage
+	            , @RequestParam("sortType") String sortType) {
+	    	Map<String, Object> result = new HashMap<String, Object>();
+	    	try {
+				int totalCount = gService.getTotalCount();
+				PageInfo pi = this.get9PageInfo(currentPage, totalCount);
+				List<GoodsVO> sortList = gService.selectGoodsList(pi, sortType);
+				result.put("sortList", sortList);
+		 		result.put("pi", pi);
+		 		result.put("sortType", sortType);
+		 		result.put("msg", "success");
+			} catch (Exception e) {
+				// TODO: handle exception
+				result.put("msg", e.getMessage());
+			}
+	    	return result;
+	    }
+	    
+	    // 굿즈 검색 정렬
+	    @ResponseBody
+	    @GetMapping(value="/goods/sortSearchList.ft")
+	    public Map<String, Object> sortSearchGoods(
+	            @RequestParam(value="page", 
+	            required=false, defaultValue="1") Integer currentPage
+	            , @RequestParam("searchCondition") String searchCondition
+	 			, @RequestParam("searchKeyword") String searchKeyword
+	            , @RequestParam("sortType") String sortType) {
+	    	Map<String, Object> result = new HashMap<String, Object>();
+	    	try {
+	    		Map<String, String> paramMap = new HashMap<String, String>();
+		 		paramMap.put("searchCondition", searchCondition);
+		 		paramMap.put("searchKeyword", searchKeyword);
+		 		paramMap.put("sortType", sortType);
+		 		int totalCount = gService.getTotalCount(paramMap);
+		 		PageInfo pi = this.get9PageInfo(currentPage, totalCount);
+		 		List<GoodsVO> sortSearchList = gService.sortSearchGoodsByKeyword(pi, paramMap);
+		 		result.put("sortSearchList", sortSearchList);
+		 		result.put("pi", pi);
+		 		result.put("searchCondition", searchCondition);
+		 		result.put("searchKeyword", searchKeyword);
+		 		result.put("sortType", sortType);
+		 		result.put("msg", "success");
+			} catch (Exception e) {
+				// TODO: handle exception
+				result.put("msg", e.getMessage());
+			}
+	    	return result;
+	    }
 	    
 		// 파일 저장
 	    private Map<String, Object> saveFile(MultipartFile uploadFile, HttpServletRequest request) throws Exception {
@@ -286,7 +378,16 @@ public class GoodsController {
 			}
 		}
 	    
-	    // 페이징
+	    // 9 페이징
+	    private PageInfo get9PageInfo(Integer currentPage, int totalCount) {
+			PageInfo pi = null;
+			int boardLimit = 9; // 한 페이지당 보여줄 게시물의 갯수
+			
+			pi = new PageInfo(currentPage, totalCount, boardLimit);
+			return pi;
+		}
+	    
+	    // 10 페이징
 	    private PageInfo getPageInfo(Integer currentPage, int totalCount) {
 			PageInfo pi = null;
 			int boardLimit = 10; // 한 페이지당 보여줄 게시물의 갯수

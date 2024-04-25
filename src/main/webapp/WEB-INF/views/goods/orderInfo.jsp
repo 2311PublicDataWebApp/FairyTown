@@ -7,13 +7,22 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>굿즈 주문</title>
+		<style>
+			#goods-order {
+				margin: auto;
+				width:1200px;
+			}
+			ul{
+			   list-style:none;
+			}
+		</style>
 	</head>
 	<body>
 		<!-- 공통 / 헤더 -->
 		<jsp:include page="../inc/header.jsp"></jsp:include>
-		<div id="goods-list">
-			<h1><b>굿즈 주문</b></h1>
-			<br><br><br>				
+		<div id="goods-order">
+			<h1 style="text-align:center;"><b>주문하기</b></h1>
+			<br><br><br><br><br><br><br><br>				
 				<table class="table table-hover">
 					<thead>
 						<tr>
@@ -25,49 +34,29 @@
 						</tr>
 					</thead>
 					<tbody>
-					<ul>
-						<li>
-								 <div class="allCheck">
-								  	<input type="checkbox" name="allCheck" id="allCheck" /><label for="allCheck">모두 선택</label> 
-								 </div>
-							<form action="/goods/deleteCart.ft" method="post">							
-								 <div class="delBtn">
-								 	<input type="hidden" id="check-delete-cart" name="check-delete-cart">
-								  	<button type="submit" class="selectDelete_btn" onclick="getDeleteCart();">선택 삭제</button> 
-								 </div>
-                            </form>
-                            <form action="/goods/order.ft" method="post">							
-								 <div class="orderBtn">
-								 	<input type="hidden" id="check-order-cart" name="check-order-cart">
-								  	<button type="submit" class="selectOrder_btn" onclick="getOrderCart();">선택 주문</button> 
-								 </div>
-                            </form>
-						</li>
-						<li>
-			
 						<c:set var="sum" value="0" />
 						<c:forEach items="${cList }" var="cart" varStatus="i">
 							<tr>
-								<td><img src="../resources/guploadFiles/${cart.goodsFileRename }" width="30px"></td>
-								<td><a href="/goods/detail.ft?goodsCode=${cart.cartGoodsCode }">${cart.goodsName }</a></td>
-								<td>₩<fmt:formatNumber value="${cart.goodsPrice }" pattern="###,###,###"/></td>
-								<td>${cart.cartStock }</td>
-								<td>₩<fmt:formatNumber pattern="###,###,###" value="${cart.goodsPrice * cart.cartStock}" /></td>
+								<td><img src="../resources/guploadFiles/${cart.goodsFileRename }" width="100px" height="70px"></td>
+								<td style="padding: 30px 0"><a href="/goods/detail.ft?goodsCode=${cart.cartGoodsCode }">${cart.goodsName }</a></td>
+								<td style="padding: 30px 0">₩<fmt:formatNumber value="${cart.goodsPrice }" pattern="###,###,###"/></td>
+								<td style="padding: 30px 0">${cart.cartStock }</td>
+								<td style="padding: 30px 0">₩<fmt:formatNumber pattern="###,###,###" value="${cart.goodsPrice * cart.cartStock}" /></td>
 								
 							</tr>
 						<c:set var="sum" value="${sum + (cart.goodsPrice * cart.cartStock)}" />
 						</c:forEach>
-						</li>
-					</ul>
 					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="5" style="text-align:center;"><h5>총 주문 가격: <fmt:formatNumber pattern="###,###,###" value="${sum}" />원</h5></td>
+						</tr>
+					</tfoot>
 				</table>
+				<br><br><br><br><br>
 					<div class="listResult">
-					 <div class="sum">
-					  총 합계 : <fmt:formatNumber pattern="###,###,###" value="${sum}" />원
-					 </div>
-					 <div class="orderOpne">
-					  주문 정보 입력
-					 </div>
+					 <div style="background-color:#ACE0F8; height:80px; display: flex; justify-content: center"><h3 style="text-align:center; padding: 20px 0 0 0; color:white;">주문 정보 입력</h3></div>
+					 <br><br><br>
 					 <div class="orderInfo">
 					 <form name="orderForm" action="/goods/order.ft" method="post" autocomplete="off">
 					  <c:forEach items="${cList }" var="cart" varStatus="i">            
@@ -83,29 +72,58 @@
 					  <input type="hidden" id="merchant_uid" name="merchant_uid" value="" />
 					  <input type="hidden" id="goodsArray" name="goodsArray">
 					    
-					  <div class="inputArea">
-					   <label for="">수령인</label>
-					   <input type="text" name="goodsOrderName" id="goodsOrderName" required="required" />
-					  </div>
-					  
-					  <div class="inputArea">
-					   <label for="orderPhone">수령인 연락처</label>
-					   <input type="text" name="goodsOrderPhone" id="goodsOrderPhone" required="required" />
-					  </div>
-					  
-					 
-					    <input type="text" name="goodsOrderPostcode" id="goodsOrderPostcode" placeholder="우편번호">
-						<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
-						<input type="text" name="roadAddress" id="roadAddress" placeholder="도로명주소">
-						<input type="text" name="jibunAddress" id="jibunAddress" placeholder="지번주소">
-						<span id="guide" style="color:#999;display:none"></span>
-						<input type="text" name="detailAddress" id="detailAddress" placeholder="상세주소">
-						<input type="text" id="extraAddress" placeholder="참고항목">
-					  <div class="inputArea">
-					   <button type="button" class="payment" onclick="requestPay()">주문</button>
-					   <button type="button" class="cancel_btn">취소</button> 
-					  </div>
-					  
+					    <div style="text-align: center">
+					      <div class="mb-2 row">
+					      	<div class="col-sm-1"></div>
+						    <label for="inputText" class="col-sm-2 col-form-label">수령인</label>
+						    <div class="col-sm-6">
+						      <input type="text" class="form-control" name="goodsOrderName" id="goodsOrderName" required="required">
+						    </div>
+						  </div>
+					      <div class="mb-2 row">
+					      <div class="col-sm-1"></div>
+						    <label for="inputText" class="col-sm-2 col-form-label">수령인 연락처</label>
+						    <div class="col-sm-6">
+						      <input type="text" class="form-control" name="goodsOrderPhone" id="goodsOrderPhone" required="required">
+						    </div>
+						  </div>
+						  <div class="mb-2 row">
+						  	<div class="col-sm-1"></div>
+						    <label for="inputText" class="col-sm-2 col-form-label">수령인 주소</label>
+						    <div class="col-sm-3">
+						        <input type="text" class="form-control" name="goodsOrderPostcode" id="goodsOrderPostcode" placeholder="우편번호">
+						    </div>
+						    <div class="col-sm-1">
+						        <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
+						    </div>
+						  </div>
+						  <div class="mb-2 row">
+						  	<div class="col-sm-1"></div>
+						    <label for="inputText" class="col-sm-2 col-form-label"></label>
+						    <div class="col-sm-3">
+						        <input type="text" class="form-control" name="roadAddress" id="roadAddress" placeholder="도로명주소">
+						    </div>
+						    <div class="col-sm-3">
+						        <input type="text" class="form-control" name="jibunAddress" id="jibunAddress" placeholder="지번주소">
+						    </div>
+						  </div>
+						  <div class="mb-2 row">
+						  	<div class="col-sm-1"></div>
+						    <label for="inputText" class="col-sm-2 col-form-label"></label>
+						    <div class="col-sm-3">
+								<span id="guide" style="color:#999;display:none"></span>
+								<input type="text" class="form-control" name="detailAddress" id="detailAddress" placeholder="상세주소">
+						    </div>
+						    <div class="col-sm-3">
+								<input type="text" class="form-control" id="extraAddress" placeholder="참고항목">
+							</div>
+						  </div>
+						  <br><br><br>
+						  <div>
+						   <button type="button" style="border:1px solid gray; background-color: transparent; border-radius: 5px; width:80px; margin: 0 25px 0 0; padding: 10px 10px;" class="payment" onclick="requestPay()">주문</button>
+						   <button type="button" style="border:1px solid gray; background-color: transparent; border-radius: 5px; width:80px; padding: 10px 10px;" class="cancel_btn">취소</button> 
+						  </div>
+					     </div>
 					 </form> 
 					</div>
 					</div>
@@ -163,13 +181,15 @@
 		                // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
 		                if(data.autoRoadAddress) {
 		                    var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
-		                    guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
-		                    guideTextBox.style.display = 'block';
+		                    //guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
+		                    //guideTextBox.style.display = 'block';
+		                    document.getElementById("roadAddress").value = expRoadAddr;
 		
 		                } else if(data.autoJibunAddress) {
 		                    var expJibunAddr = data.autoJibunAddress;
-		                    guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
-		                    guideTextBox.style.display = 'block';
+		                    //guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
+		                    //guideTextBox.style.display = 'block';
+		                    document.getElementById("jibunAddress").value = expJibunAddr;
 		                } else {
 		                    guideTextBox.innerHTML = '';
 		                    guideTextBox.style.display = 'none';

@@ -11,9 +11,8 @@
 <body>
 	<!-- 공통 / 헤더 -->
 	<jsp:include page="../inc/header.jsp"></jsp:include>
-
-		<form action="/admin/closeregist.ft" method="post" name="closeForm" onSubmit="return Checkform()">
 			
+	<form action="/admin/closeregist.ft" method="post" name="closeForm" onSubmit="return Checkform()">
 		<!-- 어드민 타이틀 영역 -->
 			<div class="admTitle">
 				<table class="title_tbl">
@@ -29,33 +28,29 @@
 		<!-- 컨텐츠 영역 -->
 			<div class="content">
 				<table class="table_ride">
+				
 					<tr>
-						<td>놀이기구명＊ : </td>
+						<td>놀이기구명 <sup style="color: red">*</sup> : </td>
 						<td>
-							<div class="select_ride">
-								<select class="select_ride" name="rideName"  id="searchcon">
-<!-- 								<select class="select_ride" name="searchCondition"  id="searchcon"> -->
-									<option value="all">전체</option>
-									<c:forEach></c:forEach>
-									<option value="flumeRide">후룸라이드</option>
-									<option value="gyroDrop">자이로드롭</option>
-									<option value="gyroSwing">자이로스윙</option>
-									<option value="atlantis">아틀란티스</option>
-									<option value="cometExpress">신밧드의 모험</option>
+								<select class="select_ride" name="rideId">
+										<option value="all">전체</option>
+											<c:if test="${fn:length(close) != 0 }">
+												<c:forEach items="${close }" var="close" varStatus="i">
+													<option value="${close.rideId}">${close.rideName}</option>
+												</c:forEach>
+											</c:if>
 								</select>
-							</div>	
 						</td>
 					</tr>
 					<tr>
-						<td>날짜* : </td>
-						<td><input type="date" name="closeDate"></td>
+							<td>날짜 <sup style="color: red">*</sup> : </td>
+						<td><input type="date" name="close d1eDate"></td>
 					</tr>
 					<tr>
 						<td>사유 : </td>
 						<td>
-							<select class="select_ride" name="closeReason"  id="searchcon">
-<!-- 								<select class="select_ride" name="searchCondition"  id="searchcon"> -->
-									<option value="all">전체</option>
+							<select class="select_ride" name="closeReason" >
+									<option value="all" selected>전체</option>
 									<option value="regular">정기휴무</option>
 									<option value="disaster">천재지변</option>
 									<option value="outofOrder">기기수리</option>
@@ -72,13 +67,13 @@
 					<tr>
 						<td colspan="5">
 							<input type="reset" value="이전으로" onClick="goBack();">
-							<input type="submit" value="등록하기" onclick="return submitAlert();">
+							<input type="submit" value="등록하기">
+<!-- 							<input type="submit" value="등록하기" onclick="return submitAlert();"> -->
 						</td>
 					</tr>
 				</table>
 			</div>
-		</form>
-	
+	</form>
 	
 	<script>
 		//등록 페이지 사용 JS : goBack(), Checkform(), submitAlert()
@@ -92,14 +87,6 @@
 				if (closeForm.rideName.value == "all") {
 					closeForm.rideName.focus();
 					alert("놀이기구를 선택해주세요.");
-
-					return false;
-
-				}
-
-				if (closeForm.closeReason.value == "all") {
-					closeForm.closeReason.focus();
-					alert("사유를 선택해주세요.");
 
 					return false;
 

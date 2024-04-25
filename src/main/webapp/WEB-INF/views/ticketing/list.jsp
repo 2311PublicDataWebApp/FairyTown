@@ -7,8 +7,11 @@
 <meta charset="UTF-8">
 <title>티켓결제 - 목록</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 <body>
+	<!-- 공통 / 헤더 -->
+	<jsp:include page="../inc/header.jsp"></jsp:include>
     <c:choose>
         <c:when test="${tingList eq null}">
             주문하신 내역이 없습니다.

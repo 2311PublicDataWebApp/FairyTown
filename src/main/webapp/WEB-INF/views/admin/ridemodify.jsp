@@ -28,13 +28,12 @@
 		
 		<!-- 컨텐츠 영역 -->
 			<div class="content">
-				<input type="hidden" name="rideImgNo" value="${ride.rideImgNo }">
-				<input type="hidden" name="rideId" value="${ride.rideId }">
-				<input type="hidden" name="rideImgName" value="${ride.rideImgName }">
-				<input type="hidden" name="rideImgRename" value="${ride.rideImgRename }">
-				<input type="hidden" name="rideImgFilepath" value="${ride.rideImgFilepath }">
-				<input type="hidden" name="rideImgFilelength" value="${ride.rideImgFilelength }">
-				<input type="hidden" name="rideImgThumbnail" value="${ride.rideImgThumbnail }">
+<%-- 				<input type="hidden" name="rideImgNo" value="${rimg.rideImgNo }"> --%>
+<%-- 				<input type="hidden" name="rideImgName" value="${rimg.rideImgName }"> --%>
+<%-- 				<input type="hidden" name="rideImgRename" value="${rimg.rideImgRename }"> --%>
+<%-- 				<input type="hidden" name="rideImgFilepath" value="${rimg.rideImgFilepath }"> --%>
+<%-- 				<input type="hidden" name="rideImgFilelength" value="${rimg.rideImgFilelength }"> --%>
+<%-- 				<input type="hidden" name="displayYn" value="${rimg.displayYn }"> --%>
 				<table class="table_ride">
 					<tr>
 						<td>놀이기구명 : </td>
@@ -63,7 +62,7 @@
 					</tr>
 					<tr>
 						<td>이미지 : </td>
-						<td><input type="file" name="rideImgNo" value="${ride.rideImgName}"></td>
+						<td><input type="file" name="rideImgName" value="${rimg.rideImgName}"></td>
 					</tr>	
 					<tr>
 						<td>X좌표 : </td>

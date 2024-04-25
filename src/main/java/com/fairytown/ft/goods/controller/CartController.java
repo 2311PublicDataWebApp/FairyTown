@@ -61,7 +61,6 @@ public class CartController {
 			return result;
 		}
 		
-		
 		// 카트 목록
 		@GetMapping("/goods/cartList.ft")
 	    public ModelAndView ShowCartList(@ModelAttribute CartVO cart, ModelAndView mv, HttpSession session,
@@ -84,7 +83,7 @@ public class CartController {
 			return mv;
 	    };
 	    
-	 // 카트 삭제
+	    // 카트 삭제
 	    @PostMapping(value = "/goods/deleteCart.ft")
 	    public ModelAndView deleteCart(@RequestParam("check-delete-cart") String selectCart, ModelAndView mv) throws Exception {
 	    	try {

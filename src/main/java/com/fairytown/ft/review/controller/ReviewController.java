@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fairytown.ft.common.PageInfo;
 import com.fairytown.ft.notice.domain.vo.NoticePageInfo;
 import com.fairytown.ft.notice.domain.vo.NoticeVO;
 import com.fairytown.ft.review.domain.vo.ReviewImageVO;
@@ -253,46 +254,26 @@ public class ReviewController {
     // ==============
     // 리뷰 리스트(정렬)
     // ==============
+    @ResponseBody
     @GetMapping("/review/sortedList.ft")
-    public ModelAndView showSortedReviewList(ModelAndView mv, ReviewVO review,
-            @RequestParam(value="page", required=false, defaultValue="1") Integer currentPage,
-            @RequestParam("sortType") String sortType) {
-        try {
-            // 전체 리뷰 개수를 가져옴
-            int totalCount = rService.getTotalCount();
-            mv.addObject("totalCount", totalCount); // 모델에 totalCount 속성 추가
-            
-            // 페이지 정보를 생성
-            NoticePageInfo pi = this.getPageInfo(currentPage, totalCount);
-            
-            // 현재 페이지에 해당하는 리뷰 목록을 가져옴
-            List<ReviewVO> sortList = rService.selectReviewList(pi, sortType);
-            // 모델에 정렬된 리뷰 목록과 페이지 정보를 추가
-            mv.addObject("sortList", sortList);
-            mv.addObject("pi", pi);   
-            
-            // 베스트 리뷰(top1)
-            ReviewVO bestReview = rService.getBestReview(); // bestReview 객체를 ModelAndView에 추가
-            mv.addObject("bestReview", bestReview);
-            
-            // 추천 리뷰 리스트(best3)
-            List<ReviewVO> lList = rService.getTopLikedReviews();
-            mv.addObject("lList", lList);
-            
-            // 작성하기
-            review.setRealName("페어리용자");
-            // 셀렉트박스에 필요한 데이터를 가져와서 모델에 추가 (임시적용)
-            List<String> ticketTypes = Arrays.asList("자유이용권", "오전이용권", "오후이용권");
-            mv.addObject("ticketTypes", ticketTypes);
-            
-            // 리뷰 목록 뷰로 이동
-            mv.setViewName("review/list"); // 뷰 이름 설정
-        } catch (Exception e) {
-            // 오류가 발생할 경우 처리
-            mv.addObject("msg", e.getMessage());
-            mv.setViewName("common/errorPage");
-        }
-        return mv;
+    public Map<String, Object> sortReviews(
+            @RequestParam(value="page", 
+            required=false, defaultValue="1") Integer currentPage
+            , @RequestParam("sortType") String sortType) {
+    	Map<String, Object> result = new HashMap<String, Object>();
+    	try {
+			int totalCount = rService.getTotalCount();
+			NoticePageInfo pi = this.getPageInfo(currentPage, totalCount);
+			List<ReviewVO> sortList = rService.selectReviewList(pi, sortType);
+			result.put("sortList", sortList);
+	 		result.put("pi", pi);
+	 		result.put("sortType", sortType);
+	 		result.put("msg", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			result.put("msg", e.getMessage());
+		}
+    	return result;
     }
     
     
@@ -483,6 +464,7 @@ public class ReviewController {
 		if (delFile.exists()) {
 			delFile.delete();
 		}
+
 		
 	}
     

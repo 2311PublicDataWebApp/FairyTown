@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -30,6 +31,25 @@ public class QnaController {
 	@Autowired
 	private QnaService qService;
 	
+	@GetMapping("/qna/adminList.ft")
+    public ModelAndView ShowAdminQnaList(ModelAndView mv,
+            @RequestParam(value="page", 
+            required=false, defaultValue="1") Integer currentPage) {
+		try {
+			int totalCount = qService.getTotalCount();
+			PageInfo pInfo = this.getPageInfo(currentPage, totalCount);
+			List<QnaVO> qList = qService.selectQnaList(pInfo);
+			mv.addObject("qList", qList);
+			mv.addObject("pInfo", pInfo);
+			mv.setViewName("admin/qnaadmin");
+		} catch (Exception e) {
+			// TODO: handle exception
+			mv.addObject("msg", e.getMessage());
+			mv.setViewName("common/errorPage");
+		}
+		return mv;
+    };
+	
 	// 문의 작성 페이지
 	@GetMapping("/qna/insert.ft")
 	public String showInsertForm() {
@@ -43,6 +63,8 @@ public class QnaController {
 			, HttpSession session
 			, HttpServletRequest request) {
 		try {
+			// 게시물을 추가하기 전에 상태를 "처리 중"으로 설정합니다.
+	        qna.setQnaStatus("처리 중");
 			int result = qService.insertQna(qna);
 			if (result > 0) {
 				mv.setViewName("redirect:/qna/list.ft");
@@ -65,7 +87,7 @@ public class QnaController {
 		try {
 			QnaVO qna = qService.selectByQnaNo(qnaNo);
 			if (qna != null) {
-				mv.addObject("qna", qna).setViewName("qna/detail");
+				mv.addObject("qna", qna).setViewName("admin/qnaadmindetail");
 			} else {
 				mv.addObject("msg", "데이터 불러오기가 실패.");
 				mv.setViewName("common/errorPage");
@@ -149,7 +171,7 @@ public class QnaController {
 			List<QnaVO> qList = qService.selectQnaList(pInfo);
 			mv.addObject("qList", qList);
 			mv.addObject("pInfo", pInfo);
-			mv.setViewName("qna/List");
+			mv.setViewName("qna/qnalist");
 		} catch (Exception e) {
 			// TODO: handle exception
 			mv.addObject("msg", e.getMessage());

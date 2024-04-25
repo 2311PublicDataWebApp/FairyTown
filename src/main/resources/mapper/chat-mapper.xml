@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+	<mapper namespace="ChatMapper">
+		<insert id="insertaddMsg">
+			INSERT INTO CHAT_TBL
+			VALUES (SEQ_MSG_NO.NEXTVAL, #{chatUserId},#{msgSendId}, #{msgContents}, DEFAULT, DEFAULT)
+		</insert>
+		<select id="selectMsgByChatId" resultType="ChatVO">
+			SELECT *
+			FROM CHAT_TBL
+			WHERE CHAT_USER_ID = #{chatUserId}
+			ORDER BY MSG_SEND_DATE ASC
+		</select>
+		<select id="selectChatList" resultType="ChatVO">
+			SELECT DISTINCT CHAT_USER_ID FROM CHAT_TBL
+		</select>
+		<select id="selectNoChatList" resultType="ChatVO">
+			SELECT DISTINCT CHAT_USER_ID FROM CHAT_TBL WHERE ANSWER = 'N'
+		</select>
+		<update id="updateMsg">
+			UPDATE CHAT_TBL SET ANSWER = 'Y' WHERE CHAT_USER_ID = #{chatUserId}
+		</update>
+		<delete id="deleteMsg">
+			DELETE FROM CHAT_TBL WHERE CHAT_USER_ID = #{chatUserId}
+		</delete>
+	</mapper>

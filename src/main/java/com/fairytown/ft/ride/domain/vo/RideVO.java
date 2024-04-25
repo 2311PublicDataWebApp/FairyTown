@@ -24,5 +24,5 @@ public class RideVO {
 	private String rideY;
 	private Date closeDate;
 	private String closeReason;
-	private int closeNo;
+	private String closeYn;
 }

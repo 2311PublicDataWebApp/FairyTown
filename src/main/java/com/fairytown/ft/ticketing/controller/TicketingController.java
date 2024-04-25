@@ -142,4 +142,5 @@ public class TicketingController {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("예외 발생: " + e.getMessage());
 		}
 	}
+
 }
