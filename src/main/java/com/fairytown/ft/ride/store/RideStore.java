@@ -49,5 +49,9 @@ public interface RideStore {
 	List<RimgVO> selectUserImgByRideId(int rideId);
 	RideVO selectUserRideByRideId(int rideId);
 	int modifyRideImg(List<RimgVO> rImg);
+	int addCourse(RideVO ride);
+	int deleteCourse(RideVO ride);
+	List<RideVO> selectCourse(RideVO ride);
+	List<RideVO> selectCourseList(RideVO ride);
 
 }

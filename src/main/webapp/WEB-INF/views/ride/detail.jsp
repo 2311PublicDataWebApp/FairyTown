@@ -20,7 +20,9 @@
 		<input type="hidden" name="rideCount" value="${rList.rideCount}">
 		<input type="hidden" name="rideStatus" value="${rList.rideStatus}">
 		<input type="hidden" name="rideLimit" value="${rList.rideLimit}">
-
+		<c:if test="${user.userId eq null }">		
+			<button type="button" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef;" onclick="showCourse();">나만의 코스</button>
+		</c:if>
         <!-- 타이틀 영역 -->
                 <table class="title_tbl" align="center">
                     <tr>
@@ -64,13 +66,22 @@
 	                    	<div class="desc_btn" style="margin:100px 0px 0px 45%; ">
 								<input type="reset" value="이전으로" onClick="goBack();">
 	                            <input type="submit" value="예약하기"/>
-	                            <input type="button" value="내 코스로 등록"/>
+	                           <div id="courseBtn">
+	                           <c:choose>
+								    <c:when test="${empty cList}">
+										<button type="button" id="addCourse_btn" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef; margin:30px 0 0 250px; padding: 10px 10px">코스 찜</button>
+								    </c:when>
+								    <c:otherwise>
+			                           <button type="button" id="deleteCourse_btn" class="btn" style="background-color: #ACE0F8; border: none; color:white; margin:30px 0 0 250px; padding: 10px 10px">코스 찜</button>
+								    </c:otherwise>
+								</c:choose>
+								</div>
 	                    	</div>
                     	</td>
                     </tr>
                 </table>
         </form> 
-
+		 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
         <script>
         //상세 페이지 사용 JS : goBack()
 
@@ -81,9 +92,57 @@
             function showBooking(rideId){
                 location.href = "/booking/basic.ft";
             }
-
-
-
+			
+            function showCourse() {
+				location.href = "/ride/course.ft";
+			}
+			
+            $(document).on("click", "#addCourse_btn", function() {
+            	var rideId = ${rList.rideId};
+   			    
+      			 var data = {
+      				'rideId' : rideId,
+      			   };
+      			 
+      			 $.ajax({
+      			  url : "/ride/addCourse.ft",
+      			  type : "post",
+      			  data : data,
+      			  success : function(result){
+      				 var courseBtn = $("#courseBtn");
+   				  courseBtn.html("");
+   				  var btnVal = '<button type="button" id="deleteCourse_btn" class="btn" style="background-color: #ACE0F8; border: none; color:white; margin:30px 0 0 250px; padding: 10px 10px">코스 찜</button>'
+   				  courseBtn.append(btnVal);
+      			  },
+      			  error : function(){
+      			   
+      			  }
+      			 });
+            });
+            $(document).on("click", "#deleteCourse_btn", function() {
+            	var rideId = ${rList.rideId};
+				    
+  				 var data = {
+  					'rideId' : rideId,
+  				   };
+  				 
+  				 $.ajax({
+  				  url : "/ride/deleteCourse.ft",
+  				  type : "post",
+  				  data : data,
+  				  success : function(result){
+  					var courseBtn = $("#courseBtn");
+					  courseBtn.html("");
+					  var btnVal = '<button type="button" id="addCourse_btn" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef; margin:30px 0 0 250px; padding: 10px 10px">코스 찜</button>'
+					  courseBtn.append(btnVal);
+  				  },
+  				  error : function(){
+  				   
+  				  }
+  				 });
+            });
+            $("#addCourse_btn").click(function(){});
+   			$("#deleteCourse_btn").click(function(){});
         </script>
     <!-- 공통 / 풋터 -->
     <jsp:include page="../inc/footer.jsp"></jsp:include>

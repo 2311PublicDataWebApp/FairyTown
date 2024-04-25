@@ -65,4 +65,8 @@ public interface RideService {
 
 
 	RideVO selectUserRideByRideId(int rideId);
+	int addCourse(RideVO ride);
+	int deleteCourse(RideVO ride);
+	List<RideVO> selectCourse(RideVO ride);
+	List<RideVO> selectCourseList(RideVO ride);
 }

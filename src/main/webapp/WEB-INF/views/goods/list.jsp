@@ -20,7 +20,9 @@
 		<div id="goods-list">
 			<h1 style="margin: 0 0 0 300px;"><b>페어리타운 온라인 굿즈 스토어</b></h1>
 			<br><br>
-			<div style="margin-left:900px;"><button type="button" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef;" onclick="showCart();"><i class="bi bi-cart4" style="float:left;"></i>&nbsp내 장바구니</button></div>
+			<c:if test="${user.userId ne null }">			
+				<div style="margin-left:900px;"><button type="button" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef;" onclick="showCart();"><i class="bi bi-cart4" style="float:left;"></i>&nbsp내 장바구니</button></div>
+			</c:if>
 			<br><br><br>
 				    <div class="goodscontainer">
 					<c:forEach items="${gList }" var="goods" varStatus="i">

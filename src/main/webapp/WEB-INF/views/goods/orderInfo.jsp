@@ -68,7 +68,7 @@
 						<input type="hidden" value="${cart.goodsPrice }" name="goodsPrice">
 						<input type="hidden" value="${cart.goodsFileRename }" name="goodsFileRename">
 					  </c:forEach>
-					  <input type="hidden" name="sum" value="${sum}" />
+					  <input type="hidden" name="sum" id="sum" value="${sum}" />
 					  <input type="hidden" id="merchant_uid" name="merchant_uid" value="" />
 					  <input type="hidden" id="goodsArray" name="goodsArray">
 					    
@@ -246,7 +246,7 @@
 				            pay_method: "card",
 				            merchant_uid: makeMerchantUid,
 				            name: "페어리타운 굿즈",
-				            amount: 100,
+				            amount: purchasePrice,
 				            buyer_email: "Iamport@chai.finance",
 				            buyer_name: goodsOrderName,
 				            buyer_tel: goodsOrderPhone,
