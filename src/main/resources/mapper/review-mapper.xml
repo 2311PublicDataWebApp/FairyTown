@@ -207,7 +207,16 @@
 	
 	<!-- 리뷰 리스트 조회 -->
 	<select id="selectReviewList" resultMap="reviewResultMap">
-		SELECT * FROM REVIEW_TBL ORDER BY REVIEW_NO DESC
+		SELECT * FROM REVIEW_TBL
+		<if test="type =='recentReviewSort'">		
+			ORDER BY REVIEW_NO DESC
+		</if>
+		<if test="type == 'likeCountSort'">		
+			ORDER BY LIKE_COUNT DESC
+		</if>
+		<if test="type == 'viewCountSort'">	
+			ORDER BY VIEW_COUNT DESC
+		</if>
 	</select>
 	<!-- 리뷰 번호에 해당하는 이미지를 조회 -->
 	<select id="selectReviewImageList" resultMap="reviewImageResultMap">

@@ -204,22 +204,24 @@ public class ReviewController {
  	// ===================
     @GetMapping("/review/list.ft")
     public ModelAndView ShowReviewList(ModelAndView mv, ReviewVO review,
-            @RequestParam(value="page", required=false, defaultValue="1") Integer currentPage) {
+            @RequestParam(value="page", required=false, defaultValue="1") Integer currentPage
+            , @RequestParam(value="sortType", required=false, defaultValue="recentReviewSort") String sortType
+            ) {
 		try {
 			// 전체 리뷰 개수를 가져옴
 			int totalCount = rService.getTotalCount();
 			mv.addObject("totalCount", totalCount); // 모델에 totalCount 속성 추가
 			
 			// 페이지 정보를 생성
-			NoticePageInfo pi = this.getPageInfo(currentPage, totalCount);
-			
+			PageInfo pi = this.getPageInfo(currentPage, totalCount);
+			pi.setType(sortType);
 			// 현재 페이지에 해당하는 리뷰 목록을 가져옴
 			List<ReviewVO> rList = rService.selectReviewList(pi);
 			// 정렬
-			List<ReviewVO> sortList = rService.selectReviewList(pi);
+//			List<ReviewVO> sortList = rService.selectReviewList(pi);
 			// 모델에 리뷰 목록과 페이지 정보를 추가
 			mv.addObject("rList", rList);
-			mv.addObject("sortList", sortList);
+//			mv.addObject("sortList", sortList);
 			mv.addObject("pi", pi);	
 			
 			
@@ -263,7 +265,7 @@ public class ReviewController {
     	Map<String, Object> result = new HashMap<String, Object>();
     	try {
 			int totalCount = rService.getTotalCount();
-			NoticePageInfo pi = this.getPageInfo(currentPage, totalCount);
+			PageInfo pi = this.getPageInfo(currentPage, totalCount);
 			List<ReviewVO> sortList = rService.selectReviewList(pi, sortType);
 			result.put("sortList", sortList);
 	 		result.put("pi", pi);
@@ -351,7 +353,7 @@ public class ReviewController {
  		paramMap.put("searchCondition", searchCondition);
  		paramMap.put("searchKeyword", searchKeyword);
  		int totalCount = rService.getTotalCount(paramMap);
- 		NoticePageInfo pi = this.getPageInfo(currentPage, totalCount);
+ 		PageInfo pi = this.getPageInfo(currentPage, totalCount);
  		List<ReviewVO> searchList = rService.searchReviewsByKeyword(pi, paramMap);
  		mv.addObject("sList", searchList);
  		mv.addObject("pi", pi);
@@ -364,22 +366,12 @@ public class ReviewController {
     // ===================
  	// 페이징 처리
  	// ===================
-    private NoticePageInfo getPageInfo(Integer currentPage, int totalCount) {
-		NoticePageInfo pi = null;
+    private PageInfo getPageInfo(Integer currentPage, int totalCount) {
+		PageInfo pi = null;
 		int boardLimit = 12; // 한 페이지당 보여줄 게시물의 갯수
 		int naviLimit = 5; 	 // 한 페이지당 보여줄 범위의 갯수
-		int naviTotalCount;  // 범위의 총 갯수
-		int startNavi;
-		int endNavi;
-		
-		naviTotalCount = (int)((double) totalCount / boardLimit + 0.9);
-		startNavi = (((int)((double) currentPage / naviLimit + 0.9)) - 1) * naviLimit + 1;
-		endNavi = startNavi + naviLimit - 1;
-		if (endNavi > naviTotalCount) {
-			endNavi = naviTotalCount;
-		}
-		pi = new NoticePageInfo(currentPage, totalCount, naviTotalCount, boardLimit, naviLimit, startNavi,
-				endNavi);
+		pi = new PageInfo(currentPage, totalCount, boardLimit);
+		pi.setNaviLimit(naviLimit);
 		return pi;
 	}		
     

@@ -52,16 +52,16 @@ public class ReviewStoreImpl implements ReviewStore{
 	}
 
 	@Override
-	public List<ReviewVO> selectReviewList(SqlSession session, NoticePageInfo pi) {
+	public List<ReviewVO> selectReviewList(SqlSession session, PageInfo pi) {
 		int limit = pi.getBoardLimit();
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		List<ReviewVO> rList = session.selectList("ReviewMapper.selectReviewList", null, rowBounds);
+		List<ReviewVO> rList = session.selectList("ReviewMapper.selectReviewList", pi.getType(), rowBounds);
 		return rList;
 	}
 	
 	@Override
-	public List<ReviewVO> selectReviewList(SqlSession session, NoticePageInfo pi, String sortType) {
+	public List<ReviewVO> selectReviewList(SqlSession session, PageInfo pi, String sortType) {
 		int limit = pi.getBoardLimit();
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, limit);

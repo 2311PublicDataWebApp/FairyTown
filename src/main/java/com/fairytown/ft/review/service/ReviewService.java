@@ -3,8 +3,8 @@ package com.fairytown.ft.review.service;
 import java.util.List;
 import java.util.Map;
 
+import com.fairytown.ft.common.PageInfo;
 import com.fairytown.ft.notice.domain.vo.NoticePageInfo;
-import com.fairytown.ft.notice.domain.vo.NoticeVO;
 import com.fairytown.ft.review.domain.vo.ReviewImageVO;
 import com.fairytown.ft.review.domain.vo.ReviewVO;
 
@@ -33,9 +33,9 @@ public interface ReviewService {
 
 	int getTotalCount();
 
-	List<ReviewVO> selectReviewList(NoticePageInfo pi);
+	List<ReviewVO> selectReviewList(PageInfo pi);
 
-	List<ReviewVO> selectReviewList(NoticePageInfo pi, String sortType);
+	List<ReviewVO> selectReviewList(PageInfo pi, String sortType);
 	
 	/**
 	 * 조회수 카운트 Service
@@ -65,7 +65,7 @@ public interface ReviewService {
 
 	int getTotalCount(Map<String, String> paramMap);
 
-	List<ReviewVO> searchReviewsByKeyword(NoticePageInfo pi, Map<String, String> paramMap);
+	List<ReviewVO> searchReviewsByKeyword(PageInfo pi, Map<String, String> paramMap);
 
 	/**
 	 * 이미지 등록 Service

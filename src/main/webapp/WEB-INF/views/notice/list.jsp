@@ -20,7 +20,7 @@
 	<jsp:include page="../inc/header.jsp"></jsp:include> 
 	   	
 	    	<div id="notice-list">
-		        <h1><b>공지사항</b></h1>
+		        <h1 style="text-align: center;">공지사항</h1>
 		        <br><br><br>
 		        <table class="table table-hover">
 		            <thead>

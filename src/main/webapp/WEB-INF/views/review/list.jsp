@@ -45,7 +45,7 @@ liked {
 }
 
 .modal-content {
-	height: 80vh; /* 뷰포트 높이의 90%로 설정. */
+	height: 70vh; /* 뷰포트 높이의 90%로 설정. */
 	overflow-y: auto; /* 내용이 넘칠 경우 스크롤이 생성되도록 설정. */
 }
 
@@ -53,6 +53,18 @@ liked {
 	width: 100%; /* 이미지 너비를 부모 요소의 100%로 설정하여 부모 요소에 맞게 조절 */
     height: auto;
 }
+
+.swiper-container {
+  width: 100%; /* Swiper 컨테이너의 가로 폭을 설정합니다. */
+  height: 300px; /* Swiper 컨테이너의 세로 높이를 설정합니다. */
+}
+
+.swiper-slide img {
+  width: 100%; /* 이미지를 슬라이드에 꽉 차게 표시합니다. */
+  height: 100%; /* 이미지를 슬라이드에 꽉 차게 표시합니다. */
+  object-fit: cover; /* 이미지가 슬라이드에 꽉 차게 보이도록 설정합니다. */
+}
+
 
 .swiper-button-next::after,
 .swiper-button-prev::after {
@@ -176,6 +188,8 @@ h6 {
 
 
 
+
+
 </style>
 </head>
 <body>
@@ -190,14 +204,14 @@ h6 {
 		    <div class="row">
 		    
 		        <!-- 베스트 리뷰 영역 -->
-		        <div class="col-md-4 mb-2">
-		            <h4 style="text-align: left;"><b>베스트 리뷰</b></h4>
+		        <div class="col-md-4 mb-2 ">
+		            <h4 style="text-align: center;"><b>베스트 리뷰</b></h4>
 			<!-- 구분선 -->
 			<hr class="muidivider">
 			<div style="margin-bottom: 20px;"></div>
 		            <c:choose>
 		                <c:when test="${bestReview ne null }">
-		                    <div class="border rounded p-3" style="width: 234.73px; height: 338.45px;" >
+		                    <div class="border rounded p-3" style="width: 234.73px; height: 338.45px; align-items: center;">
 		                        <div class="review-item" data-toggle="modal" data-target="#reviewModal${bestReview.reviewNo}">
 		                            <div class="thumbnail" style="position: relative; margin-bottom: 15px;">
 		                                <c:choose>
@@ -218,7 +232,7 @@ h6 {
 		                            <div class="details">
 		                                <div class="row">
 		                                    <div class="col-sm-12">
-		                                        <p class="title" style="color: #0D62FD; ">${bestReview.reviewTitle}</p>
+		                                        <p class="title" style="">${bestReview.reviewTitle}</p>
 		                                    </div>
 		                                </div>
 		                                <h6 class="date" style="color: #AAB2B9; font-size: 11px; margin-bottom: 5px;">${bestReview.reviewDate}</h6>
@@ -240,7 +254,7 @@ h6 {
 		        
 		        <!-- 추천 리뷰 영역 -->
 		        <div class="col-md-8">
-		            <h4 style="text-align: left; width:750px;"><b>추천 리뷰</b></h4>
+		            <h4 style="text-align: center; width:750px;"><b>추천 리뷰</b></h4>
 			<!-- 구분선 -->
 			<hr class="muidivider">
 			<div style="margin-bottom: 20px;"></div>
@@ -270,7 +284,7 @@ h6 {
 		                                <div class="details">
 		                                    <div class="row">
 		                                        <div class="col-sm-12">
-		                                            <p class="title" style="font-size: 14px; margin-bottom: 10px; color: #0D62FD;">${review.reviewTitle}</p>
+		                                            <p class="title" style="font-size: 14px; margin-bottom: 10px;">${review.reviewTitle}</p>
 		                                        </div>
 		                                    </div>
 		                                    <h6 class="date" style="color: #AAB2B9; font-size: 11px; margin-bottom: 5px;">${review.reviewDate}</h6>
@@ -295,7 +309,7 @@ h6 {
 		<jsp:include page="./modules/lListDetail.jsp" />
 
 		 <!-- 여백 추가 -->
-		<div style="margin-bottom: 20px;"></div>
+		<div id = sortStop style="margin-bottom: 20px;"></div>
 		
 		
 			<h3>
@@ -326,9 +340,9 @@ h6 {
 		    <div class="d-flex col-md-6 justify-content-start align-items-center" style="margin-top: 5px;">
 		        <div class="">
 		            <select class="form-select" name="sortType" id="sortType">
-		                <option value="recentReviewSort" selected>최신순</option>
-		                <option value="viewCountSort">조회수순</option>
-		                <option value="likeCountSort">유용해요순</option>
+		                <option value="recentReviewSort" <c:if test="${pi.type == 'recentReviewSort' }">selected</c:if>>최신순</option>
+		                <option value="viewCountSort" <c:if test="${pi.type == 'viewCountSort' }">selected</c:if>>조회수순</option>
+		                <option value="likeCountSort" <c:if test="${pi.type == 'likeCountSort' }">selected</c:if>>유용해요순</option>
 		            </select>
 		        </div>
 		    </div>
@@ -343,8 +357,7 @@ h6 {
 			<hr class="muidivider">
 			<div style=" margin-bottom: 10px;"></div>
 			
-<div id="rListContainer" class="row">
-
+		<div id="rListContainer" class="row">
 			<!-- 리뷰 아이템 -->
 			<!-- 이 부분 모듈로 담아서 메인에 쓰면 될 듯. -->
 			<c:forEach items="${rList}" var="review" varStatus="status">
@@ -369,7 +382,7 @@ h6 {
 						<div class="details">
 							<div class="row">
 							    <div class="col-sm-12">
-							        <p class="title" style="color: #0D62FD;">${review.reviewTitle}</p>
+							        <p class="title" style="">${review.reviewTitle}</p>
 							    </div>
 							</div>
 							<h6 class="date" style="color: #AAB2B9; font-size: 10px">${review.reviewDate}</h6>
@@ -381,18 +394,23 @@ h6 {
 						</div>
 					</div>
 				</div>
-				<!-- 한 줄에 4개씩 정렬하기 위해, 4번째 열마다 clearfix 클래스 추가 -->
-				<c:if test="${status.index % 4 == 3}">
-					<div class="clearfix"></div>
-				</c:if>
+					<!-- 한 줄에 4개씩 정렬하기 위해, 4번째 열마다 clearfix 클래스 추가 -->
+					<c:if test="${status.index % 4 == 3}">
+						<div class="clearfix"></div>
+					</c:if>
 			</c:forEach>
-</div>
+		</div>
 			
 </div>
 		
-		<!-- 모달 창(detail) -->
-		<jsp:include page="./modules/rListDetail.jsp" />
-
+		<!-- 모달 창(rList detail) -->		
+		
+ 		<jsp:include page="./modules/rListDetail.jsp" />
+ 
+ 
+ 
+ 
+ 
 		<!-- 페이징 영역 -->
 	<div class="row mt-3 mb-5" style="margin-top:300px;">
     <div class="col-md-12">
@@ -400,21 +418,21 @@ h6 {
             <ul id="pageul" class="pagination justify-content-center" style="font-weight: 600; ">
                 <c:if test="${pi.startNavi ne '1' }">
                     <li class="page-item">
-                        <a class="page-link rounded-circle" href="/review/list.ft?page=${pi.startNavi - 1 }" aria-label="Previous">
+                        <a class="page-link rounded-circle" href="/review/list.ft?page=${pi.startNavi - 1 }&sortType=${pi.type }" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
                 </c:if>
                 <c:forEach begin="${pi.startNavi }" end="${pi.endNavi }" var="p">
                     <li class="page-item">
-                        <a class="page-link rounded-circle mx-2" href="/review/list.ft?page=${p }" style="border: none; color: #313131;">
+                        <a class="page-link rounded-circle mx-2" href="/review/list.ft?page=${p }&sortType=${pi.type }" style="border: none; color: #313131;">
                             ${p }
                         </a>
                     </li>
                 </c:forEach>
                 <c:if test="${pi.endNavi ne pi.naviTotalCount }">
                     <li class="page-item">
-                        <a class="page-link rounded-circle" href="/review/list.ft?page=${pi.endNavi + 1 }" aria-label="Next">
+                        <a class="page-link rounded-circle" href="/review/list.ft?page=${pi.endNavi + 1 }&sortType=${pi.type }" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
@@ -454,15 +472,42 @@ h6 {
 	    sortReviews("recentReviewSort");
 	}); */
 
+	
+	// 페이지 클릭 시 스크롤을 특정 부분으로 이동시키는 함수
+	function scrollToSortStop() {
+	    var sortStopElement = document.getElementById('sortStop');
+	    if (sortStopElement) {
+	        sortStopElement.scrollIntoView({ behavior: 'auto' });
+	    }
+	}
 
 	// 정렬 옵션 변경 시 이벤트 핸들러
 	$("#sortType").on("change", function() {
 	    // 선택된 정렬 옵션 값 가져오기
 	    var sortType = $("#sortType option:selected").val();
 	    // 첫 번째 페이지로 리뷰 정렬
-	    sortReviews(1, sortType); 
+	   	location.href = "/review/list.ft?page=1&sortType="+sortType;
+// 	    sortReviews(1, sortType); 
 	});
 
+	
+	
+	// 상세 보기 모달을 열기 위한 함수
+	function showSortedReviewModal(reviewNo, event, element) {
+	    // 이벤트의 기본 동작을 막음
+	    event.preventDefault();
+	    
+	    // 해당 리뷰의 모달 창을 보여줌
+	    $("#reviewModal" + reviewNo).modal("show");
+	    
+	    // 클릭한 아이템이 위치한 곳으로 스크롤 이동
+	    $('html, body').animate({
+	        scrollTop: $(element).offset().top
+	    }, 500);
+	}
+	
+	
+	
 	// 리뷰를 정렬하여 페이징 및 리뷰 목록 업데이트
 	function sortReviews(page, sortType) {
 	    $.ajax({
@@ -493,9 +538,21 @@ h6 {
 	            
 	            // 리뷰가 존재하는 경우
 	            if (reviews.length > 0) {
+	            	
+	            	// 클릭 이벤트를 한 번만 등록
+	              /*   if (!isClickEventRegistered) {
+	                    reviewListContainer.on("click", ".col-md-3", function() {
+	                        // 해당 리뷰의 모달 창을 보여줌
+	                        var reviewNo = $(this).data("reviewNo");
+	                        $("#reviewModal" + reviewNo).modal("show");
+	                    });
+	                    isClickEventRegistered = true;
+	                } */ 
+	            	
 	                // 각 리뷰에 대해 반복하여 목록 생성
 	                reviews.forEach(function(review) {
 	                    var reviewItem = $("<div class='col-md-3 mb-4 border rounded p-3'>");
+	                    	reviewItem.data("reviewNo", review.reviewNo); // 리뷰 번호 데이터 저장
 	                    var thumbnail = $("<div class='thumbnail' style='margin-bottom:10px;'>");
 	                    var thumbnailImage;
 	                    // 리뷰에 이미지가 있는 경우 썸네일로 사용, 없으면 기본 이미지로 대체
@@ -523,11 +580,23 @@ h6 {
 	                    reviewItem.append(thumbnail);
 	                    reviewItem.append(details);
 	                    
-	                    reviewItem.on("click", function() {
+	                    /* reviewItem.on("click", function() {
 	                        detailReview(review.reviewNo); // 리뷰 클릭 시 상세 페이지로 이동
+	                    }); */
+	                    reviewItem.on("click", function() {
+	                        // 해당 리뷰의 모달 창을 보여줌
+	                        $("#reviewModal" + review.reviewNo).modal("show");
+
+	                        // 클릭한 아이템이 위치한 곳으로 스크롤 이동
+	                        var targetElement = $("#reviewModal" + review.reviewNo);
+	     
 	                    });
 	                    
-	                    reviewListContainer.append(reviewItem);
+	                    // 리뷰 아이템에 마우스 호버 이벤트 추가
+	                    reviewItem.hover(function() {
+	                        $(this).css('cursor', 'pointer'); // 마우스 모양을 포인터로 변경
+	                    });
+			             reviewListContainer.append(reviewItem);
 	                });
 	                
 	                // 페이징 버튼 생성
@@ -542,8 +611,10 @@ h6 {
 	                
 	                for (var p = pi.startNavi; p <= pi.endNavi; p++) {
 	                    li = $("<li class='page-item'>");
-	                    a = $("<a onclick='sortReviews("+p+", \""+sortType+"\");' class='page-link rounded-circle mx-2' href='javascript:void(0);' style='border: none; color: #313131;'>");
-	                    span = p;
+	                    a = $("<a onclick='sortReviews("+p+", \""+sortType+"\"); scrollToSortStop();' class='page-link rounded-circle mx-2' href='javascript:void(0);' style='border: none; color: #313131;'>");
+
+/* 	                    a = $("<a onclick='sortReviews("+p+", \""+sortType+"\");' class='page-link rounded-circle mx-2' href='javascript:void(0);' style='border: none; color: #313131;'>");
+ */	                    span = p;
 	                    a.append(span);
 	                    li.append(a);
 	                    ul.append(li);
@@ -563,17 +634,16 @@ h6 {
 	        },
 	        error: function() {
 	            // 에러 발생 시 처리
+	            alert("Ajax 통신 실패")
 	        }
 	    });
 	}
 
 	// 리뷰 상세 페이지로 이동하는 함수
-	function detailReview(reviewNo) {
+/* 	function detailReview(reviewNo) {
 	    location.href = "/review/detail.ft?reviewNo=" + reviewNo;
-	} 
+	}  */
 
-	
-	
 	
 	
 	// 이전 페이지로 이동하는 함수
@@ -592,82 +662,6 @@ h6 {
 	    window.location.href = "/review/next?currentPage=" + nextPage;
 	}
 
-	
-	
-	
-	
-/* 	// 정렬 함수
-	function sortReviewType(sortType) {
-	    $.ajax({
-	        url: "/review/sortReviewList.ft",
-	        type: "GET",
-	        data: {
-	            "sortType": sortType
-	        },
-	        success: function(result) {
-	            // 리뷰 목록을 업데이트하는 함수 호출
-	            updateReviewList(result);
-	        },
-	        error: function() {
-	            alert("정렬에 실패했습니다.");
-	        }
-	    });
-	}
-
-	// 리뷰 목록 업데이트 함수
-	function updateReviewList(reviews) {
-	    var reviewsContainer = $("#reviewsContainer");
-
-	    // 기존 리뷰 목록을 비웁니다.
-	    reviewsContainer.empty();
-
-	    // 새로 받아온 리뷰 목록을 반복하여 추가합니다.
-	    for (var i = 0; i < reviews.length; i++) {
-	        var review = reviews[i];
-	        var reviewItem = $("<div>").addClass("col-md-3 mb-4 border rounded p-3 review-item");
-	        var thumbnail = $("<div>").addClass("thumbnail");
-
-	        // 썸네일 이미지 추가
-	        var thumbnailImage;
-	        if (review.images !== null && review.images.length > 0 && review.images[0].fileName !== null) {
-	            thumbnailImage = $("<img>").attr("src", "../resources/ruploadFiles/" + review.images[0].fileRename).attr("alt", "Thumbnail");
-	        } else {
-	            thumbnailImage = $("<img>").attr("src", "../resources/dist/img/opening.png").attr("alt", "Default Thumbnail");
-	        }
-	        thumbnail.append(thumbnailImage);
-
-	        // 리뷰 제목 추가
-	        var title = $("<p>").addClass("title").text(review.reviewTitle);
-
-	        // 리뷰 작성일 추가
-	        var date = $("<h6>").addClass("date").css({"color": "#AAB2B9", "font-size": "10px"}).text(review.reviewDate);
-
-	        // 아이콘 컨테이너 추가
-	        var iconContainer = $("<div>").addClass("icon-container").css("display", "flex").css("align-items", "center");
-	        var iconImage = $("<img>").attr("src", "../resources/dist/img/mainLogo.png").attr("alt", "Main Logo").addClass("icon").css({"width": "34px", "height": "34px", "margin-right": "5px"});
-	        var ticketType = $("<p>").addClass("ticket-type").css({"font-size": "12px", "color": "#7B848D", "margin": "0", "font-weight": "bold"}).text(review.ticketType);
-
-	        iconContainer.append(iconImage);
-	        iconContainer.append(ticketType);
-
-	        // 리뷰 아이템에 추가
-	        reviewItem.append(thumbnail);
-	        reviewItem.append(title);
-	        reviewItem.append(date);
-	        reviewItem.append(iconContainer);
-
-	        // 리뷰 목록에 추가
-	        reviewsContainer.append(reviewItem);
-	    }
-	}
-
-	// 정렬 선택 시 이벤트 처리
-	$("#sortReviewType").on("change", function() {
-	    var sortType = $(this).val();
-	    sortReviewType(sortType);
-	}); */
-	
-	
 	
  	function showReviewModal(reviewNo, event, obj) {
 	    // 이벤트 전파 막기
@@ -713,14 +707,8 @@ h6 {
 	    });    
 
 	    // 이전 버튼 아이콘 변경
-	    var prevButton = document.querySelector('.swiper-button-prev');
-	    prevButton.querySelector('.swiper-button-prev-icon').classList.remove('swiper-button-prev-icon');
-	    prevButton.querySelector('svg').classList.add('custom-prev-icon'); // 변경할 클래스 이름
 
 	    // 다음 버튼 아이콘 변경
-	    var nextButton = document.querySelector('.swiper-button-next');
-	    nextButton.querySelector('.swiper-button-next-icon').classList.remove('swiper-button-next-icon');
-	    nextButton.querySelector('svg').classList.add('custom-next-icon'); // 변경할 클래스 이름
 	});
 	
 	// ===============
