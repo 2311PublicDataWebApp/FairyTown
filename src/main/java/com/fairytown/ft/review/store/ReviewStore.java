@@ -7,6 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 
 import com.fairytown.ft.notice.domain.vo.NoticePageInfo;
+import com.fairytown.ft.review.domain.vo.ReviewImageVO;
 import com.fairytown.ft.review.domain.vo.ReviewVO;
 
 public interface ReviewStore {
@@ -39,6 +40,8 @@ public interface ReviewStore {
 
 	List<ReviewVO> selectReviewList(SqlSession session, NoticePageInfo pi);
 
+	List<ReviewVO> selectReviewList(SqlSession session, NoticePageInfo pi, String sortType);
+	
 	/**
 	 * 조회수 카운트 Store
 	 * @param reviewNo
@@ -53,6 +56,18 @@ public interface ReviewStore {
 
 
 	List<ReviewVO> selectReviewsByKeyword(SqlSession session, RowBounds rowBounds, Map<String, String> paramMap);
+
+	void insertImage(SqlSession session, ReviewImageVO image);
+
+	ReviewVO selectBestReview(SqlSession session);
+
+	List<ReviewVO> getTopLikedReviews(SqlSession session);
+
+	List<ReviewVO> getReviews(SqlSession session, int startIdx, int endIdx);
+
+	int deleteUserLikedReview(SqlSession session, int reviewNo);
+
+	int deleteReviewImage(SqlSession session, int reviewNo);
 	
 	/**
 	 * 유용해요 카운트 Store

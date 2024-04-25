@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<c:forEach items="${rList}" var="review" varStatus="status">
+<c:forEach items="${lList}" var="review" varStatus="status">
 	<div class="modal fade" id="reviewModal${review.reviewNo}"
 		tabindex="-1" role="dialog"
 		aria-labelledby="reviewModalLabel${review.reviewNo}"
@@ -9,22 +9,38 @@
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content" style="font-size: 14px;">
 				<!-- 모달 헤더 -->
-				<div class="modal-header">
+<%-- 				<div class="modal-header">
 					<h5 class="modal-title" id="reviewModalLabel${review.reviewNo}"></h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-				</div>
+				</div> --%>
 				<!-- 모달 내용 -->
 				<div class="modal-body">
 					<div class="row">
 						<!-- 왼쪽 영역: 사진 -->
 						<div class="col-md-6">
 							<!-- 사진을 표시하는 부분 -->
-							<p>
-								<strong>사진 영역</strong>
-							</p>
+								
+                        <div class="swiper-container">
+                            <div class="swiper-wrapper">
+                                <!-- 슬라이드 추가 -->
+                                <c:forEach items="${review.images}" var="image">
+                                <div class="swiper-slide">
+ 							 <img src="../resources/ruploadFiles/${image.fileRename}">								 
+                                </div>
+                                </c:forEach>
+                                
+
+                            </div>
+                            <!-- 추가적인 Swiper 컨트롤러 등을 넣을 수 있음 -->
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-prev"></div>
+                            <div class="swiper-button-next"></div>
+                        </div>								
+								
+								
 						</div>
 
 						<!-- 오른쪽 영역: 텍스트 -->
@@ -81,9 +97,9 @@
 					</div>
 				</div>
 				<!-- 모달 푸터 -->
-				<div class="modal-footer">
-					<!--                 <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button> -->
-				</div>
+<!-- 				<div class="modal-footer">
+					                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+				</div> -->
 			</div>
 		</div>
 	</div>

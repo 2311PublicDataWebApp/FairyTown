@@ -1,7 +1,10 @@
 package com.fairytown.ft.review.service.impl;
 
+import com.fairytown.ft.common.PageInfo;
+import com.fairytown.ft.goods.domain.vo.GoodsVO;
 import com.fairytown.ft.notice.domain.vo.NoticePageInfo;
 import com.fairytown.ft.notice.domain.vo.NoticeVO;
+import com.fairytown.ft.review.domain.vo.ReviewImageVO;
 import com.fairytown.ft.review.domain.vo.ReviewVO;
 import com.fairytown.ft.review.service.ReviewService;
 import com.fairytown.ft.review.store.ReviewStore;
@@ -13,6 +16,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ReviewServiceImpl implements ReviewService {
@@ -31,13 +35,24 @@ public class ReviewServiceImpl implements ReviewService {
 	@Override
 	public ReviewVO selectByReviewNo(int reviewNo) {
 		ReviewVO review = rStore.selectByReviewNo(session, reviewNo);
+//		List<ReviewImageVO> imageList = rStore.selectImageList(session, reviewNo);
+//		review.setImages(imageList);
 		return review;
 	}
 
+//	@Override
+//	public int deleteReview(int reviewNo) {
+//		int result = rStore.deleteReview(session, reviewNo);
+//		return result;
+//	}
+	
 	@Override
+	@Transactional
 	public int deleteReview(int reviewNo) {
-		int result = rStore.deleteReview(session, reviewNo);
-		return result;
+		int result1 = rStore.deleteReviewImage(session, reviewNo);
+	    int result2 = rStore.deleteUserLikedReview(session, reviewNo);
+	    int result3 = rStore.deleteReview(session, reviewNo);
+	    return result1 + result2 + result3;
 	}
 
 	@Override
@@ -50,6 +65,12 @@ public class ReviewServiceImpl implements ReviewService {
 	public List<ReviewVO> selectReviewList(NoticePageInfo pi) {
 		List<ReviewVO> rList = rStore.selectReviewList(session, pi);
 		return rList;
+	}
+	
+	@Override
+	public List<ReviewVO> selectReviewList(NoticePageInfo pi, String sortType) {
+		List<ReviewVO> sortList = rStore.selectReviewList(session, pi, sortType);
+		return sortList;
 	}
 
 	@Override
@@ -92,6 +113,37 @@ public class ReviewServiceImpl implements ReviewService {
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		List<ReviewVO> searchList = rStore.selectReviewsByKeyword(session, rowBounds, paramMap);
 		return searchList;
+	}
+
+	@Override
+	public void insertImage(ReviewImageVO image) {
+		rStore.insertImage(session, image);
+		
+	}
+
+	@Override
+	public ReviewVO getBestReview() {
+		// 가장 조회수가 높은 리뷰의 정보를 조회하여 ReviewVO 객체에 담아 반환
+		return rStore.selectBestReview(session);
+	}
+
+	@Override
+	public List<ReviewVO> getTopLikedReviews() {
+		return rStore.getTopLikedReviews(session);
+	}
+
+	@Override
+	public List<ReviewVO> getReviewsForPage(int page) {
+	    // 페이지당 리뷰 개수
+	    int pageSize = 12;
+	    // 페이지의 시작 인덱스 계산
+	    int startIdx = (page - 1) * pageSize;
+	    // 페이지의 끝 인덱스 계산
+	    int endIdx = startIdx + pageSize;
+	    // 데이터베이스에서 페이지별 리뷰 목록을 조회하는 DAO 메서드 호출
+	    List<ReviewVO> reviews = rStore.getReviews(session, startIdx, endIdx);
+
+	    return reviews;
 	}
 
 
