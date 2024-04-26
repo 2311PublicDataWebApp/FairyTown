@@ -169,45 +169,39 @@ public class UserController {
 		
 		//관리자페이지 - 블랙리스트 등록
 		@PostMapping("/admin/blackRegister.ft")
-		public ModelAndView blackRegister(ModelAndView mv, @RequestParam("blackUsers") String selectUsers,
+		public ModelAndView blackRegister(ModelAndView mv, @RequestParam("blackUser") String blackUser,
 				@RequestParam("stopDate")	int 	stopDate,
 				@RequestParam("reason")		String	reason) {
 			try {
-				String[] users = selectUsers.split(",");
 				int result = 0;
 				BlackListVO blackList = new BlackListVO();
 				LocalDateTime regiDate = LocalDateTime.now(); // 현재 날짜 및 시간
 				Timestamp regiDateTimestamp = Timestamp.valueOf(regiDate);
-				for(String userId : users) {
-					if(stopDate != 0) {
-						// 정지일자 계산: 현재 날짜와 선택된 정지 기간(stopDate)을 기준으로 계산
-						// stopDate(월 단위)를 더하여 정지기한(stopDateTime)를 계산
-						LocalDateTime stopDateTime = regiDate.plus(stopDate, ChronoUnit.MONTHS);
-						// LocalDateTime을 Timestamp로 변환하여 정지기한(stopDateTimestamp)과 정지일자(regiDate) 설정
-						Timestamp stopDateTimestamp = Timestamp.valueOf(stopDateTime);
-						blackList.setStopDate(stopDateTimestamp); // 정지기간 설정
-					}
+				if(stopDate != 0) {
+					// 정지일자 계산: 현재 날짜와 선택된 정지 기간(stopDate)을 기준으로 계산
+					// stopDate(월 단위)를 더하여 정지기한(stopDateTime)를 계산
+					LocalDateTime stopDateTime = regiDate.plus(stopDate, ChronoUnit.MONTHS);
+					// LocalDateTime을 Timestamp로 변환하여 정지기한(stopDateTimestamp)과 정지일자(regiDate) 설정
+					Timestamp stopDateTimestamp = Timestamp.valueOf(stopDateTime);
+					blackList.setStopDate(stopDateTimestamp); // 정지기간 설정
+				}
 	                
-	             // BlackListVO 객체 생성 및 값 설정
-					blackList.setRegiDate(regiDateTimestamp); // 정지일자 설정
-	                blackList.setUserId(userId); // 사용자 ID 설정
-	                blackList.setReason(reason);
-	                //stopDate가 0이면 영구정지 이므로 정지 종료날짜를 등록일 + 1000년을 해준다.
-	                if(stopDate == 0) {
-	                	LocalDateTime stopDateTime = regiDate.plus(1000, ChronoUnit.YEARS);
-	                	Timestamp stopDateTimestamp = Timestamp.valueOf(stopDateTime);
-	                	blackList.setStopDate(stopDateTimestamp);
-	                }
+	            //BlackListVO 객체 생성 및 값 설정
+				blackList.setRegiDate(regiDateTimestamp); // 정지일자 설정
+	               blackList.setUserId(blackUser); // 사용자 ID 설정
+	               blackList.setReason(reason);
+	               //stopDate가 0이면 영구정지 이므로 정지 종료날짜를 등록일 + 1000년을 해준다.
+	               if(stopDate == 0) {
+	               	LocalDateTime stopDateTime = regiDate.plus(1000, ChronoUnit.YEARS);
+	               	Timestamp stopDateTimestamp = Timestamp.valueOf(stopDateTime);
+	               	blackList.setStopDate(stopDateTimestamp);
+	               }
 					
-					uService.changeBlack(userId);
-					result = uService.blackInsertUser(blackList);
-					if(result > 0) {
-						continue;
-					}
-					else {
-						mv.addObject("msg", userId + "계정을 정지할 수 없습니다.");
-						mv.setViewName("common/errorPage");
-					}
+				uService.changeBlack(blackUser);
+				result = uService.blackInsertUser(blackList);
+				if(result <= 0) {
+					mv.addObject("msg", blackUser + "계정을 정지할 수 없습니다.");
+					mv.setViewName("common/errorPage");
 				}
 				mv.addObject("closeWindow", true);
 				mv.setViewName("admin/blackreason");
