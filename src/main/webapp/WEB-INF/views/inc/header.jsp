@@ -353,9 +353,7 @@
 				        <a href="/qna/list.ft" style="color: #497BC2;">1대1 문의</a>
 				      </div>
 				    </li>
-                
             </ul>
-
 
 				<!-- Start of Button 2 -->
 				<c:if test = "${user.userId eq null }">
@@ -368,6 +366,15 @@
 						class="btn-2" style="border-radius: 10px; text-align: center; margin-top: -15px; margin-right: -20px;">
 							로그아웃
 						</a>
+					</c:if>
+					<c:if test="${user.loginSt == 'B' }">
+						<a href="/user/logout.ft" class="btn-2" style="border-radius: 10px; text-align: center; margin-top: -15px; margin-right: -20px;">로그아웃</a>
+					</c:if>
+					<c:if test="${user.userAdmin == 'ROLE_USER' }">
+						<a href="/user/mypage.ft" class="btn-2" style="border-radius: 10px; text-align: center; margin-top: -15px; margin-right: -20px;">마이페이지</a>
+					</c:if>
+					<c:if test="${user.userAdmin == 'ROLE_ADMIN' }">
+						<a href="/adminTableSample.ft" class="btn-2" style="border-radius: 10px; text-align: center; margin-top: -15px; margin-right: -20px;">관리자 페이지</a>
 					</c:if>
 				</c:if>
 
@@ -395,6 +402,8 @@
 							</ul>
 						</div>
 					</c:if>
+<!-- 					background-color: #FAC0CF; -->
+					<!-- End of Button 2 -->
         </header>
     </div>
     </div>
@@ -413,4 +422,7 @@
 </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 	</body>
+    <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
 </html>

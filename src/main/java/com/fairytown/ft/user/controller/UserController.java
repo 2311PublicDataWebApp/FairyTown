@@ -1,6 +1,10 @@
 package com.fairytown.ft.user.controller;
 
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +28,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 import com.fairytown.ft.common.PageInfo;
+import com.fairytown.ft.user.domain.vo.BlackListVO;
 import com.fairytown.ft.user.domain.vo.KakaoProfile;
 import com.fairytown.ft.user.domain.vo.UserVO;
+import com.fairytown.ft.user.domain.vo.UserWithBlackListVO;
 import com.fairytown.ft.user.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -46,8 +52,164 @@ public class UserController {
 		//오류 페이지 조회
 		@GetMapping("/common/errorPage.ft")
 		public ModelAndView showerrorPage(ModelAndView mv) {
-			
 			mv.setViewName("common/errorPage");
+			return mv;
+		}
+		
+		//관리자페이지 - 블랙리스트 상세 조회
+		@GetMapping("/admin/blackdetail.ft")
+		public ModelAndView showBlackDetail(ModelAndView mv,
+				@RequestParam("userId") String userId) {
+			try {
+				BlackListVO user = uService.selectBlack(userId);
+				if(user == null) {
+					mv.addObject("msg", "유저 정보가 존재하지 않습니다.");
+					mv.setViewName("common/errorPage");
+				} else {
+					mv.addObject("blackList", user);
+					mv.setViewName("admin/blackdetail");
+				}
+			} catch (Exception e) {
+				mv.addObject("msg", e.getMessage());
+				mv.setViewName("common/errorPage");
+			}
+			
+			return mv;
+		}
+		
+		@PostMapping("/admin/white.ft")
+		//관리자페이지 - 블랙리스트 일괄 해제 처리
+		public ModelAndView whiteUser(ModelAndView mv,
+				@RequestParam("check-white-users") String selectUsers) {
+			try {
+				String[] users = selectUsers.split(",");
+				int result = 0;
+				for(String userId : users) {
+					uService.whiteUser(userId);
+					result = uService.deleteBlack(userId);
+					if(result > 0) {
+						continue;
+					}
+					else {
+						mv.addObject("msg", userId + "계정의 정지를 풀 수 없습니다.");
+						mv.setViewName("common/errorPage");
+						return mv;
+					}
+				}
+				mv.setViewName("redirect:/admin/blacklist.ft");
+			} catch (Exception e) {
+				mv.addObject("msg", e.getMessage());
+				mv.setViewName("common/errorPage");
+			}
+			
+			return mv;
+		}
+		
+		//관리자페이지 - 블랙리스트 관리
+		@GetMapping("/admin/blacklist.ft")
+		public ModelAndView showBlackList(ModelAndView mv, @RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage
+				, @RequestParam(value="keyword", required=false) String keyword
+				, @RequestParam(value="type", required=false) String type) {
+			try {
+				if((keyword == null && type == null)||(keyword.equals("") && type.equals(""))) {
+					int totalCount = uService.getBlackTotalCount();
+					PageInfo pi = this.getPageInfo(currentPage, totalCount);
+					List<UserVO> uList = uService.selectUserListBlack(pi);
+					List<BlackListVO> bList = uService.selectBlackList(pi);
+					
+					List<UserWithBlackListVO> userWithBlackList = new ArrayList<>();
+
+					for (int i = 0; i < uList.size(); i++) {
+					    UserWithBlackListVO userWithBlack = new UserWithBlackListVO();
+					    userWithBlack.setUser(uList.get(i));
+					    userWithBlack.setBlackList(bList.get(i));
+					    userWithBlackList.add(userWithBlack);
+					}
+					mv.addObject("userWithBlackList", userWithBlackList);
+					mv.addObject("pInfo", pi);
+					mv.setViewName("admin/blacklist");
+				} else {
+					UserVO user = new UserVO();
+					user.setKeyword(keyword);
+					user.setType(type);
+					
+					int totalCount = uService.getSearchBlackTotalCount(user);
+					PageInfo pi = this.getPageInfo(currentPage, totalCount);
+					pi.setKeyword(keyword);
+					pi.setType(type);
+					
+					List<UserVO> uList = uService.searchUserListBlack(pi);
+					List<BlackListVO> bList = uService.searchBlackList(pi);
+					
+					List<UserWithBlackListVO> userWithBlackList = new ArrayList<>();
+
+					for (int i = 0; i < uList.size(); i++) {
+					    UserWithBlackListVO userWithBlack = new UserWithBlackListVO();
+					    userWithBlack.setUser(uList.get(i));
+					    userWithBlack.setBlackList(bList.get(i));
+					    userWithBlackList.add(userWithBlack);
+					}
+					mv.addObject("userWithBlackList", userWithBlackList);
+					mv.addObject("pInfo", pi);
+					mv.setViewName("admin/blacklist");
+				}
+			} catch (Exception e) {
+				mv.addObject("msg", e.getMessage());
+				mv.setViewName("common/errorPage");
+			}
+			return mv;
+		}
+		
+		//관리자페이지 - 블랙리스트 등록창 조회
+		@GetMapping("/admin/blackreason.ft")
+		public ModelAndView blackReason(ModelAndView mv) {
+			mv.setViewName("admin/blackreason");
+			return mv;
+		}
+		
+		//관리자페이지 - 블랙리스트 등록
+		@PostMapping("/admin/blackRegister.ft")
+		public ModelAndView blackRegister(ModelAndView mv, @RequestParam("blackUser") String blackUser,
+				@RequestParam("stopDate")	int 	stopDate,
+				@RequestParam("reason")		String	reason) {
+			try {
+				int result = 0;
+				BlackListVO blackList = new BlackListVO();
+				LocalDateTime regiDate = LocalDateTime.now(); // 현재 날짜 및 시간
+				Timestamp regiDateTimestamp = Timestamp.valueOf(regiDate);
+				if(stopDate != 0) {
+					// 정지일자 계산: 현재 날짜와 선택된 정지 기간(stopDate)을 기준으로 계산
+					// stopDate(월 단위)를 더하여 정지기한(stopDateTime)를 계산
+					LocalDateTime stopDateTime = regiDate.plus(stopDate, ChronoUnit.MONTHS);
+					// LocalDateTime을 Timestamp로 변환하여 정지기한(stopDateTimestamp)과 정지일자(regiDate) 설정
+					Timestamp stopDateTimestamp = Timestamp.valueOf(stopDateTime);
+					blackList.setStopDate(stopDateTimestamp); // 정지기간 설정
+				}
+	                
+	            //BlackListVO 객체 생성 및 값 설정
+				blackList.setRegiDate(regiDateTimestamp); // 정지일자 설정
+	               blackList.setUserId(blackUser); // 사용자 ID 설정
+	               blackList.setReason(reason);
+	               //stopDate가 0이면 영구정지 이므로 정지 종료날짜를 등록일 + 1000년을 해준다.
+	               if(stopDate == 0) {
+	               	LocalDateTime stopDateTime = regiDate.plus(1000, ChronoUnit.YEARS);
+	               	Timestamp stopDateTimestamp = Timestamp.valueOf(stopDateTime);
+	               	blackList.setStopDate(stopDateTimestamp);
+	               }
+					
+				uService.changeBlack(blackUser);
+				result = uService.blackInsertUser(blackList);
+				if(result <= 0) {
+					mv.addObject("msg", blackUser + "계정을 정지할 수 없습니다.");
+					mv.setViewName("common/errorPage");
+				}
+				mv.addObject("closeWindow", true);
+				mv.setViewName("admin/blackreason");
+			} catch (Exception e) {
+				mv.addObject("msg", e.getMessage());
+				mv.setViewName("common/errorPage");
+			}
+			
 			return mv;
 		}
 		

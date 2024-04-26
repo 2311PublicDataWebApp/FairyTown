@@ -9,59 +9,83 @@
 	.hide {
 		display: none;
 	}
+	#main{
+		position: relative;
+		bottom: 170px;
+	}
+	#footer{
+		position: relative;
+	    bottom: 200px;
+	}
+	.strongPassword-message,
+    .mismatch-message {
+        color: red;
+    }
+    main#main {
+    	width: 50%;
+	}
 </style>
 </head>
 <body>
-	<form action="/user/addinfo.ft" method="post">
-			<h1>회원가입</h1>	
-			<ul>
-				<li>
-					<label>이름</label>
-					<input type="text" name="realName" value="${nickname}" readonly="readonly">
-				</li>
-				<li>
-					<label>아이디</label>
-					<input type="text" name="userId" id="username" value="${kakaoId}" readonly="readonly">
-				</li>
-				<li>
-					<label>비밀번호</label>
-					<input type="password" name="userPw" id="password">
-					<div class="strongPassword-message hide">8글자 이상, 영문, 숫자, 특수문자(@$!%*#?&)를 사용하세요</div>
-				</li>
-				<li>
-					<label>비밀번호 확인</label>
-					<input type="password" id="password-retype">
-					<div class="mismatch-message hide">비밀번호가 일치하지 않습니다</div>
-				</li>
-				<li>
-					<label>전화번호</label>
-					<input type="text" name="userPhone">
-				</li>
-				<li>
-					<label>우편번호</label>
-					<input type="text" id="sample6_postcode" placeholder="우편번호" name="zipCode">
-					<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-				<span id="guide" style="color:#999;display:none"></span>
-				</li>
-				<li>
-					<label>주소</label>
-					<input type="text" id="sample6_address" placeholder="도로명주소" name="userAddress">
-				</li>
-				<li>
-					<label>상세주소</label>
-					<input type="text" id="sample6_detailAddress" placeholder="상세주소" name="detailAddress">
-				</li>
-				<li>
-					<label>생년월일</label>
-					<input type="date" name="userBirthDate">
-				</li>
-				<li>
-					<label for="email">이메일</label>
-					<input type="text" class="form-control" name="userEmail" value="${email}" placeholder="이메일" readonly="readonly">
-				</li>
-			</ul>	
-			<input type="submit" value="회원가입" id="signup-btn" disabled>
+	<header><jsp:include page="../inc/header.jsp"></jsp:include></header>
+	<main id="main" class="container mt-5">
+		<form action="/user/addinfo.ft" method="post" class="needs-validation" novalidate>
+			<h1 class="mb-4">회원가입</h1>
+			<div class="row justify-content-center">
+				<div class="mb-3">
+                    <label for="realName" class="form-label">이름</label>
+                    <input type="text" class="form-control" id="realName" name="realName" value="${nickname}" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="userId" class="form-label">아이디</label>
+                    <input type="text" class="form-control" id="userId" name="userId" value="${kakaoId}" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">비밀번호</label>
+                    <input type="password" class="form-control" id="password" name="userPw">
+                    <div class="strongPassword-message hide">8글자 이상, 영문, 숫자, 특수문자(@$!%*#?&)를 사용하세요</div>
+                </div>
+                <div class="mb-3">
+                    <label for="password-retype" class="form-label">비밀번호 확인</label>
+                    <input type="password" class="form-control" id="password-retype">
+                    <div class="mismatch-message hide">비밀번호가 일치하지 않습니다</div>
+                </div>
+                <div class="mb-3">
+                    <label for="userPhone" class="form-label">전화번호</label>
+                    <input type="text" class="form-control" id="userPhone" name="userPhone">
+                </div>
+				<div class="mb-3">
+					<label for="sample6_postcode">우편번호</label>
+					<div class="input-group">
+						<input type="text" class="form-control" id="sample6_postcode" placeholder="우편번호" name="zipCode" required>
+						<div class="input-group-append">
+							<button type="button" class="btn btn-primary" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
+						</div>
+					</div>
+					<small id="guide" class="form-text text-muted"></small>
+				</div>
+				<div class="mb-3">
+					<label for="sample6_address">주소</label>
+					<input type="text" class="form-control" id="sample6_address" placeholder="도로명주소" name="userAddress">
+				</div>
+				<div class="mb-3">
+					<label for="sample6_detailAddress">상세주소</label>
+					<input type="text" class="form-control" id="sample6_detailAddress" placeholder="상세주소" name="detailAddress">
+				</div>
+				<div class="mb-3">
+					<label for="userBirthDate">생년월일</label>
+					<input type="date" class="form-control" id="userBirthDate" name="userBirthDate">
+				</div>
+				<div class="mb-3">
+					<label for="userEmail">이메일</label>
+					<input type="text" class="form-control" id="userEmail" name="userEmail" value="${email}" readonly="readonly" placeholder="이메일">
+				</div>
+			</div>
+			<br>
+			<input type="submit" class="btn btn-primary" value="회원가입" id="signup-btn" disabled>
 		</form>
+	</main>
+	<footer><jsp:include page="../inc/footer.jsp"></jsp:include></footer>
 		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 		<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 		<script>

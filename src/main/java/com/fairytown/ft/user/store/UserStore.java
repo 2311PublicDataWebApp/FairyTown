@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.RowBounds;
 
 import com.fairytown.ft.common.PageInfo;
+import com.fairytown.ft.user.domain.vo.BlackListVO;
 import com.fairytown.ft.user.domain.vo.UserVO;
 
 @Mapper
@@ -44,7 +46,7 @@ public interface UserStore {
 	void deleteUserTicket(UserVO user);//티켓목록
 
 	//유저 목록 조회
-	List<UserVO> selectUserList(PageInfo pi);
+	List<UserVO> selectUserList(RowBounds rowBounds, PageInfo pi);
 
 	//유저 목록 수
 	int getUserTotalCount();
@@ -57,6 +59,40 @@ public interface UserStore {
 
 	// 관리자 대쉬보드
 	List<Map<String, Object>> adminUserBoard(Date today);
+	List<UserVO> searchUserList(RowBounds rowBounds, PageInfo pi);
+
+	//블랙리스트 등록
+	int blackInsertUser(BlackListVO blackList);
+
+	//회원 활동상태 변경(N -> B)
+	void changeBlack(String userId);
+
+	//블랙리스트 유저 수
+	int getBlackTotalCount();
+
+	//정지 회원의 정보 조회
+	List<UserVO> selectUserListBlack(RowBounds rowBounds, PageInfo pi);
+
+	//회원의 정지 정보 조회
+	List<BlackListVO> selectBlackList(RowBounds rowBounds, PageInfo pi);
+
+	//정지 회원 정보 검색 수 조회
+	int getSearchBlackTotalCount(UserVO user);
+
+	//검색된 정지 회원 목록
+	List<UserVO> searchUserListBlack(RowBounds rowBounds, PageInfo pi);
+
+	//검색된 회원의 정지 정보 조회
+	List<BlackListVO> searchBlackList(RowBounds rowBounds, PageInfo pi);
+
+	//정지 상태 유저 정지 해제
+	void whiteUser(String userId);
+
+	//블랙리스트 삭제
+	int deleteBlack(String userId);
+
+	//블랙리스트 상세 조회
+	BlackListVO selectBlack(String userId);
 	
 
 
