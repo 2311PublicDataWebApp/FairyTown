@@ -52,7 +52,7 @@
 	                  <c:forEach items="${cList }" var="chat" varStatus="i">  
 	                  <tr>
 	                    <td>${i.count }</th>
-						<td><input type="hidden" value="${chat.chatUserId }" id="userId"><a href="#" onclick="chatFunction()">${chat.chatUserId }</a></td>
+						<td><input type="hidden" value="${chat.chatUserId }" id="userId${i.count }"><a href="#" onclick="chatFunction(${i.count })">${chat.chatUserId }</a></td>
 					  </tr>
 					  </c:forEach>
 				 </tbody>
@@ -118,9 +118,11 @@
   });
 </script>
 	<script>
-		function chatFunction() {
-			var userId = document.getElementById('userId').value;
-			let options = "location=no, toolbar=no, scrollbars=no, resizable=no, status=no, menubar=no, width=460, height=735, top=550, left=1500";
+		function chatFunction(num) {
+			debugger;
+			  // 여기에 JavaScript 코드를 넣으세요
+			var userId = document.getElementById('userId'+num).value;
+			let options = "location=no, toolbar=no, scrollbars=no, resizable=no, status=no, menubar=no, width=460, height=780, top=550, left=1500";
 			 window.open("/chat.ft?userId="+userId,"_blank", options);
 		}
 	</script>
