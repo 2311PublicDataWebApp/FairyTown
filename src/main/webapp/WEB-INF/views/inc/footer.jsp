@@ -17,6 +17,7 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
 </head>
 <body>
+	<br><br><br><br><br><br><br><br>
     <!-- Footer-->
             <div>
                 <div style="text-align: center; margin-top: 10px;">Copyright &copy; By King 2024</div>
@@ -48,8 +49,6 @@
                     <a  style="" href="#!">이용약관&nbsp</a>
                     <a  style="" href="#!">&nbsp개인정보처리방침</a>
                 </div>
-    <!-- Bootstrap core JS-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
     <script src="../resources/js/script.js"></script>
     <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
@@ -57,5 +56,6 @@
     <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
     <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
     <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+   
 </body>
 </html>

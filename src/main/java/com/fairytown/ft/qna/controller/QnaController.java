@@ -75,7 +75,15 @@ public class QnaController {
             , HttpServletRequest request) {
         try {
             // 세션에서 사용자 정보를 가져옵니다.
-            User user = (User)session.getAttribute("user");
+            User user = (User) session.getAttribute("user");
+            
+            // 사용자가 로그인한 상태인지 확인합니다.
+            if (user == null) {
+                // 로그인하지 않은 경우 로그인 페이지로 리다이렉트합니다.
+                mv.setViewName("redirect:/login");
+                return mv;
+            }
+            
             // 사용자 정보를 qna 객체에 설정합니다.
             qna.setQnaWriter(((UserVO) user).getUsername()); // 또는 사용자의 다른 정보를 설정할 수 있습니다.
             
@@ -84,7 +92,7 @@ public class QnaController {
             if (result > 0) {
                 mv.setViewName("redirect:/qna/list.ft");
             } else {
-                mv.addObject("msg", "공지사항 등록이 완료되지 못했습니다.");
+                mv.addObject("msg", "문의 등록이 실패하였습니다.");
                 mv.setViewName("common/errorPage");
             }
         } catch (Exception e) {
