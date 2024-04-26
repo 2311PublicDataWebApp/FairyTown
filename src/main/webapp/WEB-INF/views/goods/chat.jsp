@@ -58,6 +58,9 @@
 						<img width='100px' height='50px' src='../resources/guploadFiles/cmaincLogo.png' alt=''>
 						<h5><b>페어리타운 상담원 채팅</b></h5>
 						<p style="color:lightgray; font-size:smaller;">몇 분 내 답변 받으실 수 있어요</p>
+						<c:if test="${user.userId eq 'admin' }">
+							<button style="background-color:transparent; border:none"><img width='60' height='50' src='../resources/guploadFiles/siren.svg' alt='' onclick="blackList()"></button>
+						</c:if>
 					</div>
 				</div>
 				<div id="divChatParent" style="background-color:#ffffff; overflow:scroll; height: 440px; padding:10px; padding-left: 20px; border: none;">
@@ -103,6 +106,15 @@
 	            document.getElementById('notChat').style.display = 'block';
 	        }
 	    };
+	</script>
+	<script>
+	function blackList() {
+		var blackUserId = $("input[name='userId']").val();
+		
+		let options = "location=no, toolbar=no, scrollbars=no, resizable=no, status=no, menubar=no, width=500, height=600, top=280, left=950";
+		 window.open("/admin/blackreason.ft?blackUser="+blackUserId,"_blank", options);
+	}
+	
 	</script>
 	<script>
 		
@@ -474,6 +486,7 @@
 					if(sessionId == prevId && timeString == prevMsgTime){
 						//아이디와 시간이 모두 같을 때
 						//채팅 시간 위치 갱신 (원래 위에 있는 div를 지우고 아래 추가)
+						$('#divChatData img').last().attr('src', '../resources/guploadFiles/cprofile3.png');
 						console.log($('#divChatData div:nth-last-child(2)')); //뒤에서 두번째 요소 선택 = 이전 채팅 시간 div
 						$('#divChatData div:nth-last-child(2)').remove(); //삭제하고
 						$('#divChatData').append('<div class="mt-10" style="margin:-7px 0 3px 60px;">' + timeString + '</div>'); //다시 출력
