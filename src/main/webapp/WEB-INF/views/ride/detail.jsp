@@ -136,7 +136,7 @@
       			  success : function(result){
       				 var courseBtn = $("#courseBtn");
    				  courseBtn.html("");
-   				  var btnVal = '<button type="button" id="deleteCourse_btn" class="btn" style="background-color: #ACE0F8; border: none; color:white; margin:30px 0 0 250px; padding: 10px 10px">코스 찜</button>'
+   				  var btnVal = '<button type="button" id="deleteCourse_btn" class="btn btn-outline-success">코스에 등록하기!</button>'
    				  courseBtn.append(btnVal);
       			  },
       			  error : function(){
@@ -158,7 +158,7 @@
   				  success : function(result){
   					var courseBtn = $("#courseBtn");
 					  courseBtn.html("");
-					  var btnVal = '<button type="button" id="addCourse_btn" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef; margin:30px 0 0 250px; padding: 10px 10px">코스 찜</button>'
+					  var btnVal = '<button type="button" id="addCourse_btn" class="btn btn-outline-success" style="margin:0; ">코스에 등록하기!</button>'
 					  courseBtn.append(btnVal);
   				  },
   				  error : function(){
