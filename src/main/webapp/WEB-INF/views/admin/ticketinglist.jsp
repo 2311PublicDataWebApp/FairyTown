@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -82,7 +83,7 @@
                     <th>예약일</th>
                     <th>구입일</th>
                     <th>결제금액</th>
-                    <th>성공여부</th>
+                    <th>결재상태</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -93,10 +94,10 @@
                     <td>${ting.userId }</td>
                     <td>${ting.reservationDate }</td>
                     <td>${ting.purchaseDate }</td>
-					<td>${ting.purchasePrice }</td>
-					<td>${ting.purchaseSuccess }</td>
+					<td><fmt:formatNumber value="${ting.purchasePrice}" pattern="###,### 원"/></td>
+					<td>${ting.purchaseSuccess == 'C' ? '취소됨' : '결제됨'}</td>
                   </tr>
-                  
+
                   </c:forEach>
                   </tbody>
                   <tfoot>
@@ -106,7 +107,7 @@
                     <th>예약일</th>
                     <th>구입일</th>
                     <th>결제금액</th>
-                    <th>성공여부</th>
+                    <th>결재상태</th>
                   </tr>
                   </tfoot>
                   </table>
@@ -188,22 +189,22 @@ $('tbody tr').on('click', function() {
             
             // VO 데이터를 HTML로 생성하여 모달에 추가
             var str = "";
-            str += "<div class='ticket-info'>";
+            str += "<div class='ticket-info-left'>";
             str += '<span class="close">&times;</span>';
             str += '<p>구입 티켓 코드: ' + data.ticketingCode + '</p>';
-            str += '<p>티켓 번호: ' + data.ticketNumber + '</p>';
+            str += '<p>티켓 이름: ' + data.ticket.ticketName + '</p>';
             str += '<p>구매자 아이디: ' + data.userId + '</p>';
             str += '<p>예약 날짜: ' + data.reservationDate + '</p>';
             str += '<p>구매 날짜: ' + data.purchaseDate + '</p>';
+            str += "</div>";
+            str += "<div class='ticket-info-right'>";
             str += '<p>성인 인원: ' + data.adult + '</p>';
             str += '<p>청소년 인원: ' + data.teenager + '</p>';
             str += '<p>어린이 인원: ' + data.child + '</p>';
-            str += '<p>구매 가격: ' + data.purchasePrice + '</p>';
+            str += '<p>구매 가격: ' + data.purchasePrice.toLocaleString() + '원</p>';
             str += '<p>구매 성공 여부: ' + data.purchaseSuccess + '</p>';
             str += '<p>아임포트 UID: ' + data.impUid + '</p>';
             str += '<p>상인 UID: ' + data.merchantUid + '</p>';
-            str += "</div>";
-
             modalContent.append(str);
             
             // 닫기 버튼에 이벤트 리스너 추가

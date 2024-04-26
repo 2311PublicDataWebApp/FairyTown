@@ -155,12 +155,13 @@
     display: flex;
     margin: auto;
     margin-left: 18%;
+    margin-top: -100px;
 }
 .container.check {
     margin-left: -33%;
 }
 .ticket-image {
-    margin-left: 33%;
+    margin-left: 20%;
 }
 .ticketName {
 	font-size: 36px;
@@ -170,6 +171,25 @@
 	padding-top: 5%;
 }
 .goBackBtn {
-	position: absolute;
-    bottom: 0;
+    position: absolute;
+    bottom: 100px;
+}
+ul.nav.col-12.col-md-auto.mb-2.justify-content-center.mb-md-0 {
+    margin-right: 300px !important;
+}
+.confrom-btn {
+    padding: 2% 10%;
+    margin-left: 44%;
+    border-radius: 10px;
+    background-color: #ACE0F8;
+    color: white;
+    font-size: 24px;
+}
+.back-btn {
+    width: max-content;
+    height: 50px;
+    border-radius: 10px;
+    background-color: #ebbdd3;
+    color: white;
+    font-size: 24px;
 }

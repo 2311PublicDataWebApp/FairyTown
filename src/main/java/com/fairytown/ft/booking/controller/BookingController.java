@@ -162,6 +162,9 @@ public class BookingController {
 		            break;
 		        }
 		    }
+		    if (rideList.isEmpty()) {
+			    return "redirect:/booking/list.ft";
+		    }
 		    return "redirect:/booking/basic.ft";
 		}else {
 			return "common/errorPage";

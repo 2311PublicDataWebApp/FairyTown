@@ -95,17 +95,17 @@ function requestPay() {
 				<input type="hidden" name="ticketNo" value="${ticketOne.ticketNo }">
 				<div class="ticket-image">
 					<img src="../resources/nuploadFiles/${ticketOne.ticketImgRename }" alt="티켓이미지"><br>
-				</div>
+				</div><br>
 				<div class="ticketName">
 				    <label for="ticketName" class="form-label">${ticketOne.ticketName }</label>
-				</div>
+				</div><br>
 				<div class="ticketDetail">
 				    <label for="ticketDetail" class="form-label">[상품 설명]</label>
-				    <span class="form-control" id="ticketDetail">${ticketOne.ticketDetail }</span>
+				    <br><br>${ticketOne.ticketDetail }
 				</div>
 			</form>
-			<div class="goBackBtn">
-				<button onclick="goBack()">이전 페이지로 이동</button>
+			<div class="goBackBtn">	
+				<button onclick="goBack()" class="back-btn">이전 페이지로</button>
 			</div>
 		</section>
 		
@@ -138,8 +138,10 @@ function requestPay() {
 					</div>
 					<div class="total">합계<span class="price"><fmt:formatNumber value="${tingOne.purchasePrice}" pattern="###,### 원"/></span></div>
 				</div>
-				*테스트 100원 고정
-				<button onclick="requestPay()">결제하기</button><br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*테스트 100원 고정<br>
+				<button onclick="requestPay()" class="confrom-btn">결제하기</button><br>
 			</div>
 		</section>	
 	</div>	

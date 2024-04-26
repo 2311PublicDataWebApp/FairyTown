@@ -1,13 +1,12 @@
 package com.fairytown.ft.goods.store;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 
 import com.fairytown.ft.common.PageInfo;
-import com.fairytown.ft.goods.domain.vo.GoodsVO;
 import com.fairytown.ft.goods.domain.vo.OrderVO;
 
 public interface OrderStore {
@@ -33,6 +32,8 @@ public interface OrderStore {
 	void plusStock(SqlSession session, OrderVO order);
 
 	List<OrderVO> selectAdminOrderList(SqlSession session);
+	// 대쉬보드
+	List<Map<String,Object>> adminOrderBoard(SqlSession session, Date today);
 
 
 	

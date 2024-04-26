@@ -1,15 +1,17 @@
 package com.fairytown.ft.goods.store.impl;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.fairytown.ft.common.PageInfo;
-import com.fairytown.ft.goods.domain.vo.CartVO;
-import com.fairytown.ft.goods.domain.vo.GoodsVO;
 import com.fairytown.ft.goods.domain.vo.OrderVO;
 import com.fairytown.ft.goods.store.OrderStore;
 
@@ -76,6 +78,19 @@ public class OrderStoreImpl implements OrderStore{
 	public List<OrderVO> selectAdminOrderList(SqlSession session) {
 		List<OrderVO> oList = session.selectList("OrderMapper.selectAdminOrderList");
 		return oList;
+	}
+
+	@Override
+	public List<Map<String,Object>> adminOrderBoard(SqlSession session, Date today) {
+	    Map<String, Object> param = new HashMap<>();
+	    param.put("today", today);
+	    java.util.Date startDateUtil = DateUtils.addDays(today, -6);
+	    java.sql.Date startDate = new java.sql.Date(startDateUtil.getTime());
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	    String formattedStartDate = dateFormat.format(startDate);
+	    param.put("startDate", formattedStartDate);
+	    List<Map<String, Object>> dateSumMap = session.selectList("OrderMapper.adminOrderBoard", param);
+		return dateSumMap;
 	}
 
 

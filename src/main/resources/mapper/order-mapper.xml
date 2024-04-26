@@ -51,4 +51,15 @@
 		<delete id="deleteOrderDetail">
 			DELETE FROM GOODS_ORDER_DETAIL_TBL WHERE GOODS_ORDER_CODE = #{goodsOrderCode}
 		</delete>
+		<!-- 관리자 대쉬보드 -->
+		<select id="adminOrderBoard" resultType="java.util.Map">
+		    <![CDATA[
+			SELECT TO_DATE(GOODS_ORDER_DATE, 'YYYY-MM-DD') AS ORDER_DATE, SUM(GOODS_SUM) AS TOTAL_SUM
+			FROM GOODS_ORDER_TBL
+			WHERE GOODS_ORDER_DATE >= #{startDate} AND GOODS_ORDER_DATE <= #{today}
+			GROUP BY TO_DATE(GOODS_ORDER_DATE, 'YYYY-MM-DD')
+			ORDER BY TO_DATE(GOODS_ORDER_DATE, 'YYYY-MM-DD')
+		    ]]>
+		</select>
+
 	</mapper>
