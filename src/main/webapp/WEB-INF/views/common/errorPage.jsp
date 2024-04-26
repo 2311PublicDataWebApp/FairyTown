@@ -8,19 +8,19 @@
 <meta charset="UTF-8">
 <title>Error</title>
 <style>
-div{margin-left:43%;
-	margin-top:10%;}
+.msgbox{
+margin-bottom:10%;
+}
 </style>
 </head>
 <body>
 	<!-- 공통 / 헤더 -->
-<%-- 	<jsp:include page="../inc/header.jsp"></jsp:include> --%>
+	<jsp:include page="../inc/header.jsp"></jsp:include>
 
 		<div class="msgbox">
-			<h1>어? 이상한데?</h1>
-			<h2 style="color:red;">어???뭔가 잘못됐는데???</h2>
-			<h3>오류가 발생하였습니다.<br>${msg }</h3>
-			<h1><input type="reset" value="뒤로가기" onClick="goBack();"></h1>
+			<h4 style="text-align:center;">오류가 발생하였습니다!</h4>
+			<h6 style="text-align:center;"><br>Error Message: ${msg }</h6><br>
+			<h4 style="text-align:center;"><input type="reset" class="btn btn-secondary"value="뒤로가기" onClick="goBack();"></h4>
 		</div>
 		
 		<script>
@@ -30,6 +30,6 @@ div{margin-left:43%;
 		</script>
 
 	<!-- 공통 / 풋터 -->
-<%-- 	<jsp:include page="../inc/footer.jsp"></jsp:include> --%>
+	<jsp:include page="../inc/footer.jsp"></jsp:include>
 </body>
 </html>

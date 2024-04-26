@@ -358,9 +358,13 @@ public class RideController {
 		    	ride.setRideId(ride.getRideId());
 		        int totalCount = rService.getTotalCount();
 		        PageInfo pi = new PageInfo(currentPage, totalCount, 10);
+		        pi.setType("B");
 		        List<RideVO> rlist = rService.selectUserRideList(pi);
-		        List<RimgVO> rImg = rService.selectUserRideImg();
-		        mv.addObject("rImg", rImg);
+//		        List<RimgVO> rImg = rService.selectUserRideImg();
+		        pi.setType("L");
+		        List<RideVO> thumbL = rService.selectUserRideList(pi);
+//		        mv.addObject("rImg", rImg);
+		        mv.addObject("thumbL", thumbL);
 		        mv.addObject("rlist", rlist);
 		        mv.addObject("pi", pi);
 		        mv.addObject("totalCount", totalCount);
@@ -377,21 +381,33 @@ public class RideController {
 //      놀이기구 상세
 //      ride/detail.ft
        @GetMapping("/ride/detail.ft")
-      public ModelAndView selectrideuserdetail(ModelAndView mv,
+      public ModelAndView selectrideuserdetail(ModelAndView mv, HttpSession session, @ModelAttribute RideVO ride,
               @RequestParam("rideId") int rideId) {
           try {
               RideVO rList = rService.selectUserRideByRideId(rideId);
+              UserVO uOne = (UserVO) session.getAttribute("user");
+              List<RideVO> cList = rService.selectCourse(ride);
               List<RimgVO> rImg = rService.selectUserImgByRideId(rideId);
+              if(uOne == null){
+            	  ride.setRideId(rideId);
                   mv.addObject("rList", rList);
                   mv.addObject("rImg", rImg);
-                  mv.setViewName("ride/detail");
+            	  mv.setViewName("ride/detail");
+              } else {
+            	  ride.setCourseUser(uOne.getUserId());
+            	  ride.setRideId(rideId);
+            	  mv.addObject("rList", rList);
+            	  mv.addObject("cList", cList);
+            	  mv.addObject("rImg", rImg);
+            	  mv.setViewName("ride/detail");
+              }
           } catch (Exception e) {
               mv.addObject("msg", e.getMessage());
               mv.setViewName("common/errorPage");
           }
-          return mv;
+          return mv; 
       }
-
+       
        @PostMapping("/ride/detail.ft")
        public String showRideDetailForBooking(@ModelAttribute RideVO ride, HttpSession session) {
            List<RideVO> rideList = new ArrayList<>();

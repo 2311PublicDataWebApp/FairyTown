@@ -114,12 +114,18 @@
 	<select id="selectUserRideList" resultMap="rideResultMap">
 		SELECT * FROM RIDE_TBL ORDER BY RIDE_DATE DESC
 	</select>
-	
 	<select id="selectUserRideImg" resultMap="rimgResultMap">
-		SELECT * FROM RIDE_IMG_TBL WHERE DISPLAY_YN = 'Y'
+		SELECT * FROM RIDE_IMG_TBL
+		<where>
+			<if test="type == 'B'">DISPLAY_YN = 'Y'</if>
+			<if test="type == 'L'">THUMB_LIST = 'Y'</if>
+			AND RIDE_ID = #{rideId }
+		</where>
 	</select>
-	
-	
+	<select id="selectUserRidethumbL" resultMap="rimgResultMap">
+		SELECT * FROM RIDE_IMG_TBL WHERE THUMB_LIST = 'Y' AND RIDE_ID = #{rideId }
+	</select>
+		
 		<!-- 	상세 -->
 	<select id="selectByRideId" resultMap="rideResultMap">
 		SELECT * FROM RIDE_TBL WHERE RIDE_ID = #{rideId }
@@ -133,7 +139,7 @@
 		SELECT * FROM RIDE_TBL WHERE RIDE_ID = #{rideId }
 	</select>
 	<select id="selectUserImgByRideId" resultMap="rimgResultMap">
-		SELECT * FROM RIDE_IMG_TBL WHERE RIDE_ID = #{rideId } 
+		SELECT * FROM RIDE_IMG_TBL WHERE DISPLAY_SEQ BETWEEN 1 AND 3 AND RIDE_ID = #{rideId}
 	</select>
 
 	
@@ -248,6 +254,7 @@
   	<result property="closeDate" column="CLOSE_DATE"/>
   	<result property="closeReason" column="CLOSE_REASON"/>
   	<result property="closeYn" column="CLOSE_YN"/>
+  	<collection property="images" ofType="RimgVO" column="RIDE_ID" javaType="java.util.List" select="selectUserRideImg" />
   </resultMap>
   
 <!--   rimg 테이블 총 7개 칼럼 -->
