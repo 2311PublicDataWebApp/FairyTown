@@ -59,18 +59,30 @@
 	<body>
 		<!-- 공통 / 헤더 -->
 		<jsp:include page="../inc/header.jsp"></jsp:include>
-		
-		<form action="/qna/insert.ft" method="post" enctype="multipart/form-data">
-		<table> 
-		    <tr><td><h2>문의하기</h2></td></tr>
-		    <tr><td class="header">제목</td></tr>
-		    <tr><td><input type="text" placeholder="제목을 입력하세요" name="qnaName" value="${qna.qnaName }"></td></tr>
-		    <tr><td class="header">${sessionScope.user.userId}</td></tr>
-		    <tr><td class="header">내용</td></tr>
-		    <tr><td><textarea placeholder="내용을 입력하세요" name="qnaContent" value="${qna.qnaContent }"></textarea></td></tr>
-		    <tr><td><input type="submit" value="등록하기" onclick="alert('작성 완료!')"></td></tr>
-		</table>
-		</form>
+		<c:choose>
+	   		 <c:when test="${sessionScope.user != null}">
+	        <!-- 사용자가 로그인한 경우에는 문의 작성 폼을 보여줍니다. -->
+				<form action="/qna/insert.ft" method="post" enctype="multipart/form-data">
+				<table> 
+				    <tr><td><h2>문의하기</h2></td></tr>
+				    <tr><td class="header">제목</td></tr>
+				    <tr><td><input type="text" placeholder="제목을 입력하세요" name="qnaName" value="${qna.qnaName }"></td></tr>
+				    <tr><td class="header">${sessionScope.user.userId}</td></tr>
+				    <tr><td class="header">내용</td></tr>
+				    <tr><td><textarea placeholder="내용을 입력하세요" name="qnaContent" value="${qna.qnaContent }"></textarea></td></tr>
+				    <tr><td><input type="submit" value="등록하기" onclick="alert('작성 완료!')"></td></tr>
+				</table>
+				</form>
+			</c:when>
+			 <c:otherwise>
+			        <!-- 사용자가 로그인하지 않은 경우에는 로그인이 필요합니다 메시지를 alert 형태로 보여줍니다. -->
+			        <script>
+			            alert("로그인이 필요합니다.");
+			            window.location.href = "/user/login.ft"; // 로그인 페이지로 이동합니다.
+			        </script>
+			    </c:otherwise>
+		</c:choose>
+
 		
 		<!-- 공통 / 풋터 -->
 		<jsp:include page="../inc/footer.jsp"></jsp:include>

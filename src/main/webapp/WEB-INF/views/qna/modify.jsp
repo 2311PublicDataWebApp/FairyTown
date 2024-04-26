@@ -83,6 +83,12 @@
 			function showQnaList() {
 				location.href = "/qna/list.ft";
 			}
+			
+			function deleteQna(qnaNo) {
+				if (confirm("삭제하시겠습니까?")) {
+					location.href = "/qna/delete.ft?qnaNo=" + qnaNo;
+				}
+			}
 		</script>
 	</body>
 </html>

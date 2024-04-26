@@ -280,70 +280,20 @@
 	    <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle" >
 	   		<div class="dropup-center dropup">
 <!-- 				  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" src="../resources/dist/img/close.png" style="width: 200px; height: 150px; margin-top: -200px; margin-right: 20px;"> -->
-				    <img class="dropdown-toggle"  data-bs-toggle="dropdown" aria-expanded="false"  src="../resources/dist/img/close.png" style="width: 200px; height: 150px; margin-top: -200px; margin-right: 20px;"></img>
+				    <img class="dropdown-toggle"  data-bs-toggle="dropdown" aria-expanded="false"  src="../resources/dist/img/close.png" style="width: 200px; height: 150px; margin-right: 20px;"></img>
 <!-- 				  </button> -->
 				
-				  <ul class="dropdown-menu" style="width: 200px; height: 430px; border: 0px; background-image: url('../resources/dist/img/backcloud.jpg');">
+				  <ul class="dropdown-menu" style="width: 200px; height: 270px; border: 0px; background-image: url('../resources/dist/img/backcloud.jpg'); ">
 				    <img src="../resources/dist/img/opening.png" style="width: 280px; height: 210px; margin-top: -150px; margin-right: 20px; position: absolute;" />
-				    <li><a class="dropdown-item"  href="#" style="height: 100px; margin-top: 40px; width: 90%; margin-left: 10px;  border-radius: 15px; margin-bottom: 10px;" ><img src="../resources/dist/img/btn-top.png" style="width:80px; margin-left: 30px; margin-top: 10px;"></a></li>
-				    <li><input type="hidden" name="userId" value="${user.userId }"><a class="dropdown-item"  href="javascript:void(0);" onclick="chatFunction()" style="height: 100px; margin-top: 40px; width: 90%; margin-left: 10px; background-color: #FDC3D2; border-radius: 15px; margin-bottom: 10px; ">상담원 채팅</a></li>
-				    <li><a class="dropdown-item" href="#" style="height: 100px; width: 90%; margin-left: 10px;  border-radius: 15px; margin-bottom: 10px;"><img src="../resources/dist/img/ticket.png" style="width:200px; margin-top: -53px; margin-left: 30px;"><p style="margin-left: 20px; margin-top:-110px;">티켓 구매</p></a></li>
-				    <img src="../resources/dist/img/clouds.png" style="width: 550px; height: 430px; margin-top: -60px; margin-left: -180px; position: absolute;" />
+<!-- 				    <li><a class="dropdown-item"  href="#" style="height: 100px; margin-top: 40px; width: 90%; margin-left: 10px;  border-radius: 15px; margin-bottom: 10px;" ><img src="../resources/dist/img/btn-top.png" style="width:80px; margin-left: 30px; margin-top: 10px;"></a></li> -->
+				    <li><input type="hidden" name="userId" value="${user.userId }"><a class="dropdown-item"  href="javascript:void(0);" onclick="chatFunction()" style="height: 100px; margin-top: 40px; width: 90%; margin-left: 10px;  border-radius: 15px; margin-bottom: 10px; "><img src="../resources/dist/img/calll.png" style="width:200px; margin-top: -53px; margin-left: -90px;"><p style="margin-left: 40px; margin-top:-110px;">상담원 채팅</p></a></li>
+				    <li><a class="dropdown-item" href="/ticket/list.ft" style="height: 100px; width: 90%; margin-left: 10px;  border-radius: 15px; margin-bottom: 10px;"><img src="../resources/dist/img/ticket.png" style="width:200px; margin-top: -53px; margin-left: 30px;"><p style="margin-left: 30px; margin-top:-110px;">티켓 구매</p></a></li>
+				    <img src="../resources/dist/img/clouds.png" style="margin-top: -63px; margin-left: -180px; position: absolute;" />
 				  </ul>
+				  <a class="dropdown-item"  href="#" style="height: 100px; margin-top: 40px; width: 90%; margin-left: 10px;  border-radius: 15px; margin-bottom: 10px;" ><img src="../resources/dist/img/btn-top.png" style="width:80px; margin-left: 50px; margin-top: -40px;"></a>
 				</div>
 			</div>
-<!--     	<div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle" > -->
-<!-- <!--     	<img src="../resources/dist/img/star8.png" style="width: 200px; height: 200px; margin-top: -400px; margin-left: 50px;"></img> --> -->
-<!--     	<img src="../resources/dist/img/close.png" style="width: 200px; height: 150px; margin-top: -200px; margin-right: 20px;"></img> -->
-<!--     	</div> -->
 
-<!--     <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle"> -->
-<!--         <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" -->
-<!--             aria-expanded="false" data-bs-toggle="dropdown" aria-label="Toggle theme (auto)"> -->
-<!--             <svg class="bi my-1 theme-icon-active" width="1em" height="1em"> -->
-<!--                 <use href="#circle-half"></use> -->
-<!--             </svg> -->
-<!--             <span class="visually-hidden" id="bd-theme-text">Toggle theme</span> -->
-<!--         </button> -->
-<!--         <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="bd-theme-text"> -->
-<!--             <li> -->
-<!--                 <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" -->
-<!--                     aria-pressed="false"> -->
-<!--                     <svg class="bi me-2 opacity-50" width="1em" height="1em"> -->
-<!--                         <use href="#sun-fill"></use> -->
-<!--                     </svg> -->
-<!--                     Light -->
-<!--                     <svg class="bi ms-auto d-none" width="1em" height="1em"> -->
-<!--                         <use href="#check2"></use> -->
-<!--                     </svg> -->
-<!--                 </button> -->
-<!--             </li> -->
-<!--             <li> -->
-<!--                 <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" -->
-<!--                     aria-pressed="false"> -->
-<!--                     <svg class="bi me-2 opacity-50" width="1em" height="1em"> -->
-<!--                         <use href="#moon-stars-fill"></use> -->
-<!--                     </svg> -->
-<!--                     Dark -->
-<!--                     <svg class="bi ms-auto d-none" width="1em" height="1em"> -->
-<!--                         <use href="#check2"></use> -->
-<!--                     </svg> -->
-<!--                 </button> -->
-<!--             </li> -->
-<!--             <li> -->
-<!--                 <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto" -->
-<!--                     aria-pressed="true"> -->
-<!--                     <svg class="bi me-2 opacity-50" width="1em" height="1em"> -->
-<!--                         <use href="#circle-half"></use> -->
-<!--                     </svg> -->
-<!--                     Auto -->
-<!--                     <svg class="bi ms-auto d-none" width="1em" height="1em"> -->
-<!--                         <use href="#check2"></use> -->
-<!--                     </svg> -->
-<!--                 </button> -->
-<!--             </li> -->
-<!--         </ul> -->
-<!--     </div> -->
 
 
     <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
@@ -377,10 +327,7 @@
                 d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z" />
         </symbol>
     </svg>
-    <main>
-
-    </main>
-    <div class="navsquare" style="width: 2000px; height: 100px; background-color: white; position: fixed; top: 0; margin-left: -20px; font-size: 20px;  z-index:5;"> 
+    <div class="navsquare" style="width: 2000px; height: 120px; background-color: white; position: fixed; top: 0; margin-left: -20px; font-size: 20px;  z-index:5;"> 
     <div class="container" style=" margin-top: 20px;">
         <header
             class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
@@ -409,10 +356,7 @@
                 
             </ul>
 
-<!--             <div class="col-md-3 text-end"> -->
-<!--                 <button type="button" onclick = "location.href = '#'" class="btn btn-outline-primary me-2" style="background-color: #ACE0F8; color: #3C94D4; border: 0;">로그인</button> -->
-<!--                 <button type="button" onclick = "location.href = '#'" class="btn btn-primary" style="background-color: #FAC0CF; color: #F38686; border: 0;">회원가입</button> -->
-<!--             </div> -->
+
 				<!-- Start of Button 2 -->
 				<c:if test = "${user.userId eq null }">
 					<a href="/user/login.ft" class="btn-2" style="border-radius: 10px; text-align: center; margin-right: -20px; margin-top: -15px; ">로그인</a>
@@ -425,29 +369,36 @@
 							로그아웃
 						</a>
 					</c:if>
-					<c:if test="${user.loginSt == 'B' }">
-						<a href="/user/logout.ft" class="btn-2" style="border-radius: 10px; text-align: center; margin-top: -15px; margin-right: -20px;">로그아웃</a>
-					</c:if>
-					<c:if test="${user.userAdmin == 'USER' }">
-						<a href="/user/mypage.ft" class="btn-2" style="border-radius: 10px; text-align: center; margin-top: -15px; margin-right: -20px;">마이페이지</a>
-					</c:if>
-					<c:if test="${user.userAdmin == 'ADMIN' }">
-						<a href="/admin/userlist.ft" class="btn-2" style="border-radius: 10px; text-align: center; margin-top: -15px; margin-right: -20px;">관리자 페이지</a>
-					</c:if>
 				</c:if>
+
+				<!--프로필 -->
 				<c:if test="${user.userId ne null }">
-						<c:if test="${user.userId eq 'admin' }">
-						<a href="/adminTableSample.ft" class="btn-2" style="border-radius: 10px; text-align: center; margin-top: -15px; margin-right: -20px;">관리자페이지</a>
-							</c:if>
-									</c:if>
-<!-- 					background-color: #FAC0CF; -->
-					<!-- End of Button 2 -->
+						<div class="dropdown text-end">
+							<a href="#"
+								class="d-block link-dark text-decoration-none dropdown-toggle"
+								data-bs-toggle="dropdown" aria-expanded="false">
+									<img id="profilesmall" src="../resources/dist/img/profile.jpg" width="60"
+										height="47" style="margin-bottom:5px;" class="rounded-circle">
+							</a>
+							<ul class="dropdown-menu text-small">
+								<li><a class="dropdown-item" href="/user/mypage.ft">마이페이지</a></li>
+								<li><a class="dropdown-item" href="/goods/orderList.ft">주문내역</a></li>
+								<li><a class="dropdown-item" href="/goods/cartList.ft">장바구니</a></li>
+								<li><a class="dropdown-item" href="/ticketing/list.ft">티켓 예매내역</a></li>
+								<li><a class="dropdown-item" href="/booking/list.ft">놀이공원 예약내역</a></li>
+								<li><a class="dropdown-item" href="/ride/course.ft">나만의 코스</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<c:if test="${user.userId eq 'admin' }">
+									<li><a class="dropdown-item" href="/adminTableSample.ft">관리자페이지</a></li>
+								</c:if>
+								<li><a class="dropdown-item" href="/user/logout.ft">로그아웃</a></li>
+							</ul>
+						</div>
+					</c:if>
         </header>
     </div>
     </div>
         <br><br><br><br><br><br><br><br><br><br>
-    <!-- <div class="b-example-divider"></div> -->
-</main>
 	<script>
 		function chatFunction() {
 			var userId = $("input[name='userId']").val();
@@ -459,8 +410,7 @@
 			}
 		}
 	</script>
-    <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+</main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-</body>
-
+	</body>
 </html>
