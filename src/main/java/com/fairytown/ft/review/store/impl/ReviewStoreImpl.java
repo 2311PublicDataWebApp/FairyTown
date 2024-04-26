@@ -136,6 +136,13 @@ public class ReviewStoreImpl implements ReviewStore{
 	@Override
 	public int deleteReviewImage(SqlSession session, int reviewNo) {
 		return session.delete("ReviewMapper.deleteReviewImage", reviewNo);
+	}
+
+	@Override
+	public int updateReview(SqlSession session, ReviewVO review) {
+		int result = session.update("ReviewMapper.updateReview", review);
+//		result += session.update("ReviewMapper.updateReviewImg", review);
+		return result;
 	}	
 	
 //	@Override

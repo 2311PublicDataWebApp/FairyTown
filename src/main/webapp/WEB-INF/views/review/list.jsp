@@ -349,13 +349,14 @@ h6 {
 		
 		    <!-- 모달 창(write) -->
 		    <jsp:include page="modules/writeReviewModal.jsp" />
+		    <jsp:include page="./modify.jsp" />
 		</div>
 		
 		
 		<!-- ------------------ -->
-			<!-- 구분선 -->
-			<hr class="muidivider">
-			<div style=" margin-bottom: 10px;"></div>
+		<!-- 구분선 -->
+		<hr class="muidivider">
+		<div style=" margin-bottom: 10px;"></div>
 			
 		<div id="rListContainer" class="row">
 			<!-- 리뷰 아이템 -->
@@ -400,12 +401,12 @@ h6 {
 					</c:if>
 			</c:forEach>
 		</div>
-			
-</div>
+	</div>	
 		
 		<!-- 모달 창(rList detail) -->		
 		
  		<jsp:include page="./modules/rListDetail.jsp" />
+ 		
  
  
  
@@ -668,7 +669,8 @@ h6 {
 	    event.preventDefault();
 // 	    $(obj).parents(".modal").attr("display", "none");
 		 // 모든 모달을 닫음
-	    $('[id^=reviewModal]').modal('hide');
+		 $('#reviewModal'+reviewNo).html("");
+	//    $('[id^=reviewModal]').modal('hide');
 	    // 모달 배경 제거
 	    $('.modal-backdrop').remove();
 	    // 새 모달 열기
@@ -798,13 +800,41 @@ h6 {
         });
     }
     
+/*  	function showReviewModal(reviewNo, event, obj) {
+	    // 이벤트 전파 막기
+	    event.preventDefault();
+// 	    $(obj).parents(".modal").attr("display", "none");
+		 // 모든 모달을 닫음
+	    $('[id^=reviewModal]').modal('hide');
+	    // 모달 배경 제거
+	    $('.modal-backdrop').remove();
+	    // 새 모달 열기
+	    $('#reviewModal' + reviewNo).modal('show');
+	}   */
+    
     // =========
     // 수정하기
     // =========
 	function modifyReview(reviewNo) {
-		var reviewNo = "${review.reviewNo }";
-		location.href = "/review/modify.ft?reviewNo=" + reviewNo;
+		// 수정할 리뷰 번호를 서버로 전달하여 수정 폼을 받아온다.
+	    // 이 부분에서 Ajax 요청을 사용하면 좋습니다.
+	    // Ajax를 사용하면 페이지 새로고침 없이 서버로부터 데이터를 받아올 수 있습니다.
+	    // 받아온 수정 폼을 모달로 표시하거나 적절한 위치에 표시할 수 있습니다.
+	    // 예를 들어, Bootstrap 모달을 사용하면 좋습니다.
+	    
+		 // 모든 모달을 닫음
+//	    $('[id^=reviewModal]').modal('hide');
+//		var reviewNo = "${review.reviewNo }";
+		$('#reviewModal'+reviewNo).css('display', 'none');
+// 		$('#reviewModal'+reviewNo).html("");
+	    // 모달 배경 제거
+	    $('.modal-backdrop').remove();
+		$('#modifyReviewModal'+reviewNo).modal('show');
+	    
+		
+//		location.href = "/review/modify.ft?reviewNo=" + reviewNo;
 	}	
+	
 
     // =========
     // 삭제하기

@@ -1,6 +1,7 @@
 package com.fairytown.ft.review.controller;
 
 import java.io.File;
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -71,9 +74,10 @@ public class ReviewController {
 	        HttpServletRequest request) {
 	    try {
 	        // 리뷰 작성자 설정 (로그인 안정화 후 주석 해제)
-	        // String realName = (String) session.getAttribute("realName");
-	        // review.setRealName(realName);
-	        review.setRealName("페어리용자");
+//	        String userId = (String) session.getAttribute("userId");
+//	        String realName = (String) session.getAttribute("realName");
+//	        review.setUserId(userId);
+//	        review.setRealName(realName);
 
 	        // 리뷰 등록
 	        int result = rService.insertReview(review);
@@ -176,10 +180,86 @@ public class ReviewController {
     // ===================
  	// 리뷰 수정 페이지
  	// ===================
+	@RequestMapping(value="/review/modify.ft", method=RequestMethod.GET)
+	public ModelAndView showModifyForm(ModelAndView mv, int reviewNo) {
+		try {
+			ReviewVO review = rService.selectByReviewNo(reviewNo);
+			if(review != null) {
+				mv.addObject("review", review);
+				mv.setViewName("review/modify");
+			}else {
+				mv.addObject("msg", "데이가 존재하지 않습니다.");
+				mv.setViewName("common/errorPage");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			mv.addObject("msg", e.getMessage());
+			mv.setViewName("common/errorPage");
+		}
+		return mv;
+	}
     
     // ===================
  	// 리뷰 수정
  	// ===================
+	@PostMapping("/review/modify.ft")
+	public ModelAndView updateReview(ModelAndView mv,
+	        @ModelAttribute ReviewVO review,
+	        HttpSession session,
+	        @RequestParam(value = "uploadFiles", required = false) List<MultipartFile> uploadFiles,
+	        HttpServletRequest request) {
+	    try {
+	        // 리뷰 작성자 설정 (로그인 안정화 후 주석 해제)
+	         String realName = (String) session.getAttribute("realName");
+	         review.setRealName(realName);
+	      //  review.setRealName("페어리용자");
+
+	        // 리뷰 등록
+	        int result = rService.updateReview(review);
+
+	        // 이미지 업로드 및 저장 (최대 3개까지)
+	        if (uploadFiles != null && uploadFiles.size() <= 3) {
+	            for (MultipartFile uploadFile : uploadFiles) {
+	                Map<String, Object> infoMap = saveFile(uploadFile, request);
+	                String fileName = (String) infoMap.get("fileName");
+	                String fileRename = (String) infoMap.get("fileRename");
+	                String filePath = (String) infoMap.get("filePath");
+	                long fileLength = (long) infoMap.get("fileSize");
+
+	                // 각 이미지 정보 저장
+	                ReviewImageVO image = new ReviewImageVO();
+	                image.setFileName(fileName);
+	                image.setFileRename(fileRename);
+	                image.setFilePath(filePath);
+	                image.setFileSize(fileLength);
+	                image.setReviewNo(review.getReviewNo()); // 리뷰 번호 설정
+
+	                rService.insertImage(image);
+	            }
+	        } 
+//	        else {
+//	            // 업로드 파일 개수가 3개를 초과하는 경우 에러 처리
+//	            mv.addObject("msg", "최대 3개의 이미지만 업로드 가능합니다.");
+//	            mv.setViewName("common/errorPage");
+//	            return mv;
+//	        }
+
+	        if (result > 0) {
+	            // 등록한 글로 리다이렉트 (상세보기, sql문까지 완료 후 주석 해제)
+//	            int reviewNo = review.getReviewNo();
+//	            String redirectUrl = "/review/detail.ft?reviewNo=" + reviewNo;
+//	            mv.setViewName("redirect:" + redirectUrl);
+	        	mv.setViewName("redirect:/review/list.ft");
+	        } else {
+	            mv.addObject("msg", "리뷰 등록 실패");
+	            mv.setViewName("common/errorPage");
+	        }
+	    } catch (Exception e) {
+	        mv.addObject("msg", e.getMessage());
+	        mv.setViewName("common/errorPage");
+	    }
+	    return mv;
+	}
 	
     // ===================
  	// 리뷰 삭제
@@ -298,40 +378,6 @@ public class ReviewController {
         model.addAttribute("currentPage", nextPage); // 다음 페이지 번호를 모델에 추가
         return "review/list"; // 다음 페이지에 대한 리뷰 목록이 표시되는 뷰의 이름을 반환
     }
-    
-    // ===================
-    // 추천 리뷰 리스트(best3)
-    // ===================
-//    @GetMapping("topLikedReviews")
-//    public String getTopLikedReviews(Model model) {
-//    	List<ReviewVO> lList = rService.getTopLikedReviews();
-//    	model.addAttribute("lList", lList);
-//    	return "review/list"; 
-////    	return "topLikedReviews";
-//    }
-    
-    // ===================
-    // 베스트 리뷰(조회수 기준)
-    // ===================
-//    @GetMapping("/review/best")
-//    @ResponseBody
-//    public ModelAndView showBestReview(ModelAndView mv) {
-//        try {
-//            // 가장 조회수가 높은 리뷰를 가져옴
-//            ReviewVO bestReview = rService.getBestReview(); // bestReview 객체를 ModelAndView에 추가
-//            mv.addObject("bestReview", bestReview);            	
-//            if (bestReview == null) {
-//            	mv.addObject("noBestReviewMessage", "베스트 리뷰가 없습니다.");
-//            } 
-//            mv.setViewName("review/list"); // 뷰 이름 설정
-//            // bestReview가 제대로 작동하는지 체크
-//        } catch (Exception e) {
-//            // 오류가 발생할 경우 처리
-//            mv.addObject("msg", e.getMessage());
-//            mv.setViewName("common/errorPage");
-//        }
-//        return mv;
-//    }
     
     // ===================
  	// 리뷰 검색
