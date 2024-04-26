@@ -187,7 +187,7 @@ public class RideServiceImpl implements RideService {
 			int limit = pi.getBoardLimit();
 			int offset =(pi.getCurrentPage()-1)*limit;
 			RowBounds rb = new RowBounds(offset, limit);
-			List<RideVO> rList = rStore.selectUserRideList(rb);
+			List<RideVO> rList = rStore.selectUserRideList(pi.getType(), rb);
 			return rList;
 		}
 
@@ -252,6 +252,13 @@ public class RideServiceImpl implements RideService {
 	public List<RideVO> selectCourseList(RideVO ride) {
 		List<RideVO> cList = rStore.selectCourseList(ride);
 		return cList;
+	}
+
+
+	@Override
+	public List<RimgVO> selectUserRidethumbL() {
+		List<RimgVO> thumbL = rStore.selectUserRidethumbL();
+		return thumbL;
 	}
 }
 

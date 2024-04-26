@@ -26,12 +26,12 @@
         <div class="content_top">
             <p class="title_rotate">대표!</p>
             <div class="imgbox">
-                <c:forEach var="img" items="${rImg}" varStatus="loop">
+                <c:forEach var="ride" items="${rlist}" varStatus="loop">
                     <c:if test="${loop.index lt 3}">
                         <div class="img_second">
-                            <a href="/ride/detail.ft?rideId=${img.rideId }"> 
-                                <img src="../resources/nuploadFiles/${img.rideImgRename}" style="width: 264px; height: 363px;" alt="이미지">
-                                    <p class="hover">${img.rideName }</p>
+                            <a href="/ride/detail.ft?rideId=${ride.rideId }"> 
+                                <img src="../resources/nuploadFiles/${ride.images[0].rideImgRename}" style="width: 264px; height: 363px;" alt="이미지">
+                                    <p class="hover">${ride.rideName }</p>
                             </a>
                         </div>
                     </c:if>
@@ -47,13 +47,13 @@
                 <table>
                     <tr>
                         <td>
-                            <c:forEach var="img" items="${thumbM}" varStatus="loop">
+                            <c:forEach var="ride" items="${thumbL}" varStatus="loop">
                                 <c:if test="${loop.index lt 3}">
                                     <div class="img_first">
-                                        <a href="/ride/detail.ft?rideId=${img.rideId }"> 
-                                            <img src="../resources/nuploadFiles/${img.rideImgRename}" style="width: 264px; height: 180px;" alt="이미지">
+                                        <a href="/ride/detail.ft?rideId=${ride.rideId }"> 
+                                            <img src="../resources/nuploadFiles/${ride.images[0].rideImgRename}" style="width: 264px; height: 180px;" alt="이미지">
                                             <div class="hover">
-                                                <p>${img.rideName }</p>
+                                                <p>${ride.rideName }</p>
                                             </div>
                                         </a>
                                     </div>
@@ -63,13 +63,13 @@
                     </tr>
                     <tr>
                         <td>
-                            <c:forEach var="img" items="${thumbM}" varStatus="loop">
+                            <c:forEach var="ride" items="${thumbL}" varStatus="loop">
                                 <c:if test="${loop.index ge 3 and loop.index lt 6}">
                                     <div class="img_second">
-                                        <a href="/ride/detail.ft?rideId=${img.rideId }"> 
-                                            <img src="../resources/nuploadFiles/${img.rideImgRename}" style="width: 264px; height: 180px;" alt="이미지">
+                                        <a href="/ride/detail.ft?rideId=${ride.rideId }"> 
+                                            <img src="../resources/nuploadFiles/${ride.images[0].rideImgRename}" style="width: 264px; height: 180px;" alt="이미지">
                                             <div class="hover">
-                                                <p>${img.rideName }</p>
+                                                <p>${ride.rideName }</p>
                                             </div>
                                         </a>
                                     </div>
