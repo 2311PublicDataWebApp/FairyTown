@@ -17,6 +17,7 @@
 	    <result property="purchaseSuccess" column="PURCHASE_SUCCESS"/>
 	    <result property="impUid" column="IMP_UID"/>
 	    <result property="merchantUid" column="MERCHANT_UID"/>
+<!-- 	    <association property=""></association> -->
 	</resultMap>
 	<insert id="ticktingRegister">
 		INSERT INTO TICKETING_TBL (
@@ -28,6 +29,7 @@
 	<select id="ticketingListSelect" resultMap="TicketingResultMap">
 		SELECT * FROM TICKETING_TBL 
 		WHERE USER_ID = #{userId }
+		ORDER BY RESERVATION_DATE DESC
 	</select>
   	<select id="sendTicketingCode" resultMap="TicketingResultMap">
   		SELECT * FROM TICKETING_TBL 

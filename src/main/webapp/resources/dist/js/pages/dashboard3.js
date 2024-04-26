@@ -10,25 +10,26 @@ $(function () {
 
   var mode = 'index'
   var intersect = true
+  
+	var currentDate = new Date();
+	var labels = [];
+	for (var i = 6; i >= 0; i--) {
+	    var date = new Date(currentDate);
+	    date.setDate(currentDate.getDate() - i);
+	    labels.push(date.getDate() + '일'); // 날짜를 라벨 배열에 추가
+	}
 
   var $salesChart = $('#sales-chart')
   // eslint-disable-next-line no-unused-vars
   var salesChart = new Chart($salesChart, {
     type: 'bar',
     data: {
-      labels: ['JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
-      datasets: [
-        {
-          backgroundColor: '#007bff',
-          borderColor: '#007bff',
-          data: [1000, 2000, 3000, 2500, 2700, 2500, 3000]
-        },
-        {
-          backgroundColor: '#ced4da',
-          borderColor: '#ced4da',
-          data: [700, 1700, 2700, 2000, 1800, 1500, 2000]
-        }
-      ]
+      labels: labels,
+      datasets: [{
+          backgroundColor: '#28a745',
+          borderColor: '#28a745',
+          data: sumList
+        }]
     },
     options: {
       maintainAspectRatio: false,
@@ -54,18 +55,18 @@ $(function () {
           },
           ticks: $.extend({
             beginAtZero: true,
-
-            // Include a dollar sign in the ticks
-            callback: function (value) {
-              if (value >= 1000) {
-                value /= 1000
-                value += 'k'
+//			suggestedMax: Math.max.apply(null, sumList)
+             callback: function (value) {
+              if (value >= 10000) {
+                value /= 10000
+                value += '만원'
               }
 
-              return '$' + value
+              return value
             }
           }, ticksStyle)
         }],
+      
         xAxes: [{
           display: true,
           gridLines: {
@@ -77,13 +78,6 @@ $(function () {
     }
   })
   
-  	var currentDate = new Date();
-	var labels = [];
-	for (var i = 6; i >= 0; i--) {
-	    var date = new Date(currentDate);
-	    date.setDate(currentDate.getDate() - i);
-	    labels.push(date.getDate() + '일'); // 날짜를 라벨 배열에 추가
-	}
 
   var $usersChart = $('#users-chart')
   // eslint-disable-next-line no-unused-vars

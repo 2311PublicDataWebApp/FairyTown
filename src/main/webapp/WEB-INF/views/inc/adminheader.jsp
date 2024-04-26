@@ -226,7 +226,7 @@
 	            </a>
 			</li>
           	<li class="nav-item">
-	            <a href="#" class="nav-link">
+	            <a href="/qna/adminList.ft" class="nav-link">
 	              <i class="nav-icon fa-solid fa-message"></i>
 	              <p>1:1문의 관리</p>
 	            </a>

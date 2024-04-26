@@ -46,6 +46,7 @@ public class TicketingStoreImpl implements TicketingStore{
 	@Override
 	public int ticketingCancle(SqlSession session, String ticketingCode) {
 		int result = session.update("TicketingMapper.ticketingCancle", ticketingCode);
+		result += session.delete("BookingMapper.ticketingCancle", ticketingCode);
 		return result;
 	}
 
@@ -68,6 +69,10 @@ public class TicketingStoreImpl implements TicketingStore{
 	@Override
 	public TicketingVO TicketingDetail(SqlSession session, String ticketCode) {
 		TicketingVO tingOne = session.selectOne("TicketingMapper.TicketingDetail",ticketCode);
+
+		TicketVO ticket = session.selectOne("com.fairytown.ft.ticket.store.TicketStore.selectByTicketNumber", tingOne.getTicketNumber());
+		tingOne.setTicket(ticket);
+
 		return tingOne;
 	}
 
