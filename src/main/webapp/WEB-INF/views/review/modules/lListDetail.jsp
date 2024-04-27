@@ -59,7 +59,7 @@
                                          
                                         <!-- 작성일 -->
                                         <p>${review.reviewDate}</p>
-                                    </div>-
+                                    </div>
                                     <!-- 구매옵션 -->
                                     <p><span style="color: #7B848D;">구매옵션</span> &nbsp;&nbsp; ${review.ticketType}</p>
                                 </div>

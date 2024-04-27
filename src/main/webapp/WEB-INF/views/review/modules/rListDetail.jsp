@@ -14,7 +14,24 @@
 				<div class="modal-body">
 					<div class="row">
 						<!-- 왼쪽 영역: 사진 -->
-						<div class="col-md-6">
+<div class="col-md-6" style="position: relative; overflow: hidden;">
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <!-- 슬라이드 추가 -->
+            <c:forEach items="${review.images}" var="image">
+                <div class="swiper-slide">
+                    <img src="../resources/ruploadFiles/${image.fileRename}">
+                </div>
+            </c:forEach>
+        </div>
+        <!-- 추가적인 Swiper 컨트롤러 등을 넣을 수 있음 -->
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: black; z-index: -1;"></div>
+</div>						
+<%-- 						<div class="col-md-6">
                             <div class="swiper-container">
                                 <div class="swiper-wrapper">
                                     <!-- 슬라이드 추가 -->
@@ -29,7 +46,7 @@
                                 <div class="swiper-button-prev"></div>
                                 <div class="swiper-button-next"></div>
                             </div>
-						</div>
+						</div> --%>
 						<!-- 오른쪽 영역: 텍스트 -->
 						<div class="col-md-6">
                             <div class="modal-text-content" style="padding: 30px;">
@@ -59,7 +76,7 @@
                                          
                                         <!-- 작성일 -->
                                         <p>${review.reviewDate}</p>
-                                    </div>-
+                                    </div>
                                     <!-- 구매옵션 -->
                                     <p><span style="color: #7B848D;">구매옵션</span> &nbsp;&nbsp; ${review.ticketType}</p>
                                 </div>
