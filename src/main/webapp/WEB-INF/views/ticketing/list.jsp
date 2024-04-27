@@ -42,7 +42,7 @@
 					</div>
            			<c:forEach items="${tingList}" var="ting">
 		        	
-		            <div class="row p-2 bg-white border rounded">
+		            <div class="row p-2 bg-white border rounded">${ting }
 		                <div class="col-md-3 mt-1"><img src="../resources/nuploadFiles/${ting.ticket.ticketImgRename }" alt="티켓이미지"></div>
 		                <div class="col-md-6 mt-1">
 		                	<h4>티켓이름 : ${ting.ticket.ticketName }</h4>
@@ -134,7 +134,7 @@
 	}
 	// 티켓을 취소합니다. (값 변경)
 	function cancleTicketingCode(ticketingCode) {
-	    var confirmDelete = confirm("이 티켓을 취소하시겠습니까?");
+	    var confirmDelete = confirm("이 티켓을 취소하시겠습니까? \n모든 예약내역도 삭제됩니다");
 	    if (confirmDelete) {
 			$.ajax({
 		        url: '/ticketing/cancle.ft',

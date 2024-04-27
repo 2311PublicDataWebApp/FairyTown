@@ -110,7 +110,7 @@
 													<tr>
 														<td>
 															<div class="form-group row">
-																<label class="col-sm-4 col-form-label">탑승인원 : </label>
+																<label class="col-sm-4 col-form-label">탑승인원</label>
 																<div class="col-sm-8">
 																	<input type="number" class="form-control"
 																		name="rideCount" style="width: 80px;" value="0"
@@ -149,13 +149,13 @@
 														</td>
 													</tr>
 
-													<tr id="fileInputs">
-														<th>첫번째 이미지 :</th>
-														<td><input type="file" name="uploadFile">
-															<button type="button" class="btn btn-secondary"
-																onclick="addFileInput();">파일 추가</button></td>
-													</tr>
-
+<tr id="fileInputs">
+    <th>이미지(1350x500) : </th>
+    <td>
+        <input type="file" name="uploadFile">
+        <button type="button" class="btn btn-secondary" onclick="addFileInput();">파일 추가</button>
+    </td>
+</tr>
 
 													<tr>
 														<td>
@@ -230,91 +230,102 @@
 	<script src="../resources/dist/js/adminlte.min.js"></script>
 	<!-- AdminLTE for demo purposes -->
 	<script src="../resources/dist/js/demo.js"></script>
-	<script>
-			// 상세 페이지 사용 JS : goBack(),submitAlert(), Checkform()
+<script>
+    // 상세 페이지 사용 JS : goBack(), submitAlert(), Checkform()
 
-var maxFileInputs = 5; // 최대 파일 입력란 개수
-var fileInputCount = 1; // 현재 파일 입력란 개수
+   var maxFileInputs = 5; // 최대 파일 입력란 개수
+    var fileInputCount = 1; // 현재 파일 입력란 개수
 
-function addFileInput() {
-    if (fileInputCount < maxFileInputs) {
-        var fileInputsDiv = document.getElementById("fileInputs");
-        var newFileInput = document.createElement("input");
-        newFileInput.type = "file";
-        newFileInput.name = "uploadFile"; // 이 이름은 서버에서 파일을 처리할 때 사용됩니다.
-        var newRow = document.createElement("tr");
-        var newTd1 = document.createElement("th");
-        var newTd2 = document.createElement("th");
+    function addFileInput() {
+        // 최대 파일 입력란 개수를 초과하지 않은 경우에만 실행
+        if (fileInputCount < maxFileInputs) {
+            // 새로운 파일 입력 요소 생성
+            var newFileInput = document.createElement("input");
+            newFileInput.type = "file";
+            newFileInput.name = "uploadFile"; // 서버에서 파일을 처리할 때 사용될 이름
 
-        var textContent = "";
-        switch (fileInputCount) {
-            case 1:
-                textContent = "첫번째 이미지 :";
-                break;
-            case 2:
-                textContent = "두번째 이미지 :";
-                break;
-            case 3:
-                textContent = "세번째 이미지 :";
-                break;
-            case 4:
-                textContent = "썸네일이미지(264x363) :";
-                break;
-            case 5:
-                textContent = "썸네일이미지(264x180) :";
-                break;
+            // 파일 입력 요소를 담을 새로운 열(td) 생성
+            var newTd1 = document.createElement("th");
+            var newTd2 = document.createElement("th");
+
+            // 파일 입력 요소에 대한 설명 추가
+            var textContent = "";
+            switch (fileInputCount) {
+                case 1:
+                    textContent = "썸네일이미지(264x180) :";
+                    break;
+                case 2:
+                    textContent = "썸네일이미지(264x363) :";
+                    break;
+                case 3:
+                    textContent = "이미지(1350x500) :";
+                    break;
+                case 4:
+                    textContent = "이미지(1350x500) :";
+                    break;
+            }
+            newTd1.textContent = textContent;
+
+            // 파일 입력 요소를 열에 추가
+            newTd2.appendChild(newFileInput);
+
+            // 새로운 행을 생성하여 파일 입력 요소 열을 추가
+            var newRow = document.createElement("tr");
+            newRow.appendChild(newTd1);
+            newRow.appendChild(newTd2);
+
+            // 마지막 파일 입력 행을 찾습니다.
+            var lastFileInputRow = document.getElementById("fileInputs");
+
+            // 파일 입력 요소 행을 마지막 파일 입력 행 바로 뒤에 추가
+            lastFileInputRow.parentNode.insertBefore(newRow, lastFileInputRow.nextSibling);
+
+            // 파일 입력 횟수 증가
+            fileInputCount++;
+        } else {
+            // 최대 파일 입력 횟수를 초과한 경우 경고 표시
+            alert("최대 " + maxFileInputs + "개까지만 추가할 수 있습니다.");
         }
-
-        newTd1.textContent = textContent;
-        newTd2.appendChild(newFileInput);
-        newRow.appendChild(newTd1);
-        newRow.appendChild(newTd2);
-        fileInputsDiv.parentNode.insertBefore(newRow, fileInputsDiv.nextSibling);
-        fileInputCount++;
-    } else {
-        alert("최대 " + maxFileInputs + "개까지만 추가할 수 있습니다.");
     }
-}
-		
-		function checkOnlyOne(element) {
-			  
-			  const checkboxes 
-			      = document.getElementsByName("rideStatus");
-			  
-				  checkboxes.forEach((cb) => {
-				    cb.checked = false;
-				  })
-				  
-				  element.checked = true;
-			}
-		
-		function goMenu(){
-			location.href = "/admin/ridelist.ft";
-		};
-		
-			function Checkform() {
 
-				if (rideForm.rideName.value == "") {
-					rideForm.rideName.focus();
-					alert("놀이기구 이름을 입력해주세요.");
-					return false;
-				} 
-				if (rideForm.rideLimit.value == "") {
-					rideForm.rideLimit.focus();
-					alert("탑승 제한을 등록해주세요.");
-					return false;
-				} 
-			}
-			
-			function submitAlert(){
-				if(confirm("등록하시겠습니까?")){
-					return true;
-				} else{
-					return false;
-				}
-			}
-			
-			</script>
+    function checkOnlyOne(element) {
+
+        const checkboxes
+            = document.getElementsByName("rideStatus");
+
+        checkboxes.forEach((cb) => {
+            cb.checked = false;
+        })
+
+        element.checked = true;
+    }
+
+    function goMenu() {
+        location.href = "/admin/ridelist.ft";
+    };
+
+    function Checkform() {
+
+        if (rideForm.rideName.value == "") {
+            rideForm.rideName.focus();
+            alert("놀이기구 이름을 입력해주세요.");
+            return false;
+        }
+        if (rideForm.rideLimit.value == "") {
+            rideForm.rideLimit.focus();
+            alert("탑승 제한을 등록해주세요.");
+            return false;
+        }
+    }
+
+    function submitAlert() {
+        if (confirm("등록하시겠습니까?")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
 	<!-- 공통 / 풋터 -->
 	<jsp:include page="../inc/adminfooter.jsp"></jsp:include>
 </body>

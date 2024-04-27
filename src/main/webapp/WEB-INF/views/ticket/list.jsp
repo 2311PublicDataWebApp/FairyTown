@@ -45,10 +45,10 @@
 											<li style="color:black;">어른 기준 가격 : <fmt:formatNumber value="${ticket.ticketAdult}" type="number" pattern="#,##0"/> 원</li>
 												   <c:choose>
 									                <c:when test="${empty ticket.ticketCard}" >
-									                    제휴카드 : 없음
+									                    <li style="color:black;">제휴카드 : 없음</li>
 									                </c:when>
 									                <c:otherwise>
-									                    제휴카드 : ${ticket.ticketCard }
+									                    <li style="color:black;"> 제휴카드 : ${ticket.ticketCard }</li>
 									                </c:otherwise>
 									            </c:choose>
 											</ul>

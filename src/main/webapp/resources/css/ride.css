@@ -129,21 +129,21 @@ margin-left:100px;
 .attr_title{
 	margin-top:40px;
 	text-align:left;
-	margin-left:34.5%
+	margin-left:45%
 }
 .attr_desc{
 	color:gray;
 	width:500px;
 	margin-top:50px;
 	text-align:center;
-	margin-left:-10%;
+	margin-left:35%;
 	margin-bottom : 50px;
 }
 .attr_all{
 	width:100%
 }
 .attr_desc_left{
-	width:60%;
+	width:90%;
 }
 .attr_desc_right{width:60%;}
 
@@ -164,6 +164,14 @@ margin-bottom:10%;
 	margin-bottom:150px;
 }
 
+.ride_close{
+	font-size:1.5rem;
+	line-height:2;
+}
 
+.ride_limit{
+	font-size:1.2rem;
+	line-height:1.5;
+}
 
 /*                                   운영정보                                 */

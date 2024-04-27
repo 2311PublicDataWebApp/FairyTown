@@ -54,5 +54,7 @@ public interface RideStore {
 	int deleteCourse(RideVO ride);
 	List<RideVO> selectCourse(RideVO ride);
 	List<RideVO> selectCourseList(RideVO ride);
+	List<RimgVO> selectUserRidethumbL();
+	List<RideVO> selectUserRideList(String type, RowBounds rb);
 
 }

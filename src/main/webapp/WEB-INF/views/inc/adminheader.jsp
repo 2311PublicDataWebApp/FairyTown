@@ -151,13 +151,13 @@
           
 			<li class="nav-header">회원관리</li>
 			<li class="nav-item">
-	            <a href="/admin/userlist.ft" class="nav-link">
+	            <a href="/admin/userlist.ft?page=1" class="nav-link">
 	              <i class="nav-icon fa-solid fa-users"></i>
 	              <p>회원관리</p>
 	            </a>
 			</li>
 			<li class="nav-item">
-	            <a href="/admin/blacklist.ft" class="nav-link">
+	            <a href="/admin/blacklist.ft?page=1" class="nav-link">
 	              <i class="nav-icon fa-solid fa-user-slash"></i>
 	              <p>블랙리스트 관리</p>
 	            </a>
@@ -226,7 +226,7 @@
 	            </a>
 			</li>
           	<li class="nav-item">
-	            <a href="#" class="nav-link">
+	            <a href="/qna/adminList.ft" class="nav-link">
 	              <i class="nav-icon fa-solid fa-message"></i>
 	              <p>1:1문의 관리</p>
 	            </a>

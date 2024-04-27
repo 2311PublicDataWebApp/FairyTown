@@ -1,6 +1,7 @@
 package com.fairytown.ft.ride.domain.vo;
 
 import java.sql.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,4 +29,5 @@ public class RideVO {
 	private Integer courseNo;
     private String courseUser;
     private String rideImgRename;
+    private List<RimgVO> images;
 }

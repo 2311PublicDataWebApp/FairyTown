@@ -16,6 +16,7 @@
 	<select id="BookingListSelect" resultMap="BookingResultMap">
 		SELECT * FROM BOOKING_TBL 
 		WHERE USER_ID = #{userId }
+		ORDER BY BOOKING_DATE DESC
 	</select>
 	<delete id="bookingDeleteOne">
 		DELETE BOOKING_TBL
@@ -49,5 +50,9 @@
   	<delete id="adminBookingDelete">
   		DELETE BOOKING_TBL
   		WHERE BOOKING_NUMBER = #{bookingNumber}
+  	</delete>
+	<delete id="ticketingCancle">
+  		DELETE BOOKING_TBL
+  		WHERE TICKET_CODE = #{ticketingCode}
   	</delete>
 </mapper>

@@ -46,12 +46,12 @@
 						<div class="col-md-6 mt-1">
 							<h4>기구 이름: ${ride.rideName}</h4>
 							<div class="mt-1 mb-4 spec-1"><span>놀이기구 상세화면<br></span></div>
-							<h5>예약 날짜 : ${tingOne.reservationDate }</h5>
+							<h5>예약 날짜 : ${tingOne.reservationDate }</h5><br><br>
+			                <h6 class="text-success">탑승제한 : ${ride.rideLimit}</h6>
 						</div>
 			            <div class="col-md-3 border-left mt-4">
-			                <h6 class="text-success">탑승제한 : ${ride.rideLimit}</h6>
-			                <div class="d-flex flex-column mt-4 booking-button"><button class="btn btn-primary btn-sm" type="button" onclick="single('${ride.rideId}')">개별 예약하기</button></div>
-			                <div class="d-flex flex-column mt-4 booking-button"><button class="btn btn-primary btn-sm" type="button" onclick="deleteThis('${ride.rideId}')">삭제</button></div>
+			                <div class="d-flex flex-column mt-4 booking-button btn-in"><button class="btn btn-primary btn-sm" type="button" onclick="single('${ride.rideId}')">개별 예약하기</button></div>
+			                <div class="d-flex flex-column mt-4 booking-button btn-in"><button class="btn btn-primary btn-sm" type="button" onclick="deleteThis('${ride.rideId}')">삭제</button></div>
 			            </div>
 					</div>
 				
@@ -71,13 +71,13 @@
 </div>
 	
 	<div class="d-flex justify-content-center mt-5" style="margin-right: 120px;">
-	    <div class="booking-button mr-2 flex-grow-1">
+	    <div class="booking-button btn-out mr-2 flex-grow-1">
 	        <button class="btn btn-primary btn-sm w-100" type="button" onclick="deleteAll()">초기화</button>
 	    </div>
-	    <div class="booking-button flex-grow-1">
+	    <div class="booking-button btn-out flex-grow-1">
 	        <button class="btn btn-primary btn-sm w-100" type="button" onclick="window.location.href='/booking/list.ft'">예약목록</button>
 	    </div>
-		<div class="booking-button flex-grow-1">
+		<div class="booking-button btn-out flex-grow-1">
 		    <button class="btn btn-primary btn-sm w-100" type="submit">전체예약</button>
 		</div>
 	</div>

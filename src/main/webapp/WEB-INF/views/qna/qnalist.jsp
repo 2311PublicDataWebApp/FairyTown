@@ -102,6 +102,9 @@
 					                       <c:if test="${sessionScope.user.userId eq qna.qnaWriter}">
 					                            <button type="button" onclick="showModifyPage(${qna.qnaNo}, '${qna.qnaStatus}');">수정하기</button>
 					                        </c:if>
+					                         <c:if test="${qna.qnaStatus eq '답변대기'}">
+							                    <button type="button" onclick="deleteQna(${qna.qnaNo});">삭제하기</button>
+							                </c:if>
 					                    </div>
 					        </td>
 					    </tr>
@@ -212,7 +215,11 @@
 			        location.href = "/qna/modify.ft?qnaNo=" + qnaNo + "&qnaStatus=" + encodeURIComponent(qnaStatus);
 			    }
 
-			    
+			    function deleteQna(qnaNo) {
+					if (confirm("삭제하시겠습니까?")) {
+						location.href = "/qna/delete.ft?qnaNo=" + qnaNo;
+					}
+				}
 			    
 	  	</script>
 	</body>

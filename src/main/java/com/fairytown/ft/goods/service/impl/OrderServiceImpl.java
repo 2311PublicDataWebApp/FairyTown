@@ -1,15 +1,14 @@
 package com.fairytown.ft.goods.service.impl;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fairytown.ft.common.PageInfo;
-import com.fairytown.ft.goods.domain.vo.CartVO;
 import com.fairytown.ft.goods.domain.vo.OrderVO;
 import com.fairytown.ft.goods.service.OrderService;
 import com.fairytown.ft.goods.store.OrderStore;
@@ -79,5 +78,11 @@ public class OrderServiceImpl implements OrderService {
 	public List<OrderVO> selectOrderList() {
 		List<OrderVO> oList = oStore.selectAdminOrderList(session);
 		return oList;
+	}
+	// 대쉬보드
+	@Override
+	public List<Map<String,Object>> adminOrderBoard(Date today) {
+		List<Map<String,Object>> listGoodsOrder = oStore.adminOrderBoard(session, today);
+		return listGoodsOrder;
 	}
 }

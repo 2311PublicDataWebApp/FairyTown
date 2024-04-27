@@ -27,11 +27,10 @@
 						<div class="col-md-6 mt-1">
 							<h4>기구 이름: ${ride.rideName}</h4>
 							<div class="mt-1 mb-4 spec-1"><span>놀이기구 상세화면<br></span></div>
-							<h5>예약 날짜 : ${tingOne.reservationDate }</h5>
-						</div>
-			            <div class="col-md-3 border-left mt-4">
+							<h5>예약 날짜 : ${tingOne.reservationDate }</h5><br><br>
 			                <h6 class="text-success">탑승제한 : ${ride.rideLimit}</h6>
-			            </div>
+						</div>
+
 					</div>
 				
 	

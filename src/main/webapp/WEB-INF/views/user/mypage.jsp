@@ -43,15 +43,15 @@
 	            <a href="/user/quit.ft" class="btn btn-danger btn-lg">회원 탈퇴</a>
 	        </div>
 	        <div class="col text-center">
-	            <a href="#" class="btn btn-secondary btn-lg">나의 코스 보기</a>
+	            <a href="/ride/course.ft" class="btn btn-secondary btn-lg">나의 코스 보기</a>
 	        </div>
 	    </div>
 	    <div class="row mt-3">
 	        <div class="col text-center">
-	            <a href="#" class="btn btn-info btn-lg">주문 내역</a>
+	            <a href="/goods/orderList.ft" class="btn btn-info btn-lg">주문 내역</a>
 	        </div>
 	        <div class="col text-center">
-	            <a href="#" class="btn btn-warning btn-lg">고객센터</a>
+	            <a href="/qna/list.ft" class="btn btn-warning btn-lg">고객센터</a>
 	        </div>
 	        <div class="col text-center">
 	            <c:choose>

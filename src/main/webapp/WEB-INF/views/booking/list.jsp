@@ -81,7 +81,6 @@
 		                    </div>
 		                </div>
 		                <div class="col-md-3 border-left mt-5">
-		                    <h6 class="text-success">탑승제한 : ${booking.ride.rideLimit }</h6>
 		                    <div class="d-flex flex-column mt-4 booking-button"><button class="btn btn-primary btn-sm" type="button" onclick="deleteBookingOne(${booking.bookingNumber })">취소</button></div>
 		                    <div class="d-flex flex-column mt-4 booking-button">
 								<button class="btn btn-primary btn-sm" type="button" onclick="openModal('${booking.bookingNumber}', '${booking.bookingPeople}')">인원 변경</button>
