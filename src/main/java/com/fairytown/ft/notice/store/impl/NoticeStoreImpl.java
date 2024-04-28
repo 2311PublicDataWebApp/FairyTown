@@ -72,4 +72,10 @@ public class NoticeStoreImpl implements NoticeStore {
 		return nList;
 	}
 
+	@Override
+	public List<NoticeVO> selectNoticeList(SqlSession session) {
+		List<NoticeVO> nList = session.selectList("NoticeMapper.selectNoticeList");
+		return nList;
+	}
+
 }

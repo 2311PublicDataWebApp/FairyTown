@@ -45,24 +45,6 @@ public class ReviewController {
 	@Autowired
 	private ReviewService rService;
 	
-	
-	// ===================
-	// 리뷰 등록 페이지
-	// ===================
-//	@GetMapping("/review/insert.ft")
-//	public String showWriteForm(Model model, ReviewVO review) {
-//		// * 로그인 안정화 후 주석 해제
-//		// 세션에서 실제 사용자의 이름을 가져와서 review 객체에 설정
-////	    String realName = (String) session.getAttribute("realName");
-////	    review.setRealName(realName);
-//		// 실명 우선 하드코딩 (로그인 안정화 후 realName 받아올 것.)
-//		review.setRealName("페어리용자");
-//		// 셀렉트박스에 필요한 데이터를 가져와서 모델에 추가 (임시적용)
-//		List<String> ticketTypes = Arrays.asList("자유이용권", "오전이용권", "오후이용권");
-//		model.addAttribute("ticketTypes", ticketTypes);
-//		return "review/write";		
-//	}
-	
 	// ===================
 	// 리뷰 등록
 	// ===================
@@ -74,10 +56,20 @@ public class ReviewController {
 	        HttpServletRequest request) {
 	    try {
 	        // 리뷰 작성자 설정 (로그인 안정화 후 주석 해제)
-//	        String userId = (String) session.getAttribute("userId");
+	        String userId = (String) session.getAttribute("userId");
 //	        String realName = (String) session.getAttribute("realName");
-//	        review.setUserId(userId);
+	        review.setUserId(userId);
 //	        review.setRealName(realName);
+	    	
+	    	// 세션에서 사용자 정보 가져오기
+//	    	String userId = (String) session.getAttribute("userId");
+//	    	// 로그인 여부 확인
+//	        if (userId == null) {
+//	            // 로그인이 필요한 경우, 메시지 설정 후 로그인 페이지로 리다이렉트
+//	            mv.addObject("msg", "로그인이 필요합니다.");
+//	            mv.setViewName("redirect:/user/login.ft"); // 로그인 페이지로 리다이렉트
+//	            return mv;
+//	        }
 
 	        // 리뷰 등록
 	        int result = rService.insertReview(review);
@@ -129,7 +121,8 @@ public class ReviewController {
  	// 리뷰 상세보기
  	// ===================
     @GetMapping("/review/detail.ft")
-    public ModelAndView showReviewDetail(ModelAndView mv, @RequestParam("reviewNo") int reviewNo) {
+    public ModelAndView showReviewDetail(ModelAndView mv, @RequestParam("reviewNo") int reviewNo,
+    		@RequestParam("realName") String realName) {
 		try {
 			ReviewVO review = rService.selectByReviewNo(reviewNo);
 			if (review != null) {
@@ -144,7 +137,24 @@ public class ReviewController {
 			mv.addObject("msg", e.getMessage()).setViewName("common/errorPage");
 		}
 		return mv;
-	}
+	}	
+//    @GetMapping("/review/detail.ft")
+//    public ModelAndView showReviewDetail(ModelAndView mv, @RequestParam("reviewNo") int reviewNo) {
+//		try {
+//			ReviewVO review = rService.selectByReviewNo(reviewNo);
+//			if (review != null) {
+//				// 조회수 업데이트
+//				rService.updateViewCount(reviewNo);
+//				mv.addObject("review", review).setViewName("review/detail");
+//			} else {
+//				mv.addObject("msg", "데이터 불러오기가 실패.");
+//				mv.setViewName("common/errorPage");
+//			}
+//		} catch (Exception e) {
+//			mv.addObject("msg", e.getMessage()).setViewName("common/errorPage");
+//		}
+//		return mv;
+//	}
     
     // ===================
     // 조회수 응답처리
@@ -304,7 +314,6 @@ public class ReviewController {
 //			mv.addObject("sortList", sortList);
 			mv.addObject("pi", pi);	
 			
-			
 			// 베스트 리뷰(top1)
 			ReviewVO bestReview = rService.getBestReview(); // bestReview 객체를 ModelAndView에 추가
             mv.addObject("bestReview", bestReview);
@@ -332,6 +341,119 @@ public class ReviewController {
 		}
 		return mv;
     };
+    
+    // ===================
+    // 리뷰 리스트 (Admin)
+    // ===================
+     @GetMapping("/admin/review/list.ft")
+     public ModelAndView ShowAdminReviewList(ModelAndView mv, ReviewVO review,
+             @RequestParam(value="page", required=false, defaultValue="1") Integer currentPage
+             ) {
+ 		try {
+ 			// 전체 리뷰 개수를 가져옴
+ 			int totalCount = rService.getTotalCount();
+ 			mv.addObject("totalCount", totalCount); // 모델에 totalCount 속성 추가
+ 			
+ 			// 페이지 정보를 생성
+ 			// 현재 페이지에 해당하는 리뷰 목록을 가져옴
+ 			List<ReviewVO> rList = rService.selectReviewList();
+ 			
+ 			mv.addObject("rList", rList);
+ 			
+ 			List<String> ticketTypes = Arrays.asList("자유이용권", "오전이용권", "오후이용권");
+ 			mv.addObject("ticketTypes", ticketTypes);
+ 			
+ 			// 리뷰 목록 뷰로 이동
+ 			mv.setViewName("review/adminList"); // 뷰 이름 설정
+ 		} catch (Exception e) {
+ 			// 오류가 발생할 경우 처리
+ 			mv.addObject("msg", e.getMessage());
+ 			mv.setViewName("common/errorPage");
+ 		}
+ 		return mv;
+     };
+    
+    
+    // ==========================
+    // 리뷰 리스트(내가 등록한 리뷰)
+    // ==========================
+    @GetMapping("/review/myreview.ft")
+    public ModelAndView ShowMyReviewList(ModelAndView mv, ReviewVO review,
+            @RequestParam(value="page", required=false, defaultValue="1") Integer currentPage
+          //  , @RequestParam("realName") String realName
+            , @RequestParam(value="sortType", required=false, defaultValue="recentReviewSort") String sortType
+            ) {
+		try {
+			// 전체 리뷰 개수를 가져옴
+			int totalCount = rService.getTotalCount();
+			mv.addObject("totalCount", totalCount); // 모델에 totalCount 속성 추가
+			
+			// 페이지 정보를 생성
+			PageInfo pi = this.getPageInfo(currentPage, totalCount);
+//			pi.setType(sortType);
+			
+			// 현재 페이지에 해당하는 리뷰 목록을 가져옴
+			List<ReviewVO> rList = rService.selectReviewList(pi);
+//			List<ReviewVO> myReviewList = rService.selectMyReviewList(realName, pi);
+			
+			// 모델에 리뷰 목록과 페이지 정보를 추가
+			mv.addObject("rList", rList);
+//			mv.addObject("myReviewList", myReviewList);
+//			mv.addObject("sortList", sortList);
+			mv.addObject("pi", pi);	
+			
+			// 리뷰 목록 뷰로 이동
+			mv.setViewName("review/myReviewList"); 
+		} catch (Exception e) {
+			// 오류가 발생할 경우 처리
+			mv.addObject("msg", e.getMessage());
+			mv.setViewName("common/errorPage");
+		}
+		return mv;
+    };
+    
+    
+//    @GetMapping("/review/myreview.ft")
+//    public ModelAndView ShowMyReviewList(ModelAndView mv, ReviewVO review,
+//            @RequestParam(value="page", required=false, defaultValue="1") Integer currentPage
+//            , @RequestParam(value="sortType", required=false, defaultValue="recentReviewSort") String sortType
+//            ) {
+//		try {
+//			// 전체 리뷰 개수를 가져옴
+//			int totalCount = rService.getTotalCount();
+//			mv.addObject("totalCount", totalCount); // 모델에 totalCount 속성 추가
+//			
+//			// 페이지 정보를 생성
+//			PageInfo pi = this.getPageInfo(currentPage, totalCount);
+//			pi.setType(sortType);
+//			// 현재 페이지에 해당하는 리뷰 목록을 가져옴
+//			List<ReviewVO> myReviewList = rService.selectMyReviewList(pi);
+//			// 정렬
+////			List<ReviewVO> sortList = rService.selectReviewList(pi);
+//			// 모델에 리뷰 목록과 페이지 정보를 추가
+//			mv.addObject("myReviewList", myReviewList);
+////			mv.addObject("sortList", sortList);
+//			mv.addObject("pi", pi);	
+//			
+//			// 작성하기
+//			review.setRealName("페어리용자");
+////			// * 로그인 안정화 후 주석 해제
+////			// 세션에서 실제 사용자의 이름을 가져와서 review 객체에 설정
+//////		String realName = (String) session.getAttribute("realName");
+//////		review.setRealName(realName);
+//			// 셀렉트박스에 필요한 데이터를 가져와서 모델에 추가 (임시적용)
+//			List<String> ticketTypes = Arrays.asList("자유이용권", "오전이용권", "오후이용권");
+//			mv.addObject("ticketTypes", ticketTypes);
+//			
+//			// 리뷰 목록 뷰로 이동
+//			mv.setViewName("review/myReviewList"); // 뷰 이름 설정
+//		} catch (Exception e) {
+//			// 오류가 발생할 경우 처리
+//			mv.addObject("msg", e.getMessage());
+//			mv.setViewName("common/errorPage");
+//		}
+//		return mv;
+//    };   
     
     // ==============
     // 리뷰 리스트(정렬)
@@ -391,6 +513,11 @@ public class ReviewController {
 		int totalCounts = rService.getTotalCount();
 		mv.addObject("totalCounts", totalCounts); // 모델에 totalCounts 속성 추가
 		
+		
+		// 베스트 리뷰(top1)
+		ReviewVO bestReview = rService.getBestReview(); // bestReview 객체를 ModelAndView에 추가
+        mv.addObject("bestReview", bestReview);
+        
 		// 추천 리뷰 리스트(best3)
 		List<ReviewVO> lList = rService.getTopLikedReviews();
     	mv.addObject("lList", lList);

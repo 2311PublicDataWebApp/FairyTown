@@ -70,6 +70,16 @@ public class ReviewStoreImpl implements ReviewStore{
 	}
 
 	@Override
+	public List<ReviewVO> selectMyReviewList(SqlSession session, String realName, PageInfo pi) {
+		int limit = pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+//		List<ReviewVO> myReviewList = session.selectList("ReviewMapper.selectMyReviewList", pi.getType(), rowBounds);
+		List<ReviewVO> myReviewList = session.selectList("ReviewMapper.selectMyReviewList", realName);
+		return myReviewList;
+	}	
+	
+	@Override
 	public void updateViewCount(SqlSession session, int reviewNo) {
 		session.update("ReviewMapper.updateViewCount", reviewNo);		
 	}
@@ -143,7 +153,13 @@ public class ReviewStoreImpl implements ReviewStore{
 		int result = session.update("ReviewMapper.updateReview", review);
 //		result += session.update("ReviewMapper.updateReviewImg", review);
 		return result;
-	}	
+	}
+
+	@Override
+	public List<ReviewVO> selectReviewList(SqlSession session) {
+		List<ReviewVO> rList = session.selectList("ReviewMapper.adminSelectReviewList");
+		return rList;
+	}
 	
 //	@Override
 //	public void increaseLikeCount(SqlSession session, int reviewNo) {

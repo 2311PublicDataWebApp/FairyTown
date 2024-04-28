@@ -28,14 +28,14 @@
 		</style>
 	</head>
 	<body>
-	<!-- 공통 / 헤더 -->
-	<jsp:include page="../inc/header.jsp"></jsp:include>
+	<!-- 어드민 / 헤더 -->
+	<jsp:include page="../inc/adminheader.jsp"></jsp:include>
 	
 	
 	<div id="notice-write">
     <h1><b>공지사항 등록</b></h1>
     <br><br><br>
-	    <form action="/notice/insert.ft" method="post" enctype="multipart/form-data">
+	    <form action="/admin/notice/insert.ft" method="post" enctype="multipart/form-data">
 	        <div class="mb-3">
 	            <div class="row g-2 align-items-center">
 		            <div class="col-auto">
@@ -64,7 +64,8 @@
 	    </form>
 	</div>
 	
-	
+	<!-- 어드민 / 풋터 -->
+	<jsp:include page="../inc/adminfooter.jsp"></jsp:include>
 	<script type="text/javascript">
 	
 	var myEditor;
@@ -120,7 +121,5 @@
 	
 	</script>
 	
-	<!-- 공통 / 풋터 -->
-	<jsp:include page="../inc/footer.jsp"></jsp:include>
 	</body>
 </html>

@@ -86,5 +86,15 @@ public interface ReviewService {
 	 */
 	int updateReview(ReviewVO review);
 
+	/**
+	 * 내가 등록한 리뷰 Service
+	 * @param pi
+	 * @return List
+	 */
+	List<ReviewVO> selectMyReviewList(String realName, PageInfo pi);
+
+	List<ReviewVO> selectReviewList();
+
+
 
 }

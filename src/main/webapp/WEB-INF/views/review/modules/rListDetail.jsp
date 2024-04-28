@@ -100,12 +100,14 @@
                                             <i class="far fa-heart like-button" data-review-no="${review.reviewNo}" data-like-count="${review.likeCount}"></i> <span class="like-text">유용해요</span> <span class="like-count">${review.likeCount}</span>
                                         </div>
                                         <!-- 수정 삭제 버튼 -->
+                                        <c:if test="${review.realName eq realName}">
                                         <div>
                                             <!-- 리뷰 수정 버튼 -->
-                                            <button type="button" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef;" onclick="modifyReview(${review.reviewNo});">수정</button>
+                                            <button type="button" class="btn" id="modifyButton" style="background-color: #FAFAFA; border-color: #e9ecef;" onclick="modifyReview(${review.reviewNo});">수정</button>
                                             <!-- 리뷰 삭제 버튼 -->
-                                            <button type="button" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef;" onclick="deleteReview(${review.reviewNo});">삭제</button>
+                                            <button type="button" class="btn" id="deleteButton" style="background-color: #FAFAFA; border-color: #e9ecef;" onclick="deleteReview(${review.reviewNo});">삭제</button>
                                         </div>
+                                        </c:if>
                                     </div>
                                 </div>
                                 
@@ -123,3 +125,24 @@
 		</div>
 	</div>	
 </c:forEach>
+
+<script>
+//로그인한 사용자의 정보
+var loggedInUserRealName = $("input[name='realName']").val();
+
+// 게시물의 작성자의 정보 (예: 페이지에서 어떻게든 가져와야 함)
+var postAuthorRealName = "여기에 게시물의 작성자의 실명을 가져오는 코드를 넣어주세요";
+
+// 수정 버튼
+var modifyButton = document.getElementById("modifyButton");
+// 삭제 버튼
+var deleteButton = document.getElementById("deleteButton");
+
+// 작성자와 로그인한 사용자의 실명이 다를 경우
+if (loggedInUserRealName !== postAuthorRealName) {
+    // 수정 버튼 숨기기
+    modifyButton.style.display = "none";
+    // 삭제 버튼 숨기기
+    deleteButton.style.display = "none";
+}
+</script>

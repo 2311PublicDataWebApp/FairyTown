@@ -14,8 +14,8 @@
                 <form action="/review/insert.ft" method="post" enctype="multipart/form-data">
                     <div class="mb-3">
                     
-             <input type="hidden" name="realName" value="${user.realName }">
-             <input type="hidden" name="userId" value="${user.userId }">
+              <input type="hidden" name="realName" value="${user.realName }">
+              <input type="hidden" name="userId" value="${user.userId }">
                     
                     
                         <div class="row g-2 align-items-center">

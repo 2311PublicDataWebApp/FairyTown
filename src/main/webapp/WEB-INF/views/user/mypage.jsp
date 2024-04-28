@@ -39,21 +39,25 @@
 	        <div class="col text-center">
 	            <a href="/user/modify.ft" class="btn btn-primary btn-lg">내 정보 수정</a>
 	        </div>
-	        <div class="col text-center">
-	            <a href="/user/quit.ft" class="btn btn-danger btn-lg">회원 탈퇴</a>
+	        	        <div class="col text-center">
+	            <a href="/qna/list.ft" class="btn btn-warning btn-lg">고객센터</a>
 	        </div>
+	        
 	        <div class="col text-center">
 	            <a href="/ride/course.ft" class="btn btn-secondary btn-lg">나의 코스 보기</a>
 	        </div>
-	    </div>
-	    <div class="row mt-3">
-	        <div class="col text-center">
-	            <a href="/goods/orderList.ft" class="btn btn-info btn-lg">주문 내역</a>
-	        </div>
-	        <div class="col text-center">
-	            <a href="/qna/list.ft" class="btn btn-warning btn-lg">고객센터</a>
-	        </div>
-	        <div class="col text-center">
+	   		 </div>
+		  <div class="row mt-3">
+		  		<div class="col text-center">
+		            <a href="/review/myreview.ft" class="btn btn-info btn-lg">나의 리뷰 보기</a>
+		        </div>
+		        <div class="col text-center">
+		            <a href="/goods/orderList.ft" class="btn btn-info btn-lg">주문 내역</a>
+		        </div>
+				<div class="col text-center">
+		            <a href="/user/quit.ft" class="btn btn-danger btn-lg">회원 탈퇴</a>
+	        	</div>
+	       <%--  <div class="col text-center">
 	            <c:choose>
 	                <c:when test="${user.loginSt == 'K'}">
 	                    <a href="https://kauth.kakao.com/oauth/logout?client_id=14b775c94ce2cca9ae295f299b970238&logout_redirect_uri=http://127.0.0.1:8899/user/logout.ft" class="btn btn-primary btn-lg">로그아웃</a>
@@ -62,7 +66,7 @@
 	                    <a href="/user/logout.ft" class="btn btn-primary btn-lg">로그아웃</a>
 	                </c:when>
 	            </c:choose>
-	        </div>
+	        </div> --%>
 	    </div>
 	</main>
 	<footer><jsp:include page="../inc/footer.jsp"></jsp:include></footer>

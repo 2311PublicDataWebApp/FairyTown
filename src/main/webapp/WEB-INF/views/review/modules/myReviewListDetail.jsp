@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
-<c:forEach items="${sList}" var="review" varStatus="status">
+<c:forEach items="${myReviewList}" var="review" varStatus="status">
 	<div class="modal fade" id="reviewModal${review.reviewNo}"
 		tabindex="-1" role="dialog"
 		aria-labelledby="reviewModalLabel${review.reviewNo}"
@@ -14,7 +14,24 @@
 				<div class="modal-body">
 					<div class="row">
 						<!-- 왼쪽 영역: 사진 -->
-						<div class="col-md-6">
+<div class="col-md-6" style="position: relative; overflow: hidden;">
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <!-- 슬라이드 추가 -->
+            <c:forEach items="${review.images}" var="image">
+                <div class="swiper-slide">
+                    <img src="../resources/ruploadFiles/${image.fileRename}">
+                </div>
+            </c:forEach>
+        </div>
+        <!-- 추가적인 Swiper 컨트롤러 등을 넣을 수 있음 -->
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: black; z-index: -1;"></div>
+</div>						
+<%-- 						<div class="col-md-6">
                             <div class="swiper-container">
                                 <div class="swiper-wrapper">
                                     <!-- 슬라이드 추가 -->
@@ -29,7 +46,7 @@
                                 <div class="swiper-button-prev"></div>
                                 <div class="swiper-button-next"></div>
                             </div>
-						</div>
+						</div> --%>
 						<!-- 오른쪽 영역: 텍스트 -->
 						<div class="col-md-6">
                             <div class="modal-text-content" style="padding: 30px;">
@@ -82,8 +99,6 @@
                                         <div class="like-button-container" onclick="toggleLike(this, ${review.reviewNo})">
                                             <i class="far fa-heart like-button" data-review-no="${review.reviewNo}" data-like-count="${review.likeCount}"></i> <span class="like-text">유용해요</span> <span class="like-count">${review.likeCount}</span>
                                         </div>
-                                        <c:if test="${review.realName eq realName}">
-                    
                                         <!-- 수정 삭제 버튼 -->
                                         <div>
                                             <!-- 리뷰 수정 버튼 -->
@@ -91,7 +106,6 @@
                                             <!-- 리뷰 삭제 버튼 -->
                                             <button type="button" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef;" onclick="deleteReview(${review.reviewNo});">삭제</button>
                                         </div>
-                                        </c:if>
                                     </div>
                                 </div>
                                 
