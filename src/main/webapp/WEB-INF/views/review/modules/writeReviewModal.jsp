@@ -7,12 +7,17 @@
             <!-- 본문 입력 영역 -->
             <div class="modal-header">
                 <h5 class="modal-title">리뷰 작성하기</h5>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+<!--                 <button type="button" class="close" data-dismiss="modal">&times;</button> -->
             </div>
             <div class="modal-body">
                 <!-- 본문 입력 영역 -->
                 <form action="/review/insert.ft" method="post" enctype="multipart/form-data">
                     <div class="mb-3">
+                    
+             <input type="hidden" name="realName" value="${user.realName }">
+             <input type="hidden" name="userId" value="${user.userId }">
+                    
+                    
                         <div class="row g-2 align-items-center">
                             <div class="col-auto">
                                 <select class="form-select" name="ticketType" id="ticketType">
@@ -27,7 +32,7 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="exampleFormControlTextarea1" class="form-label"></label>
+                        <label for="reviewContent" class="form-label"></label>
                         <textarea class="form-control" name="reviewContent" id="reviewContent" rows="6" style="resize: none;"></textarea>
                     </div>
                     <div class="mb-3">

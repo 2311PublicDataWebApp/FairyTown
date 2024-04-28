@@ -48,7 +48,15 @@
                                     <!-- 작성자, 작성일 -->
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <!-- 작성자 -->
-                                        <p style="font-weight:bold;">페어리용자</p>
+                                        <%-- <c:choose>
+										    <c:when test="${not empty review.userId}"> --%>
+										        <p style="font-weight:bold;">${review.realName}</p>
+										    <%-- </c:when>
+										    <c:otherwise>
+										        <p style="font-weight:bold;">페어리용자</p>
+										    </c:otherwise>
+										</c:choose> --%>
+                                         
                                         <!-- 작성일 -->
                                         <p>${review.reviewDate}</p>
                                     </div>
@@ -83,13 +91,18 @@
                                         </div>
                                     </div>
                                 </div>
+                                
+								<!-- 이전 페이지로 이동하는 버튼 -->
+<%-- 								<button type="button" class="btn btn-primary" onclick="goToPreviousPage(${currentPage})">이전으로</button> --%>
+								
+								<!-- 다음 페이지로 이동하는 버튼 -->
+<%-- 								<button type="button" class="btn btn-primary" onclick="goToNextPage(${currentPage})">다음으로</button>                              --%>
+								                                
                             </div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		
-		<a href="javascript:void(0);" onclick="showSortedReviewModal(${review.reviewNo}, event, this)">상세보기</a>
 	</div>	
 </c:forEach>

@@ -68,6 +68,8 @@ public interface ReviewStore {
 	int deleteUserLikedReview(SqlSession session, int reviewNo);
 
 	int deleteReviewImage(SqlSession session, int reviewNo);
+
+	int updateReview(SqlSession session, ReviewVO review);
 	
 	/**
 	 * 유용해요 카운트 Store

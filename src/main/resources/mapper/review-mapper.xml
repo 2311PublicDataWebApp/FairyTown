@@ -55,6 +55,20 @@
 		<result property="thumbnailPath" column="THUMBNAIL_PATH"/>
 	</resultMap>
  
+ 
+ 	<update id="updateReview">
+  	UPDATE REVIEW_TBL
+  	SET TICKET_TYPE = #{ticketType}, REVIEW_TITLE = #{reviewTitle }, REVIEW_CONTENT = #{reviewContent }
+  	WHERE REVIEW_NO = #{reviewNo }
+  	</update>
+  	
+  	<update id="updateReviewImg">
+  	UPDATE REVIEW_IMAGE_TBL
+  	SET FILE_NAME = #{fileName }, FILE_RENAME = #{fileRename }
+  	,FILE_PATH = #{filepath }, FILE_SIZE = #{fileSize }
+  	WHERE REVIEW_NO = #{reviewNo }
+  	</update>
+ 
 <!-- startIdx부터 endIdx까지의 범위에 해당하는 리뷰 목록을 가져오는 쿼리 -->
 <select id="getReviewsInRange" resultMap="reviewResultMap">
     SELECT * FROM (

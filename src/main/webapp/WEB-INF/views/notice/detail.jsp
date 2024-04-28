@@ -211,7 +211,7 @@
 			function showModifyPage() {
 				var noticeNo = "${notice.noticeNo }";
 				location.href = "/notice/modify.ft?noticeNo=" + noticeNo;
-			}
+			}	
 			
 			function deleteNotice(noticeNo) {
 				if (confirm("삭제하시겠습니까?")) {

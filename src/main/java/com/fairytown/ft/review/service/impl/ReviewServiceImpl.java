@@ -146,6 +146,12 @@ public class ReviewServiceImpl implements ReviewService {
 	    return reviews;
 	}
 
+	@Override
+	public int updateReview(ReviewVO review) {
+		int result = rStore.updateReview(session, review);
+		return result;
+	}
+
 
 
 	

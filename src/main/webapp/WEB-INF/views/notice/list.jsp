@@ -49,7 +49,7 @@
 		        
 		        
 		        
-		        <c:if test="${memberId ne 'admin' }">
+		        <c:if test="${userId ne 'admin' }">
 		        	<div class="d-flex flex-wrap justify-content-center align-items-center pb-5">
 	                    <div class="d-flex col-md-12 justify-content-start">
 	                        <form class="row g-1" action="/notice/search.ft" method="get">
@@ -72,7 +72,7 @@
 	                    </div>
                     </div>
 		        </c:if>
-                <c:if test="${memberId eq 'admin' }">
+                <c:if test="${userId eq 'admin' }">
                 	<div class="d-flex flex-wrap justify-content-center align-items-center pb-5">
                     <div class="d-flex col-md-6 justify-content-start">
                         <form class="row g-1" action="/notice/search.ft" method="get">

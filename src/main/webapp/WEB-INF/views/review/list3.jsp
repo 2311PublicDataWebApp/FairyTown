@@ -138,7 +138,6 @@ liked {
 }
 
 .thumbnail img {
-    transition: transform 0.3s ease; /* 변형 효과에 대한 전환 효과 설정 */
     width: 210.25px; /* 썸네일 이미지를 부모 요소의 100% 너비로 조정 */
     height: 210.25px; /* 썸네일 이미지를 부모 요소의 100% 높이로 조정 */
     object-fit: cover; /* 이미지를 썸네일 크기에 맞게 잘라내도록 설정 */
@@ -146,10 +145,6 @@ liked {
     border-radius: 5px; /* 모서리를 10px 만큼 둥글게 설정 */
     
 }
-
- .thumbnail:hover img {
-        transform: scale(1.15); /* 마우스 오버시 이미지를 1.1배 확대하는 효과 */
-    }
 
 /* 조회수와 좋아요 아이콘을 수평으로 정렬. */
 .thumbnail > div {
@@ -190,6 +185,8 @@ h6 {
     max-width: 25%; /* 최대 너비를 25%로 지정하여 아이템의 크기를 조절함 */
     margin-bottom: 15px; /* 아이템 간격 조절 */
 }
+
+
 
 
 
@@ -359,11 +356,11 @@ h6 {
 		<!-- ------------------ -->
 		<!-- 구분선 -->
 		<hr class="muidivider">
-		<div style=" margin-bottom: 10px;" ></div>
+		<div style=" margin-bottom: 10px;"></div>
 			
+		<div id="rListContainer" class="row">
 			<!-- 리뷰 아이템 -->
 			<!-- 이 부분 모듈로 담아서 메인에 쓰면 될 듯. -->
-		<div id="rListContainer" class="row">
 			<c:forEach items="${rList}" var="review" varStatus="status">
 				<div class="col-md-3 mb-4 border rounded p-3">
 					<!-- 여백 추가 -->
@@ -404,8 +401,6 @@ h6 {
 					</c:if>
 			</c:forEach>
 		</div>
-		
-		
 	</div>	
 		
 		<!-- 모달 창(rList detail) -->		
@@ -682,36 +677,10 @@ h6 {
 	    $('#reviewModal' + reviewNo).modal('show');
 	}  
 	
-	// 리뷰 작성하기 모달 열기
+	// 리뷰 작성하기 모달 열기 함수
 	function openReviewModal() {
-			var userId = $("input[name='userId']").val();
-			if (userId == "") {
-				alert("로그인이 필요합니다.");
-	    }else{  
-	    // 세션이 있을 경우 모달 열기
-	    $('#writeReviewModal').modal('show');
-	    }
+	    $('#writeReviewModal').modal('show'); // Bootstrap modal 열기
 	}
-	
-	
-	
-/* 	function openReviewModal() {
-	    // 세션 상태 확인 요청 보내기
-	    fetch('/checkSession')
-	    .then(response => response.text())
-	    .then(data => {
-	        if (data === 'login_required') {
-	            // 로그인이 필요한 알림 표시
-	            alert("로그인이 필요합니다.");
-	        } else {
-	            // Bootstrap modal 열기
-	            $('#writeReviewModal').modal('show');
-	        }
-	    })
-	    .catch(error => console.error('Error:', error));
-	} */
-	
-	
 	
 	// =================
 	// Swiper

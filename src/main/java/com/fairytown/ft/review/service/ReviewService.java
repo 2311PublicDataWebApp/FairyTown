@@ -79,5 +79,12 @@ public interface ReviewService {
 
 	List<ReviewVO> getReviewsForPage(int i);
 
+	/**
+	 * 리뷰 수정 Service
+	 * @param review
+	 * @return int
+	 */
+	int updateReview(ReviewVO review);
+
 
 }
