@@ -563,16 +563,24 @@
 		<br>
 		<div class="accordion-banner" style="margin-top: 30px; width: 1900px; margin-left: -300px; height: 500px;">
 		    <div class="accordion-item">
+		     <a href="/ride/detail.ft?rideId=65"> 
 		        <img src="../resources/dist/img/ride1.jpg" alt="Image 1" >
+		        </a>
 		    </div>
 		    <div class="accordion-item">
+		     <a href="/ride/detail.ft?rideId=64"> 
 		        <img src="../resources/dist/img/ride2.jpg" alt="Image 2">
+		        </a>
 		    </div>
 		    <div class="accordion-item">
+		     <a href="/ride/detail.ft?rideId=63"> 
 		        <img src="../resources/dist/img/ride3.jpg" alt="Image 3">
+		        </a>
 		    </div>
 		    <div class="accordion-item">
+		     <a href="/ride/detail.ft?rideId=62"> 
 		        <img src="../resources/dist/img/ride4.jpg" alt="Image 4">
+		        </a>
 		    </div>
 		</div>
 <%-- 		<jsp:include page="./inc/footer.jsp"></jsp:include> --%>

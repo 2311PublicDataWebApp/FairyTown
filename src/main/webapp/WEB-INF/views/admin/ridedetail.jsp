@@ -71,7 +71,7 @@
 					</tr>
 					<tr class="padding-bottom:10px;">
 						<td style="width : 120px; text-align:right;">설명 : </td>
-						<td><pre>${ride.rideDescription}</pre></td>
+						<td><pre style="overflow:scorll">${ride.rideDescription}</pre></td>
 					</tr>
 					<tr class="padding-bottom:10px;">
 						<td style="width : 120px; text-align:right;">탑승인원 : </td>

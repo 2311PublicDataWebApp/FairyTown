@@ -57,7 +57,7 @@
 		RIDE_DESCRIPTION = #{rideDescription }, 
 		RIDE_COUNT = #{rideCount}, 
 		RIDE_STATUS = #{rideStatus }, 
-		RIDE_DATE = #{rideDate }, 
+		RIDE_DATE = DEFAULT, 
 		RIDE_LIMIT = #{rideLimit }, 
 		RIDE_X = #{rideX },
 		RIDE_Y = #{rideY }  

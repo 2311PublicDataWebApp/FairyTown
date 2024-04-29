@@ -81,9 +81,7 @@
             </div>
         </div>
 
-        <div class="categories_more">
-            <a href="#">Load More</a>
-        </div>
+  
     </div>
     <!-- 공통 / 풋터 -->
     <jsp:include page="../inc/footer.jsp"></jsp:include>
