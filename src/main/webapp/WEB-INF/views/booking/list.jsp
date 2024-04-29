@@ -69,10 +69,10 @@
 		        	<c:forEach items="${bList}" var="booking">
 		        	
 		            <div class="row p-2 bg-white border rounded">
-		                <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="https://i.imgur.com/QpjAiHq.jpg"></div>
+			        	<div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="../resources/nuploadFiles/${booking.images[0].rideImgRename}"></div>
 		                <div class="col-md-6 mt-1">
 		                	<h4>놀이기구 이름 : ${booking.ride.rideName }</h4>
-							<div class="mt-1 mb-4 spec-1"><span>놀이기구 상세화면<br></span></div>
+							<a href="/ride/detail.ft?rideId=${ride.rideId }"><div class="mt-1 mb-4 spec-1"><span>놀이기구 상세화면<br></span></div></a>
 							<h5>예약 인원 : ${booking.bookingPeople }</h5>
 		                    <h5>예약 날짜 : ${booking.bookingDate }</h5>
 		                    <div class="mt-1 mb-1 spec-1"><span class="dot"></span><span>예약하신날 : ${booking.bookingTime }<br></span></div>

@@ -40,14 +40,14 @@
 				</div>
 				<input type="hidden" name="userId" value="${user.userId }">
 				<c:forEach items="${rideList}" var="ride">
-				
 					<div class="row p-2 bg-white border rounded">
-			        	<div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="https://i.imgur.com/QpjAiHq.jpg"></div>
+			        	<div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="../resources/nuploadFiles/${ride.images[0].rideImgRename}"></div>
 						<div class="col-md-6 mt-1">
 							<h4>기구 이름: ${ride.rideName}</h4>
-							<div class="mt-1 mb-4 spec-1"><span>놀이기구 상세화면<br></span></div>
+							<a href="/ride/detail.ft?rideId=${ride.rideId }"><div class="mt-1 mb-4 spec-1"><span>놀이기구 상세화면<br></span></div></a>
 							<h5>예약 날짜 : ${tingOne.reservationDate }</h5><br><br>
 			                <h6 class="text-success">탑승제한 : ${ride.rideLimit}</h6>
+			                
 						</div>
 			            <div class="col-md-3 border-left mt-4">
 			                <div class="d-flex flex-column mt-4 booking-button btn-in"><button class="btn btn-primary btn-sm" type="button" onclick="single('${ride.rideId}')">개별 예약하기</button></div>

@@ -170,7 +170,7 @@
 	            </a>
 			</li>
 			<li class="nav-item">
-	            <a href="/admin/review/list.ft" class="nav-link">
+	            <a href="/admin/reviewList.ft" class="nav-link">
 	              <i class="nav-icon fa-solid fa-face-smile"></i>
 	              <p>리뷰 관리</p>
 	            </a>
@@ -220,7 +220,7 @@
 			</li>						
           <li class="nav-header">고객센터</li>
           	<li class="nav-item">
-	            <a href="/admin/notice/list.ft" class="nav-link">
+	            <a href="/admin/noticeList.ft" class="nav-link">
 	              <i class="nav-icon fa-solid fa-bell"></i>
 	              <p>공지사항 관리</p>
 	            </a>

@@ -81,7 +81,11 @@ public class TicketingStoreImpl implements TicketingStore{
 		int limit = pInfo.getBoardLimit();
 		int offset = (pInfo.getCurrentPage() - 1) * pInfo.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		List<TicketingVO> tingListP = session.selectList("TicketingMapper.ticketingListSelect", user, rowBounds); 
+		List<TicketingVO> tingListP = session.selectList("TicketingMapper.ticketingListSelect", user, rowBounds);
+	    for (TicketingVO ting : tingListP) {
+	    	 TicketVO ticket = session.selectOne("com.fairytown.ft.ticket.store.TicketStore.selectByTicketNumber", ting.getTicketNumber());
+	    	 ting.setTicket(ticket);
+	    }
 		return tingListP;
 	}
 

@@ -31,6 +31,7 @@ public class AdminController {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			java.util.Date utilDate = dateFormat.parse(dateString);
 			java.sql.Date today = new java.sql.Date(utilDate.getTime());
+			
 			// 유저
 			List<Map<String,Object>> listUser = uService.adminUserBoard(today);
 			List<Integer> countList = new ArrayList<>();

@@ -42,9 +42,9 @@
 					</div>
            			<c:forEach items="${tingList}" var="ting">
 		        	
-		            <div class="row p-2 bg-white border rounded">${ting }
-		                <div class="col-md-3 mt-1"><img src="../resources/nuploadFiles/${ting.ticket.ticketImgRename }" alt="티켓이미지"></div>
-		                <div class="col-md-6 mt-1">
+		            <div class="row p-2 bg-white border rounded">
+		                <div class="col-md-3 mt-1" style="padding-top: 3%;"><img src="../resources/nuploadFiles/${ting.ticket.ticketImgRename }" alt="티켓이미지" width="400px"></div>
+		                <div class="col-md-4 mt-1">
 		                	<h4>티켓이름 : ${ting.ticket.ticketName }</h4>
 							<div class="mt-1 mb-3 spec-1"><span>티켓 코드 : ${ting.ticketingCode }<br></span></div>
 							<h5>예약일 : ${ting.reservationDate }</h5>
@@ -105,10 +105,10 @@
 	
 	<div class="d-flex justify-content-center mt-4">
 	    <div class="booking-button mr-2 flex-grow-1">
-	        <button class="btn btn-primary btn-sm w-100" type="button" onclick="goBack()">뒤로가기</button>
+	        <button class="btn btn-primary btn-sm ticketingBtn" type="button" onclick="goBack()">뒤로가기</button>
 	    </div>
 	    <div class="booking-button flex-grow-1">
-	        <button class="btn btn-primary btn-sm w-100" type="button" onclick="window.location.href = '/ticket/list.ft'">다른 티켓 구매</button>
+	        <button class="btn btn-primary btn-sm ticketingBtn" type="button" onclick="window.location.href = '/ticket/list.ft'">다른 티켓 구매</button>
 	    </div>
 	</div>
 	<!-- 공통 / 풋터 -->	
