@@ -60,7 +60,7 @@
 }
 
 .payment-form .products{
-	background-color: #f7fbff;
+    background-color: aliceblue;
     padding: 25px;
 }
 
@@ -192,4 +192,17 @@ ul.nav.col-12.col-md-auto.mb-2.justify-content-center.mb-md-0 {
     background-color: #ebbdd3;
     color: white;
     font-size: 24px;
+}
+.info a {
+  	font-size: 1.2rem; /* 글자 크기 */
+	color: black; /* 링크 색상 */
+}
+.hiddenContainer {
+  display: flex;
+  justify-content: around;
+  margin-top: 3rem; /* 원하는 여백 값으로 조정하세요 */
+}
+
+.hiddenContent {
+  width: 30%; /* 원하는 너비 값으로 조정하세요 */
 }

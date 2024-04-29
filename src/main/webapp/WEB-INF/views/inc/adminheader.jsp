@@ -163,12 +163,7 @@
 	            </a>
 			</li>
           <li class="nav-header">전시관리</li>
-			<li class="nav-item">
-	            <a href="#" class="nav-link">
-	              <i class="nav-icon fa-solid fa-newspaper"></i>
-	              <p>배너 관리</p>
-	            </a>
-			</li>
+	
 			<li class="nav-item">
 	            <a href="/admin/reviewList.ft" class="nav-link">
 	              <i class="nav-icon fa-solid fa-face-smile"></i>
@@ -189,7 +184,7 @@
 			</li>
 			<li class="nav-item">
 	            <a href="/admin/closelist.ft" class="nav-link">
-	              <i class="nav-icon far fa-calendar-alt"></i>
+	              <i class="nav-icon fa-solid fa-newspaper"></i>
 	              <p>운휴관리</p>
 	            </a>
 			</li>

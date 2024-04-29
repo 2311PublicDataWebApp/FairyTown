@@ -146,9 +146,46 @@ function requestPay() {
 		</section>	
 	</div>	
 	<div>
-		안내 / 주의사항<br>
-		취소 / 환불<br>
-		상품 세부 사항<br>
+		<div class="container mt-6 info d-flex justify-content-around">
+			<a href="#hiddenContent1" data-toggle="collapse" aria-expanded="false" aria-controls="hiddenContent">
+			  안내 / 주의사항
+			</a>
+			<a href="#hiddenContent2" data-toggle="collapse" aria-expanded="false" aria-controls="hiddenContent">
+			  취소 / 환불
+			</a>
+			<a href="#hiddenContent3" data-toggle="collapse" aria-expanded="false" aria-controls="hiddenContent">
+			  상품 세부 사항
+			</a>
+		</div>
+		
+		<!-- 숨겨진 요소 -->
+		<div class="hiddenContainer">
+			<div class="collapse hiddenContent" id="hiddenContent1">
+			  <div class="card card-body">
+				- 방문예정일 기준 30일 전부터 당일까지 예약 가능합니다.<br>
+				- 본인(대인)에 한하여 할인 적용됩니다.<br>
+				- 1회 예약 시 최대 2매까지 구매 가능합니다.<br>
+				- 예약 알림톡(문자)을 받지 못한 경우, 스마트예약 예약내역 화면에서 QR 코드와 이용안내/유의사항을 확인하실 수 있습니다.
+			  </div>
+			</div>
+			<div class="collapse hiddenContent" id="hiddenContent2">
+			  <div class="card card-body">
+				- 방문예정일/인원/결제수단 변경은 예약 취소 후 재예약하여 주십시오.(변경 및 부분 취소 불가)<br>
+				- 구성 상품은 당일에만 사용 가능하며, 부분 사용 및 부분 환불 불가합니다.<br>
+				- 방문예정일까지 미사용 시 익일 자동 취소 됩니다.(신용카드 최종 환불까지 영업일 기준 3~5일 소요)<br>
+				※ 온라인(스마트예약) 구매 상품은, 카드사별 정책에 따라 청구할인 혜택에서 제외될수 있습니다.<br>
+				※ 스마트예약 상품은 구매 시점에 솜이 적립되지 않고, 해당 상품을 사용 완료한 익일 새벽에 솜사탕 등급별 적립율에 따라 솜이 적립됩니다.<br>
+			  </div>
+			</div>
+			<div class="collapse hiddenContent" id="hiddenContent3">
+			  <div class="card card-body">
+			    방문 예정일에만 사용 가능하며 예약 완료 후에는 날짜/인원/결제수단 등 예약사항 변경 불가<br>
+ 				방문 전날까지 홈페이지를 통하여 취소수수료 없이 결제취소 가능 (방문예정일이 지난 경우 익일자동 취소됨)<br>
+				단, 계좌이체/체크카드로 구매 시,금융사별 정산시간에 따라 23:30 ~ 01:00 사이에는 예약 및 취소가 불가할 수 있습니다.
+			  </div>
+			</div>
+		</div>
+
 	</div>
 	<!-- 공통 / 풋터 -->	
 	<jsp:include page="../inc/footer.jsp"></jsp:include>
@@ -157,6 +194,10 @@ function requestPay() {
 function goBack() {
   window.history.back();
 }
+
 </script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
