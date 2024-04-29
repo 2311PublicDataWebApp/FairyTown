@@ -252,7 +252,7 @@ public class NoticeController {
 	// =====================
 	// 공지사항 리스트 (Admin)
 	// =====================
-	@GetMapping("/admin/notice/list.ft")
+	@GetMapping("/admin/noticeList.ft")
     public ModelAndView ShowAdminNoticeList(ModelAndView mv,
             @RequestParam(value="page", required=false, defaultValue="1") Integer currentPage) {
 		try {

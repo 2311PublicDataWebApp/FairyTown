@@ -345,7 +345,7 @@ public class ReviewController {
     // ===================
     // 리뷰 리스트 (Admin)
     // ===================
-     @GetMapping("/admin/review/list.ft")
+     @GetMapping("/admin/reviewList.ft")
      public ModelAndView ShowAdminReviewList(ModelAndView mv, ReviewVO review,
              @RequestParam(value="page", required=false, defaultValue="1") Integer currentPage
              ) {
