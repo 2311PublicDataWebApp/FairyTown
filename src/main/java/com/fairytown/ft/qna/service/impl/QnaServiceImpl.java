@@ -61,6 +61,18 @@ public class QnaServiceImpl implements QnaService {
 		return result;
 	}
 
+	@Override
+	public List<QnaVO> selectQnaList(PageInfo pInfo, QnaVO qna) {
+		List<QnaVO> qList = qStore.selectQnaList(session, pInfo, qna);
+		return qList;
+	}
+
+	@Override
+	public int getTotalCount(String userId) {
+		int totalCount = qStore.selectTotalCount(session, userId);
+		return totalCount;
+	}
+
 	
 	
 	

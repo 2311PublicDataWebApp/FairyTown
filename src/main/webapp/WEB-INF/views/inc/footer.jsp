@@ -19,35 +19,26 @@
 <body>
 	<br><br><br><br><br><br><br><br>
     <!-- Footer-->
+    <footer>
             <div>
                 <div style="text-align: center; margin-top: 10px;">Copyright &copy; By King 2024</div>
-<!--                 <div class="col-lg-4 my-3 my-lg-0"> -->
-<!--                     <a class="btn btn-dark btn-social mx-23" href="#!" aria-label="Twitter"><i class="fab fa-twitter3"></i></a> -->
-<!--                     <a class="btn btn-dark btn-social mx-23" href="#!" aria-label="Facebook"><i class="fab fa-facebook-f3"></i></a> -->
-<!--                     <a class="btn btn-dark btn-social mx-23" href="#!" aria-label="LinkedIn"><i class="fab fa-linkedin-in3"></i></a> -->
-<!--                 </div> -->
             </div>
-        </div>
     </footer>
     <br>
-    <div style="margin-left: px; margin-bottom: 50px;">
-        <p style="text-align: center;">
-            <span>주소 : 서울 중구 남대문로 120 대일빌딩 2층, 3층</span>
-            <span>개인정보 관리책임자 : 바이킹</span>
-            <span>청소년보호책임자 : 바이킹</span>
-            <span>발행.편집인 : 바이킹</span>
-        </p>
-
-        <p style="text-align: center;">
-            <span>㈜페어리타운</span>
-            <span>대표이사 : 바이킹</span>
-            <span>사업자등록번호 : 123-45-67890</span>
-            <span>페어리타운미디어 인터넷신문등록번호 : 서울특별시 아012345</span>
-            <span>발행/등록년월일 : 2024.04.09</span></p>
+    <div style="margin-left: 10px; margin-bottom: 20px;">
+        <p style="text-align: center; color:gray; font-size:0.8em; line-height:1.2em;">
+            주소 : 서울 중구 남대문로 120 대일빌딩 2층, 3층
+            개인정보 관리책임자 : 바이킹
+            청소년보호책임자 : 바이킹
+            발행.편집인 : 바이킹
+            ㈜페어리타운<br>
+            대표이사 : 바이킹
+            사업자등록번호 : 123-45-67890
+            페어리타운미디어 인터넷신문등록번호 : 서울특별시 아012345
+            발행/등록년월일 : 2024.04.09</p>
     </div>
-                <div  style="margin-left: 850px;">
-                    <a  style="" href="#!">이용약관&nbsp</a>
-                    <a  style="" href="#!">&nbsp개인정보처리방침</a>
+                <div style="margin-left: 850px;">
+                    <a style="color:gray; font-size:0.8em" href="#!">이용약관&nbsp;&nbsp;개인정보처리방침</a>
                 </div>
     <!-- Core theme JS-->
 

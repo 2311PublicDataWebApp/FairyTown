@@ -11,6 +11,7 @@ public interface QnaService {
 	int getTotalCount();
 
 	// 문의 리스트
+	List<QnaVO> selectQnaList(PageInfo pInfo, QnaVO qna);
 	List<QnaVO> selectQnaList(PageInfo pInfo);
 	
 	// 문의 상세 페이지
@@ -24,6 +25,8 @@ public interface QnaService {
 	
 	// 문의 추가
 	int insertQna(QnaVO qna);
+
+	int getTotalCount(String userId);
 	
 	
 	

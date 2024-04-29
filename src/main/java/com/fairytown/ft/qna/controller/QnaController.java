@@ -22,6 +22,7 @@ import com.fairytown.ft.common.PageInfo;
 import com.fairytown.ft.goods.domain.vo.GoodsVO;
 import com.fairytown.ft.qna.domain.vo.QnaVO;
 import com.fairytown.ft.qna.service.QnaService;
+import com.fairytown.ft.ride.domain.vo.RideVO;
 import com.fairytown.ft.user.controller.UserController;
 import com.fairytown.ft.user.domain.vo.UserVO;
 
@@ -207,16 +208,24 @@ public class QnaController {
 	
 	// 문의 리스트
 	@GetMapping("/qna/list.ft")
-    public ModelAndView ShowQnaList(ModelAndView mv,
+    public ModelAndView ShowQnaList(ModelAndView mv, @ModelAttribute QnaVO qna,
             @RequestParam(value="page", 
-            required=false, defaultValue="1") Integer currentPage) {
+            required=false, defaultValue="1") Integer currentPage,
+            HttpSession session) {
 		try {
-			int totalCount = qService.getTotalCount();
-			PageInfo pInfo = this.getPageInfo(currentPage, totalCount);
-			List<QnaVO> qList = qService.selectQnaList(pInfo);
-			mv.addObject("qList", qList);
-			mv.addObject("pInfo", pInfo);
-			mv.setViewName("qna/qnalist");
+			UserVO uOne = (UserVO) session.getAttribute("user");
+			if(uOne == null) {
+				mv.setViewName("user/login");
+			} else {
+				String userId = uOne.getUserId();
+				qna.setQnaWriter(uOne.getUserId());
+				int totalCount = qService.getTotalCount(userId);
+				PageInfo pInfo = this.getPageInfo(currentPage, totalCount);
+				List<QnaVO> qList = qService.selectQnaList(pInfo, qna);
+				mv.addObject("qList", qList);
+				mv.addObject("pInfo", pInfo);
+				mv.setViewName("qna/qnalist");
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			mv.addObject("msg", e.getMessage());

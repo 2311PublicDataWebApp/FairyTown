@@ -260,6 +260,8 @@ public class RideServiceImpl implements RideService {
 		List<RimgVO> thumbL = rStore.selectUserRidethumbL();
 		return thumbL;
 	}
+
+
 }
 
 
