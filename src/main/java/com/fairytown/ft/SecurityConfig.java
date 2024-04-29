@@ -29,12 +29,16 @@ public class SecurityConfig {
 	    http.csrf((auth) -> auth.disable());
 	    http
 	        .authorizeHttpRequests((auth) -> auth
-//	            .requestMatchers("/admin/**", "/review/**", "/goods/**", "/ticket/**"
-//	            		, "/user/mypage.ft", "/user/quit.ft", "/user/modify.ft"
-//	            		, "/ticketing/**", "/booking/**").hasRole("ADMIN")
-//	            .requestMatchers("/review/**", "/goods/**", "/ticket/**"
-//	            		, "/user/mypage.ft", "/user/quit.ft", "/user/modify.ft"
-//	            		, "/ticketing/**", "/booking/**").hasRole("USER")
+	            .requestMatchers("/admin/**", "/goods/cartList.ft", "/goods/orderInfo.ft"
+	            		, "/goods/orderDetail.ft", "/goods/orderList.ft", "/chat.ft"
+	            		, "/user/mypage.ft", "/user/quit.ft", "/user/modify.ft"
+	            		, "/ticketing/**", "/booking/**", "/qna/adminList.ft", "/qna/list.ft"
+	            		, "/ride/**", "/ticket/**").hasRole("ADMIN")
+	            .requestMatchers("/goods/orderInfo.ft"
+	            		, "/goods/orderDetail.ft", "/goods/orderList.ft", "/chat.ft"
+	            		, "/user/mypage.ft", "/user/quit.ft", "/user/modify.ft"
+	            		, "/ticketing/**", "/booking/**", "/qna/list.ft", "/ride/**"
+	            		, "/ticket/**").hasRole("USER")
 	            .anyRequest().permitAll()
 	        );
 	    http.formLogin((auth) -> auth
