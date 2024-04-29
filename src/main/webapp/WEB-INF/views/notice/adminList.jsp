@@ -23,8 +23,8 @@
 	<jsp:include page="../inc/adminheader.jsp"></jsp:include>
 
 	<!-- Content Header -->
-	<div class="content-wrapper">
-		<!-- style="width: 1200px; margin: auto;" -->
+	<div class="content-wrapper"
+		 style="width: 1200px; margin: auto;" >
 		<section class="content-header">
 			<div class="container-fluid">
 				<div class="row mb-2">
@@ -109,7 +109,8 @@
 		function showInsertForm() {
 			location.href = "/admin/notice/insert.ft";
 		}
-
+	</script>
+	<script>
 		$(function() {
 			$('#example2').DataTable({
 				"paging" : true,

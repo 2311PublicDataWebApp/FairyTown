@@ -95,6 +95,7 @@ public interface ReviewService {
 
 	List<ReviewVO> selectReviewList();
 
+	List<ReviewImageVO> selectTop4Reviews();
 
 
 }

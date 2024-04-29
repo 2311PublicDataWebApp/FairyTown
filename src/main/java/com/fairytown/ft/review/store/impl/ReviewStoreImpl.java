@@ -161,6 +161,12 @@ public class ReviewStoreImpl implements ReviewStore{
 		return rList;
 	}
 	
+	@Override
+    public List<ReviewImageVO> select6ReviewList(SqlSession session) {
+        List<ReviewImageVO> String = session.selectList("ReviewMapper.select6ReviewList");
+        return String;
+    }
+	
 //	@Override
 //	public void increaseLikeCount(SqlSession session, int reviewNo) {
 //		session.update("updateLikeCountByAction", Map.of("reviewNo", reviewNo, "action", "increase"));

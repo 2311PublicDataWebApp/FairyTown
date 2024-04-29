@@ -164,7 +164,12 @@ public class ReviewServiceImpl implements ReviewService {
 		return rList;
 	}
 
-
+	//메인 리뷰
+    @Override
+    public List<ReviewImageVO> selectTop4Reviews() {
+        List<ReviewImageVO> String = rStore.select6ReviewList(session);
+        return String;
+    }
 
 	
 	

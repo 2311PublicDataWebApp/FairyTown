@@ -270,7 +270,6 @@
 		ORDER BY REVIEW_NO DESC
 	</select>	
 	
-	
 	<!-- 리뷰 정렬 -->
 	<select id="sortReviewByType" resultType="ReviewVO">
 		SELECT * FROM REVIEW_TBL
@@ -285,8 +284,12 @@
 		</if>
 	</select>
 	
-		
-	  
-  
+	<select id="select6ReviewList" resultType="ReviewImageVO">
+            <![CDATA[
+                SELECT * FROM (
+                    SELECT * FROM REVIEW_IMAGE_TBL ORDER BY REVIEW_NO DESC
+                ) WHERE ROWNUM <= 6
+            ]]>
+    </select>
   
   </mapper>

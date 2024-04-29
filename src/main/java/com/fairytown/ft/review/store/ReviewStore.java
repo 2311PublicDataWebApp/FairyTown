@@ -75,6 +75,8 @@ public interface ReviewStore {
 
 	List<ReviewVO> selectReviewList(SqlSession session);
 	
+	List<ReviewImageVO> select6ReviewList(SqlSession session);
+	
 	/**
 	 * 유용해요 카운트 Store
 	 * @param reviewNo
