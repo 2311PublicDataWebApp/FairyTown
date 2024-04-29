@@ -33,11 +33,11 @@ public class SecurityConfig {
 	            		, "/goods/orderDetail.ft", "/goods/orderList.ft", "/chat.ft"
 	            		, "/user/mypage.ft", "/user/quit.ft", "/user/modify.ft"
 	            		, "/ticketing/**", "/booking/**", "/qna/adminList.ft", "/qna/list.ft"
-	            		, "/ride/**", "/ticket/**").hasRole("ADMIN")
+	            		, "/ticket/**").hasRole("ADMIN")
 	            .requestMatchers("/goods/orderInfo.ft"
 	            		, "/goods/orderDetail.ft", "/goods/orderList.ft", "/chat.ft"
 	            		, "/user/mypage.ft", "/user/quit.ft", "/user/modify.ft"
-	            		, "/ticketing/**", "/booking/**", "/qna/list.ft", "/ride/**"
+	            		, "/ticketing/**", "/booking/**", "/qna/list.ft"
 	            		, "/ticket/**").hasRole("USER")
 	            .anyRequest().permitAll()
 	        );
