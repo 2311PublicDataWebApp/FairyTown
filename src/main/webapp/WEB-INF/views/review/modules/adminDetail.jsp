@@ -3,7 +3,24 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
-<c:forEach items="${sList}" var="review" varStatus="status">
+ <link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+	rel="stylesheet"> 
+<!-- jQuery -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Font Awesome 아이콘 라이브러리 -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<!-- Swiper CSS -->
+<!-- <link rel="stylesheet"
+	href="https://unpkg.com/swiper/swiper-bundle.min.css"> -->
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.css"
+/>	
+
+<c:forEach items="${rList}" var="review" varStatus="status">
 	<div class="modal fade" id="reviewModal${review.reviewNo}"
 		tabindex="-1" role="dialog"
 		aria-labelledby="reviewModalLabel${review.reviewNo}"
@@ -14,7 +31,24 @@
 				<div class="modal-body">
 					<div class="row">
 						<!-- 왼쪽 영역: 사진 -->
-						<div class="col-md-6">
+<div class="col-md-6" style="position: relative; overflow: hidden;">
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <!-- 슬라이드 추가 -->
+            <c:forEach items="${review.images}" var="image">
+                <div class="swiper-slide">
+                    <img src="../resources/ruploadFiles/${image.fileRename}">
+                </div>
+            </c:forEach>
+        </div>
+        <!-- 추가적인 Swiper 컨트롤러 등을 넣을 수 있음 -->
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: black; z-index: -1;"></div>
+</div>						
+<%-- 						<div class="col-md-6">
                             <div class="swiper-container">
                                 <div class="swiper-wrapper">
                                     <!-- 슬라이드 추가 -->
@@ -29,7 +63,7 @@
                                 <div class="swiper-button-prev"></div>
                                 <div class="swiper-button-next"></div>
                             </div>
-						</div>
+						</div> --%>
 						<!-- 오른쪽 영역: 텍스트 -->
 						<div class="col-md-6">
                             <div class="modal-text-content" style="padding: 30px;">
@@ -82,24 +116,14 @@
                                         <div class="like-button-container" onclick="toggleLike(this, ${review.reviewNo})">
                                             <i class="far fa-heart like-button" data-review-no="${review.reviewNo}" data-like-count="${review.likeCount}"></i> <span class="like-text">유용해요</span> <span class="like-count">${review.likeCount}</span>
                                         </div>
-                                        <c:if test="${review.realName eq realName}">
-                    
                                         <!-- 수정 삭제 버튼 -->
                                         <div>
-                                            <!-- 리뷰 수정 버튼 -->
-                                            <button type="button" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef;" onclick="modifyReview(${review.reviewNo});">수정</button>
-                                            <!-- 리뷰 삭제 버튼 -->
-                                            <button type="button" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef;" onclick="deleteReview(${review.reviewNo});">삭제</button>
+                                             <!-- 리뷰 삭제 버튼 -->
+                                            <button type="button" class="btn" id="deleteButton" style="background-color: #FAFAFA; border-color: #e9ecef;" onclick="deleteReview(${review.reviewNo});">삭제</button>
                                         </div>
-                                        </c:if>
                                     </div>
                                 </div>
                                 
-								<!-- 이전 페이지로 이동하는 버튼 -->
-<%-- 								<button type="button" class="btn btn-primary" onclick="goToPreviousPage(${currentPage})">이전으로</button> --%>
-								
-								<!-- 다음 페이지로 이동하는 버튼 -->
-<%-- 								<button type="button" class="btn btn-primary" onclick="goToNextPage(${currentPage})">다음으로</button>                              --%>
 								                                
                             </div>
 						</div>
@@ -109,3 +133,37 @@
 		</div>
 	</div>	
 </c:forEach>
+
+	<!-- Bootstrap JavaScript 파일 링크 추가 -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	    <!-- Swiper JS -->
+	    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.js"></script>
+
+<script>
+//로그인한 사용자의 정보
+var loggedInUserRealName = $("input[name='realName']").val();
+
+// 게시물의 작성자의 정보 (예: 페이지에서 어떻게든 가져와야 함)
+var postAuthorRealName = "여기에 게시물의 작성자의 실명을 가져오는 코드를 넣어주세요";
+
+// 수정 버튼
+var modifyButton = document.getElementById("modifyButton");
+// 삭제 버튼
+var deleteButton = document.getElementById("deleteButton");
+
+// 작성자와 로그인한 사용자의 실명이 다를 경우
+if (loggedInUserRealName !== postAuthorRealName) {
+    // 수정 버튼 숨기기
+    modifyButton.style.display = "none";
+    // 삭제 버튼 숨기기
+    deleteButton.style.display = "none";
+}
+
+</script>
+
+

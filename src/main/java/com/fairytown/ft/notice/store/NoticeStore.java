@@ -31,5 +31,7 @@ public interface NoticeStore {
 	
 	int deleteNotice(SqlSession session, int noticeNo);
 	
-	int insertNotice(SqlSession session, NoticeVO notice);	
+	int insertNotice(SqlSession session, NoticeVO notice);
+
+	List<NoticeVO> selectNoticeList(SqlSession session);	
 }

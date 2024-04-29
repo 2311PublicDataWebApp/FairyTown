@@ -41,5 +41,7 @@ public interface NoticeService {
 
 	NoticeVO selectByNoticeNo(int noticeNo);
 
+	List<NoticeVO> selectNoticeList();
+
 
 }

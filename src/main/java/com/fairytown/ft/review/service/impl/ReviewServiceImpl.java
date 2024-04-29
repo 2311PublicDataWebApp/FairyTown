@@ -72,6 +72,12 @@ public class ReviewServiceImpl implements ReviewService {
 		List<ReviewVO> sortList = rStore.selectReviewList(session, pi, sortType);
 		return sortList;
 	}
+	
+	@Override
+	public List<ReviewVO> selectMyReviewList(String realName, PageInfo pi) {
+		List<ReviewVO> myReviewList = rStore.selectMyReviewList(session, realName, pi);
+		return myReviewList;
+	}
 
 	@Override
 	public void updateViewCount(int reviewNo) {
@@ -150,6 +156,12 @@ public class ReviewServiceImpl implements ReviewService {
 	public int updateReview(ReviewVO review) {
 		int result = rStore.updateReview(session, review);
 		return result;
+	}
+
+	@Override
+	public List<ReviewVO> selectReviewList() {
+		List<ReviewVO> rList = rStore.selectReviewList(session);
+		return rList;
 	}
 
 

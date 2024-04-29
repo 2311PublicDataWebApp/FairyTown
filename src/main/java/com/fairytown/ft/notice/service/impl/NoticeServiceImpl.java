@@ -77,4 +77,10 @@ public class NoticeServiceImpl implements NoticeService {
 		return result;
 	}
 
+	@Override
+	public List<NoticeVO> selectNoticeList() {
+		List<NoticeVO> nList = nStore.selectNoticeList(session);
+		return nList;
+	}
+
 }

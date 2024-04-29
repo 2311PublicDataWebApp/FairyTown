@@ -21,8 +21,8 @@
 <script async charset="utf-8" src="//cdn.embedly.com/widgets/platform.js"></script>
 </head>
 <body>
-	<!-- 공통 / 헤더 -->
-	<jsp:include page="../inc/header.jsp"></jsp:include>
+	<!-- 어드민 / 헤더 -->
+	<jsp:include page="../inc/adminheader.jsp"></jsp:include>
 
 			<div class="pagetitle text-center">
 				<h1>
@@ -39,7 +39,6 @@
 						<div class="card">
 							<div class="card-body">
 								<h5 class="card-title"></h5>
-								<c:if test="${userId eq 'admin' }">
 									<div class="d-flex col-md-12 justify-content-end">
 										<button type="button" class="btn"
 											style="background-color: #FAFAFA; border-color: #e9ecef;"
@@ -51,14 +50,13 @@
 											style="background-color: #FAFAFA; border-color: #e9ecef;"
 											onclick="showNoticeList();">목록</button>
 									</div>
-								</c:if>
-								<c:if test="${userId ne 'admin' }">
+<%-- 								<c:if test="${userId ne 'admin' }">
 									<div class="d-flex col-md-12 justify-content-end">
 										<button type="button" class="btn"
 											style="background-color: #FAFAFA; border-color: #e9ecef;"
 											onclick="showNoticeList();">목록</button>
 									</div>
-								</c:if>
+								</c:if> --%>
 								<br>
 								<!-- Default Table -->
 							<!-- 	<table class="table table-striped"> -->
@@ -117,7 +115,7 @@
 					</div>
 				</div>
 			</section>
-	<%-- 		<section class="section">
+<%-- 			<section class="section">
 				<div class="row">
 					<div class="col-lg-9">
 						<div class="card">
@@ -210,17 +208,17 @@
 	<script type="text/javascript">
 			function showModifyPage() {
 				var noticeNo = "${notice.noticeNo }";
-				location.href = "/notice/modify.ft?noticeNo=" + noticeNo;
+				location.href = "/admin/notice/modify.ft?noticeNo=" + noticeNo;
 			}	
 			
 			function deleteNotice(noticeNo) {
 				if (confirm("삭제하시겠습니까?")) {
-					location.href = "/notice/delete.ft?noticeNo=" + noticeNo;
+					location.href = "/admin/notice/delete.ft?noticeNo=" + noticeNo;
 				}
 			}
 			
 			function showNoticeList() {
-				location.href = "/notice/list.ft";
+				location.href = "/admin/notice/list.ft";
 			}
 	
 			/* getReplyList();
@@ -340,7 +338,7 @@
         	
 		</script>
 
-	<!-- 공통 / 풋터 -->
-	<jsp:include page="../inc/footer.jsp"></jsp:include>
+	 	<!-- 어드민 / 풋터 -->
+ 	<jsp:include page="../inc/adminfooter.jsp"></jsp:include>
 </body>
 </html>

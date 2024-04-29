@@ -70,6 +70,10 @@ public interface ReviewStore {
 	int deleteReviewImage(SqlSession session, int reviewNo);
 
 	int updateReview(SqlSession session, ReviewVO review);
+
+	List<ReviewVO> selectMyReviewList(SqlSession session, String realName, PageInfo pi);
+
+	List<ReviewVO> selectReviewList(SqlSession session);
 	
 	/**
 	 * 유용해요 카운트 Store

@@ -83,12 +83,15 @@
                                             <i class="far fa-heart like-button" data-review-no="${review.reviewNo}" data-like-count="${review.likeCount}"></i> <span class="like-text">유용해요</span> <span class="like-count">${review.likeCount}</span>
                                         </div>
                                         <!-- 수정 삭제 버튼 -->
+                                        <c:if test="${review.realName eq realName}">
+                                        
                                         <div>
                                             <!-- 리뷰 수정 버튼 -->
                                             <button type="button" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef;" onclick="modifyReview(${review.reviewNo});">수정</button>
                                             <!-- 리뷰 삭제 버튼 -->
                                             <button type="button" class="btn" style="background-color: #FAFAFA; border-color: #e9ecef;" onclick="deleteReview(${review.reviewNo});">삭제</button>
                                         </div>
+                                        </c:if>
                                     </div>
                                 </div>
                                 

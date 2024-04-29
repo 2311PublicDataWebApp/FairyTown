@@ -122,10 +122,6 @@
 	
 	<!-- 이미지 등록 쿼리 -->
 	<insert id="insertImage">
-<!-- 	<insert id="insertImage" parameterType="ReviewImageVO" useGeneratedKeys="true" keyProperty="ImageNo">
- --><!--     <selectKey keyProperty="ImageNo" order="AFTER" resultType="int">
-        SELECT SEQ_IMAGE_NO.CURRVAL FROM DUAL
-    </selectKey> -->
     INSERT INTO REVIEW_IMAGE_TBL
 	VALUES(SEQ_IMAGE_NO.NEXTVAL, SEQ_REVIEW_NO.CURRVAL, #{fileName}, #{fileRename }, #{filePath }, #{fileSize}
 	 , #{fileType}, DEFAULT, #{thumbnailPath} )
@@ -169,7 +165,11 @@
         SELECT * FROM REVIEW_TBL ORDER BY LIKE_COUNT DESC
    		 ) WHERE ROWNUM &lt;= 3
 	</select>
-  
+	
+	<!-- 내가 등록한 리뷰를 조회 -->
+	<select id="selectMyReviewList" resultMap="reviewResultMap">
+		 SELECT * FROM REVIEW_TBL WHERE REAL_NAME = #{realName} 		
+	</select>
   
  	<!-- 리뷰 조회수 업데이트 쿼리 -->
 	<update id="updateViewCount" parameterType="int">
@@ -201,19 +201,6 @@
 	    WHERE REVIEW_NO = #{reviewNo}
 	</update>
 	
-	<!-- 리뷰 좋아요 수 업데이트 쿼리 -->
-<!-- 	<update id="updateLikeCountByMap" parameterType="map">
-	    <choose>
-	        <when test="action == 'increase'">
-	            UPDATE REVIEW_TBL SET LIKE_COUNT = LIKE_COUNT + 1 WHERE REVIEW_NO = #{reviewNo}
-	        </when>
-	        <otherwise>
-	            UPDATE REVIEW_TBL SET LIKE_COUNT = LIKE_COUNT - 1 WHERE REVIEW_NO = #{reviewNo}
-	        </otherwise>
-	    </choose>
-	</update> -->
-  
-	
 	<!-- 총 리뷰 개수 조회 -->
 	<select id="selectTotalCount" resultType="_int">
 		SELECT COUNT(*) FROM REVIEW_TBL
@@ -232,6 +219,12 @@
 			ORDER BY VIEW_COUNT DESC
 		</if>
 	</select>
+	
+		<!-- 리뷰 리스트 조회(admin ver) -->
+	<select id="adminSelectReviewList" resultMap="reviewResultMap">
+		SELECT * FROM REVIEW_TBL ORDER BY REVIEW_NO DESC
+	</select>
+	
 	<!-- 리뷰 번호에 해당하는 이미지를 조회 -->
 	<select id="selectReviewImageList" resultMap="reviewImageResultMap">
 		SELECT * FROM REVIEW_IMAGE_TBL WHERE REVIEW_NO = #{reviewNo}

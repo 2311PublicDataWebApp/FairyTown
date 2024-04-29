@@ -35,21 +35,21 @@ public class NoticeController {
 	private NoticeService nService;
 	
 	
-	// ===================
-	// 공지사항 등록 페이지
-	// ===================
-	@GetMapping("/notice/insert.ft")
+	// =========================
+	// 공지사항 등록 페이지 (Admin)
+	// =========================
+	@GetMapping("/admin/notice/insert.ft")
 	public String showWriteForm(Model model) {
 		// 셀렉트박스에 필요한 데이터를 가져와서 모델에 추가
         List<String> noticeTypes = Arrays.asList("공지", "이벤트");
         model.addAttribute("noticeTypes", noticeTypes);
 		return "notice/write";
 	}
-	
-	// ===================
-	// 공지사항 등록
-	// ===================
-	@PostMapping("/notice/insert.ft")
+		
+	// ====================
+	// 공지사항 등록 (Admin)
+	// ====================
+	@PostMapping("/admin/notice/insert.ft")
 	public ModelAndView insertNotice(ModelAndView mv
 			, @ModelAttribute NoticeVO notice
 			, HttpSession session
@@ -87,7 +87,7 @@ public class NoticeController {
 			    // 등록된 공지사항의 ID를 가져옴
 
 				// 상세 페이지로 이동하기 위해 공지사항 ID를 사용하여 URL을 생성
-			    String redirectUrl = "/notice/detail.ft?noticeNo=" + noticeNo;
+			    String redirectUrl = "/admin/notice/detail.ft?noticeNo=" + noticeNo;
 			    
 			    // 생성된 URL로 리다이렉트
 			    mv.setViewName("redirect:" + redirectUrl);
@@ -123,16 +123,35 @@ public class NoticeController {
 		return mv;
 	}
     
-    // ===================
- 	// 공지사항 수정 페이지
- 	// ===================
-    @GetMapping("/notice/modify.ft")
-    public ModelAndView showModifyForm(ModelAndView mv, int noticeNo) {
+	// ======================
+ 	// 공지사항 상세보기 (Admin)
+ 	// ======================
+    @GetMapping("/admin/notice/detail.ft")
+    public ModelAndView showAdminNoticeDetail(ModelAndView mv, @RequestParam("noticeNo") int noticeNo) {
+		try {
+			NoticeVO notice = nService.selectByNoticeNo(noticeNo);
+			if (notice != null) {
+				mv.addObject("notice", notice).setViewName("notice/adminDetail");
+			} else {
+				mv.addObject("msg", "데이터 불러오기가 실패.");
+				mv.setViewName("common/errorPage");
+			}
+		} catch (Exception e) {
+			mv.addObject("msg", e.getMessage()).setViewName("common/errorPage");
+		}
+		return mv;
+	}    
+    
+    // =========================
+ 	// 공지사항 수정 페이지 (Admin)
+ 	// =========================
+    @GetMapping("/admin/notice/modify.ft")
+    public ModelAndView showModifyForm(ModelAndView mv, @RequestParam("noticeNo") int noticeNo) {
 		try {
 			NoticeVO notice = nService.selectByNoticeNo(noticeNo);
 			if (notice != null) {
 				mv.addObject("notice", notice);
-				mv.setViewName("notice/modify.ft");
+				mv.setViewName("notice/modify");
 			} else {
 				mv.addObject("msg", "데이터 불러오기 실패.");
 				mv.setViewName("common/errorPage");
@@ -145,12 +164,12 @@ public class NoticeController {
 	}
     
     // ===================
- 	// 공지사항 수정
+ 	// 공지사항 수정 (Admin)
  	// ===================
-    @PostMapping("/notice/modify,ft")
+    @PostMapping("/admin/notice/modify,ft")
     public ModelAndView updateNotice(ModelAndView mv, @ModelAttribute NoticeVO notice,
 			@RequestParam(value = "reloadFile", required = false) MultipartFile reloadFile, HttpServletRequest request,
-			int noticeNo) {
+			@RequestParam("noticeNo") int noticeNo) {
 		try {
 			if (reloadFile != null && !reloadFile.isEmpty()) {
 				String fileName = notice.getNoticeFileRename();
@@ -168,7 +187,7 @@ public class NoticeController {
 			}
 			int result = nService.updateNotice(notice);
 			if (result > 0) {
-				mv.setViewName("redirect:/notice/detail.ft?noticeNo=" + notice.getNoticeNo());
+				mv.setViewName("redirect:/admin/notice/detail.ft?noticeNo=" + notice.getNoticeNo());
 			} else {
 				mv.addObject("msg", "데이터가 존재하지 않습니다.");
 				mv.setViewName("common/errorPage");
@@ -181,14 +200,14 @@ public class NoticeController {
 	}
     
     // ===================
- 	// 공지사항 삭제
+ 	// 공지사항 삭제 (Admin)
  	// ===================
-    @GetMapping("/notice/delete.ft")
-    public ModelAndView deleteNotice(ModelAndView mv, int noticeNo) {
+    @GetMapping("/admin/notice/delete.ft")
+    public ModelAndView deleteNotice(ModelAndView mv, @RequestParam("noticeNo") int noticeNo) {
 		try {
 			int result = nService.deleteNotice(noticeNo);
 			if (result > 0) {
-				mv.setViewName("redirect:/notice/list.ft");
+				mv.setViewName("redirect:/admin/notice/list.ft");
 			} else {
 				mv.addObject("msg", "데이터가 존재하지 않습니다.").setViewName("common/errorPage");
 			}
@@ -230,6 +249,36 @@ public class NoticeController {
 		return mv;
     };
     
+	// =====================
+	// 공지사항 리스트 (Admin)
+	// =====================
+	@GetMapping("/admin/notice/list.ft")
+    public ModelAndView ShowAdminNoticeList(ModelAndView mv,
+            @RequestParam(value="page", required=false, defaultValue="1") Integer currentPage) {
+		try {
+			// 전체 공지사항 개수를 가져옴
+			int totalCount = nService.getTotalCount();
+			
+			// 페이지 정보를 생성
+//			NoticePageInfo pi = this.getPageInfo(currentPage, totalCount);
+			
+			// 현재 페이지에 해당하는 공지사항 목록을 가져옴
+			List<NoticeVO> nList = nService.selectNoticeList();
+			
+			// 모델에 공지사항 목록과 페이지 정보를 추가
+			mv.addObject("nList", nList);
+//			mv.addObject("pi", pi);
+			
+			// 공지사항 목록 뷰
+			mv.setViewName("notice/adminList");
+		} catch (Exception e) {
+			// 오류가 발생할 경우 처리
+			mv.addObject("msg", e.getMessage());
+			mv.setViewName("common/errorPage");
+		}
+		return mv;
+    };
+    
     // ===================
  	// 공지사항 검색
  	// ===================
@@ -250,6 +299,29 @@ public class NoticeController {
  		mv.addObject("searchCondition", searchCondition);
  		mv.addObject("searchKeyword", searchKeyword);
  		mv.setViewName("notice/search");
+ 		return mv;
+ 	}
+ 	
+    // ===================
+ 	// 공지사항 검색(Admin)
+ 	// ===================
+ 	@GetMapping(value="/admin/notice/search.ft")
+ 	public ModelAndView searchAdminNoticeList(ModelAndView mv
+ 			, @RequestParam("searchCondition") String searchCondition
+ 			, @RequestParam("searchKeyword") String searchKeyword
+ 			, @RequestParam(value="page", required=false, defaultValue="1") Integer currentPage) {
+ 		
+ 		Map<String, String> paramMap = new HashMap<String, String>();
+ 		paramMap.put("searchCondition", searchCondition);
+ 		paramMap.put("searchKeyword", searchKeyword);
+ 		int totalCount = nService.getTotalCount(paramMap);
+ 		NoticePageInfo pi = this.getPageInfo(currentPage, totalCount);
+ 		List<NoticeVO> searchList = nService.searchNoticesByKeyword(pi, paramMap);
+ 		mv.addObject("sList", searchList);
+ 		mv.addObject("pi", pi);
+ 		mv.addObject("searchCondition", searchCondition);
+ 		mv.addObject("searchKeyword", searchKeyword);
+ 		mv.setViewName("notice/adminSearch");
  		return mv;
  	}
     
