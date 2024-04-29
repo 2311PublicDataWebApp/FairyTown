@@ -442,6 +442,34 @@
 					    }
 					}
 					
+					.review-0{
+						margin-left: 400px;
+					}
+					
+					.review-1 {
+						margin-left: 800px; 
+						margin-top: -356px;
+					}
+					
+					.review-2 {
+ 						margin-left: 1200px; 
+ 						margin-top: -438px;
+					}
+					
+					.review-3 {
+ 						margin-left: 400px; 
+					}
+					
+					.review-4 {
+ 						margin-left: 800px; 
+ 						margin-top: -360px;
+					}
+					
+					.review-5 {
+ 						margin-left: 1200px; 
+ 						margin-top: -439px;
+					}
+					
 					.cat-0{
 						margin-left: 900px;
 					}
@@ -504,13 +532,14 @@
 
 			<body>
 <!-- 				로딩 화면 -->
-<!-- 				    <div id="loading-screen"> -->
-<!-- 				        <img alt="" src="../resources/dist/img/loading.gif" style="text-align: center; width: 250px; height: 250px; margin-left: 200px;"/> -->
-<!-- 				        <br> -->
-<!-- 				        <img src="../resources/dist/img/mainLogo.png" style="text-align: center; "/> -->
-<!-- <!-- 				        <p style="margin-top: 700px; float: left; margin-left: -900px;">Loading...</p> --> -->
-<!-- 				    </div> -->
+				    <div id="loading-screen">
+				        <img alt="" src="../resources/dist/img/loading.gif" style="text-align: center; width: 250px; height: 250px; margin-left: 200px;"/>
+				        <br>
+				        <img src="../resources/dist/img/mainLogo.png" style="text-align: center; "/>
+<!-- 				        <p style="margin-top: 700px; float: left; margin-left: -900px;">Loading...</p> -->
+				    </div>
 <!-- 			<div id="main-content" style="display: none;"> -->
+			
 				<jsp:include page="./inc/header.jsp"></jsp:include>
 				
 
@@ -583,7 +612,6 @@
 		        </a>
 		    </div>
 		</div>
-<%-- 		<jsp:include page="./inc/footer.jsp"></jsp:include> --%>
 		<script>
 			function userLogin() {
 				location.href="/user/login.ft";
@@ -597,27 +625,29 @@
 		<p style="text-align: center; margin-top: 100px; font-size: 50px;">페어리타운 <b>리뷰를 부탁해!</b></p>
 		<p style="text-align: center; font-size: 20px; color: #999999;">생생한 리뷰로 체험하는 페어리타운</p>
 		
-		<a  type="button" style=" margin-top: -100px; margin-left: 1040px; width: 200px; height: 50px;   border: none;  color: black;" href="/review/list.ft" >> 리뷰 더보기 </a>
+		<a  type="button" style=" margin-top: -100px; margin-left: 1110px; width: 200px; height: 50px;   border: none;  color: black;" href="/review/list.ft" >> 리뷰 더보기 </a>
+		<c:forEach items="${String}" var="review" varStatus="i">
 		<div class="hover01" style="margin-left: -300px;">
 		<figure>
-		<img src="../resources/dist/img/slides-2.jpg" style="width: 300px; height: 300px; margin-left: 440px; margin-top: 40px;">
+		<img src="../resources/ruploadFiles/${review.fileRename}" class="review-${i.index}" style="width: 300px; height: 300px;">
 		</figure>
-		<figure>
-		<img src="../resources/dist/img/slides-2.jpg" style="width: 300px; height: 300px; margin-left: 790px; margin-top: -360px;">
-		</figure>
-		<figure>
-		<img src="../resources/dist/img/slides-2.jpg" style="width: 300px; height: 300px; margin-left: 1140px; margin-top: -440px;">
-		</figure>
-		<figure>
-		<img src="../resources/dist/img/slides-2.jpg" style="width: 300px; height: 300px; margin-left: 440px; margin-top: -30px;">
-		</figure>
-		<figure>
-		<img src="../resources/dist/img/slides-2.jpg" style="width: 300px; height: 300px; margin-left: 790px; margin-top: -360px;">
-		</figure>
-		<figure>
-		<img src="../resources/dist/img/slides-2.jpg" style="width: 300px; height: 300px; margin-left: 1140px; margin-top: -440px;">
-		</figure>
+<!-- 		<figure> -->
+<!-- 		<img src="../resources/dist/img/slides-2.jpg" style="width: 300px; height: 300px; margin-left: 790px; margin-top: -360px;"> -->
+<!-- 		</figure> -->
+<!-- 		<figure> -->
+<!-- 		<img src="../resources/dist/img/slides-2.jpg" style="width: 300px; height: 300px; margin-left: 1140px; margin-top: -440px;"> -->
+<!-- 		</figure> -->
+<!-- 		<figure> -->
+<!-- 		<img src="../resources/dist/img/slides-2.jpg" style="width: 300px; height: 300px; margin-left: 440px; margin-top: -30px;"> -->
+<!-- 		</figure> -->
+<!-- 		<figure> -->
+<!-- 		<img src="../resources/dist/img/slides-2.jpg" style="width: 300px; height: 300px; margin-left: 790px; margin-top: -360px;"> -->
+<!-- 		</figure> -->
+<!-- 		<figure> -->
+<!-- 		<img src="../resources/dist/img/slides-2.jpg" style="width: 300px; height: 300px; margin-left: 1140px; margin-top: -440px;"> -->
+<!-- 		</figure> -->
 		</div>
+		</c:forEach>
 		
 		<div class="line" style=""></div>
 		
@@ -684,7 +714,7 @@
 		                document.getElementById('loading-screen').style.display = 'none';
 		                // 메인 페이지 표시
 		                document.getElementById('main-content').style.display = 'block';
-		            }, 3000); // 3초 후에 메인 페이지 표시
+		            }, 1000); // 3초 후에 메인 페이지 표시
 		        });
 		        
 		        window.onload = function() {
