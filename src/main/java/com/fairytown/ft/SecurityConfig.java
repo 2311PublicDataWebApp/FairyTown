@@ -29,16 +29,11 @@ public class SecurityConfig {
 	    http.csrf((auth) -> auth.disable());
 	    http
 	        .authorizeHttpRequests((auth) -> auth
-	            .requestMatchers("/admin/**", "/goods/cartList.ft", "/goods/orderInfo.ft"
-	            		, "/goods/orderDetail.ft", "/goods/orderList.ft", "/chat.ft"
-	            		, "/user/mypage.ft", "/user/quit.ft", "/user/modify.ft"
-	            		, "/ticketing/**", "/booking/**", "/qna/adminList.ft", "/qna/list.ft"
-	            		, "/ticket/**").hasRole("ADMIN")
-	            .requestMatchers("/goods/orderInfo.ft"
-	            		, "/goods/orderDetail.ft", "/goods/orderList.ft", "/chat.ft"
-	            		, "/user/mypage.ft", "/user/quit.ft", "/user/modify.ft"
-	            		, "/ticketing/**", "/booking/**", "/qna/list.ft"
-	            		, "/ticket/**").hasRole("USER")
+	        	.requestMatchers("/ticketing/**", "/booking/**", "/chat.ft"
+	        			, "/goods/cartList.ft", "/goods/orderInfo.ft", "/goods/orderDetail.ft"
+	        			, "/goods/orderList.ft").authenticated()
+	            .requestMatchers("/admin/**", "/qna/adminList.ft").hasRole("ADMIN")
+	            .requestMatchers("/user/mypage.ft", "/user/quit.ft", "/user/modify.ft").hasRole("USER")
 	            .anyRequest().permitAll()
 	        );
 	    http.formLogin((auth) -> auth
