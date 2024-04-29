@@ -370,12 +370,12 @@
 					<c:if test="${user.loginSt == 'B' }">
 						<a href="/user/logout.ft" class="btn-2" style="border-radius: 10px; text-align: center; margin-top: -15px; margin-right: -20px;">로그아웃</a>
 					</c:if>
-					<c:if test="${user.userAdmin == 'ROLE_USER' }">
-						<a href="/user/mypage.ft" class="btn-2" style="border-radius: 10px; text-align: center; margin-top: -15px; margin-right: -20px;">마이페이지</a>
-					</c:if>
-					<c:if test="${user.userAdmin == 'ROLE_ADMIN' }">
-						<a href="/adminTableSample.ft" class="btn-2" style="border-radius: 10px; text-align: center; margin-top: -15px; margin-right: -20px;">관리자 페이지</a>
-					</c:if>
+<%-- 					<c:if test="${user.userAdmin == 'ROLE_USER' }"> --%>
+<!-- 						<a href="/user/mypage.ft" class="btn-2" style="border-radius: 10px; text-align: center; margin-top: -15px; margin-right: -20px;">마이페이지</a> -->
+<%-- 					</c:if> --%>
+<%-- 					<c:if test="${user.userAdmin == 'ROLE_ADMIN' }"> --%>
+<!-- 						<a href="/adminTableSample.ft" class="btn-2" style="border-radius: 10px; text-align: center; margin-top: -15px; margin-right: -20px;">관리자 페이지</a> -->
+<%-- 					</c:if> --%>
 				</c:if>
 
 				<!--프로필 -->

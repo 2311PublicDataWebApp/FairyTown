@@ -105,7 +105,8 @@ public class QnaController {
 
  	// 문의 상세보기
     @GetMapping("/qna/detail.ft")
-    public ModelAndView showQnaDetail(ModelAndView mv, @RequestParam("qnaNo") int qnaNo) {
+    public ModelAndView showQnaDetail(ModelAndView mv, 
+    		@RequestParam("qnaNo") int qnaNo) {
 		try {
 			QnaVO qna = qService.selectByQnaNo(qnaNo);
 			if (qna != null) {
