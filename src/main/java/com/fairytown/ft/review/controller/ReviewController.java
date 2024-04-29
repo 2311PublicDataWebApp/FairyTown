@@ -138,54 +138,6 @@ public class ReviewController {
 		}
 		return mv;
 	}	
-//    @GetMapping("/review/detail.ft")
-//    public ModelAndView showReviewDetail(ModelAndView mv, @RequestParam("reviewNo") int reviewNo) {
-//		try {
-//			ReviewVO review = rService.selectByReviewNo(reviewNo);
-//			if (review != null) {
-//				// 조회수 업데이트
-//				rService.updateViewCount(reviewNo);
-//				mv.addObject("review", review).setViewName("review/detail");
-//			} else {
-//				mv.addObject("msg", "데이터 불러오기가 실패.");
-//				mv.setViewName("common/errorPage");
-//			}
-//		} catch (Exception e) {
-//			mv.addObject("msg", e.getMessage()).setViewName("common/errorPage");
-//		}
-//		return mv;
-//	}
-    
-    // ===================
-    // 조회수 응답처리
-    // ===================
-    @ResponseBody
-    @PostMapping("/review/updateViewCount/{reviewNo}")
-    public ResponseEntity<String> updateViewCount(@PathVariable("reviewNo") int reviewNo){
-    	// reviewNo에 해당하는 리뷰 조회 및 조회수 업데이트 로직 수행
-    	rService.updateViewCount(reviewNo);   	
-		return new ResponseEntity<>("Success", HttpStatus.OK);    	
-    }
-    
-	// ===================
-	// 유용해요
-	// ===================
-    @ResponseBody
-    @PostMapping("/review/like/{reviewNo}")
-    public ResponseEntity<String> likeReview(@PathVariable("reviewNo") int reviewNo
-    		, @RequestParam("liked") boolean liked) {
-        try {
-            // 좋아요 수 업데이트
-        	if(!liked) {
-        		rService.decreaseLikeCount(reviewNo);
-        	}else {
-        		rService.increaseLikeCount(reviewNo);
-        	}
-            return ResponseEntity.ok("Success");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage());
-        }
-    }   
     
     // ===================
  	// 리뷰 수정 페이지
@@ -480,8 +432,38 @@ public class ReviewController {
     	return result;
     }
     
+    // ===================
+    // 조회수 응답처리
+    // ===================
+    @ResponseBody
+    @PostMapping("/review/updateViewCount/{reviewNo}")
+    public ResponseEntity<String> updateViewCount(@PathVariable("reviewNo") int reviewNo){
+    	// reviewNo에 해당하는 리뷰 조회 및 조회수 업데이트 로직 수행
+    	rService.updateViewCount(reviewNo);   	
+		return new ResponseEntity<>("Success", HttpStatus.OK);    	
+    }
     
- // 이전 페이지에 대한 리뷰 목록 반환 핸들러 메서드
+	// ===================
+	// 유용해요
+	// ===================
+    @ResponseBody
+    @PostMapping("/review/like/{reviewNo}")
+    public ResponseEntity<String> likeReview(@PathVariable("reviewNo") int reviewNo
+    		, @RequestParam("liked") boolean liked) {
+        try {
+            // 좋아요 수 업데이트
+        	if(!liked) {
+        		rService.decreaseLikeCount(reviewNo);
+        	}else {
+        		rService.increaseLikeCount(reviewNo);
+        	}
+            return ResponseEntity.ok("Success");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage());
+        }
+    }  
+    
+    // 이전 페이지에 대한 리뷰 목록 반환 핸들러 메서드
     @GetMapping("/review/previous")
     public String getPreviousPageReviews(@RequestParam("currentPage") int currentPage, Model model) {
         int previousPage = currentPage - 1; // 이전 페이지 번호 계산
