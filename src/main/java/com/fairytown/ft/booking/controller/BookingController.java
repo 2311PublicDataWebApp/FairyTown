@@ -18,6 +18,7 @@ import com.fairytown.ft.booking.domain.vo.BookingVO;
 import com.fairytown.ft.booking.service.BookingService;
 import com.fairytown.ft.common.PageInfo;
 import com.fairytown.ft.ride.domain.vo.RideVO;
+import com.fairytown.ft.ride.domain.vo.RimgVO;
 import com.fairytown.ft.ride.service.RideService;
 import com.fairytown.ft.ticketing.domain.vo.TicketingVO;
 import com.fairytown.ft.user.domain.vo.UserVO;
@@ -49,13 +50,28 @@ public class BookingController {
 			}
 			UserVO user = uService.selectUser(uOne.getUserId());
 			TicketingVO tingOne = (TicketingVO) session.getAttribute("tingOne");
-//		    RideVO ride = (RideVO) session.getAttribute("ride");
 			List<RideVO> rideList = (List<RideVO>) session.getAttribute("rideList");
+			if (rideList != null && !rideList.isEmpty()) {
+			    for (RideVO ride : rideList) {
+			        int rideId = ride.getRideId();
+			        List<RimgVO> rImg = rService.selectImgByRideId(rideId);
+			        for (RimgVO img : rImg) {
+			            if (img.getDisplaySeq() == 5) {
+			                List<RimgVO> images = new ArrayList<>();
+			                images.add(img);
+			                ride.setImages(images);
+			                break; // 이미 해당 시퀀스를 찾았으므로 루프를 종료합니다.
+			            }
+			        }
+			    }
+			}
 
 
 			model.addAttribute("tingOne", tingOne);
 			model.addAttribute("user", user);
 			model.addAttribute("rideList", rideList);
+
+//			model.addAttribute("rImg", rImg);
 //			session.setAttribute("rideList", ride);
 			return "booking/basic";
 		} catch (Exception e) {
@@ -104,7 +120,7 @@ public class BookingController {
 			List<BookingVO> bookingList = new ArrayList<>();
 			for (RideVO ride : rideList) {
 				int rideId = ride.getRideId();
-				bookingList.add(new BookingVO(0, user.getUserId(), tingCode, rideId, tingRevation, null, total, null));
+				bookingList.add(new BookingVO(0, user.getUserId(), tingCode, rideId, tingRevation, null, total, null, null));
 			}
 			int result = bService.bookingBasic(bookingList);
 			if(result > 0) {
@@ -130,6 +146,18 @@ public class BookingController {
 			UserVO user = uService.selectUser(uOne.getUserId());
 			TicketingVO tingOne = (TicketingVO) session.getAttribute("tingOne");
 			RideVO ride = rService.selectByRideId(rideId);
+
+	        List<RimgVO> rImg = rService.selectImgByRideId(rideId);
+	        for (RimgVO img : rImg) {
+	            if (img.getDisplaySeq() == 5) {
+	                List<RimgVO> images = new ArrayList<>();
+	                images.add(img);
+	                ride.setImages(images);
+	                break;
+	            }
+	        }
+
+
 			model.addAttribute("tingOne", tingOne);
 			model.addAttribute("user", user);
 			model.addAttribute("ride", ride);
@@ -149,7 +177,7 @@ public class BookingController {
 		String tingCode = tingOne.getTicketingCode();
 		Date tingRevation = tingOne.getReservationDate();
 		List<BookingVO> bookingList = new ArrayList<>();
-		bookingList.add(new BookingVO(0, user.getUserId(), tingCode, ride.getRideId(), tingRevation, null, total, null));
+		bookingList.add(new BookingVO(0, user.getUserId(), tingCode, ride.getRideId(), tingRevation, null, total, null, null));
 		int result = bService.bookingBasic(bookingList);
 		if(result > 0) {
 			List<RideVO> rideList = (List<RideVO>) session.getAttribute("rideList");
@@ -185,6 +213,21 @@ public class BookingController {
 			int totalCount = bList.size();
 			PageInfo pInfo = this.getPageInfo(currentPage, totalCount);
 			List<BookingVO> bListP = bService.BookingListSelectPage(user, pInfo);
+			
+			for (BookingVO booking : bListP) {
+			    int rideId = booking.getRideId();
+			    List<RimgVO> rImg = rService.selectImgByRideId(rideId);
+			    for (RimgVO img : rImg) {
+			        if (img.getDisplaySeq() == 5) {
+			            List<RimgVO> images = new ArrayList<>();
+			            images.add(img);
+			            booking.setImages(images);
+			            break; // 이미 해당 시퀀스를 찾았으므로 루프를 종료합니다.
+			        }
+			    }
+			}
+
+
 			model.addAttribute("pi", pInfo);
 			model.addAttribute("bList", bListP);
 			return "booking/list";

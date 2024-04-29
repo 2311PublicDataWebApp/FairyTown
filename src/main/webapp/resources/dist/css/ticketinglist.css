@@ -47,3 +47,9 @@ button.btn.btn-primary.btn-sm {
 .d-flex.justify-content-center.row.booking-main {
     margin-top: -140px;
 }
+.col-md-3.mt-1 {
+    width: min-content;
+}
+button.btn.btn-primary.btn-sm.ticketingBtn {
+    width: 50%;
+}
