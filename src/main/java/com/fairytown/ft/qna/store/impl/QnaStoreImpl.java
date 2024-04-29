@@ -60,6 +60,23 @@ public class QnaStoreImpl implements QnaStore{
 		return result;
 	}
 
+	@Override
+	public List<QnaVO> selectQnaList(SqlSession session, PageInfo pInfo, QnaVO qna) {
+		int limit = pInfo.getNaviLimit();
+		int offset = (pInfo.getCurrentPage() - 1) * pInfo.getNaviLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<QnaVO> qList = session.selectList("QnaMapper.selectMyQnaList", qna, rowBounds);
+		return qList;
+	}
+
+	@Override
+	public int selectTotalCount(SqlSession session, String userId) {
+		int totalCount = session.selectOne("QnaMapper.selectMyTotalCount", userId);
+		return totalCount;
+	}
+
+	
+
 
 
 

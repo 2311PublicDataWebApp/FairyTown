@@ -24,7 +24,7 @@
 
         <!-- 컨텐츠 영역 -->
         <div class="content_top">
-            <p class="title_rotate">대표!</p>
+        <img src="../resources/nuploadFiles/best.png" style="margin-left:27%; margin-bottom:-3px; transform:rotate(-15deg)"alt="best">
             <div class="imgbox">
                 <c:forEach var="ride" items="${rlist}" varStatus="loop">
                     <c:if test="${loop.index lt 3}">

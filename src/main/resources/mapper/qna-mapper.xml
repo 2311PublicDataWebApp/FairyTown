@@ -8,8 +8,17 @@
 			SELECT * FROM QNA_TBL ORDER BY QNA_NO DESC
 	</select>
 	
+	<select id="selectMyQnaList" resultType="QnaVO">
+		SELECT * FROM QNA_TBL 
+		WHERE QNA_WRITER = #{qnaWriter}
+		ORDER BY QNA_NO DESC 
+	</select>
 	<select id="selectTotalCount" resultType="_int">
 			SELECT COUNT(*) FROM QNA_TBL
+	</select>
+	
+	<select id="selectMyTotalCount" resultType="_int">
+	SELECT COUNT(*) FROM QNA_TBL WHERE QNA_WRITER = #{qnaWriter}
 	</select>
 	
 	<select id="selectByQnaNo" resultType="QnaVO">

@@ -40,11 +40,12 @@ public class RideController {
 	//코스  담기
     @ResponseBody
     @PostMapping(value = "/ride/addCourse.ft")
-    public int addCourse(@ModelAttribute RideVO ride, HttpSession session, @RequestParam("rideId") Integer rideId) throws Exception {
+    public int addCourse(@ModelAttribute RideVO ride, 
+    		HttpSession session, @RequestParam("rideId") Integer rideId) throws Exception {
         int result = 0;
         UserVO uOne = (UserVO) session.getAttribute("user");
         if(uOne != null) {
-            ride.setCourseUser(uOne.getUserId());
+        	ride.setCourseUser(uOne.getUserId());
             result = rService.addCourse(ride);
         } 
         return result;
@@ -385,20 +386,17 @@ public class RideController {
               @RequestParam("rideId") int rideId) {
           try {
               RideVO rList = rService.selectUserRideByRideId(rideId);
-              UserVO uOne = (UserVO) session.getAttribute("user");
-              List<RideVO> cList = rService.selectCourse(ride);
               List<RimgVO> rImg = rService.selectUserImgByRideId(rideId);
-              if(uOne == null){
-            	  ride.setRideId(rideId);
-                  mv.addObject("rList", rList);
-                  mv.addObject("rImg", rImg);
-            	  mv.setViewName("ride/detail");
-              } else {
-            	  ride.setCourseUser(uOne.getUserId());
-            	  ride.setRideId(rideId);
-            	  mv.addObject("rList", rList);
+              mv.addObject("rList", rList);
+              mv.addObject("rImg", rImg);
+              mv.setViewName("ride/detail");
+              UserVO uOne = (UserVO) session.getAttribute("user");
+              if(uOne != null){
+            	  RideVO ride2 = new RideVO();
+            	  ride2.setRideId(rideId);
+            	  ride2.setCourseUser(uOne.getUserId());
+            	  List<RideVO> cList = rService.selectCourse(ride2);
             	  mv.addObject("cList", cList);
-            	  mv.addObject("rImg", rImg);
             	  mv.setViewName("ride/detail");
               }
           } catch (Exception e) {

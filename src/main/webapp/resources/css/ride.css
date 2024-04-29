@@ -28,10 +28,11 @@ margin-left:100px;
 .title_rotate{
 	 transform: rotate(-15deg);
 	 display:inline-block;
-	 margin-left:21.5%;
+	 margin-left:26.5%;
 	 padding-top:10px;
 	 margin-bottom:0;
 	 font-size:1.10em;
+	 
 }
 
 .content_item_box{

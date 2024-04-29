@@ -26,5 +26,9 @@ public interface QnaStore {
 	
 	// 문의 추가 
 	int insertQna(SqlSession session, QnaVO qna);
+
+	List<QnaVO> selectQnaList(SqlSession session, PageInfo pInfo, QnaVO qna);
+
+	int selectTotalCount(SqlSession session, String userId);
 	
 }
