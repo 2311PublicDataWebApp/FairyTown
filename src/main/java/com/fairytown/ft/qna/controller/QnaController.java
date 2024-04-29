@@ -75,12 +75,9 @@ public class QnaController {
             , HttpSession session
             , HttpServletRequest request) {
         try {
-            // 세션에서 사용자 정보를 가져옵니다.
             User user = (User) session.getAttribute("user");
             
-            // 사용자가 로그인한 상태인지 확인합니다.
             if (user == null) {
-                // 로그인하지 않은 경우 로그인 페이지로 리다이렉트합니다.
                 mv.setViewName("redirect:/login");
                 return mv;
             }

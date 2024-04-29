@@ -5,7 +5,7 @@
 	<html>
 	<head>
 		<meta charset="UTF-8">
-		<title>1 대 1 문의</title>
+		<title>1 : 1 문의</title>
 		<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 		<style>
@@ -54,7 +54,7 @@
 			
 			<div class="container" >
 	    <h3 style="text-align: center; padding-top: -40px; margin-left: 100px;">
-	      1대1문의
+	      1:1 문의
 	     <p class="line" 
 			   style="border: 0.5px solid ;
 					  width: 500px;

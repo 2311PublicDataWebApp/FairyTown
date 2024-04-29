@@ -25,22 +25,22 @@
 		        <table class="table table-hover">
 		            <thead>
 		                <tr>
-		                    <th>번호</th>
-		                    <th>구분</th>
-		                    <th>제목</th>
-		                    <th>등록일</th>
+		                    <th style="text-align:center;">번호</th>
+		                    <th style="text-align:center;">구분</th>
+		                    <th style="text-align:center;">제목</th>
+		                    <th style="text-align:center;">등록일</th>
 		                    
 		                </tr>
 		            </thead>
 		            <tbody>
 		            <c:forEach items="${nList }" var="notice" varStatus="i">            
 		                <tr>
-		                    <td>${notice.noticeNo }</td>
-		                    <td>${notice.noticeType }</td>
-		                    <td><a href="/notice/detail.ft?noticeNo=${notice.noticeNo }">
+		                    <td style="text-align:center;">${notice.noticeNo }</td>
+		                    <td style="text-align:center;">${notice.noticeType }</td>
+		                    <td style="text-align:center;"><a href="/notice/detail.ft?noticeNo=${notice.noticeNo }">
 		                    ${notice.noticeSubject }
 		                    </a></td>
-		                    <td>${notice.noticeDate }</td>
+		                    <td style="text-align:center;">${notice.noticeDate }</td>
 		                </tr>
 		            </c:forEach>
 		            </tbody>

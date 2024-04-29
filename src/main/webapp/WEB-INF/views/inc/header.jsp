@@ -11,7 +11,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <title>Fairy Town</title>
         <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/headers/">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
         <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -350,7 +350,7 @@
 				      <div class="dropdown-content">
 				        <a href="/notice/list.ft" style="color: #497BC2;">공지사항</a>
 				        <a href="/faq.ft" style="color: #5DCCFA;">자주 묻는 질문</a>
-				        <a href="/qna/list.ft" style="color: #497BC2;">1대1 문의</a>
+				        <a href="/qna/list.ft" style="color: #497BC2;">1:1 문의</a>
 				      </div>
 				    </li>
             </ul>

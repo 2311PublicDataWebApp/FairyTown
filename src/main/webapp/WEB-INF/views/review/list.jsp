@@ -211,10 +211,10 @@ h6 {
 		            <h4 style="text-align: center;"><b>베스트 리뷰</b></h4>
 			<!-- 구분선 -->
 			<hr class="muidivider">
-			<div style="margin-bottom: 20px;"></div>
+			<div style="margin-bottom: 20px"></div>
 		            <c:choose>
 		                <c:when test="${bestReview ne null }">
-		                    <div class="border rounded p-3" style="width: 234.73px; height: 338.45px; align-items: center;">
+		                    <div class="border rounded p-3" style="width: 234.73px; height: 338.45px; margin-left:50px; align-items: center;">
 		                        <div class="review-item" data-toggle="modal" data-target="#reviewModal${bestReview.reviewNo}">
 		                            <div class="thumbnail" style="position: relative; margin-bottom: 15px;">
 		                                <c:choose>

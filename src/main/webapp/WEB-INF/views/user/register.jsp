@@ -12,64 +12,66 @@
 			}
 			#main{
 				position: relative;
-    			bottom: 200px;
+    			width: 60%;
+    			margin-left:38%;
+    			top:-150px;
 			}
 			#footer{
-				position: relative;
-    			bottom: 200px;
+    			top:-350px;
 			}
+			
 		</style>
 	</head>
 	<body>
 	<header>
 		<jsp:include page="../inc/header.jsp"></jsp:include>	
 	</header>
-		<main class="container mt-5" id="main">
+		<main class="container regist_form mt-5" id="main">
 			<form action="/user/register.ft" method="post">
-				<h1 class="mb-4">회원가입</h1>	
-				<div class="mb-3">
+				<h1 class="mb-4" style="margin-left:13%">회원가입</h1>	
+				<div class="mb-3 col-sm-5">
 					<label for="realName" class="form-label">이름</label>
 					<input type="text" class="form-control" id="realName" name="realName">
 				</div>
-				<div class="mb-3">
+				<div class="mb-3 col-sm-5">
 					<label for="username" class="form-label">아이디</label>
 					<input type="text" class="form-control" id="username" name="userId">
 					<div class="form-text success-message hide">사용할 수 있는 아이디입니다.</div>
 					<div class="form-text failure-message hide">아이디는 4~12글자이어야 합니다.</div>
 					<div class="form-text failure-message2 hide">영어 또는 숫자만 가능합니다.</div>
 				</div>
-				<div class="mb-3">
+				<div class="mb-3 col-sm-5">
 					<label for="password" class="form-label">비밀번호</label>
 					<input type="password" class="form-control" id="password" name="userPw">
 					<div class="form-text strongPassword-message hide">8글자 이상, 영문, 숫자, 특수문자(@$!%*#?&)를 사용하세요.</div>
 				</div>
-				<div class="mb-3">
+				<div class="mb-3 col-sm-5">
 					<label for="password-retype" class="form-label">비밀번호 확인</label>
 					<input type="password" class="form-control" id="password-retype">
 					<div class="form-text mismatch-message hide">비밀번호가 일치하지 않습니다.</div>
 				</div>
-				<div class="mb-3">
+				<div class="mb-3 col-sm-5">
 					<label for="userPhone" class="form-label">전화번호</label>
 					<input type="text" class="form-control" id="userPhone" name="userPhone">
 				</div>
-				<div class="mb-3">
-					<label for="sample6_postcode" class="form-label">우편번호</label>
+				<div class="mb-3 col-sm-5">
+					<label for="sample6_postcode" style="display:inline-block"class="form-label">우편번호</label>
+					<button type="button" class="btn btn-secondary" style="display:inline; margin-left:220px; margin-bottom:8px;"onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
 					<input type="text" class="form-control" id="sample6_postcode" placeholder="우편번호" name="zipCode">
-					<button type="button" class="btn btn-secondary" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
 				</div>
-				<div class="mb-3">
+				<div class="mb-3 col-sm-5">
 					<label for="sample6_address" class="form-label">주소</label>
 					<input type="text" class="form-control" id="sample6_address" placeholder="도로명주소" name="userAddress">
 				</div>
-				<div class="mb-3">
+				<div class="mb-3 col-sm-5">
 					<label for="sample6_detailAddress" class="form-label">상세주소</label>
 					<input type="text" class="form-control" id="sample6_detailAddress" placeholder="상세주소" name="detailAddress">
 				</div>
-				<div class="mb-3">
+				<div class="mb-3 col-sm-3">
 					<label for="userBirthDate" class="form-label">생년월일</label>
 					<input type="date" class="form-control" name="userBirthDate">
 				</div>
-				<div class="mb-3">
+				<div class="mb-3 col-sm-7">
 					<input type="hidden" value="false" id="email-auth">
 					<input type="hidden" id="user-email" name="userEmail">
 					<label for="userEmail1" class="form-label">이메일</label>
@@ -85,17 +87,17 @@
 						<button type="button" class="btn btn-primary" id="mail-Check-Btn">인증번호 전송</button>
 					</div>
 				</div>
-				<div class="mb-3">
+				<div class="mb-3 col-sm-5">
 					<label for="verificationCode" class="form-label">인증번호</label>
 					<div class="input-group">
 						<input type="text" class="form-control mail-check-input" placeholder="인증번호 6자리" disabled="disabled" maxlength="6">
 						<button type="button" class="btn btn-success" id="verify-Code-Btn" disabled="disabled">인증번호 확인</button>
 					</div>
 				</div>
-				<button type="submit" class="btn btn-primary" id="signup-btn" disabled="disabled">회원가입</button>
+				<button type="submit" class="btn btn-primary" id="signup-btn" style="margin-top:12px; margin-left:15%;"disabled="disabled">회원가입</button>
 			</form>
 		</main>
-		<footer id="footer">
+		<footer style="margin-top:-10%;" id="footer">
 			<jsp:include page="../inc/footer.jsp"></jsp:include>		
 		</footer>
 		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

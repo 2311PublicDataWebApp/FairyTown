@@ -13,11 +13,11 @@
 			}
 			#main{
 				position: relative;
-    			bottom: 200px;
+    			bottom: 100px;
 			}
 			#footer{
 				position: relative;
-    			bottom: 200px;
+    			bottom: 100px;
 			}
 		</style>
 	</head>
