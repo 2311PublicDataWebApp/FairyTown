@@ -140,12 +140,7 @@
                   <p>대쉬보드</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="/adminTableSample.ft" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>관리자 테이블 양식</p>
-                </a>
-              </li>
+              
             </ul>
           </li>
           
