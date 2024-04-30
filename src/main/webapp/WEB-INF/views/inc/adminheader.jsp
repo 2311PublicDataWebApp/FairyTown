@@ -125,23 +125,22 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
 		<li class="nav-header">관리메뉴</li>               
-          <li class="nav-item menu-open">
+          <li class="nav-item">
             <a href="/admin.ft" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="fas fa-tachometer-alt"></i>
               <p>
-                대쉬보드
-                <i class="right fas fa-angle-left"></i>
+                Dash Board
+<!--                 <i class="right fas fa-angle-left"></i> -->
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/admin.ft" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>대쉬보드</p>
-                </a>
-              </li>
-              
-            </ul>
+<!--             <ul class="nav nav-treeview"> -->
+<!--               <li class="nav-item"> -->
+<!--                 <a href="/admin.ft" class="nav-link"> -->
+<!--                   <i class="far fa-circle nav-icon"></i> -->
+<!--                   <p>대쉬보드</p> -->
+<!--                 </a> -->
+<!--               </li> -->
+<!--             </ul> -->
           </li>
           
 			<li class="nav-header">회원관리</li>
