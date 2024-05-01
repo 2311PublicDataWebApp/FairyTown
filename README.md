@@ -93,10 +93,10 @@
 
 
 ### 티켓
-#####티켓 목록 및 상세
+##### 티켓 목록 및 상세
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/252ee123-0f76-4b5b-8416-ca3bcdc79a3f"></img><br/>
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/90940fb5-0d4a-4d9a-81e3-07a1f87630d5"></img><br/>
-#####티켓 구매 및 내역
+##### 티켓 구매 및 내역
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/9da7bed4-6440-472f-8124-a2c150b9e60c"></img><br/>
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/511a7909-5c42-4a1e-b1c4-5b38c8fb2c9a"></img><br/>
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/3854f649-5466-44c3-9ceb-f85fd8ea24fe"></img><br/>
@@ -104,7 +104,7 @@
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/189e5743-a799-4363-91d4-812cc94ea5e9"></img><br/>
 
 ### 놀이기구
-#####놀이기구 목록 및 상세
+##### 놀이기구 목록 및 상세
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/f396531a-45e5-4125-a041-1dc9c3b86071"></img><br/>
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/c6fabffc-45ea-407f-8d2d-6d2f27d86f2b"></img><br/>
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/9a404694-b78b-4ebc-a49f-874dcf22e5b7"></img><br/>
@@ -120,13 +120,13 @@
 
 
 ### 굿즈
-#####굿즈 목록 및 상세
+##### 굿즈 목록 및 상세
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/98bddedf-d238-462a-a561-316b4a16a2db"></img><br/>
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/ddfb3871-22bd-4151-8860-6ecf324ff1e3"></img><br/>
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/f8d999e0-e4f6-4cef-9ccc-c7b1af34f8a3"></img><br/>
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/001e772c-b662-4c04-8ae6-d7270c5fdb29"></img><br/>
 
-#####굿즈 장바구니 및 구매
+##### 굿즈 장바구니 및 구매
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/c03dd1ca-d2d4-44e7-9b05-dd17e2a6ae50"></img><br/>
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/eda04c50-3d89-465f-9985-2db5e2e31735"></img><br/>
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/bf87b2c2-9e94-4578-b1ed-fdd34bd61c33"></img><br/>
