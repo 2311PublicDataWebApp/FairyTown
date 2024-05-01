@@ -3,23 +3,23 @@
 ###  By Team ByKing
 <br><br>
 
-## :  프로젝트 소개
+## 프로젝트 소개
 ### 프로젝트 페어리타운은 놀이공원 페어리 타운의 웹 사이트 입니다.
 ### 놀이공원까지 직접 가지 않고 온라인을 통해 티켓을 구매하고, 놀이기구를 예약하고
 ###  기구 이용 코스를 등록할 수 있으며 굿즈를 구매할 수 있습니다.
 <br>
 
 
-## : ✔개발 기간
+## ✔개발 기간
 ### 2024/04/03 ~ 2024/04/30
 <br>
 
-## : 🛠️ 개발환경
+## 🛠️ 개발환경
 ### <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/ae4a3d80-fb7c-4ec3-994f-5afa460a1046"> 
 
 
 
-## : 💭 주요기능
+## 💭 주요기능
 ## 놀이기구
 기능명 | 상세
 -------|-----
@@ -39,7 +39,7 @@
 기능명 | 상세
 -------|-----
 목록 및 상세 | 등록되어있는 굿즈를 확인할 수 있습니다.
-장바구니 및 구매 | 선택한 아이템을 장바구니에 담을 수 있으며, 장바구니에서 수량 변경 할 수 있습니다. </br> 또한 구매페이지로 이동하여 구매할 수 있습니다.
+장바구니 및 구매 | 선택한 아이템을 장바구니에 담을 수 있으며, 장바구니에서 수량 변경 할 수 있습니다. 또한 구매페이지로 이동하여 구매할 수 있습니다.
 내역조회 | 구매한 내역을 조회할 수 있습니다.
 
 
@@ -68,16 +68,18 @@
 
 
 ## 사용 ERD
-<a href=""><img src="https://github.com/2311PublicDataWebApp/Hallo/assets/134207283/f7dce194-c25f-4d54-8323-2d255ee2b3a9"></img> <br/></a>
+<a href="https://www.erdcloud.com/d/JB6mqMr5jGDFiEaW5"><img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/cf6aded9-4d03-41e4-bf08-c9dbcfd2f898"></img><br/></a>
 
 
 ## 구현화면
 ### 메인
+
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/a69b978b-78f7-43e7-b6d7-f102a27fd809"></img><br/>
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/3a71b112-4371-4204-b56e-3ddba6ad8a78"></img><br/>
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/2f7f9188-0204-4c5d-91fe-6d61ae759605"></img><br/>
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/602d0bb9-f5aa-4776-8b1e-3c23aa74ebdd"></img><br/>
-<img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/4c3d5e8d-01ab-4a06-ae70-cf7f4d051010"></img><br/>
+<img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/4c3d5e8d-01ab-4a06-ae70-cf7f4d051010"></img><br/><br/>
+##### 우측 하단 플로팅 메뉴를 누를 시 발생하는 메뉴에서 채팅 상담 누를 시, 채팅 상담창 발생<br/>
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/14e241b0-442b-4ca9-91a9-2dcd59b6acb0"></img><br/>
 
 
@@ -91,8 +93,10 @@
 
 
 ### 티켓
+#####티켓 목록 및 상세
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/252ee123-0f76-4b5b-8416-ca3bcdc79a3f"></img><br/>
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/90940fb5-0d4a-4d9a-81e3-07a1f87630d5"></img><br/>
+#####티켓 구매 및 내역
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/9da7bed4-6440-472f-8124-a2c150b9e60c"></img><br/>
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/511a7909-5c42-4a1e-b1c4-5b38c8fb2c9a"></img><br/>
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/3854f649-5466-44c3-9ceb-f85fd8ea24fe"></img><br/>
@@ -100,23 +104,29 @@
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/189e5743-a799-4363-91d4-812cc94ea5e9"></img><br/>
 
 ### 놀이기구
+#####놀이기구 목록 및 상세
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/f396531a-45e5-4125-a041-1dc9c3b86071"></img><br/>
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/c6fabffc-45ea-407f-8d2d-6d2f27d86f2b"></img><br/>
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/9a404694-b78b-4ebc-a49f-874dcf22e5b7"></img><br/>
+##### 놀이기구 예약하기
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/5185cc25-bf39-4896-9f98-7b9390898e9b"></img><br/>
-
+<img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/48dcfb2d-1a4d-469b-a010-a47359c14432"></img><br/>
 
 ### 리뷰
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/5c846407-b3a3-4135-b217-1b67a175ce5b"></img><br/>
-<img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/48dcfb2d-1a4d-469b-a010-a47359c14432"></img><br/>
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/739a4e1c-a9c8-406c-9e83-4acd64f1162a"></img><br/>
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/bc82e22a-e8e4-4892-9b93-71b89f4e2989"></img><br/>
 
+
+
 ### 굿즈
+#####굿즈 목록 및 상세
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/98bddedf-d238-462a-a561-316b4a16a2db"></img><br/>
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/ddfb3871-22bd-4151-8860-6ecf324ff1e3"></img><br/>
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/f8d999e0-e4f6-4cef-9ccc-c7b1af34f8a3"></img><br/>
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/001e772c-b662-4c04-8ae6-d7270c5fdb29"></img><br/>
+
+#####굿즈 장바구니 및 구매
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/c03dd1ca-d2d4-44e7-9b05-dd17e2a6ae50"></img><br/>
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/eda04c50-3d89-465f-9985-2db5e2e31735"></img><br/>
 <img src="https://github.com/2311PublicDataWebApp/FairyTown/assets/134207283/bf87b2c2-9e94-4578-b1ed-fdd34bd61c33"></img><br/>
